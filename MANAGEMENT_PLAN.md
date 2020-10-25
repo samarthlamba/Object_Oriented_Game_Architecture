@@ -28,6 +28,9 @@ Group goal: implement all game types, better graphics, level transitions, escape
 ### Sprint 3
 
 Reprogrammable keys, level select, cheat keys, high score, infinity mode
+
 Storyline cut screen animations
+
 Different characters
+
 Level designer
