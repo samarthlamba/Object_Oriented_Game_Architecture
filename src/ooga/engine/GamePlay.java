@@ -1,9 +1,13 @@
 package ooga.engine;
 
+import java.util.Collection;
+import ooga.engine.entities.Entity;
+import ooga.engine.obstacles.Obstacle;
+
 public interface GamePlay {
     void updateLevel();
 
-    void getBackground();
+    Collection<Obstacle> getBackground();
 
-    void getEntities();
+    Collection<Entity> getEntities();
 }
