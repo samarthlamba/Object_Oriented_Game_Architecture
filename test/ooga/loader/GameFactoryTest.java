@@ -18,7 +18,7 @@ public class GameFactoryTest {
 
   @Test
   public void testFactoryConstructsProperGame() {
-    Game gameFromLoader = factory.getCorrectGame("testFile.csv");
+    Game gameFromLoader = factory.makeCorrectGame("testFile.csv");
     assertTrue(gameFromLoader instanceof MarioGame);
     Collection<Entity> entitiesFromGame = gameFromLoader.getEntities();
     Collection<Obstacle> obstaclesFromGame = gameFromLoader.getBackground();
@@ -35,9 +35,9 @@ public class GameFactoryTest {
   @Test
   public void testFactoryThrowsExceptionWithBadSymbol() {
     try{
-      factory.getCorrectGame("testFileBadSymbols.csv");
+      factory.makeCorrectGame("testFileBadSymbols.csv");
     } catch (Exception e) {
-      assertTrue(e instanceof GameFactoryException);
+      assertTrue(e instanceof FactoryException);
       assertEquals("Unable to build game from testFileBadSymbols.csv: Symbol 2 not present in this game",e.getMessage());
     }
   }
@@ -45,9 +45,9 @@ public class GameFactoryTest {
   @Test
   public void testFactoryThrowsExceptionIfFileNotFound() {
     try {
-      factory.getCorrectGame("notAFile.csv");
+      factory.makeCorrectGame("notAFile.csv");
     } catch (Exception e) {
-      assertTrue(e instanceof GameFactoryException);
+      assertTrue(e instanceof FactoryException);
       assertEquals("Unable to build game from notAFile.csv: Could not find file with name notAFile.csv",e.getMessage());
     }
   }
@@ -55,9 +55,9 @@ public class GameFactoryTest {
   @Test
   public void testFactoryThrowsExceptionOnEmptyFile() {
     try {
-      factory.getCorrectGame("testEmptyFile.csv");
+      factory.makeCorrectGame("testEmptyFile.csv");
     } catch (Exception e) {
-      assertTrue(e instanceof GameFactoryException);
+      assertTrue(e instanceof FactoryException);
       assertEquals("Unable to build game from testEmptyFile.csv: Empty file",e.getMessage());
     }
   }

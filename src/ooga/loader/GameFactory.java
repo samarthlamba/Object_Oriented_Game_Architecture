@@ -17,26 +17,27 @@ public class GameFactory {
 
   private static final String BUNDLE_NAME = "%sClasses";
   private ResourceBundle gameBundle;
+  private String gameName;
 
-  public Game getCorrectGame(String fileLocation) {
+  public Game makeCorrectGame(String fileLocation) {
     try {
       List<String[]> levelData = readLevelData(fileLocation);
       if(levelData.isEmpty()) {
-        throw new GameFactoryException("Empty file");
+        throw new FactoryException("Empty file");
       }
-      gameBundle = getBundleForGame(levelData.get(0));
-      String game = gameBundle.getString("Game");
-      Collection<Obstacle> obstacles = getObjectsForGame(levelData, Obstacle.class);
-      Collection<Entity> entities = getObjectsForGame(levelData, Entity.class);
-      Class c = Class.forName(game);
+      gameName = levelData.get(0)[0];
+      gameBundle = ResourceBundle.getBundle(String.format(BUNDLE_NAME,gameName));
+      Collection<Obstacle> obstacles = getObjectsForGameOfType(levelData, Obstacle.class);
+      Collection<Entity> entities = getObjectsForGameOfType(levelData, Entity.class);
+      Class c = Class.forName(gameBundle.getString("Game"));
       Constructor constr = c.getDeclaredConstructor(Collection.class, Collection.class);
       return (Game) constr.newInstance(entities, obstacles);
     } catch (Exception e) {
-      throw new GameFactoryException(String.format("Unable to build game from %s: %s",fileLocation,e.getMessage()),e);
+      throw new FactoryException(String.format("Unable to build game from %s: %s",fileLocation,e.getMessage()),e);
     }
   }
 
-  private <T> Collection<T> getObjectsForGame(List<String[]> levelData,Class<T> objectToParse) {
+  private <T> Collection<T> getObjectsForGameOfType(List<String[]> levelData,Class<T> objectToParse) {
     String[] classStrings = gameBundle.getString(objectToParse.getName()).split(",");
     Collection<T> objectsInData = new ArrayList<>();
     for(String[] each: levelData) {
@@ -51,28 +52,12 @@ public class GameFactory {
     Collection<T> objectsInRow = new ArrayList<>();
     for(String every : each) {
       if(classStringsAsList.contains(every)) {
-        T everyAsObject = convertStringToObject(every,rowNumber,each.indexOf(every));
+        GameObjectFactory<T> factory = new GameObjectFactory<>(gameName);
+        T everyAsObject = factory.makeGameObject(every,rowNumber,each.indexOf(every));
         objectsInRow.add(everyAsObject);
       }
     }
     return objectsInRow;
-  }
-
-  private <T> T convertStringToObject(String every, int rowNumber, int columnNumber) {
-    int width = Integer.parseInt(gameBundle.getString("width"));
-    int height = Integer.parseInt(gameBundle.getString("height"));
-    try {
-      Class c = Class.forName(gameBundle.getString(every));
-      Constructor constr = c.getDeclaredConstructor(int.class, int.class, double.class, double.class);
-      return (T) constr.newInstance(width,height,width*columnNumber,height*rowNumber);
-    } catch (Exception e) {
-      throw new GameFactoryException(String.format("Symbol %s not present in this game",every),e);
-    }
-  }
-
-  private ResourceBundle getBundleForGame(String[] strings) {
-    ResourceBundle attemptedBundle = ResourceBundle.getBundle(String.format(BUNDLE_NAME,strings[0]));
-    return attemptedBundle;
   }
 
   private List<String[]> readLevelData(String fileName) {
@@ -81,7 +66,7 @@ public class GameFactory {
       CSVReader csvReader = new CSVReader(new InputStreamReader(dataStream));
       return csvReader.readAll();
     } catch (Exception e) {
-      throw new GameFactoryException(String.format("Could not find file with name %s",fileName),e);
+      throw new FactoryException(String.format("Could not find file with name %s",fileName),e);
     }
   }
 }
