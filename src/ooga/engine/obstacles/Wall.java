@@ -1,6 +1,7 @@
 package ooga.engine.obstacles;
 
-import org.w3c.dom.Node;
+
+import javafx.scene.Node;
 
 public class Wall extends Obstacle{
 
