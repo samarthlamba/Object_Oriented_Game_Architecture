@@ -20,7 +20,8 @@ public abstract class Game implements GamePlay {
     private double initialVelocityY;
     private double initialVelocityX = 0;
     private boolean jump = false;
-    private int screenHeight;
+   // private int screenHeight;
+    private double jumpMaxHeight = 100;
     private double xForceEntity = 0;
     private double yForceEntity = 0;
     private double massEntity;
@@ -30,16 +31,15 @@ public abstract class Game implements GamePlay {
 
 
 
-    public Game(int screenHeight, Collection<Obstacle> obstacles, Collection<Entity> entities, double timeElapsed){
+    public Game(Collection<Obstacle> obstacles, Collection<Entity> entities, double timeElapsed){
         this.obstacles = obstacles;
         this.entities = entities;
         this.dt = timeElapsed;
-        this.screenHeight = screenHeight;
-        jumpInitialVelocity = calculateJumpVelocity(screenHeight);
+        jumpInitialVelocity = calculateJumpVelocity();
     }
 
-    private double calculateJumpVelocity(int screenHeight){
-        double jumpMaxHeight = screenHeight * JUMP_TO_SCREEN_HEIGHT_RATIO;
+    private double calculateJumpVelocity(){
+        //double jumpMaxHeight = screenHeight * JUMP_TO_SCREEN_HEIGHT_RATIO;
         return NEGATIVE_DIRECTION * Math.sqrt((jumpMaxHeight * GRAVITY) / HALF);
     }
 
