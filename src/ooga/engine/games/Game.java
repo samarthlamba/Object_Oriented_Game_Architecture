@@ -1,5 +1,6 @@
 package ooga.engine.games;
 import javafx.scene.input.KeyCode;
+
 import ooga.engine.entities.Entity;
 import ooga.engine.obstacles.Obstacle;
 
@@ -98,7 +99,7 @@ public abstract class Game implements GamePlay {
     }
 
     private void collisionForce(Entity entity, Obstacle obstacle){
-        if(obstacle.intersects(entity.getBoundsInParent())){
+        if(obstacle.getNodeObject().intersects(entity.getNode().getBoundsInParent())){
             obstacleTopCollision(entity, obstacle);
             obstacleBottomCollision(entity, obstacle);
             obstacleRightCollision(entity, obstacle);
@@ -107,25 +108,25 @@ public abstract class Game implements GamePlay {
     }
 
     private void obstacleLeftCollision(Entity entity, Obstacle obstacle) {
-        if(obstacle.getLayoutBounds().getMinX() < entity.getLayoutBounds().getMaxX()){
+        if(obstacle.getNodeObject().getLayoutBounds().getMinX() < entity.getNode().getLayoutBounds().getMaxX()){
             xForceEntity -= getXForceEntity(entity);
         }
     }
 
     private void obstacleRightCollision(Entity entity, Obstacle obstacle) {
-        if(obstacle.getLayoutBounds().getMaxX() > entity.getLayoutBounds().getMinY()){
+        if(obstacle.getNodeObject().getLayoutBounds().getMaxX() > entity.getNode().getLayoutBounds().getMinY()){
             xForceEntity -= getXForceEntity(entity);
         }
     }
 
     private void obstacleBottomCollision(Entity entity, Obstacle obstacle) {
-        if(obstacle.getLayoutBounds().getMaxY() > entity.getLayoutBounds().getMaxY()) {
+        if(obstacle.getNodeObject().getLayoutBounds().getMaxY() > entity.getNode().getLayoutBounds().getMaxY()) {
            yForceEntity -= getYForceEntity(entity);
         }
     }
 
     private void obstacleTopCollision(Entity entity, Obstacle obstacle) {
-        if(obstacle.getLayoutBounds().getMinY() < entity.getLayoutBounds().getMaxY()) {
+        if(obstacle.getNodeObject().getLayoutBounds().getMinY() < entity.getNode().getLayoutBounds().getMaxY()) {
             yForceEntity += NEGATIVE_DIRECTION * massEntity * GRAVITY;
             initialVelocityY = 0;
         }
