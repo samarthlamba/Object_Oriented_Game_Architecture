@@ -1,6 +1,7 @@
 package ooga.engine.obstacles;
 
-import org.w3c.dom.Node;
+
+import javafx.scene.Node;
 
 public class Wall extends Obstacle{
 
@@ -11,5 +12,11 @@ public class Wall extends Obstacle{
   @Override
   public boolean hasCollided(Node node) {
     return false;
+  }
+
+
+  @Override
+  public double getMass() {
+    return 0;
   }
 }
