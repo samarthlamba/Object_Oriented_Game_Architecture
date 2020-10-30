@@ -17,4 +17,5 @@ public interface Moveables {
   boolean getFacing();
   //true = right
 
+  double getMass();
 }

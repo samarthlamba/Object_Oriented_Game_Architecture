@@ -13,4 +13,10 @@ public class Wall extends Obstacle{
   public boolean hasCollided(Node node) {
     return false;
   }
+
+
+  @Override
+  public double getMass() {
+    return 0;
+  }
 }
