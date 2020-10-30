@@ -1,4 +1,4 @@
-package ooga.engine.Games;
+package ooga.engine.games;
 
 import java.util.Collection;
 import ooga.engine.entities.Entity;

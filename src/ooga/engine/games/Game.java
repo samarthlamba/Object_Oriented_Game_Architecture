@@ -1,4 +1,4 @@
-package ooga.engine.Games;
+package ooga.engine.games;
 import javafx.scene.input.KeyCode;
 import ooga.engine.entities.Entity;
 import ooga.engine.obstacles.Obstacle;
@@ -59,9 +59,6 @@ public abstract class Game implements GamePlay {
     private void updateEntity(){
         for(Entity entity : entities) {
             for (Obstacle obstacle : obstacles) {
-                UP(entity);
-                LEFT(entity);
-                RIGHT(entity);
                 massEntity = entity.getMass();
                 massObstacle = obstacle.getMass();
                 gravityForce();
@@ -102,27 +99,40 @@ public abstract class Game implements GamePlay {
 
     private void collisionForce(Entity entity, Obstacle obstacle){
         if(obstacle.intersects(entity.getBoundsInParent())){
-            if(obstacle.getLayoutBounds().getMinY() < entity.getLayoutBounds().getMaxY()) {
-                yForceEntity += NEGATIVE_DIRECTION * massEntity * GRAVITY;
-                initialVelocityY = 0;
-            }
+            obstacleTopCollision(entity, obstacle);
+            obstacleBottomCollision(entity, obstacle);
+            obstacleRightCollision(entity, obstacle);
+            obstacleLeftCollision(entity, obstacle);
+        }
+    }
 
-            if(obstacle.getLayoutBounds().getMaxY() > entity.getLayoutBounds().getMaxY()) {
-               yForceEntity -= getYForceEntity(entity);
-            }
+    private void obstacleLeftCollision(Entity entity, Obstacle obstacle) {
+        if(obstacle.getLayoutBounds().getMinX() < entity.getLayoutBounds().getMaxX()){
+            xForceEntity -= getXForceEntity(entity);
+        }
+    }
 
-            if(obstacle.getLayoutBounds().getMaxX() > entity.getLayoutBounds().getMinY()){
-                xForceEntity -= getXForceEntity(entity);
-            }
+    private void obstacleRightCollision(Entity entity, Obstacle obstacle) {
+        if(obstacle.getLayoutBounds().getMaxX() > entity.getLayoutBounds().getMinY()){
+            xForceEntity -= getXForceEntity(entity);
+        }
+    }
 
-            if(obstacle.getLayoutBounds().getMinX() < entity.getLayoutBounds().getMaxX()){
-                xForceEntity -= getXForceEntity(entity);
-            }
+    private void obstacleBottomCollision(Entity entity, Obstacle obstacle) {
+        if(obstacle.getLayoutBounds().getMaxY() > entity.getLayoutBounds().getMaxY()) {
+           yForceEntity -= getYForceEntity(entity);
+        }
+    }
+
+    private void obstacleTopCollision(Entity entity, Obstacle obstacle) {
+        if(obstacle.getLayoutBounds().getMinY() < entity.getLayoutBounds().getMaxY()) {
+            yForceEntity += NEGATIVE_DIRECTION * massEntity * GRAVITY;
+            initialVelocityY = 0;
         }
     }
 
 
-//CODE BELOW
+    //CODE BELOW
 //keypress should be in display called method through reflection
     private void UP(Entity entity){
         entity.setOnKeyPressed(e -> {
