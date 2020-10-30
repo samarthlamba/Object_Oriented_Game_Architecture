@@ -8,9 +8,11 @@ import ooga.engine.obstacles.Obstacle;
 public abstract class Game implements GamePlay {
   private Collection<Entity> entities;
   private Collection<Obstacle> obstacles;
-  public Game(Collection<Entity> entityCollection, Collection<Obstacle> obstacleCollection) {
+  private final double timeElapsed;
+  public Game(Collection<Obstacle> obstacleCollection,Collection<Entity> entityCollection,double timeElapsed ) {
    this.entities = entityCollection;
    this.obstacles = obstacleCollection;
+   this.timeElapsed = timeElapsed;
   }
 
   @Override

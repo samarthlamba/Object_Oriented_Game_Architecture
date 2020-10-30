@@ -6,8 +6,8 @@ import ooga.engine.obstacles.Obstacle;
 
 public class MarioGame extends Game{
 
-  public MarioGame(Collection<Entity> entityCollection,
-      Collection<Obstacle> obstacleCollection) {
-    super(entityCollection, obstacleCollection);
+  public MarioGame(Collection<Obstacle> obstacleCollection,Collection<Entity> entityCollection,
+      double timeElapsed) {
+    super(obstacleCollection,entityCollection,timeElapsed);
   }
 }
