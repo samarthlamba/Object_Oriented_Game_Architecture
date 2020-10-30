@@ -1,5 +1,4 @@
 package ooga.engine.Games;
-
 import javafx.scene.input.KeyCode;
 import ooga.engine.entities.Entity;
 import ooga.engine.obstacles.Obstacle;
@@ -148,7 +147,6 @@ public abstract class Game implements GamePlay {
             }
         });
     }
-
 
 
 }
