@@ -6,8 +6,6 @@ import javafx.scene.shape.Rectangle;
 public abstract class Entity implements Moveables {
   private final int SCENE_WIDTH;
   private final int SCENE_HEIGHT;
-  private double currentX;
-  private double currentY;
   private int currentHitpoints;
   private Node nodeObject;
   public Entity(int sceneWidth,int sceneHeight,  double initialX, double initialY) {
@@ -24,20 +22,19 @@ public abstract class Entity implements Moveables {
   }
 
   public abstract int getID();
-  public double getX(){
-    return this.currentX;
-  }
 
-  public double getY(){
-    return this.currentY;
-  }
+  public double getVelocity();
+
+  public double mass();
+  public double setVelocity();
 
   public void setX(double inputX){
-    currentX= inputX;
+
+    nodeObject.setLayoutX(inputX+nodeObject.getLayoutX());
   }
 
   public void setY(double inputY){
-    currentY=inputY;
+    nodeObject.setLayoutY(inputY+nodeObject.getLayoutY());
   }
 
   public void setHitpoints(int hitpoints){

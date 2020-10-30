@@ -36,7 +36,6 @@ public class Mario extends Player{
     return 0;
   }
 
-  @Override
   public boolean getFacing() {
     return false;
   }
