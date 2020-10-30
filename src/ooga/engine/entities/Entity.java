@@ -1,6 +1,7 @@
 package ooga.engine.entities;
 
 import javafx.scene.Node;
+import javafx.scene.shape.Rectangle;
 
 public abstract class Entity implements Moveables {
   private final int SCENE_WIDTH;
@@ -8,12 +9,20 @@ public abstract class Entity implements Moveables {
   private double currentX;
   private double currentY;
   private int currentHitpoints;
+  private Node nodeObject;
   public Entity(int sceneWidth,int sceneHeight,  double initialX, double initialY) {
     this.SCENE_WIDTH = sceneWidth;
     this.SCENE_HEIGHT = sceneHeight;
     this.setX(initialX);
     this.setX(initialY);
+    nodeObject = new Rectangle(sceneWidth, sceneHeight);
   }
+
+  @Override
+  public Node getNode() {
+    return nodeObject;
+  }
+
   public abstract int getID();
   public double getX(){
     return this.currentX;
