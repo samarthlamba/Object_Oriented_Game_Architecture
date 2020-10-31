@@ -36,7 +36,7 @@ public abstract class Entity implements Moveables {
   public double mass(){
     return 5;
   }
-  public void setVelocity(double x){
+  public void setVelocityX(double x){
     this.speed = x;
   }
 
