@@ -1,5 +1,6 @@
 package ooga.engine.games;
 
+import javafx.scene.input.KeyCode;
 import ooga.engine.entities.Entity;
 import ooga.engine.games.Game;
 import ooga.engine.obstacles.Obstacle;
@@ -17,7 +18,7 @@ class GameTest {
        Collection<Entity> entities = game.getEntities();
        Collection<Obstacle> obstacles = game.getBackground();
        for(Entity entity : entities){
-           System.out.println(entity.getX());
+           game.UP(entity);
        }
        game.updateEntity();
        System.out.println();

@@ -14,9 +14,16 @@ import ooga.engine.entities.Entity;
 import ooga.engine.obstacles.Obstacle;
 
 public class GameFactory {
-  private static final String BUNDLE_NAME = "%sClasses";
+  private static final String BUNDLE_NAME = "GameConfig";
+  private final ResourceBundle gameConfigBundle;
   private ResourceBundle gameBundle;
   private String gameName;
+  private final double frameRate;
+
+  public GameFactory() {
+    this.gameConfigBundle = ResourceBundle.getBundle(BUNDLE_NAME);
+    this.frameRate = Double.parseDouble(gameConfigBundle.getString("framerate"));
+  }
 
   public Game makeCorrectGame(String fileLocation) {
     try {
@@ -25,12 +32,13 @@ public class GameFactory {
         throw new FactoryException("Empty file");
       }
       gameName = levelData.get(0)[0];
-      gameBundle = ResourceBundle.getBundle(String.format(BUNDLE_NAME,gameName));
+      gameBundle = ResourceBundle.getBundle(
+          String.format(gameConfigBundle.getString("gameBundleName"),gameName));
       Collection<Obstacle> obstacles = getObjectsForGameOfType(levelData, Obstacle.class);
       Collection<Entity> entities = getObjectsForGameOfType(levelData, Entity.class);
       Class c = Class.forName(gameBundle.getString("Game"));
-      Constructor constr = c.getDeclaredConstructor(Collection.class, Collection.class);
-      return (Game) constr.newInstance(entities, obstacles);
+      Constructor constr = c.getDeclaredConstructor(Collection.class, Collection.class, double.class);
+      return (Game) constr.newInstance(obstacles, entities,1/frameRate);
     } catch (Exception e) {
       throw new FactoryException(String.format("Unable to build game from %s: %s",fileLocation,e.getMessage()),e);
     }
