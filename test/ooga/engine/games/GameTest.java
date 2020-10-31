@@ -1,17 +1,27 @@
 package ooga.engine.games;
 
 import ooga.engine.entities.Entity;
+import ooga.engine.games.Game;
 import ooga.engine.obstacles.Obstacle;
 import ooga.loader.GameFactory;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
 
 class GameTest {
     private static final GameFactory factory = new GameFactory();
-    private Game gameFromLoader = factory.makeCorrectGame("testFile.csv");
-    private Collection<Entity> entitiesFromGame = gameFromLoader.getEntities();
-    private Collection<Obstacle> obstaclesFromGame = gameFromLoader.getBackground();
 
+   @Test
+   public void jumpTest() {
+       Game game = factory.makeCorrectGame("testJump.csv");
+       Collection<Entity> entities = game.getEntities();
+       Collection<Obstacle> obstacles = game.getBackground();
+       for(Entity entity : entities){
+           System.out.println(entity.getX());
+       }
+       game.updateEntity();
+       System.out.println();
+   }
 
 
 }

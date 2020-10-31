@@ -14,7 +14,6 @@ import ooga.engine.entities.Entity;
 import ooga.engine.obstacles.Obstacle;
 
 public class GameFactory {
-
   private static final String BUNDLE_NAME = "%sClasses";
   private ResourceBundle gameBundle;
   private String gameName;
