@@ -149,28 +149,40 @@ public abstract class Game implements GamePlay {
 
     //CODE BELOW
 //keypress should be in display called method through reflection
-    private void UP(Entity entity){
+ /*   private void UP(Entity entity){
         entity.setOnKeyPressed(e -> {
             if(e.getCode() == KeyCode.UP){ // needd to move out so we can control double jumps
                 initialVelocityY = jumpInitialVelocity;
             }
         });
+    }*/
+    public void UP(Entity entity){
+        initialVelocityY = jumpInitialVelocity;
     }
 
-    private void LEFT(Entity entity){
+  /*  private void LEFT(Entity entity){
         entity.setOnKeyPressed(e -> {
             if(e.getCode() == KeyCode.LEFT){
                 initialVelocityX = NEGATIVE_DIRECTION * X_VELOCITY;
             }
         });
+    }*/
+
+    private void LEFT(Entity entity){
+        initialVelocityX = NEGATIVE_DIRECTION * X_VELOCITY;
     }
 
-    private void RIGHT(Entity entity){
+  /*  private void RIGHT(Entity entity){
         entity.setOnKeyPressed(e -> {
             if(e.getCode() == KeyCode.RIGHT){
                 initialVelocityX = X_VELOCITY;
             }
         });
+    }
+   */
+
+    private void RIGHT(Entity entity){
+        initialVelocityX = X_VELOCITY;
     }
 
 
