@@ -10,17 +10,17 @@ public abstract class Player extends Entity{
   public int getID(){
     return this.ID;
   }
-
-  public void moveLeft(){
-    setX(getX()-speed);
-  }
-
-  public void moveRight(){
-    setX(getX()+ speed);
-  }
-
-  public void changeSpeed(int speed){
-    this.speed = speed;
-  }
+//
+//  public void moveLeft(){
+//    setX(getX()-speed);
+//  }
+//
+//  public void moveRight(){
+//    setX(getX()+ speed);
+//  }
+//
+//  public void changeSpeed(int speed){
+//    this.speed = speed;
+//  }
 
 }

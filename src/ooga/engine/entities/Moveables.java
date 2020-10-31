@@ -4,10 +4,6 @@ import javafx.scene.Node;
 
 public interface Moveables {
 
-  double getX();
-
-  double getY();
-
   void setX(double inputX);
 
   void setY(double inputY);

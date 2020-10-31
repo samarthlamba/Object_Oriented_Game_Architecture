@@ -10,12 +10,12 @@ public abstract class Entity implements Moveables {
   private Node nodeObject;
   private double speed = 5;
   private static final int JUMP_CAPACITY = 10;
-  public Entity(int sceneWidth,int sceneHeight,  double initialX, double initialY) {
-    this.SCENE_WIDTH = sceneWidth;
-    this.SCENE_HEIGHT = sceneHeight;
+  public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
+    this.SCENE_WIDTH = objectWidth;
+    this.SCENE_HEIGHT = objectHeight;
     this.setX(initialX);
     this.setX(initialY);
-    nodeObject = new Rectangle(sceneWidth, sceneHeight);
+    nodeObject = new Rectangle(objectWidth, objectHeight);
   }
 
   @Override

@@ -6,8 +6,8 @@ import javafx.scene.shape.Shape;
 public abstract class Enemy extends Entity{
   private final static int ID = 1;
 
-  public Enemy(int sceneWidth, int sceneHeight, double initialX, double initialY) {
-    super(sceneWidth, sceneHeight, initialX, initialY);
+  public Enemy(int objectWidth, int objectHeight, double initialX, double initialY) {
+    super(objectWidth, objectHeight, initialX, initialY);
   }
 
   public int getID(){
