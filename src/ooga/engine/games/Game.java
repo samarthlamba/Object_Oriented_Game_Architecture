@@ -105,7 +105,7 @@ public abstract class Game implements GamePlay {
     }
 
     private void gravityForce(){
-        yForceEntity += massEntity * GRAVITY;
+        yForceEntity += GRAVITY;
     }
 
     private void collisionForce(Entity entity, Obstacle obstacle){
