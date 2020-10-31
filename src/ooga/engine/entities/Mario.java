@@ -36,6 +36,11 @@ public class Mario extends Player{
     return 0;
   }
 
+  @Override
+  public double getMass() {
+    return 0;
+  }
+
   public boolean getFacing() {
     return false;
   }

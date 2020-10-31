@@ -57,6 +57,11 @@ public abstract class Game implements GamePlay {
         return entities;
     }
 
+    private double getFinalVelocity(){
+      //v_final = v_initial + acceleration*time;
+      return initialVelocityY- GRAVITY*dt;
+    }
+
     private void updateEntity(){
         for(Entity entity : entities) {
             for (Obstacle obstacle : obstacles) {
@@ -69,29 +74,32 @@ public abstract class Game implements GamePlay {
         }
     }
 
-    private double newYPosition (double height){
-        return height + initialVelocityY * dt + HALF * yForceEntity * dt * dt / massEntity;
+    private double newYPosition (double height, double velocity){
+
+        return height + velocity * dt + HALF * yForceEntity * dt * dt;
+        //return height + initialVelocityY * dt + HALF * yForceEntity * dt * dt / massEntity;
     }
 
-    private double newXPosition (double xPos){
-        return xPos + initialVelocityX * dt + HALF * xForceEntity * dt * dt / massEntity;
+    private double newXPosition (double xPos, double velocity){
+      return xPos + velocity * dt + HALF * xForceEntity * dt * dt;
+        //return xPos + initialVelocityX * dt + HALF * xForceEntity * dt * dt / massEntity;
     }
 
     private double getXForceEntity(Entity entity){
         double changeInX = previousEntityX - entity.getX();
-        return (changeInX - initialVelocityX * dt) / (HALF * dt * dt / massEntity);
+        return (changeInX - entity.getVelocityX() * dt) / (HALF * dt * dt / massEntity);
     }
 
     private double getYForceEntity(Entity entity){
         double changeInY = previousEntityY - entity.getY();
-        return (changeInY - initialVelocityY * dt) / (HALF * dt * dt / massEntity);
+        return (changeInY - entity.getVelocityY() * dt) / (HALF * dt * dt / massEntity);
     }
 
     private void updatePosition(Entity entity){
         previousEntityX = entity.getX();
         previousEntityY = entity.getY();
-        entity.setY(newYPosition(entity.getY()));
-        entity.setX(newXPosition(entity.getX()));
+        entity.setY(newYPosition(entity.getY(), entity.getVelocityY()));
+        entity.setX(newXPosition(entity.getX(), entity.getVelocityX()));
     }
 
     private void gravityForce(){
@@ -109,26 +117,30 @@ public abstract class Game implements GamePlay {
 
     private void obstacleLeftCollision(Entity entity, Obstacle obstacle) {
         if(obstacle.getNodeObject().getLayoutBounds().getMinX() < entity.getNode().getLayoutBounds().getMaxX()){
-            xForceEntity -= getXForceEntity(entity);
+          entity.setX(entity.getX()-entity.getVelocityX()-obstacle.obstacleBouncerValue());
+            //xForceEntity -= getXForceEntity(entity);
         }
     }
 
     private void obstacleRightCollision(Entity entity, Obstacle obstacle) {
         if(obstacle.getNodeObject().getLayoutBounds().getMaxX() > entity.getNode().getLayoutBounds().getMinY()){
-            xForceEntity -= getXForceEntity(entity);
+          entity.setX(entity.getX()+entity.getVelocityX()+obstacle.obstacleBouncerValue());
+          //xForceEntity -= getXForceEntity(entity);
         }
     }
 
     private void obstacleBottomCollision(Entity entity, Obstacle obstacle) {
         if(obstacle.getNodeObject().getLayoutBounds().getMaxY() > entity.getNode().getLayoutBounds().getMaxY()) {
-           yForceEntity -= getYForceEntity(entity);
+          entity.setVelocity(0);
+          //yForceEntity -= getYForceEntity(entity);
         }
     }
 
     private void obstacleTopCollision(Entity entity, Obstacle obstacle) {
         if(obstacle.getNodeObject().getLayoutBounds().getMinY() < entity.getNode().getLayoutBounds().getMaxY()) {
             yForceEntity += NEGATIVE_DIRECTION * massEntity * GRAVITY;
-            initialVelocityY = 0;
+            entity.setVelocity(0);
+            //initialVelocityY = 0;
         }
     }
 
@@ -137,8 +149,8 @@ public abstract class Game implements GamePlay {
 //keypress should be in display called method through reflection
     private void UP(Entity entity){
         entity.setOnKeyPressed(e -> {
-            if(e.getCode() == KeyCode.UP){
-                initialVelocityY = jumpInitialVelocity;
+            if(e.getCode() == KeyCode.UP){ // needd to move out so we can control double jumps
+                entity.setVelocity(jumpInitialVelocity);
             }
         });
     }

@@ -8,6 +8,8 @@ public abstract class Entity implements Moveables {
   private final int SCENE_HEIGHT;
   private int currentHitpoints;
   private Node nodeObject;
+  private double speed = 5;
+  private static final int JUMP_CAPACITY = 10;
   public Entity(int sceneWidth,int sceneHeight,  double initialX, double initialY) {
     this.SCENE_WIDTH = sceneWidth;
     this.SCENE_HEIGHT = sceneHeight;
@@ -23,10 +25,21 @@ public abstract class Entity implements Moveables {
 
   public abstract int getID();
 
-  public double getVelocity();
+  public double getVelocityX(){
+    return speed;
+  }
 
-  public double mass();
-  public double setVelocity();
+  public double getVelocityY(){
+    return JUMP_CAPACITY;
+  }
+
+  public double mass(){
+    return 5;
+  }
+  public void setVelocity(double x){
+    this.speed = x;
+  }
+
 
   public void setX(double inputX){
 

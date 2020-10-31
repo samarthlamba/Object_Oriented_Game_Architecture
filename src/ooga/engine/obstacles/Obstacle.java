@@ -32,6 +32,10 @@ public abstract class Obstacle implements Collideable {
     //move up and down
   }
 
+  public double obstacleBouncerValue(){
+    return 5;
+  }
+
   public void moveY(double y){
     nodeObject.setLayoutY(nodeObject.getLayoutY()+y);
   }
