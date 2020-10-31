@@ -140,7 +140,7 @@ public abstract class Game implements GamePlay {
 
     private void obstacleTopCollision(Entity entity, Obstacle obstacle) {
         if(obstacle.getNodeObject().getLayoutBounds().getMinY() < entity.getNode().getLayoutBounds().getMaxY()) {
-            yForceEntity += NEGATIVE_DIRECTION * massEntity * GRAVITY;
+            yForceEntity += NEGATIVE_DIRECTION * GRAVITY;
             entity.setVelocityX(0);
             //initialVelocityY = 0;
         }
