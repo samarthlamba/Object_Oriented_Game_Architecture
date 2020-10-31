@@ -29,10 +29,10 @@ class EntityTest {
     assertEquals(10, testEntity.getVelocityY());
   }
 
-  @Test
+ /* @Test
   void mass() {
     assertEquals(5, testEntity.getMass());
-  }
+  }*/
 
   @Test
   void setVelocityX() {

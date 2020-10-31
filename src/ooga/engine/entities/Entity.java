@@ -17,9 +17,9 @@ public abstract class Entity extends Node implements Moveables {
   public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
     this.SCENE_WIDTH = objectWidth;
     this.SCENE_HEIGHT = objectHeight;
-    this.setX(initialX);
-    this.setX(initialY);
     nodeObject = new Rectangle(initialX, initialY, objectWidth, objectHeight);
+      this.setX(initialX);
+      this.setX(initialY);
   }
 
   public Node getNode() {
@@ -53,9 +53,7 @@ public abstract class Entity extends Node implements Moveables {
   }
 
   public void setY(double inputY){
-    System.out.println(inputY);
     nodeObject.setLayoutY(inputY);
-    System.out.println(nodeObject.getLayoutY());
     //nodeObject.setLayoutY(inputY+nodeObject.getLayoutY());
   }
 
@@ -81,6 +79,14 @@ public abstract class Entity extends Node implements Moveables {
 
   public double getPreviousY(){
     return previousY;
+  }
+
+  public double getX(){
+      return nodeObject.getLayoutBounds().getCenterX();
+  }
+
+  public double getY(){
+      return nodeObject.getLayoutBounds().getCenterY();
   }
 
   //add id.

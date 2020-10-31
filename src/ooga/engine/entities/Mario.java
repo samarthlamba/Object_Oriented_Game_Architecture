@@ -16,11 +16,10 @@ public class Mario extends Player{
   public int getHitpoints() {
     return 0;
   }
-
-  @Override
+  /*@Override
   public double getMass() {
     return 0;
-  }
+  }*/
 
   public boolean getFacing() {
     return false;

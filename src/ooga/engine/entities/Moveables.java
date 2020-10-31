@@ -16,5 +16,5 @@ public interface Moveables {
 
   //true = right
 
-  double getMass();
+  //double getMass();
 }

@@ -27,8 +27,6 @@ public abstract class Game implements GamePlay {
     private double yForceEntity = 0;
     private double massEntity;
     // private double massObstacle;
-    private double previousEntityX;
-    private double previousEntityY;
 
 
 
@@ -87,21 +85,21 @@ public abstract class Game implements GamePlay {
 
     private double getXForceEntity(Entity entity){
         //make previous array or attribuute of entity
-        double changeInX = previousEntityX - entity.getLayoutBounds().getCenterX();
+        double changeInX = entity.getPreviousX() - entity.getLayoutBounds().getCenterX();
         return (changeInX - entity.getVelocityX() * dt) / (HALF * dt * dt);
     }
 
     private double getYForceEntity(Entity entity){
         //make previous array or attribuute of entity
-        double changeInY = previousEntityY - entity.getLayoutBounds().getCenterY();
+        double changeInY = entity.getPreviousY() - entity.getLayoutBounds().getCenterY();
         return (changeInY - entity.getVelocityY() * dt) / (HALF * dt * dt);
     }
 
     private void updatePosition(Entity entity){
-        previousEntityX = entity.getLayoutBounds().getCenterX();
-        previousEntityY = entity.getLayoutBounds().getCenterY();
-        entity.setY(newYPosition(entity.getLayoutBounds().getCenterY(), entity.getVelocityY()));
-        entity.setX(newXPosition(entity.getLayoutBounds().getCenterX(), entity.getVelocityX()));
+        entity.setPreviousX(entity.getX());
+        entity.setPreviousY(entity.getY());
+        entity.setY(newYPosition(entity.getY(), entity.getVelocityY()));
+        entity.setX(newXPosition(entity.getX(), entity.getVelocityX()));
     }
 
     private void gravityForce(){
