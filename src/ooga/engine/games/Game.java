@@ -62,7 +62,7 @@ public abstract class Game implements GamePlay {
       return initialVelocityY- GRAVITY*dt;
     }
 
-    private void updateEntity(){
+    public void updateEntity(){
         for(Entity entity : entities) {
             for (Obstacle obstacle : obstacles) {
                 massEntity = entity.getMass();

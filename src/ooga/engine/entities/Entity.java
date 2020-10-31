@@ -3,7 +3,7 @@ package ooga.engine.entities;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 
-public abstract class Entity implements Moveables {
+public abstract class Entity extends Node implements Moveables {
   private final int SCENE_WIDTH;
   private final int SCENE_HEIGHT;
   private int currentHitpoints;
