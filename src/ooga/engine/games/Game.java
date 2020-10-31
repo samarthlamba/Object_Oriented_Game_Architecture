@@ -30,7 +30,9 @@ public abstract class Game implements GamePlay {
     private double previousEntityX;
     private double previousEntityY;
 
+//add 'is finished' to confirm if the game has been finished
 
+  // check solidity aspect of obstacle by having boolean that is see through
 
     public Game(Collection<Obstacle> obstacles, Collection<Entity> entities, double timeElapsed){
         this.obstacles = obstacles;
@@ -66,7 +68,7 @@ public abstract class Game implements GamePlay {
     public void updateEntity(){
         for(Entity entity : entities) {
             for (Obstacle obstacle : obstacles) {
-                gravityForce();
+              gravityForce();
                 collisionForce(entity, obstacle);
                 updatePosition(entity);
                 initialVelocityX = 0;
