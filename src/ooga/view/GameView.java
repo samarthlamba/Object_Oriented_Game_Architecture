@@ -16,6 +16,7 @@ public class GameView extends Screen{
 
   @Override
   public Scene getView() {
+    //Will need to bechanged to actually use the game;
     Group root = new Group();
     Rectangle bigAssRectangle = new Rectangle(100,100,100,100);
     bigAssRectangle.setFill(Color.RED);
