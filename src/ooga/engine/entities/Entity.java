@@ -13,12 +13,13 @@ public abstract class Entity extends Node implements Moveables {
   private double previousX = 0;
   private double previousY = 0;
 
-  public Entity(int sceneWidth,int sceneHeight,  double initialX, double initialY) {
-    this.SCENE_WIDTH = sceneWidth;
-    this.SCENE_HEIGHT = sceneHeight;
+
+  public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
+    this.SCENE_WIDTH = objectWidth;
+    this.SCENE_HEIGHT = objectHeight;
     this.setX(initialX);
     this.setX(initialY);
-    nodeObject = new Rectangle(sceneWidth, sceneHeight);
+    nodeObject = new Rectangle(initialX, initialY, objectWidth, objectHeight);
   }
 
   public Node getNode() {
