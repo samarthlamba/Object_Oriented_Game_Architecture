@@ -15,7 +15,7 @@ public abstract class Entity extends Node implements Moveables {
     this.SCENE_HEIGHT = objectHeight;
     this.setX(initialX);
     this.setX(initialY);
-    nodeObject = new Rectangle(objectWidth, objectHeight);
+    nodeObject = new Rectangle(initialX, initialY, objectWidth, objectHeight);
   }
 
   @Override

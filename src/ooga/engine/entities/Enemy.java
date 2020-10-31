@@ -1,7 +1,5 @@
 package ooga.engine.entities;
 
-import javafx.scene.Node;
-import javafx.scene.shape.Shape;
 
 public abstract class Enemy extends Entity{
   private final static int ID = 1;
