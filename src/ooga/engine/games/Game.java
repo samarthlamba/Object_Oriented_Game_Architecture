@@ -26,7 +26,7 @@ public abstract class Game implements GamePlay {
     private double xForceEntity = 0;
     private double yForceEntity = 0;
     private double massEntity;
-    private double massObstacle;
+   // private double massObstacle;
     private double previousEntityX;
     private double previousEntityY;
 
@@ -41,6 +41,7 @@ public abstract class Game implements GamePlay {
 
     private double calculateJumpVelocity(){
         //double jumpMaxHeight = screenHeight * JUMP_TO_SCREEN_HEIGHT_RATIO;
+        //get jumpMaxHeight from entity
         return NEGATIVE_DIRECTION * Math.sqrt((jumpMaxHeight * GRAVITY) / HALF);
     }
 
@@ -65,11 +66,10 @@ public abstract class Game implements GamePlay {
     public void updateEntity(){
         for(Entity entity : entities) {
             for (Obstacle obstacle : obstacles) {
-                massEntity = entity.getMass();
-                massObstacle = obstacle.getMass();
                 gravityForce();
                 collisionForce(entity, obstacle);
                 updatePosition(entity);
+                initialVelocityX = 0;
             }
         }
     }
@@ -86,13 +86,15 @@ public abstract class Game implements GamePlay {
     }
 
     private double getXForceEntity(Entity entity){
+        //make previous array or attribuute of entity
         double changeInX = previousEntityX - entity.getX();
-        return (changeInX - entity.getVelocityX() * dt) / (HALF * dt * dt / massEntity);
+        return (changeInX - entity.getVelocityX() * dt) / (HALF * dt * dt);
     }
 
     private double getYForceEntity(Entity entity){
+        //make previous array or attribuute of entity
         double changeInY = previousEntityY - entity.getY();
-        return (changeInY - entity.getVelocityY() * dt) / (HALF * dt * dt / massEntity);
+        return (changeInY - entity.getVelocityY() * dt) / (HALF * dt * dt);
     }
 
     private void updatePosition(Entity entity){
