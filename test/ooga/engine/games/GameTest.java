@@ -22,8 +22,8 @@ class GameTest {
        assertEquals(initialPosition, entity.getX());
        game.RIGHT(entity);
        game.updateEntity();
-       System.out.println(entity.getX());
-       assertTrue(game.areEqualDouble(initialPosition + .5, entity.getX(), 3));
+       System.out.println(entity.getY());
+       assertTrue(game.areEqualDouble(50.333, entity.getX(), 2));
    }
 
     @Test
@@ -33,9 +33,11 @@ class GameTest {
         double initialPosition = 50;
         Entity entity = entities.iterator().next();
         assertEquals(initialPosition, entity.getX());
+        System.out.println(entity.getX());
         game.LEFT(entity);
         game.updateEntity();
-        assertTrue(game.areEqualDouble(initialPosition - .5, entity.getX(), 10));
+        System.out.println(entity.getX());
+        assertTrue(game.areEqualDouble(49.666, entity.getX(), 2));
     }
 
     @Test
@@ -44,11 +46,25 @@ class GameTest {
         Collection<Entity> entities = game.getEntities();
         Entity entity = entities.iterator().next();
         game.UP(entity);
+        double previous = 150;
         System.out.println(entity.getY());
-        for(int i = 0; i < 50; i++) {
+        for(int i = 0; i < 8; i++) {
             game.updateEntity();
-            System.out.println(entity.getY());
+            assertTrue(entity.getY() < previous);
+            previous = entity.getY();
+            //System.out.println(previous);
         }
+        for(int i = 0; i < 10; i++) {
+            game.updateEntity();
+            assertTrue(entity.getY() >= previous);
+            previous = entity.getY();
+        }
+
+        for(int i = 0; i < 10; i++){
+            game.updateEntity();
+        }
+
+        assertEquals(entity.getY(), 200);
     }
 
 
