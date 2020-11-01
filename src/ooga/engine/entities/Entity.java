@@ -9,7 +9,7 @@ public abstract class Entity extends Node implements Moveables {
   private int currentHitpoints;
   private Node nodeObject;
   private double speed = 5;
-  private static final int JUMP_CAPACITY = 10;
+  private double jumpCapacity = 10;
   private double previousX = 0;
   private double previousY = 0;
 
@@ -33,7 +33,7 @@ public abstract class Entity extends Node implements Moveables {
   }
 
   public double getVelocityY(){
-    return JUMP_CAPACITY;
+    return jumpCapacity;
   }
 
  /* public double mass(){
@@ -44,7 +44,7 @@ public abstract class Entity extends Node implements Moveables {
   }
 
   public void setVelocityY(double y){
-    this.speed = y;
+    this.jumpCapacity = y;
   }
 
   public void setX(double inputX){

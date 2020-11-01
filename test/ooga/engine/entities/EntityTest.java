@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 class EntityTest {
   Entity testEntity = new Mario(100, 100, 50, 50);
-  Entity testEntityEnemy = new Enemy(100, 100, 50, 50);
+  Entity testEntityEnemy = new MarioEnemy(100, 100, 50, 50);
   @Test
   void getNode() {
 
@@ -23,11 +23,22 @@ class EntityTest {
   @Test
   void getVelocityX() {
     assertEquals(5, testEntity.getVelocityX());
+    testEntity.setVelocityX(24);
+    assertEquals(24, testEntity.getVelocityX());
   }
 
   @Test
+  void checkPreviousValue(){
+    testEntity.setPreviousX(14);
+    assertEquals(14, testEntity.getPreviousX());
+    testEntity.setPreviousY(17);
+    assertEquals(17, testEntity.getPreviousY());
+  }
+  @Test
   void getVelocityY() {
     assertEquals(10, testEntity.getVelocityY());
+    testEntity.setVelocityY(21);
+    assertEquals(21, testEntity.getVelocityY());
   }
 
  /* @Test
