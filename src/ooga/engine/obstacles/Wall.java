@@ -5,7 +5,7 @@ import javafx.scene.Node;
 
 public class Wall extends Obstacle {
 
-  public Wall(int sceneWidth, int sceneHeight, double initialX, double initialY) {
-    super(sceneWidth, sceneHeight, initialX, initialY);
+  public Wall(int obstacleWidth, int obstacleHeight, double initialX, double initialY) {
+    super(obstacleWidth, obstacleHeight, initialX, initialY);
   }
 }

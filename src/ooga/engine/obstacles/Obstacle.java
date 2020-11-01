@@ -10,41 +10,39 @@ public abstract class Obstacle{
   private double initialX;
   private double initialY;
   private boolean reached;
-  public Obstacle(int sceneWidth,int sceneHeight, double initialX, double initialY) {
+  public Obstacle(int obstacleWidth,int obstacleHeight, double initialX, double initialY) {
     this.initialX = initialX;
     this.initialY= initialY;
     reached = false;
-    nodeObject = new Rectangle(initialX, initialY, sceneWidth, sceneHeight);
+    nodeObject = new Rectangle(initialX, initialY, obstacleWidth, obstacleHeight);
   }
 
-  public void moveX(double x){
-    nodeObject.setLayoutX(nodeObject.getLayoutX()+x);
+  public void moveXBy(double x){
+    nodeObject.relocate(nodeObject.getBoundsInParent().getMinX()+x, nodeObject.getBoundsInParent().getMinY());
+    System.out.println(nodeObject.getBoundsInParent());
   }
 
   private double getCurrentX(){
-    return nodeObject.getLayoutX();
+    return  nodeObject.getBoundsInParent().getCenterX();
   }
   private double getCurrentY(){
-    return nodeObject.getLayoutY();
+    return nodeObject.getBoundsInParent().getCenterY();
   }
 
   public void update() {
     //move up and down
   }
 
-  public double obstacleBouncerValue(){
-    return 5;
+  public void moveYBy(double y){
+    nodeObject.relocate(nodeObject.getBoundsInParent().getMinX(), nodeObject.getBoundsInParent().getMinY()+y);
+    System.out.println(nodeObject.getBoundsInParent());
   }
 
-  public void moveY(double y){
-    nodeObject.setLayoutY(nodeObject.getLayoutY()+y);
-  }
-
-  public void moveContinouslyX(double X){
+  public void moveContinouslyXBy(double X){
     moveX = X;
   }
 
-  public void moveContinouslyY(double Y){
+  public void moveContinouslyYBy(double Y){
     moveY = Y;
   }
 

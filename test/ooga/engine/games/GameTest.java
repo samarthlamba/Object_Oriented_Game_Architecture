@@ -1,8 +1,8 @@
 package ooga.engine.games;
 
 import javafx.scene.input.KeyCode;
+import ooga.engine.Games.Game;
 import ooga.engine.entities.Entity;
-import ooga.engine.games.Game;
 import ooga.engine.obstacles.Obstacle;
 import ooga.loader.GameFactory;
 import org.junit.jupiter.api.Test;
