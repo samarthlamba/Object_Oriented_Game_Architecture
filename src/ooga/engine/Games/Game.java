@@ -1,12 +1,15 @@
+
 package ooga.engine.games;
 
+import javafx.scene.input.KeyCode;
+import ooga.engine.games.GamePlay;
 import ooga.engine.entities.Entity;
 import ooga.engine.obstacles.Obstacle;
 
 import java.util.Collection;
 
 public abstract class Game implements GamePlay {
-    public static final double GRAVITY = -9.8;
+    public static final double GRAVITY = 9.8;
     public static final double NEGATIVE_DIRECTION = -1;
     public static final double HALF = .5;
     public static final double NO_INITIAL_VELOCITY = 0;
@@ -27,7 +30,9 @@ public abstract class Game implements GamePlay {
     private double elapsedTime;
     // private double massObstacle;
 
+//add 'is finished' to confirm if the game has been finished
 
+  // check solidity aspect of obstacle by having boolean that is see through
 
     public Game(Collection<Obstacle> obstacles, Collection<Entity> entities, double timeElapsed){
         this.obstacles = obstacles;
@@ -35,6 +40,10 @@ public abstract class Game implements GamePlay {
         this.dt = timeElapsed;
         elapsedTime = timeElapsed;
         jumpInitialVelocity = calculateJumpVelocity();
+    }
+
+    public boolean hasFinished(){
+        return true;
     }
 
     private double calculateJumpVelocity(){

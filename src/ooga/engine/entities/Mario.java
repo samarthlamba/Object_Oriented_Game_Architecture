@@ -6,8 +6,6 @@ public class Mario extends Player{
     super(objectWidth, objectHeight, initialX, initialY);
   }
 
-
-
   @Override
   public void setHitpoints(int hitpoints) {
 
@@ -25,4 +23,5 @@ public class Mario extends Player{
   public boolean getFacing() {
     return false;
   }
+
 }

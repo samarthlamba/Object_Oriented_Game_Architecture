@@ -1,8 +1,8 @@
 package ooga.engine.games;
 
 import javafx.scene.input.KeyCode;
-import ooga.engine.entities.Entity;
 import ooga.engine.games.Game;
+import ooga.engine.entities.Entity;
 import ooga.engine.obstacles.Obstacle;
 import ooga.loader.GameFactory;
 import org.apache.commons.math3.util.Precision;
@@ -21,24 +21,25 @@ class GameTest {
    public void rightMovementTest() {
        Game game = factory.makeCorrectGame("testJump.csv");
        Collection<Entity> entities = game.getEntities();
-       double initialPosition = 150;
+       double initialPosition = 50;
        Entity entity = entities.iterator().next();
        assertEquals(initialPosition, entity.getX());
        game.RIGHT(entity);
        game.updateEntity();
-       assertTrue(game.areEqualDouble(initialPosition + 5, entity.getX(), 3));
+       System.out.println(entity.getX());
+       assertTrue(game.areEqualDouble(initialPosition + .5, entity.getX(), 3));
    }
 
     @Test
     public void leftMovementTest() {
         Game game = factory.makeCorrectGame("testJump.csv");
         Collection<Entity> entities = game.getEntities();
-        double initialPosition = 150;
+        double initialPosition = 50;
         Entity entity = entities.iterator().next();
         assertEquals(initialPosition, entity.getX());
         game.LEFT(entity);
         game.updateEntity();
-        assertTrue(game.areEqualDouble(initialPosition - 5, entity.getX(), 10));
+        assertTrue(game.areEqualDouble(initialPosition - .5, entity.getX(), 10));
     }
 
     @Test
