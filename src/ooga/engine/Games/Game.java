@@ -121,7 +121,7 @@ public abstract class Game implements GamePlay {
     }
 
     private void collisionForce(Entity entity, Obstacle obstacle){
-        if(obstacle.getNodeObject().intersects(entity.getNode().getBoundsInParent())){
+        if(obstacle.getNodeObject().getBoundsInParent().intersects(entity.getNode().getBoundsInParent())){
             obstacleTopCollision(entity, obstacle);
             obstacleBottomCollision(entity, obstacle);
             obstacleRightCollision(entity, obstacle);
