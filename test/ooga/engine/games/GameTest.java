@@ -1,14 +1,10 @@
 package ooga.engine.games;
 
-import javafx.scene.input.KeyCode;
 import ooga.engine.games.Game;
 import ooga.engine.entities.Entity;
-import ooga.engine.obstacles.Obstacle;
 import ooga.loader.GameFactory;
-import org.apache.commons.math3.util.Precision;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
