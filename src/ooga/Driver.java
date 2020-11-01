@@ -4,16 +4,16 @@ import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import ooga.engine.Games.Game;
+import ooga.engine.games.Game;
 import ooga.loader.GameFactory;
 import ooga.view.GameView;
 import ooga.view.MainMenuScreen;
 
 public class Driver extends Application {
-  private Game myGame;
+  protected Game myGame;
+  protected MainMenuScreen myMenu;
 
   @Override
   public void start(Stage primaryStage) throws Exception {
@@ -24,7 +24,7 @@ public class Driver extends Application {
     t.setCycleCount(Timeline.INDEFINITE);
     t.getKeyFrames().add(frame);
     GameFactory factory = new GameFactory();
-    MainMenuScreen myMenu = new MainMenuScreen(buttonText -> {
+    myMenu = new MainMenuScreen(buttonText -> {
       myGame = factory.makeCorrectGame(gameBundle.getString(buttonText));
       GameView view = new GameView(myGame);
       primaryStage.setScene(view.getView());
