@@ -1,5 +1,4 @@
 package ooga.engine.games;
-import javafx.scene.input.KeyCode;
 
 import ooga.engine.entities.Entity;
 import ooga.engine.obstacles.Obstacle;
@@ -7,13 +6,12 @@ import ooga.engine.obstacles.Obstacle;
 import java.util.Collection;
 
 public abstract class Game implements GamePlay {
-    public static final double GRAVITY = 9.8;
+    public static final double GRAVITY = -9.8;
     public static final double NEGATIVE_DIRECTION = -1;
     public static final double HALF = .5;
     public static final double NO_INITIAL_VELOCITY = 0;
     public static final double NO_FORCE = 0;
     public static final double JUMP_TO_SCREEN_HEIGHT_RATIO = .3;
-    public static final double X_VELOCITY = 10;
     private Collection<Obstacle> obstacles;
     private Collection<Entity> entities;
     private double dt;
@@ -26,6 +24,7 @@ public abstract class Game implements GamePlay {
     private double xForceEntity = 0;
     private double yForceEntity = 0;
     private double massEntity;
+    private double elapsedTime;
     // private double massObstacle;
 
 
@@ -34,6 +33,7 @@ public abstract class Game implements GamePlay {
         this.obstacles = obstacles;
         this.entities = entities;
         this.dt = timeElapsed;
+        elapsedTime = timeElapsed;
         jumpInitialVelocity = calculateJumpVelocity();
     }
 
@@ -58,13 +58,13 @@ public abstract class Game implements GamePlay {
 
     private double getFinalVelocity(){
         //v_final = v_initial + acceleration*time;
-        return initialVelocityY- GRAVITY*dt;
+        return initialVelocityY- GRAVITY* elapsedTime;
     }
 
     public void updateEntity(){
         for(Entity entity : entities) {
+            gravityForce();
             for (Obstacle obstacle : obstacles) {
-                gravityForce();
                 collisionForce(entity, obstacle);
                 updatePosition(entity);
                 initialVelocityX = 0;
@@ -74,32 +74,37 @@ public abstract class Game implements GamePlay {
 
     private double newYPosition (double height, double velocity){
 
-        return height + velocity * dt + HALF * yForceEntity * dt * dt;
+        return height + velocity * elapsedTime + HALF * yForceEntity * elapsedTime * elapsedTime;
         //return height + initialVelocityY * dt + HALF * yForceEntity * dt * dt / massEntity;
     }
 
     private double newXPosition (double xPos, double velocity){
-        return xPos + velocity * dt + HALF * xForceEntity * dt * dt;
+       // System.out.println(xPos + velocity * dt + HALF * xForceEntity * dt * dt);
+        return xPos + velocity * elapsedTime + HALF * xForceEntity * elapsedTime * elapsedTime;
         //return xPos + initialVelocityX * dt + HALF * xForceEntity * dt * dt / massEntity;
     }
 
     private double getXForceEntity(Entity entity){
         //make previous array or attribuute of entity
-        double changeInX = entity.getPreviousX() - entity.getLayoutBounds().getCenterX();
-        return (changeInX - entity.getVelocityX() * dt) / (HALF * dt * dt);
+        double changeInX = entity.getPreviousX() - entity.getX();
+        return (changeInX - entity.getVelocityX() * elapsedTime) / (HALF * elapsedTime * elapsedTime);
     }
 
     private double getYForceEntity(Entity entity){
         //make previous array or attribuute of entity
-        double changeInY = entity.getPreviousY() - entity.getLayoutBounds().getCenterY();
-        return (changeInY - entity.getVelocityY() * dt) / (HALF * dt * dt);
+        double changeInY = entity.getPreviousY() - entity.getY();
+        return (changeInY - entity.getVelocityY() * elapsedTime) / (HALF * elapsedTime * elapsedTime);
     }
 
     private void updatePosition(Entity entity){
+        if(jump){
+            elapsedTime += dt;
+        }
         entity.setPreviousX(entity.getX());
         entity.setPreviousY(entity.getY());
         entity.setY(newYPosition(entity.getY(), entity.getVelocityY()));
         entity.setX(newXPosition(entity.getX(), entity.getVelocityX()));
+       // System.out.println(entity.getX());
     }
 
     private void gravityForce(){
@@ -130,16 +135,18 @@ public abstract class Game implements GamePlay {
     }
 
     private void obstacleBottomCollision(Entity entity, Obstacle obstacle) {
-        if(obstacle.getNodeObject().getLayoutBounds().getMaxY() > entity.getNode().getLayoutBounds().getMaxY()) {
-            yForceEntity -= getYForceEntity(entity);
+        if(obstacle.getNodeObject().getLayoutBounds().getMaxY() > entity.getNode().getLayoutBounds().getMinY()) {
+            yForceEntity += getYForceEntity(entity);
             //yForceEntity -= getYForceEntity(entity);
         }
     }
 
     private void obstacleTopCollision(Entity entity, Obstacle obstacle) {
         if(obstacle.getNodeObject().getLayoutBounds().getMinY() < entity.getNode().getLayoutBounds().getMaxY()) {
-            yForceEntity += NEGATIVE_DIRECTION * GRAVITY;
-            entity.setVelocityX(0);
+            yForceEntity -= NEGATIVE_DIRECTION * GRAVITY;
+            entity.setVelocityY(0);
+            elapsedTime = dt;
+            jump = false;
             //initialVelocityY = 0;
         }
     }
@@ -155,7 +162,9 @@ public abstract class Game implements GamePlay {
         });
     }*/
     public void UP(Entity entity){
-        initialVelocityY = jumpInitialVelocity;
+        jump = true;
+        entity.setVelocityY(entity.getJumpMax());
+        //initialVelocityY = jumpInitialVelocity;
     }
 
   /*  private void LEFT(Entity entity){
@@ -166,8 +175,11 @@ public abstract class Game implements GamePlay {
         });
     }*/
 
-    private void LEFT(Entity entity){
-        initialVelocityX = NEGATIVE_DIRECTION * X_VELOCITY;
+    public void LEFT(Entity entity){
+        entity.setPreviousX(entity.getX());
+        //entity.moveLeft();
+        //initialVelocityX = NEGATIVE_DIRECTION * X_VELOCITY;
+        entity.setVelocityX(-10);
     }
 
   /*  private void RIGHT(Entity entity){
@@ -179,8 +191,16 @@ public abstract class Game implements GamePlay {
     }
    */
 
-    private void RIGHT(Entity entity){
-        initialVelocityX = X_VELOCITY;
+    public void RIGHT(Entity entity){
+        entity.setPreviousX(entity.getX());
+       // entity.moveRight();
+        //initialVelocityX = X_VELOCITY;
+        entity.setVelocityX(10);
+    }
+
+    //https://stackoverflow.com/questions/356807/java-double-comparison-epsilon
+    public boolean areEqualDouble(double a, double b, int precision) {
+        return Math.abs(a - b) <= Math.pow(10, -precision);
     }
 
 

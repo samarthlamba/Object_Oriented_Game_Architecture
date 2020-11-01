@@ -8,7 +8,7 @@ public abstract class Entity extends Node implements Moveables {
   private final int SCENE_HEIGHT;
   private int currentHitpoints;
   private Node nodeObject;
-  private double speed = 5;
+  private double speed = 0;
   private static final int JUMP_CAPACITY = 10;
   private double previousX = 0;
   private double previousY = 0;
@@ -18,8 +18,8 @@ public abstract class Entity extends Node implements Moveables {
     this.SCENE_WIDTH = objectWidth;
     this.SCENE_HEIGHT = objectHeight;
     nodeObject = new Rectangle(initialX, initialY, objectWidth, objectHeight);
-      this.setX(initialX);
-      this.setX(initialY);
+    this.setX(initialX);
+    this.setX(initialY);
   }
 
   public Node getNode() {
@@ -33,7 +33,11 @@ public abstract class Entity extends Node implements Moveables {
   }
 
   public double getVelocityY(){
-    return JUMP_CAPACITY;
+    return speed;
+  }
+
+  public double getJumpMax(){
+      return JUMP_CAPACITY;
   }
 
  /* public double mass(){
@@ -50,6 +54,7 @@ public abstract class Entity extends Node implements Moveables {
   public void setX(double inputX){
     //nodeObject.setLayoutX(inputX+nodeObject.getLayoutX());
     nodeObject.setLayoutX(inputX);
+   // System.out.println(nodeObject.getLayoutX());
   }
 
   public void setY(double inputY){
@@ -82,11 +87,11 @@ public abstract class Entity extends Node implements Moveables {
   }
 
   public double getX(){
-      return nodeObject.getLayoutBounds().getCenterX();
+      return nodeObject.getLayoutX();
   }
 
   public double getY(){
-      return nodeObject.getLayoutBounds().getCenterY();
+      return nodeObject.getLayoutY();
   }
 
   //add id.

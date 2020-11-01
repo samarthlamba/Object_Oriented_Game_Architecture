@@ -7,6 +7,7 @@ public class Mario extends Player{
   }
 
 
+
   @Override
   public void setHitpoints(int hitpoints) {
 
