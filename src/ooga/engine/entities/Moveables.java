@@ -1,10 +1,8 @@
 package ooga.engine.entities;
 
+import javafx.scene.Node;
+
 public interface Moveables {
-
-  double getX();
-
-  double getY();
 
   void setX(double inputX);
 
@@ -14,8 +12,8 @@ public interface Moveables {
 
   int getHitpoints();
 
-  boolean getFacing();
-  //true = right
+  Node getNode();
 
+  //true = right
 
 }

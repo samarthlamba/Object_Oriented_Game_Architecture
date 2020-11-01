@@ -1,15 +1,11 @@
 package ooga.engine.obstacles;
 
-import org.w3c.dom.Node;
 
-public class Wall extends Obstacle{
+import javafx.scene.Node;
 
-  public Wall(int sceneWidth, int sceneHeight, double initialX, double initialY) {
-    super(sceneWidth, sceneHeight, initialX, initialY);
-  }
+public class Wall extends Obstacle {
 
-  @Override
-  public boolean hasCollided(Node node) {
-    return false;
+  public Wall(int obstacleWidth, int obstacleHeight, double initialX, double initialY) {
+    super(obstacleWidth, obstacleHeight, initialX, initialY);
   }
 }

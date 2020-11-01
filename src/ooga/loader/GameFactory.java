@@ -9,12 +9,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
-import ooga.engine.Games.Game;
+
+import ooga.engine.games.Game;
 import ooga.engine.entities.Entity;
 import ooga.engine.obstacles.Obstacle;
 
 public class GameFactory {
-
   private static final String BUNDLE_NAME = "GameConfig";
   private final ResourceBundle gameConfigBundle;
   private ResourceBundle gameBundle;

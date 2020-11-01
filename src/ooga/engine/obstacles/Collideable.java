@@ -1,10 +1,9 @@
 package ooga.engine.obstacles;
 
-import org.w3c.dom.Node;
+
+import javafx.scene.Node;
 
 public interface Collideable {
-  boolean hasCollided(Node node);
-
-
-
+  boolean hasCollided(Node node);//replace with sides
+  double getMass();
 }
