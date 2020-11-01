@@ -9,10 +9,10 @@ public abstract class Entity extends Node implements Moveables {
   private int currentHitpoints;
   private Node nodeObject;
   private double speed = 0;
-  private static final int JUMP_CAPACITY = -10;
+  private static final int JUMP_CAPACITY = -4;
   private double previousX = 0;
   private double previousY = 0;
-  private double jumpCapacity = JUMP_CAPACITY;
+  private double jumpCapacity = 0;
 
 
   public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
@@ -61,9 +61,10 @@ public abstract class Entity extends Node implements Moveables {
   }
 
   public void setY(double inputY){
-      nodeObject.setLayoutY(inputY - nodeObject.getLayoutBounds().getCenterY());
+      nodeObject.setLayoutY(inputY - nodeObject.getLayoutBounds().getMaxY());
     //nodeObject.setLayoutY(inputY+nodeObject.getLayoutY());
   }
+
 
   public void setHitpoints(int hitpoints){
     currentHitpoints=hitpoints;
@@ -99,7 +100,7 @@ public abstract class Entity extends Node implements Moveables {
   }
 
   public double getY(){
-      return nodeObject.getBoundsInParent().getCenterY();
+      return nodeObject.getBoundsInParent().getMaxY();
   }
 
   //add id.
