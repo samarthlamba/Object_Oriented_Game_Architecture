@@ -1,6 +1,6 @@
-package ooga.engine.games;
+package ooga.engine.Games;
 import javafx.scene.input.KeyCode;
-
+import ooga.engine.games.GamePlay;
 import ooga.engine.entities.Entity;
 import ooga.engine.obstacles.Obstacle;
 
@@ -37,6 +37,10 @@ public abstract class Game implements GamePlay {
         this.entities = entities;
         this.dt = timeElapsed;
         jumpInitialVelocity = calculateJumpVelocity();
+    }
+
+    public boolean hasFinished(){
+        return true;
     }
 
     private double calculateJumpVelocity(){

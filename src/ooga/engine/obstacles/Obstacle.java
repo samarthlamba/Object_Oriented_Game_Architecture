@@ -3,7 +3,7 @@ package ooga.engine.obstacles;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 
-public abstract class Obstacle implements Collideable {
+public abstract class Obstacle{
   private final Node nodeObject;
   private double moveX = 0;
   private double moveY = 0;

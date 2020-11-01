@@ -1,4 +1,4 @@
-package ooga.engine.games;
+package ooga.engine.Games;
 
 public class Mario {
 }
