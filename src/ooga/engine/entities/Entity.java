@@ -49,11 +49,14 @@ public abstract class Entity extends Node implements Moveables {
 
   public void setX(double inputX){
     //nodeObject.setLayoutX(inputX+nodeObject.getLayoutX());
-    nodeObject.setLayoutX(inputX);
+      //nodeObject.setTranslateX();
+      //nodeObject.relocate(10, 10);
+   nodeObject.setLayoutX(inputX - nodeObject.getLayoutBounds().getCenterX());
+   System.out.println(nodeObject.getBoundsInParent());
   }
 
   public void setY(double inputY){
-    nodeObject.setLayoutY(inputY);
+      nodeObject.setLayoutY(inputY - nodeObject.getLayoutBounds().getCenterY());
     //nodeObject.setLayoutY(inputY+nodeObject.getLayoutY());
   }
 
@@ -82,11 +85,11 @@ public abstract class Entity extends Node implements Moveables {
   }
 
   public double getX(){
-      return nodeObject.getLayoutBounds().getCenterX();
+      return nodeObject.getBoundsInParent().getCenterX();
   }
 
   public double getY(){
-      return nodeObject.getLayoutBounds().getCenterY();
+      return nodeObject.getBoundsInParent().getCenterY();
   }
 
   //add id.

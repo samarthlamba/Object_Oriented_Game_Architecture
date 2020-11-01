@@ -7,16 +7,17 @@ import org.junit.jupiter.api.Test;
 
 class EntityTest {
   Entity testEntity = new Mario(100, 100, 50, 50);
+  Entity testEntityEnemy = new Enemy(100, 100, 50, 50);
   @Test
   void getNode() {
 
     Rectangle ans = new Rectangle(50, 50, 100, 100);
-    assertEquals(ans, testEntity.getNode());
+    assertEquals(ans.getLayoutBounds(), testEntity.getNode().getLayoutBounds());
   }
 
   @Test
   void getID() {
-    assertEquals(1, testEntity.getID());
+    assertEquals(0, testEntity.getID());
   }
 
   @Test
@@ -43,13 +44,13 @@ class EntityTest {
   @Test
   void setX() {
     testEntity.setX(18);
-    assertEquals(18, testEntity.getNode().getLayoutBounds().getCenterX());
+    assertEquals(18, testEntity.getX());
   }
 
   @Test
   void setY() {
     testEntity.setY(47);
-    assertEquals(47, testEntity.getNode().getLayoutBounds().getCenterY());
+    assertEquals(47, testEntity.getY());
   }
 
   @Test
