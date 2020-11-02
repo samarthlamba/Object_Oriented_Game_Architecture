@@ -17,26 +17,28 @@ class GameTest {
    public void rightMovementTest() {
        Game game = factory.makeCorrectGame("testMovement.csv");
        Collection<Entity> entities = game.getEntities();
-       double initialPosition = 50;
+       double initialPosition = 75;
        Entity entity = entities.iterator().next();
        assertEquals(initialPosition, entity.getCenterX());
        game.RIGHT(entity);
        game.updateEntity();
        System.out.println(entity.getCenterX());
-       assertTrue(game.areEqualDouble(50.333, entity.getCenterX(), 2));
+       assertTrue(game.areEqualDouble(75, entity.getCenterX(), 2));
    }
 
     @Test
     public void leftMovementTest() {
         Game game = factory.makeCorrectGame("testMovement.csv");
         Collection<Entity> entities = game.getEntities();
-        double initialPosition = 50;
+        double initialPosition = 75;
         Entity entity = entities.iterator().next();
         assertEquals(initialPosition, entity.getCenterX());
-        game.LEFT(entity);
-        game.updateEntity();
-        System.out.println(entity.getCenterX());
-        assertTrue(game.areEqualDouble(49.666, entity.getCenterX(), 2));
+        for(int i = 0; i < 10; i++){
+            game.LEFT(entity);
+            game.updateEntity();
+            System.out.println(entity.getCenterX());
+        }
+        assertTrue(game.areEqualDouble(74.666, entity.getCenterX(), 2));
     }
 
     @Test
@@ -45,21 +47,23 @@ class GameTest {
         Collection<Entity> entities = game.getEntities();
         Entity entity = entities.iterator().next();
         game.UP(entity);
-        double previous = 150;
+        double previous = 200;
         for(int i = 0; i < 8; i++) {
             game.updateEntity();
             assertTrue(entity.getMaxY() < previous);
             previous = entity.getMaxY();
-            //System.out.println(previous);
+           //System.out.println(previous);
         }
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < 4; i++) {
             game.updateEntity();
+            System.out.println(entity.getMaxY());
             assertTrue(entity.getMaxY() >= previous);
             previous = entity.getMaxY();
         }
 
         for(int i = 0; i < 10; i++){
             game.updateEntity();
+            System.out.println(entity.getMaxY());
         }
 
         assertEquals(entity.getMaxY(), 200);
@@ -69,7 +73,7 @@ class GameTest {
     public void leftCollisionTest() {
         Game game = factory.makeCorrectGame("testNoMovement.csv");
         Collection<Entity> entities = game.getEntities();
-        double initialPosition = 50;
+        double initialPosition = 75;
         Entity entity = entities.iterator().next();
         assertEquals(initialPosition, entity.getCenterX());
         System.out.println(entity.getCenterX());
@@ -84,7 +88,7 @@ class GameTest {
     public void rightCollisionTest() {
         Game game = factory.makeCorrectGame("testNoMovement.csv");
         Collection<Entity> entities = game.getEntities();
-        double initialPosition = 50;
+        double initialPosition = 75;
         Entity entity = entities.iterator().next();
         assertEquals(initialPosition, entity.getCenterX());
         System.out.println(entity.getCenterX());
@@ -92,14 +96,14 @@ class GameTest {
             game.RIGHT(entity);
             game.updateEntity();
         }
-        assertTrue(game.areEqualDouble(50, entity.getCenterX(), 2));
+        assertTrue(game.areEqualDouble(75, entity.getCenterX(), 2));
     }
 
     @Test
     public void rightWallCollisionTest() {
         Game game = factory.makeCorrectGame("noRightMovement.csv");
         Collection<Entity> entities = game.getEntities();
-        double initialPosition = 50;
+        double initialPosition = 75;
         Entity entity = entities.iterator().next();
         assertEquals(initialPosition, entity.getCenterX());
         System.out.println(entity.getCenterX());
@@ -108,7 +112,7 @@ class GameTest {
             game.updateEntity();
             System.out.println(entity.getCenterX());
         }
-        assertTrue(game.areEqualDouble(50, entity.getCenterX(), 2));
+        assertTrue(game.areEqualDouble(75, entity.getCenterX(), 2));
     }
 
 

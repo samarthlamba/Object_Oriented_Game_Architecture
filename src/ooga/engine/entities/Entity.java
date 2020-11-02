@@ -19,10 +19,10 @@ public abstract class Entity extends Node implements Moveables {
     this.SCENE_WIDTH = objectWidth;
     this.SCENE_HEIGHT = objectHeight;
     nodeObject = new Rectangle(initialX, initialY, objectWidth, objectHeight);
-    this.previousX = initialX;
-    this.previousY = initialY;
-      this.setCenterX(initialX);
-      this.setMaxY(initialY);
+    this.previousX = initialX + objectWidth / 2;
+    this.previousY = initialY + objectHeight;
+      this.setCenterX(initialX + objectWidth / 2);
+      this.setMaxY(initialY + objectHeight);
   }
 
   public Node getNode() {
@@ -57,14 +57,6 @@ public abstract class Entity extends Node implements Moveables {
   public void setCenterX(double inputX){
    nodeObject.setLayoutX(inputX - nodeObject.getLayoutBounds().getCenterX());
   }
-
-  public void setLeftX(double inputX){
-      nodeObject.setLayoutX(inputX - nodeObject.getLayoutBounds().getMinX());
-  }
-
-    public void setRightX(double inputX){
-        nodeObject.setLayoutX(inputX - nodeObject.getLayoutBounds().getMaxX());
-    }
 
   public void setMaxY(double inputY){
       nodeObject.setLayoutY(inputY - nodeObject.getLayoutBounds().getMaxY());
@@ -109,12 +101,8 @@ public abstract class Entity extends Node implements Moveables {
       return nodeObject.getBoundsInParent().getCenterX();
   }
 
-  public double getXLeft(){
-      return nodeObject.getBoundsInParent().getMinX();
-  }
-
-  public double getXRight(){
-      return nodeObject.getBoundsInParent().getMaxX();
+  public double getEntityWidth(){
+      return SCENE_WIDTH;
   }
 
   public double getMaxY(){
