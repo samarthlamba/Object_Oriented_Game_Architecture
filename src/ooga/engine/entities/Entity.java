@@ -10,8 +10,8 @@ public abstract class Entity extends Node implements Moveables {
   private Node nodeObject;
   private double speed = 0;
   private static final int JUMP_CAPACITY = -4;
-  private double previousX = 0;
-  private double previousY = 0;
+  private double previousX;
+  private double previousY;
   private double jumpCapacity = 0;
 
 
@@ -19,8 +19,10 @@ public abstract class Entity extends Node implements Moveables {
     this.SCENE_WIDTH = objectWidth;
     this.SCENE_HEIGHT = objectHeight;
     nodeObject = new Rectangle(initialX, initialY, objectWidth, objectHeight);
-      this.setX(initialX);
-      this.setY(initialY);
+    this.previousX = initialX;
+    this.previousY = initialY;
+      this.setCenterX(initialX);
+      this.setMaxY(initialY);
   }
 
   public Node getNode() {
@@ -52,19 +54,27 @@ public abstract class Entity extends Node implements Moveables {
     this.jumpCapacity = y;
   }
 
-  public void setX(double inputX){
-    //nodeObject.setLayoutX(inputX+nodeObject.getLayoutX());
-    //nodeObject.setLayoutX(inputX);
-      //nodeObject.setTranslateX();
-      //nodeObject.relocate(10, 10);
+  public void setCenterX(double inputX){
    nodeObject.setLayoutX(inputX - nodeObject.getLayoutBounds().getCenterX());
   }
 
-  public void setY(double inputY){
+  public void setLeftX(double inputX){
+      nodeObject.setLayoutX(inputX - nodeObject.getLayoutBounds().getMinX());
+  }
+
+    public void setRightX(double inputX){
+        nodeObject.setLayoutX(inputX - nodeObject.getLayoutBounds().getMaxX());
+    }
+
+  public void setMaxY(double inputY){
       nodeObject.setLayoutY(inputY - nodeObject.getLayoutBounds().getMaxY());
     //nodeObject.setLayoutY(inputY+nodeObject.getLayoutY());
   }
 
+    public void setMinY(double inputY){
+        nodeObject.setLayoutY(inputY - nodeObject.getLayoutBounds().getMinY());
+        //nodeObject.setLayoutY(inputY+nodeObject.getLayoutY());
+    }
 
   public void setHitpoints(int hitpoints){
     currentHitpoints=hitpoints;
@@ -94,12 +104,20 @@ public abstract class Entity extends Node implements Moveables {
       return nodeObject.getLayoutX();
   }*/
 
-  public double getX(){
+  public double getCenterX(){
     //  return nodeObject.getLayoutY();
       return nodeObject.getBoundsInParent().getCenterX();
   }
 
-  public double getY(){
+  public double getXLeft(){
+      return nodeObject.getBoundsInParent().getMinX();
+  }
+
+  public double getXRight(){
+      return nodeObject.getBoundsInParent().getMaxX();
+  }
+
+  public double getMaxY(){
       return nodeObject.getBoundsInParent().getMaxY();
   }
 

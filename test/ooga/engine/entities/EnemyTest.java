@@ -56,14 +56,14 @@ class EnemyTest {
 
     @Test
     void setX() {
-      testEntityEnemy.setX(98);
-      assertEquals(98, testEntityEnemy.getX());
+      testEntityEnemy.setCenterX(98);
+      assertEquals(98, testEntityEnemy.getCenterX());
     }
 
     @Test
     void setY() {
-      testEntityEnemy.setY(87);
-      assertEquals(87, testEntityEnemy.getY());
+      testEntityEnemy.setMaxY(87);
+      assertEquals(87, testEntityEnemy.getMaxY());
     }
 
     @Test

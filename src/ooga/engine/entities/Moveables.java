@@ -4,9 +4,9 @@ import javafx.scene.Node;
 
 public interface Moveables {
 
-  void setX(double inputX);
+  void setCenterX(double inputX);
 
-  void setY(double inputY);
+  void setMaxY(double inputY);
 
   void setHitpoints(int hitpoints);
 
