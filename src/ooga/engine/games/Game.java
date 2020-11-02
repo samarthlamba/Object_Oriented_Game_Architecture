@@ -28,7 +28,6 @@ public abstract class Game implements GamePlay {
     private double elapsedTime;
     // private double massObstacle;
 
-    private boolean testJump = true;
 
 //add 'is finished' to confirm if the game has been finished
 
@@ -76,9 +75,24 @@ public abstract class Game implements GamePlay {
                 collisionForce(entity, obstacle);
                 updatePosition(entity);
             }
+            if(entity.getID() == 0){
+                for(Entity e : entities){
+                    if(entityCollision(entity, e)){
+                        //player dead
+                        //enemy dead if top collision
+                    }
+                }
+            }
             xForceEntity = 0;
             yForceEntity = 0;
         }
+    }
+
+    private boolean entityCollision(Entity player, Entity entity){
+        if(entity.getID() != 0) {
+            return player.getNode().getBoundsInParent().intersects(entity.getNode().getBoundsInParent());
+        }
+        return true;
     }
 
     private double newYPosition (Entity entity){
