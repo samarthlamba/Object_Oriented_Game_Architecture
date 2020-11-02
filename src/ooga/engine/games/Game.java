@@ -74,7 +74,6 @@ public abstract class Game implements GamePlay {
             gravityForce();
             for (Obstacle obstacle : obstacles) {
                 System.out.println(obstacle.getNodeObject().getBoundsInParent());
-                System.out.println("entity" + entity.getNode().getBoundsInParent());
                 collisionForce(entity, obstacle);
                 updatePosition(entity);
                 entity.setVelocityX(0);
