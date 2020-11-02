@@ -5,8 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collection;
-import ooga.engine.Games.Game;
-import ooga.engine.Games.MarioGame;
+
+import ooga.engine.games.Game;
+import ooga.engine.games.MarioGame;
 import ooga.engine.entities.Entity;
 import ooga.engine.entities.Mario;
 import ooga.engine.obstacles.Obstacle;
