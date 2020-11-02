@@ -13,7 +13,7 @@ public abstract class Entity extends Node implements Moveables {
   private double previousX;
   private double previousY;
   private double jumpCapacity = 0;
-
+int i = 0;
 
   public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
     this.SCENE_WIDTH = objectWidth;
@@ -21,8 +21,8 @@ public abstract class Entity extends Node implements Moveables {
     nodeObject = new Rectangle(initialX, initialY, objectWidth, objectHeight);
     this.previousX = initialX + objectWidth / 2;
     this.previousY = initialY + objectHeight;
-      this.setCenterX(initialX + objectWidth / 2);
-      this.setMaxY(initialY + objectHeight);
+    this.setCenterX(initialX + objectWidth / 2);
+    this.setMaxY(initialY + objectHeight);
   }
 
   public Node getNode() {
@@ -55,18 +55,13 @@ public abstract class Entity extends Node implements Moveables {
   }
 
   public void setCenterX(double inputX){
-   nodeObject.setLayoutX(inputX - nodeObject.getLayoutBounds().getCenterX());
+      nodeObject.setLayoutX(inputX - nodeObject.getLayoutBounds().getCenterX());
   }
 
   public void setMaxY(double inputY){
       nodeObject.setLayoutY(inputY - nodeObject.getLayoutBounds().getMaxY());
     //nodeObject.setLayoutY(inputY+nodeObject.getLayoutY());
   }
-
-    public void setMinY(double inputY){
-        nodeObject.setLayoutY(inputY - nodeObject.getLayoutBounds().getMinY());
-        //nodeObject.setLayoutY(inputY+nodeObject.getLayoutY());
-    }
 
   public void setHitpoints(int hitpoints){
     currentHitpoints=hitpoints;

@@ -36,7 +36,7 @@ class EntityTest {
   }
   @Test
   void getVelocityY() {
-    assertEquals(-10, testEntity.getVelocityY());
+    assertEquals(0, testEntity.getVelocityY());
     testEntity.setVelocityY(21);
     assertEquals(21, testEntity.getVelocityY());
   }

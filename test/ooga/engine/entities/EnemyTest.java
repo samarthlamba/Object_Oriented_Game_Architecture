@@ -38,7 +38,7 @@ class EnemyTest {
     }
     @Test
     void getVelocityY() {
-      assertEquals(-10, testEntityEnemy.getVelocityY());
+      assertEquals(0, testEntityEnemy.getVelocityY());
       testEntityEnemy.setVelocityY(154);
       assertEquals(154, testEntityEnemy.getVelocityY());
     }
