@@ -12,9 +12,4 @@ public class MarioGame extends Game {
       double timeElapsed) {
     super(obstacleCollection,entityCollection,timeElapsed);
   }
-
-  @Override
-  public void updateLevel() {
-    System.out.println("we're doin it! we're updating the level!");
-  }
 }
