@@ -54,7 +54,7 @@ public abstract class Game implements GamePlay {
     }
 
     public void updateLevel(){
-
+        updateEntity();
     }
 
     public Collection<Entity> getEntities(){
@@ -73,7 +73,6 @@ public abstract class Game implements GamePlay {
             yForceEntity = 0;
             gravityForce();
             for (Obstacle obstacle : obstacles) {
-                System.out.println(obstacle.getNodeObject().getBoundsInParent());
                 collisionForce(entity, obstacle);
                 updatePosition(entity);
                 entity.setVelocityX(0);

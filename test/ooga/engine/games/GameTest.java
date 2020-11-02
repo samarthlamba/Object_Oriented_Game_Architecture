@@ -107,7 +107,6 @@ class GameTest {
             game.RIGHT(entity);
             game.updateEntity();
             System.out.println(entity.getCenterX());
-            System.out.println(entity.getMaxY());
         }
         assertTrue(game.areEqualDouble(50, entity.getCenterX(), 2));
     }
