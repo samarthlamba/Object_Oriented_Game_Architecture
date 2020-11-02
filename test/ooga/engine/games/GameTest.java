@@ -47,19 +47,22 @@ class GameTest {
         Entity entity = entities.iterator().next();
         game.UP(entity);
         double previous = 200;
-        for(int i = 0; i < 8; i++) {
+        for(int i = 0; i < 20; i++) {
             game.updateEntity();
             assertTrue(entity.getMaxY() < previous);
+            System.out.println(entity.getMaxY());
             previous = entity.getMaxY();
         }
-        for(int i = 0; i < 4; i++) {
+        for(int i = 0; i < 10; i++) {
             game.updateEntity();
             assertTrue(entity.getMaxY() >= previous);
+            System.out.println(entity.getMaxY());
             previous = entity.getMaxY();
         }
 
         for(int i = 0; i < 10; i++){
             game.updateEntity();
+            System.out.println(entity.getMaxY());
         }
 
         assertEquals(entity.getMaxY(), 200);
@@ -108,6 +111,20 @@ class GameTest {
         assertTrue(game.areEqualDouble(75, entity.getCenterX(), 1));
     }
 
+    @Test
+    public void bottomCollisionTest(){
+        Game game = factory.makeCorrectGame("testCeilingMovement.csv");
+        Collection<Entity> entities = game.getEntities();
+        double initialPosition = 75;
+        Entity entity = entities.iterator().next();
+        assertEquals(initialPosition, entity.getCenterX());
+        game.UP(entity);
+        for(int i = 0; i < 300; i++){
+            game.updateEntity();
+            System.out.println(entity.getMaxY());
+        }
+        assertTrue(game.areEqualDouble(75, entity.getCenterX(), 1));
 
+    }
 
 }

@@ -9,11 +9,10 @@ public abstract class Entity extends Node implements Moveables {
   private int currentHitpoints;
   private Node nodeObject;
   private double speed = 0;
-  private static final int JUMP_CAPACITY = -4;
+  private static final int JUMP_CAPACITY = -10;
   private double previousX;
   private double previousY;
   private double jumpCapacity = 0;
-int i = 0;
 
   public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
     this.SCENE_WIDTH = objectWidth;
@@ -100,9 +99,14 @@ int i = 0;
       return SCENE_WIDTH;
   }
 
+    public double getEntityHeight(){
+        return SCENE_HEIGHT;
+    }
+
   public double getMaxY(){
       return nodeObject.getBoundsInParent().getMaxY();
   }
+
 
   //add id.
 }
