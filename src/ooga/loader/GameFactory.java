@@ -48,9 +48,11 @@ public class GameFactory {
   private <T> Collection<T> getObjectsForGameOfType(List<String[]> levelData,Class<T> objectToParse) {
     String[] classStrings = gameBundle.getString(objectToParse.getName()).split(",");
     Collection<T> objectsInData = new ArrayList<>();
+    int i = 0;
     for(String[] each: levelData) {
-      Collection<T> objectsForRow = parseRowForClass(Arrays.asList(each),classStrings, levelData.indexOf(each));
+      Collection<T> objectsForRow = parseRowForClass(Arrays.asList(each),classStrings, i);
       objectsInData.addAll(objectsForRow);
+      i++;
     }
     return objectsInData;
   }
@@ -58,12 +60,14 @@ public class GameFactory {
   private <T> Collection<T> parseRowForClass(List<String> each, String[] classStrings, int rowNumber) {
     List<String> classStringsAsList = Arrays.asList(classStrings);
     Collection<T> objectsInRow = new ArrayList<>();
+    int j = 0;
     for(String every : each) {
       if(classStringsAsList.contains(every)) {
         GameObjectFactory<T> factory = new GameObjectFactory<>(gameName);
-        T everyAsObject = factory.makeGameObject(every,rowNumber,each.indexOf(every));
+        T everyAsObject = factory.makeGameObject(every,rowNumber,j);
         objectsInRow.add(everyAsObject);
       }
+      j++;
     }
     return objectsInRow;
   }
