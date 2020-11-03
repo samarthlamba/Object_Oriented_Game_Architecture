@@ -28,7 +28,7 @@ public abstract class Entity extends Node implements Moveables {
     return nodeObject;
   }
 
-  public abstract int getID();
+  //public abstract int getID();
 
   public double getVelocityX(){
     return speed;

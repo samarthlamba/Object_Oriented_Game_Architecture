@@ -2,14 +2,15 @@ package ooga.engine.entities;
 
 public abstract class Player extends Entity{
 
-  private static final int ID = 0;
   private int speed = 0;
+  private final static String ID = "player";
   public Player(int sceneWidth, int sceneHeight, double initialX, double initialY) {
     super(sceneWidth, sceneHeight, initialX, initialY);
+    setId(ID);
   }
-  public int getID(){
+  /*public int getID(){
     return this.ID;
-  }
+  }*/
 
 /*  public void moveLeft(){
     setX(getX()-speed);
