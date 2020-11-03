@@ -1,40 +1,78 @@
 package ooga;
 
-import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import ooga.engine.games.Game;
+import ooga.engine.games.GamePlay;
 import ooga.loader.GameFactory;
-import ooga.view.GameView;
-import ooga.view.MainMenuScreen;
+import ooga.view.Display;
+import ooga.view.Screen;
+
+import java.util.ResourceBundle;
 
 public class Driver extends Application {
   protected Game myGame;
   protected MainMenuScreen myMenu;
 
+  private static final int STEP_SPEED = 1000;
+  private static final ResourceBundle LEVEL_FILE_LOCATIONS = ResourceBundle.getBundle("LevelFileLocations");
+  private boolean createTimeline;
+  private KeyFrame displayFrame;
+  private Timeline simulate;
+  private GamePlay game;
+  private Display display;
+  private GameFactory gameFactory;
+  private String gameTitle;
+
   @Override
-  public void start(Stage primaryStage) throws Exception {
-    ResourceBundle gameBundle = ResourceBundle.getBundle("GameConfig");
-    final double frameRate = Double.parseDouble(gameBundle.getString("framerate"));
-    KeyFrame frame = new KeyFrame(Duration.seconds(1/frameRate), e -> step(1/frameRate));
-    Timeline t = new Timeline();
-    t.setCycleCount(Timeline.INDEFINITE);
-    t.getKeyFrames().add(frame);
-    GameFactory factory = new GameFactory();
-    myMenu = new MainMenuScreen(buttonText -> {
-      myGame = factory.makeCorrectGame(gameBundle.getString(buttonText));
-      GameView view = new GameView(myGame);
-      primaryStage.setScene(view.getView());
-      t.play();
-    });
-    primaryStage.setScene(myMenu.getView());
-    primaryStage.show();
+  public void start(Stage initialStage) throws Exception {
+    display = new Display(initialStage);
+    gameFactory = new GameFactory();
+    initialStage.show();
+    display.setMainMenuScreen(this::launchGameMenu);
   }
 
-  private void step(double v) {
-    myGame.updateLevel();
+  private void launchGameMenu(String gameLabel) {
+    gameTitle = gameLabel;
+    display.setGameMenuScreen(gameTitle, this::launchGame);
+  }
+
+  private void launchGame(String gameLevel) {
+//      display.test();
+    String filePath = LEVEL_FILE_LOCATIONS.getString(gameTitle+","+gameLevel);
+//    System.out.print(filePath);
+    game = gameFactory.makeCorrectGame(filePath);
+    display.setGameDisplay(game);
+    startTimeline();
+  }
+
+  private void startTimeline() {
+    if (createTimeline) {
+      displayFrame = new KeyFrame(Duration.millis(STEP_SPEED), e -> step());
+      simulate = new Timeline();
+      simulate.setCycleCount(Timeline.INDEFINITE);
+      simulate.getKeyFrames().add(displayFrame);
+      simulate.play();
+    }
+    createTimeline = false;
+  }
+
+  private void step() {
+    game.updateLevel();
+    display.updateDisplay();
+  }
+
+  public Screen getGameMenu() {
+    return display.getGameMenu(this::launchGame);
+  }
+
+  public GamePlay getGame() {
+    return game;
   }
 }
+
+
