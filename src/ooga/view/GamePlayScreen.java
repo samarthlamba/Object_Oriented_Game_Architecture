@@ -23,7 +23,7 @@ public class GamePlayScreen extends Screen{
         Pane root = new Pane(); //Todo justify
         Group background = new Group();
         for (Entity entity : game.getEntities()) {
-            if (entity.getID() == 0) {
+            if (entity.getId().equals("player")) {
                 mainX = entity.getNode().getLayoutBounds().getMinX();
                 mainY = entity.getNode().getLayoutBounds().getMinY();
                 double width = entity.getNode().getLayoutBounds().getWidth();
