@@ -24,8 +24,8 @@ public class GamePlayScreen extends Screen{
         Group background = new Group();
         for (Entity entity : game.getEntities()) {
             if (entity.getID() == 0) {
-                mainX = entity.getX();
-                mainY = entity.getY();
+                mainX = entity.getNode().getLayoutBounds().getMinX();
+                mainY = entity.getNode().getLayoutBounds().getMinY();
                 double width = entity.getNode().getLayoutBounds().getWidth();
                 double height = entity.getNode().getLayoutBounds().getHeight();
                 double x = SCREEN_WIDTH / 2 - width / 2;
@@ -37,19 +37,15 @@ public class GamePlayScreen extends Screen{
                 root.getChildren().add(entityFig);
             }
             else {
-//                Shape entityNode = (Shape) entity.getNode();
-                Bounds layoutBounds = entity.getNode().getLayoutBounds();
-                Rectangle rect = new Rectangle(entity.getX(),entity.getY(),layoutBounds.getWidth(),layoutBounds.getHeight());
-//                entityNode.setFill(Color.GREEN);
-                rect.setFill(Color.GREEN);
-//                background.getChildren().add(entityNode);
-                background.getChildren().add(rect);
+                Shape entityNode = (Shape) entity.getNode();
+                entityNode.setFill(Color.GREEN);
+                background.getChildren().add(entityNode);
             }
         }
 
-
         for (Obstacle obstacle : game.getBackground()) {
             Shape obstacleNode = (Shape) obstacle.getNodeObject();
+            obstacleNode.setFill(Color.BROWN);
             background.getChildren().add(obstacleNode);
         }
         double sceneShiftX = -(mainX - (SCREEN_WIDTH/2 - mainWidth/2));

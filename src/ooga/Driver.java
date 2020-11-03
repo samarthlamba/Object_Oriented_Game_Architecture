@@ -7,9 +7,11 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import ooga.engine.games.Game;
 import ooga.engine.games.GamePlay;
 import ooga.loader.GameFactory;
 import ooga.view.Display;
+import ooga.view.MainMenuScreen;
 import ooga.view.Screen;
 
 import java.util.ResourceBundle;
