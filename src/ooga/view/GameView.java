@@ -37,5 +37,6 @@ public class GameView extends Screen{
   @Override
   public Scene getView() {
     return sceneFromGame;
+
   }
 }
