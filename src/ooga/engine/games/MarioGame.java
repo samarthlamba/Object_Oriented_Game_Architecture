@@ -15,6 +15,6 @@ public class MarioGame extends Game {
 
   @Override
   public void updateLevel() {
-    System.out.println("we're doin it! we're updating the level!");
+    //System.out.println("we're doin it! we're updating the level!");
   }
 }
