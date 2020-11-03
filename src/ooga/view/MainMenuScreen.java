@@ -1,7 +1,10 @@
 package ooga.view;
 
-import javafx.geometry.Pos;
+import java.util.function.Consumer;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
 
 import java.lang.reflect.Method;
 import java.util.ResourceBundle;

@@ -9,18 +9,19 @@ public abstract class Entity extends Node implements Moveables {
   private int currentHitpoints;
   private Node nodeObject;
   private double speed = 0;
-  private static final int JUMP_CAPACITY = -4;
-  private double previousX = 0;
-  private double previousY = 0;
+  private static final int JUMP_CAPACITY = -10;
+  private double previousX;
+  private double previousY;
   private double jumpCapacity = 0;
-
 
   public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
     this.SCENE_WIDTH = objectWidth;
     this.SCENE_HEIGHT = objectHeight;
     nodeObject = new Rectangle(initialX, initialY, objectWidth, objectHeight);
-      this.setX(initialX);
-      this.setY(initialY);
+    this.previousX = initialX + objectWidth / 2;
+    this.previousY = initialY + objectHeight;
+    this.setCenterX(initialX + objectWidth / 2);
+    this.setMaxY(initialY + objectHeight);
   }
 
   public Node getNode() {
@@ -52,19 +53,14 @@ public abstract class Entity extends Node implements Moveables {
     this.jumpCapacity = y;
   }
 
-  public void setX(double inputX){
-    //nodeObject.setLayoutX(inputX+nodeObject.getLayoutX());
-    //nodeObject.setLayoutX(inputX);
-      //nodeObject.setTranslateX();
-      //nodeObject.relocate(10, 10);
-   nodeObject.setLayoutX(inputX - nodeObject.getLayoutBounds().getCenterX());
+  public void setCenterX(double inputX){
+      nodeObject.setLayoutX(inputX - nodeObject.getLayoutBounds().getCenterX());
   }
 
-  public void setY(double inputY){
+  public void setMaxY(double inputY){
       nodeObject.setLayoutY(inputY - nodeObject.getLayoutBounds().getMaxY());
     //nodeObject.setLayoutY(inputY+nodeObject.getLayoutY());
   }
-
 
   public void setHitpoints(int hitpoints){
     currentHitpoints=hitpoints;
@@ -94,14 +90,23 @@ public abstract class Entity extends Node implements Moveables {
       return nodeObject.getLayoutX();
   }*/
 
-  public double getX(){
+  public double getCenterX(){
     //  return nodeObject.getLayoutY();
       return nodeObject.getBoundsInParent().getCenterX();
   }
 
-  public double getY(){
+  public double getEntityWidth(){
+      return SCENE_WIDTH;
+  }
+
+    public double getEntityHeight(){
+        return SCENE_HEIGHT;
+    }
+
+  public double getMaxY(){
       return nodeObject.getBoundsInParent().getMaxY();
   }
+
 
   //add id.
 }

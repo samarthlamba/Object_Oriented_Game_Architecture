@@ -15,6 +15,8 @@ import ooga.view.Screen;
 import java.util.ResourceBundle;
 
 public class Driver extends Application {
+  protected Game myGame;
+  protected MainMenuScreen myMenu;
 
   private static final int STEP_SPEED = 1000;
   private static final ResourceBundle LEVEL_FILE_LOCATIONS = ResourceBundle.getBundle("LevelFileLocations");
