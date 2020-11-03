@@ -61,6 +61,11 @@ private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle(DEFAU
         Scene scene = new Scene(root,500,500);
         stage.setScene(scene);
     }
+
+    public Screen getGameMenu(Consumer<String> e) {
+        Screen gameMenu = new SuperMarioBrosMenuScreen(e);
+        return gameMenu;
+    }
 }
 
 

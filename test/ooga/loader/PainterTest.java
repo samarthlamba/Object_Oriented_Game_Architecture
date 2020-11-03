@@ -10,6 +10,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import ooga.engine.obstacles.Obstacle;
 import ooga.engine.obstacles.Wall;
+import ooga.view.User;
 import org.junit.jupiter.api.Test;
 
 public class PainterTest {

@@ -10,6 +10,7 @@ import javafx.util.Duration;
 import ooga.engine.games.GamePlay;
 import ooga.loader.GameFactory;
 import ooga.view.Display;
+import ooga.view.Screen;
 
 import java.util.ResourceBundle;
 
@@ -61,6 +62,14 @@ public class Driver extends Application {
   private void step() {
     game.updateLevel();
     display.updateDisplay();
+  }
+
+  public Screen getGameMenu() {
+    return display.getGameMenu(this::launchGame);
+  }
+
+  public GamePlay getGame() {
+    return game;
   }
 }
 
