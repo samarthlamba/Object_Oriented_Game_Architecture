@@ -53,14 +53,11 @@ public class Driver extends Application {
   }
 
   private void startTimeline() {
-    if (createTimeline) {
       displayFrame = new KeyFrame(Duration.millis(STEP_SPEED), e -> step());
       simulate = new Timeline();
       simulate.setCycleCount(Timeline.INDEFINITE);
       simulate.getKeyFrames().add(displayFrame);
       simulate.play();
-    }
-    createTimeline = false;
   }
 
   private void step() {

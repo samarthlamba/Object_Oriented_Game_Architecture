@@ -78,8 +78,12 @@ public abstract class Game implements GamePlay {
             if(entity.getID() == 0){
                 for(Entity e : entities){
                     if(entityCollision(entity, e)){
-                        //player dead
-                        //enemy dead if top collision
+                        if(entityTopCollision(entity, e)){
+                            e.setHitpoints(e.getHitpoints() - 1);
+                        }
+                        else{
+                            entity.setHitpoints(entity.getHitpoints() - 1);
+                        }
                     }
                 }
             }
@@ -95,6 +99,17 @@ public abstract class Game implements GamePlay {
         return true;
     }
 
+    private boolean entityTopCollision(Entity player, Entity entity){
+        return entity.getNode().getBoundsInParent().getMinY() < player.getNode().getBoundsInParent().getMaxY() &&
+                entity.getNode().getBoundsInParent().getMinY() > player.getNode().getBoundsInParent().getMinY() &&
+                !checkCornersEntityX(player, entity);
+    }
+
+    private boolean checkCornersEntityX(Entity player, Entity entity){
+        return areEqualDouble(entity.getNode().getBoundsInParent().getMaxX(), player.getNode().getBoundsInParent().getMinX(), 1) ||
+                areEqualDouble(entity.getNode().getBoundsInParent().getMinX(), player.getNode().getBoundsInParent().getMaxX(), 1);
+    }
+
     private double newYPosition (Entity entity){
         return entity.getMaxY() + entity.getVelocityY() * elapsedTime + yForceEntity * elapsedTime * elapsedTime;
     }
@@ -102,6 +117,7 @@ public abstract class Game implements GamePlay {
     private double newXPosition (Entity entity){
         return entity.getCenterX() + entity.getVelocityX() * elapsedTime + xForceEntity * elapsedTime * elapsedTime;
     }
+
 
  /*   private double getXForceEntity(Entity entity){
         double changeInX = entity.getPreviousX() - entity.getCenterX();

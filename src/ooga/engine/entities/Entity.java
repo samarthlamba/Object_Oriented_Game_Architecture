@@ -6,7 +6,7 @@ import javafx.scene.shape.Rectangle;
 public abstract class Entity extends Node implements Moveables {
   private final int SCENE_WIDTH;
   private final int SCENE_HEIGHT;
-  private int currentHitpoints;
+  private int currentHitpoints = 5;
   private Node nodeObject;
   private double speed = 0;
   private static final int JUMP_CAPACITY = -10;
