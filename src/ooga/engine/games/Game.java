@@ -53,8 +53,9 @@ public abstract class Game implements GamePlay {
     public Collection<Obstacle> getBackground(){
         return obstacles;
     }
-
+    @Override
     public void updateLevel(){
+        System.out.println("stepped123");
         updateEntity();
     }
 
@@ -69,6 +70,7 @@ public abstract class Game implements GamePlay {
     }
 
     public void updateEntity(){
+        System.out.println("stepped12324");
         for(Entity entity : entities) {
             gravityForce();
             collisionForce(entity);
@@ -93,7 +95,26 @@ public abstract class Game implements GamePlay {
                     }
                 }
             }
+<<<<<<< HEAD
+=======
+            if(entity.getID() == 1){
+                System.out.println(yForceEntity);
+                if(yForceEntity == 0){
+                    System.out.println("working " + entity.getVelocityX());
+                   // entity.setVelocityX(entity.getVelocityX());
+                    entity.update();
+
+                }
+                else{
+                    entity.setVelocityX(entity.getVelocityX()*-1);
+                    entity.update();
+                }
+            }
+            xForceEntity = 0;
+            yForceEntity = 0;
+>>>>>>> 7d3e3d150670eae727ef52368935caa025175716
         }
+        System.out.println(entities.size());
     }
 
     private boolean entityCollision(Entity player, Entity entity){
@@ -157,9 +178,16 @@ public abstract class Game implements GamePlay {
         }
     }
 
+<<<<<<< HEAD
     private boolean checkCornersY(Entity entity, Node object){
         return areEqualDouble(object.getBoundsInParent().getMinY(), entity.getNode().getBoundsInParent().getMaxY(), 1) ||
                 areEqualDouble(object.getBoundsInParent().getMaxY(), entity.getNode().getBoundsInParent().getMinY(),1);
+=======
+
+    private boolean checkCornersY(Entity entity, Obstacle obstacle){
+        return areEqualDouble(obstacle.getNodeObject().getBoundsInParent().getMinY(), entity.getNode().getBoundsInParent().getMaxY(), 1) ||
+                areEqualDouble(obstacle.getNodeObject().getBoundsInParent().getMaxY(), entity.getNode().getBoundsInParent().getMinY(),1);
+>>>>>>> 7d3e3d150670eae727ef52368935caa025175716
     }
 
     private boolean checkCornersX(Entity entity, Node object){

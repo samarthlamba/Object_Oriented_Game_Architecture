@@ -20,12 +20,12 @@ public class Driver extends Application {
   protected Game myGame;
   protected MainMenuScreen myMenu;
 
-  private static final int STEP_SPEED = 1000;
+  private static final int STEP_SPEED = 100;
   private static final ResourceBundle LEVEL_FILE_LOCATIONS = ResourceBundle.getBundle("LevelFileLocations");
   private boolean createTimeline;
   private KeyFrame displayFrame;
   private Timeline simulate;
-  private GamePlay game;
+  private Game game;
   private Display display;
   private GameFactory gameFactory;
   private String gameTitle;
@@ -61,7 +61,8 @@ public class Driver extends Application {
   }
 
   private void step() {
-    game.updateLevel();
+    System.out.println("stepping in progress");
+    game.updateEntity();
     display.updateDisplay();
   }
 
