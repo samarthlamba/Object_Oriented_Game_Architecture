@@ -1,5 +1,8 @@
 package ooga.engine.entities;
 
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+
 public class Mario extends Player {
 
 
@@ -10,4 +13,5 @@ public class Mario extends Player {
   public void update(){
     return;
   }
+
 }
