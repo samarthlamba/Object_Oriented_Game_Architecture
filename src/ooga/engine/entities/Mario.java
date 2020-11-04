@@ -6,4 +6,7 @@ public class Mario extends Player {
     super(objectWidth, objectHeight, initialX, initialY);
   }
 
+  public void update(){
+    return;
+  }
 }

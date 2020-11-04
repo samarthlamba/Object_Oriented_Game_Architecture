@@ -53,8 +53,9 @@ public abstract class Game implements GamePlay {
     public Collection<Obstacle> getBackground(){
         return obstacles;
     }
-
+    @Override
     public void updateLevel(){
+        System.out.println("stepped123");
         updateEntity();
     }
 
@@ -69,6 +70,7 @@ public abstract class Game implements GamePlay {
     }
 
     public void updateEntity(){
+        System.out.println("stepped12324");
         for(Entity entity : entities) {
             gravityForce();
             for (Obstacle obstacle : obstacles) {
@@ -83,9 +85,23 @@ public abstract class Game implements GamePlay {
                     }
                 }
             }
+            if(entity.getID() == 1){
+                System.out.println(yForceEntity);
+                if(yForceEntity == 0){
+                    System.out.println("working " + entity.getVelocityX());
+                   // entity.setVelocityX(entity.getVelocityX());
+                    entity.update();
+
+                }
+                else{
+                    entity.setVelocityX(entity.getVelocityX()*-1);
+                    entity.update();
+                }
+            }
             xForceEntity = 0;
             yForceEntity = 0;
         }
+        System.out.println(entities.size());
     }
 
     private boolean entityCollision(Entity player, Entity entity){
@@ -136,6 +152,7 @@ public abstract class Game implements GamePlay {
             obstacleLeftCollision(entity, obstacle);
         }
     }
+
 
     private boolean checkCornersY(Entity entity, Obstacle obstacle){
         return areEqualDouble(obstacle.getNodeObject().getBoundsInParent().getMinY(), entity.getNode().getBoundsInParent().getMaxY(), 1) ||
