@@ -1,12 +1,14 @@
 package ooga.engine.entities;
 
 import javafx.scene.Node;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Rectangle;
 
 public abstract class Entity extends Node implements Moveables {
   private final int SCENE_WIDTH;
   private final int SCENE_HEIGHT;
-  private int currentHitpoints;
+  private int currentHitpoints = 5;
   private Node nodeObject;
   private double speed = 0;
   private static final int JUMP_CAPACITY = -10;
@@ -28,7 +30,7 @@ public abstract class Entity extends Node implements Moveables {
     return nodeObject;
   }
 
-  public abstract int getID();
+  //public abstract int getID();
 
   public double getVelocityX(){
     return speed;

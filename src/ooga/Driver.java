@@ -53,19 +53,16 @@ public class Driver extends Application {
   }
 
   private void startTimeline() {
-
       displayFrame = new KeyFrame(Duration.millis(STEP_SPEED), e -> step());
       simulate = new Timeline();
       simulate.setCycleCount(Timeline.INDEFINITE);
       simulate.getKeyFrames().add(displayFrame);
       simulate.play();
-
-    createTimeline = true;
   }
 
   private void step() {
     System.out.println("stepping in progress");
-    game.updateEntity();
+   // game.updateMoveables();
     display.updateDisplay();
   }
 

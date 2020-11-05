@@ -2,18 +2,56 @@ package ooga.engine.entities;
 
 import javafx.scene.Node;
 
-public interface Moveables {
+ public interface Moveables {
 
-  void setCenterX(double inputX);
+   Node getNode();
 
-  void setMaxY(double inputY);
+  // abstract int getID();
 
-  void setHitpoints(int hitpoints);
+   double getVelocityX();
 
-  int getHitpoints();
+   double getVelocityY();
 
-  Node getNode();
+   double getJumpMax();
 
+  /*  double mass(){
+     return 5;
+   }*/
+   void setVelocityX(double x);
+
+   void setVelocityY(double y);
+
+   void setCenterX(double inputX);
+
+   abstract void update();
+
+   void setMaxY(double inputY);
+
+   void setHitpoints(int hitpoints);
+
+   int getHitpoints();
+
+   void setPreviousX(double previous);
+
+   double getPreviousX();
+
+   void setPreviousY(double previous);
+
+   double getPreviousY();
+
+ /*  double getX(){
+      return nodeObject.getLayoutX();
+  }*/
+
+   double getCenterX();
+
+   double getEntityWidth();
+
+   double getEntityHeight();
+
+   double getMaxY();
+
+   String getId();
   //true = right
 
 }

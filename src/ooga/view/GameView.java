@@ -1,11 +1,16 @@
 package ooga.view;
 
 import java.util.Collection;
+import java.util.List;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
 import ooga.engine.entities.Entity;
+import ooga.engine.entities.Mario;
+import ooga.engine.entities.Moveables;
+import ooga.engine.entities.Player;
 import ooga.engine.games.Game;
+import ooga.engine.obstacles.Collideable;
 import ooga.engine.obstacles.Obstacle;
 import ooga.loader.Painter;
 
@@ -21,17 +26,32 @@ public class GameView extends Screen{
 
   private void makeScene() {
     Pane sceneRoot = new Pane();
-    Collection<Obstacle> background = myGame.getBackground();
+    Collection<Collideable> background = myGame.getBackground();
     background.stream().forEach(obstacle -> {
       Painter.paint((Shape) obstacle.getNodeObject(), obstacle.getClass());
       sceneRoot.getChildren().add(obstacle.getNodeObject());
     });
-    Collection<Entity> entities = myGame.getEntities();
+    Collection<Moveables> entities = myGame.getEntities();
+    Player player = new Mario(1,1,1,1);
+    for(Moveables each : entities) {
+      if(each instanceof Player) {
+        player = (Player) each;
+      }
+    }
     entities.stream().forEach(entity -> {
       Painter.paint((Shape) entity.getNode(), entity.getClass());
       sceneRoot.getChildren().add(entity.getNode());
     });
-    sceneFromGame = new Scene(sceneRoot);
+    player.getNode().translateXProperty().addListener((obs,old,newValue)-> {
+      int offset = newValue.intValue();
+      System.out.println(offset);
+      if(offset > 200) {
+        System.out.println("hey look");
+        sceneRoot.setLayoutX(-(offset-200));
+      }
+    });
+    sceneFromGame = new Scene(sceneRoot,800,600);
+    sceneFromGame.onKeyPressedProperty().bind(player.onKeyPressedProperty());
   }
 
   @Override
