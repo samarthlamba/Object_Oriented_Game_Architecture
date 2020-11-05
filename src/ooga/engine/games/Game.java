@@ -18,7 +18,7 @@ public abstract class Game implements GamePlay {
     public static final double NEGATIVE_DIRECTION = -1;
     public static final double NO_INITIAL_VELOCITY = 0;
     public static final double NO_FORCE = 0;
-    public static final double MOVE_FORCE = 100; //TODO change to 10
+    public static final double MOVE_FORCE = 10000; //TODO change to 10
     private Collection<Collideable> obstacles;
     private Collection<Moveables> entities;
     private double dt;
@@ -28,10 +28,9 @@ public abstract class Game implements GamePlay {
     private boolean jump = false;
     // private int screenHeight;
     private double jumpMaxHeight = 10;
-    private double xForceMoveables = 0;
-    private double yForceMoveables = 0;
     private double massMoveables;
     private double elapsedTime;
+    private double elapsedTimeX;
     private double moveVelocity = 10;
     private boolean objectAtCorner;
     private int enemyDirection =-1;
@@ -47,6 +46,7 @@ public abstract class Game implements GamePlay {
         this.entities = entities;
         this.dt = timeElapsed;
         elapsedTime = timeElapsed;
+        elapsedTimeX = timeElapsed;
         jumpInitialVelocity = calculateJumpVelocity();
     }
 
@@ -65,7 +65,7 @@ public abstract class Game implements GamePlay {
 
     @Override
     public void updateLevel() {
-        System.out.println("stepped123");
+       // System.out.println("stepped123");
         updateMoveables();
     }
 
@@ -75,18 +75,19 @@ public abstract class Game implements GamePlay {
     }
 
     public void updateMoveables() {
-        System.out.println("stepped12324");
+       // System.out.println("stepped12324");
         if (jump) {
             elapsedTime += dt;
+            System.out.println(jump);
         }
         for (Moveables entity : entities) {
-            gravityForce();
+            gravityForce(entity);
             collisionForce(entity);
             moveEnemy(entity);
             updatePosition(entity);
-            System.out.println("force" + yForceMoveables);
-//            xForceMoveables = 0;
-            yForceMoveables = 0;
+           // System.out.println("force" + entity.getYForce());
+            entity.setYForce(0);
+            entity.setXForce(0);
         }
     }
 
@@ -130,11 +131,13 @@ public abstract class Game implements GamePlay {
     }
 
     private double newYPosition(Moveables entity) {
-        return entity.getMaxY() + entity.getVelocityY() * elapsedTime + yForceMoveables * elapsedTime * elapsedTime;
+        double change = entity.getMaxY() + entity.getVelocityY() * elapsedTime + entity.getYForce() * elapsedTime * elapsedTime;
+        System.out.println("new y " + entity.getId() + " " + entity.getYForce());
+        return entity.getMaxY() + entity.getVelocityY() * elapsedTime + entity.getYForce() * elapsedTime * elapsedTime;
     }
 
     private double newXPosition(Moveables entity) {
-        return entity.getCenterX() + entity.getVelocityX() * elapsedTime + xForceMoveables * elapsedTime * elapsedTime;
+        return entity.getCenterX() + entity.getVelocityX() * elapsedTimeX + entity.getXForce() * elapsedTimeX * elapsedTimeX;
     }
 
 
@@ -160,8 +163,8 @@ public abstract class Game implements GamePlay {
         }
     }
 
-    private void gravityForce() {
-        yForceMoveables += GRAVITY;
+    private void gravityForce(Moveables entity) {
+        entity.setYForce(entity.getYForce() + GRAVITY);
     }
     
 
@@ -195,13 +198,13 @@ public abstract class Game implements GamePlay {
     private boolean rightCollision (Moveables entity, Node object){
         return object.getBoundsInParent().getMinX() < entity.getNode().getBoundsInParent().getMaxX() &&
                 object.getBoundsInParent().getMinX() > entity.getNode().getBoundsInParent().getMinX() &&
-                xForceMoveables > 0 && !checkCornersY(entity, object);
+                entity.getXForce() > 0 && !checkCornersY(entity, object);
     }
 
     private boolean leftCollision (Moveables entity, Node object){
         return object.getBoundsInParent().getMaxX() > entity.getNode().getBoundsInParent().getMinX() &&
                 object.getBoundsInParent().getMaxX() < entity.getNode().getBoundsInParent().getMaxX() &&
-                xForceMoveables < 0 && !checkCornersY(entity, object);
+                entity.getXForce() < 0 && !checkCornersY(entity, object);
     }
 
     private boolean bottomCollision (Moveables entity, Node object){
@@ -218,29 +221,32 @@ public abstract class Game implements GamePlay {
 
     private void leftStandard(Moveables entity, Node object) {
         System.out.println("left");
-        xForceMoveables -= MOVE_FORCE;
+        entity.setXForce(entity.getXForce()- MOVE_FORCE);
         entity.setCenterX(object.getBoundsInParent().getMaxX() + entity.getEntityWidth() / 2);
     }
 
 
     private void rightStandard(Moveables entity, Node object) {
         System.out.println("right");
-        xForceMoveables += MOVE_FORCE;
+        entity.setXForce(entity.getXForce() + MOVE_FORCE);
         entity.setCenterX(object.getBoundsInParent().getMinX() - entity.getEntityWidth() / 2);
     }
 
     private void bottomStandard(Moveables entity, Node object) {
         System.out.println("bottom");
         entity.setMaxY(object.getBoundsInParent().getMaxY() + entity.getEntityHeight());
+        entity.setVelocityY(-entity.getVelocityY());
     }
 
     private void topStandard(Moveables entity, Node object) {
         entity.setMaxY(object.getBoundsInParent().getMinY());
-        yForceMoveables += NEGATIVE_DIRECTION * GRAVITY;
+        entity.setYForce(entity.getYForce() + NEGATIVE_DIRECTION * GRAVITY);
         System.out.println("top");
-        entity.setVelocityY(0);
-        elapsedTime = dt;
-        jump = false;
+        if(entity.getId().equals("player")) {
+            elapsedTime = dt;
+            entity.setVelocityY(0);
+            jump = false;
+        }
     }
 
     private void rightNoCollision(Moveables entity, Node object){}
@@ -318,14 +324,14 @@ public abstract class Game implements GamePlay {
 
         public void LEFT (Moveables entity){
             entity.setPreviousX(entity.getCenterX());
-            xForceMoveables -= MOVE_FORCE;
+            entity.setXForce(entity.getXForce() - MOVE_FORCE);
 
         }
 
 
         public void RIGHT (Moveables entity){
             entity.setPreviousX(entity.getCenterX());
-            xForceMoveables += MOVE_FORCE;
+            entity.setXForce(entity.getXForce() + MOVE_FORCE);
         }
 
         //https://stackoverflow.com/questions/356807/java-double-comparison-epsilon

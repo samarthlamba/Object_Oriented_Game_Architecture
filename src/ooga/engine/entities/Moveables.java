@@ -52,6 +52,11 @@ import javafx.scene.Node;
    double getMaxY();
 
    String getId();
+
+   double getYForce();
+   double getXForce();
+   void setXForce(double force);
+   void setYForce(double force);
   //true = right
 
 }

@@ -15,6 +15,8 @@ public abstract class Entity extends Node implements Moveables {
   private double previousX;
   private double previousY;
   private double jumpCapacity = 0;
+  private double xForce = 0;
+  private double yForce = 0;
 
   public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
     this.SCENE_WIDTH = objectWidth;
@@ -109,6 +111,22 @@ public abstract class Entity extends Node implements Moveables {
 
   public double getMaxY(){
       return nodeObject.getBoundsInParent().getMaxY();
+  }
+
+  public void setXForce(double force){
+      xForce = force;
+  }
+
+  public void setYForce(double force){
+      yForce = force;
+  }
+
+  public double getXForce(){
+      return xForce;
+  }
+
+  public double getYForce(){
+      return yForce;
   }
 
 
