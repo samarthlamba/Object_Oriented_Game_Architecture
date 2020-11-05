@@ -3,6 +3,7 @@ package ooga.view;
 import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -20,7 +21,7 @@ public class GamePlayScreen extends Screen{
     private double mainHeight;
 //
     public void setGameScreen(GamePlay game) {
-        Pane root = new Pane(); //Todo justify
+        Pane gamePane = new Pane(); //Todo justify
         Group background = new Group();
         for (Entity entity : game.getEntities()) {
             if (entity.getId().equals("player")) {
@@ -34,7 +35,7 @@ public class GamePlayScreen extends Screen{
                 System.out.println(x + "  " + y);
                 mainWidth = width;
                 mainHeight = height;
-                root.getChildren().add(entityFig);
+                gamePane.getChildren().add(entityFig);
             }
             else {
                 Shape entityNode = (Shape) entity.getNode();
@@ -52,7 +53,10 @@ public class GamePlayScreen extends Screen{
         double sceneShiftY = -(mainY - (SCREEN_HEIGHT/2 - mainHeight/2));
         background.setTranslateX(sceneShiftX);
         background.setTranslateY(sceneShiftY);
-        root.getChildren().add(background);
+        gamePane.getChildren().add(background);
+        HeadsUpDisplay hud = new HeadsUpDisplay();
+        BorderPane root = new BorderPane(gamePane);
+        root.setTop(hud);
         scene = new Scene(root,SCREEN_WIDTH,SCREEN_HEIGHT);
     }
 
