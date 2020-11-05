@@ -9,7 +9,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import ooga.engine.entities.Entity;
+import ooga.engine.entities.Moveables;
 import ooga.engine.games.GamePlay;
+import ooga.engine.obstacles.Collideable;
 import ooga.engine.obstacles.Obstacle;
 
 public class GamePlayScreen extends Screen{
@@ -23,7 +25,7 @@ public class GamePlayScreen extends Screen{
     public void setGameScreen(GamePlay game) {
         Pane gamePane = new Pane(); //Todo justify
         Group background = new Group();
-        for (Entity entity : game.getEntities()) {
+        for (Moveables entity : game.getEntities()) {
             if (entity.getId().equals("player")) {
                 mainX = entity.getNode().getLayoutBounds().getMinX();
                 mainY = entity.getNode().getLayoutBounds().getMinY();
@@ -44,7 +46,7 @@ public class GamePlayScreen extends Screen{
             }
         }
 
-        for (Obstacle obstacle : game.getBackground()) {
+        for (Collideable obstacle : game.getBackground()) {
             Shape obstacleNode = (Shape) obstacle.getNodeObject();
             obstacleNode.setFill(Color.BROWN);
             background.getChildren().add(obstacleNode);

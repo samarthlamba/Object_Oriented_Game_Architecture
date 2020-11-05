@@ -3,19 +3,40 @@ package ooga.engine.games;
 import java.util.Collection;
 
 import ooga.engine.games.Game;
-import ooga.engine.entities.Entity;
-import ooga.engine.obstacles.Obstacle;
+import ooga.engine.entities.Moveables;
+import ooga.engine.obstacles.Collideable;
 
 public class MarioGame extends Game {
+  private Collection<Collideable> obstacles;
+  private Collection<Moveables> entities;
 
-  public MarioGame(Collection<Obstacle> obstacleCollection, Collection<Entity> entityCollection,
+  public MarioGame(Collection<Collideable> obstacleCollection, Collection<Moveables> entityCollection,
                    double timeElapsed) {
     super(obstacleCollection, entityCollection, timeElapsed);
+    entities = entityCollection;
+    obstacles = obstacleCollection;
+  }
+
+    @Override
+    protected void playerEnemyCollision(Moveables entity) {
+      if (entity.getId().equals("player")) {
+        for (Moveables e : entities) {
+          if (entityCollision(entity, e)) {
+            System.out.println(entityCollision(entity, e));
+            if (entityTopCollision(entity, e)) {
+              e.setHitpoints(e.getHitpoints() - 1);
+            } else {
+              entity.setHitpoints(entity.getHitpoints() - 1);
+            }
+          }
+        }
+      }
+    }
+
+  private boolean entityTopCollision(Moveables player, Moveables entity) {
+    return entity.getNode().getBoundsInParent().getMinY() < player.getNode().getBoundsInParent().getMaxY() &&
+            entity.getNode().getBoundsInParent().getMinY() > player.getNode().getBoundsInParent().getMinY() &&
+            !checkCornersMoveablesX(player, entity);
   }
 }
-
- /* @Override
-  public void updateLevel() {
-    System.out.println("we're doin it! we're updating the level!");
-  }*/
 

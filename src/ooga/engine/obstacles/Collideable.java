@@ -3,6 +3,9 @@ package ooga.engine.obstacles;
 
 import javafx.scene.Node;
 
+import java.util.Map;
+
 public interface Collideable {
-  boolean hasCollided(Node node);//replace with side
+  Node getNodeObject();
+  Map<String, String> collisionRules();
 }

@@ -62,7 +62,7 @@ public class Driver extends Application {
 
   private void step() {
     System.out.println("stepping in progress");
-    game.updateEntity();
+   // game.updateMoveables();
     display.updateDisplay();
   }
 

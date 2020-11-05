@@ -3,6 +3,8 @@ package ooga.engine.obstacles;
 
 import javafx.scene.Node;
 
+import java.util.Map;
+
 public class Wall extends Obstacle {
   private double initialX;
   private double initialY;
@@ -16,10 +18,16 @@ public class Wall extends Obstacle {
     this.initialY= initialY;
     this.obstacleHeight = obstacleHeight;
     this.obstacleWidth = obstacleWidth;
+    setId(ID);
   }
 
   @Override
   public Node getNodeObject(){
     return new Wall(obstacleWidth, obstacleHeight, initialX, initialY);
+  }
+
+  @Override
+  public Map<String, String> collisionRules(){
+    return Map.of("left", "Standard", "right", "Standard", "top", "Standard", "bottom", "Standard");
   }
 }

@@ -7,8 +7,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
 import ooga.engine.entities.Entity;
 import ooga.engine.entities.Mario;
+import ooga.engine.entities.Moveables;
 import ooga.engine.entities.Player;
 import ooga.engine.games.Game;
+import ooga.engine.obstacles.Collideable;
 import ooga.engine.obstacles.Obstacle;
 import ooga.loader.Painter;
 
@@ -24,14 +26,14 @@ public class GameView extends Screen{
 
   private void makeScene() {
     Pane sceneRoot = new Pane();
-    Collection<Obstacle> background = myGame.getBackground();
+    Collection<Collideable> background = myGame.getBackground();
     background.stream().forEach(obstacle -> {
       Painter.paint((Shape) obstacle.getNodeObject(), obstacle.getClass());
       sceneRoot.getChildren().add(obstacle.getNodeObject());
     });
-    Collection<Entity> entities = myGame.getEntities();
+    Collection<Moveables> entities = myGame.getEntities();
     Player player = new Mario(1,1,1,1);
-    for(Entity each : entities) {
+    for(Moveables each : entities) {
       if(each instanceof Player) {
         player = (Player) each;
       }

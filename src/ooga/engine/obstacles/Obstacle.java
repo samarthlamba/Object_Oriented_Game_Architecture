@@ -3,7 +3,9 @@ package ooga.engine.obstacles;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 
-public abstract class Obstacle extends Rectangle{
+import java.util.Map;
+
+public abstract class Obstacle extends Rectangle implements Collideable{
   private double moveX = 0;
   private double moveY = 0;
   private double initialX;
@@ -50,4 +52,6 @@ public abstract class Obstacle extends Rectangle{
   }
 
   public abstract Node getNodeObject();
+
+  public abstract Map<String, String> collisionRules();
 }

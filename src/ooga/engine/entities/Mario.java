@@ -7,7 +7,11 @@ public class Mario extends Player {
     super(objectWidth, objectHeight, initialX, initialY);
   }
 
-  public void update(){
-    return;
+  public void update() {
+    System.out.println("heeeeeeee" + getNode().getBoundsInParent().getMaxY());
+    //getNode().setLayoutX(getNode().getLayoutBounds().getCenterX()+1);
+    getNode().relocate(getNode().getBoundsInParent().getMinX()+getVelocityX(), getNode().getBoundsInParent().getMinY() + getVelocityY());
+    System.out.println("heeeeeeee" + getNode().getBoundsInParent().getMaxY());
   }
 }
+
