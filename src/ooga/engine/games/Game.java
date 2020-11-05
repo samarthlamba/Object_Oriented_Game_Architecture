@@ -73,6 +73,7 @@ public abstract class Game implements GamePlay {
     public void updateEntity() {
         System.out.println("stepped12324");
         for (Entity entity : entities) {
+            RIGHT(entity);
             gravityForce();
             collisionForce(entity);
             xForceEntity = 0;
@@ -86,6 +87,7 @@ public abstract class Game implements GamePlay {
             updatePosition(entity);
         }
         if (entity.getId().equals("player")) {
+            System.out.println(entity.getCenterX());
             for (Entity e : entities) {
                 if (entityCollision(entity, e)) {
                     if (entityTopCollision(entity, e)) {
@@ -95,20 +97,18 @@ public abstract class Game implements GamePlay {
                     }
                 }
             }
-            if (entity.getId().equals("enemy")) {
-                System.out.println(yForceEntity);
-                if (yForceEntity == 0) {
-                    System.out.println("working " + entity.getVelocityX());
-                    // entity.setVelocityX(entity.getVelocityX());
-                    entity.update();
+        }
+        if (entity.getId().equals("enemy")) {
+            System.out.println(yForceEntity);
+            if (yForceEntity == 0) {
+                System.out.println("working " + entity.getVelocityX());
+                //entity.setVelocityX(entity.getVelocityX());
+                entity.update();
 
-                } else {
-                    entity.setVelocityX(entity.getVelocityX() * -1);
-                    entity.update();
-                }
+            } else {
+                entity.setVelocityX(entity.getVelocityX() * -1);
+                entity.update();
             }
-            xForceEntity = 0;
-            yForceEntity = 0;
         }
         System.out.println(entities.size());
     }
