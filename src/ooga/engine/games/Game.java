@@ -21,11 +21,12 @@ public abstract class Game implements GamePlay {
     private double initialVelocityX = 0;
     private boolean jump = false;
     // private int screenHeight;
-    private double jumpMaxHeight = 100;
+    private double jumpMaxHeight = 10;
     private double xForceEntity = 0;
     private double yForceEntity = 0;
     private double massEntity;
     private double elapsedTime;
+    private double moveVelocity = 10;
     // private double massObstacle;
 
 
@@ -72,22 +73,46 @@ public abstract class Game implements GamePlay {
 
     public void updateEntity() {
         System.out.println("stepped12324");
+        if (jump) {
+            elapsedTime += dt;
+        }
         for (Entity entity : entities) {
-            RIGHT(entity);
+            updatePosition(entity);
             gravityForce();
             collisionForce(entity);
+            moveEnemy(entity);
+            updatePosition(entity);
+            System.out.println("force" + yForceEntity);
             xForceEntity = 0;
             yForceEntity = 0;
+        }
+    }
+
+    private void moveEnemy(Entity entity) {
+        if (entity.getId().equals("enemy")) {
+            System.out.println(yForceEntity);
+            if (yForceEntity == 0) {
+                entity.setVelocityX(moveVelocity);
+                entity.update();
+
+            } else {
+                moveVelocity *= -1;
+                entity.setVelocityX(moveVelocity);
+                entity.update();
+            }
         }
     }
 
     private void collisionForce(Entity entity) {
         for (Obstacle obstacle : obstacles) {
             collisions(entity, obstacle.getNodeObject());
-            updatePosition(entity);
         }
+        playerEnemyCollision(entity);
+    }
+
+
+    private void playerEnemyCollision(Entity entity) {
         if (entity.getId().equals("player")) {
-            System.out.println(entity.getCenterX());
             for (Entity e : entities) {
                 if (entityCollision(entity, e)) {
                     if (entityTopCollision(entity, e)) {
@@ -98,19 +123,6 @@ public abstract class Game implements GamePlay {
                 }
             }
         }
-        if (entity.getId().equals("enemy")) {
-            System.out.println(yForceEntity);
-            if (yForceEntity == 0) {
-                System.out.println("working " + entity.getVelocityX());
-                //entity.setVelocityX(entity.getVelocityX());
-                entity.update();
-
-            } else {
-                entity.setVelocityX(entity.getVelocityX() * -1);
-                entity.update();
-            }
-        }
-        System.out.println(entities.size());
     }
 
     private boolean entityCollision(Entity player, Entity entity) {
@@ -152,9 +164,6 @@ public abstract class Game implements GamePlay {
     }
 
     private void updatePosition(Entity entity) {
-        if (jump) {
-            elapsedTime += dt;
-        }
         entity.setPreviousX(entity.getCenterX());
         entity.setPreviousY(entity.getMaxY());
         entity.setMaxY(newYPosition(entity));
