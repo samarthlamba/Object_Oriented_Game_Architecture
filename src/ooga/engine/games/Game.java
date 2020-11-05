@@ -18,374 +18,391 @@ import static java.lang.Math.abs;
 import static java.lang.Math.round;
 
 public abstract class Game implements GamePlay {
-    public static final double GRAVITY = 9.8;
-    public static final double NEGATIVE_DIRECTION = -1;
-    public static final double NO_INITIAL_VELOCITY = 0;
-    public static final double NO_FORCE = 0;
-    public static final double MOVE_FORCE = 10000; //TODO change to 10
-    private Collection<Collideable> obstacles;
-    private Collection<Moveables> entities;
-    private double dt;
-    private double jumpInitialVelocity;
-    private double initialVelocityY;
-    private double initialVelocityX = 0;
-    private boolean jump = false;
-    // private int screenHeight;
-    private double jumpMaxHeight = 10;
-    private double massMoveables;
-    private double elapsedTime;
-    private double elapsedTimeX;
-    private double moveVelocity = 10;
-    private boolean objectAtCorner;
-    private int enemyDirection =-1;
-    private boolean leftOver = false;
-    private boolean rightOver = false;
-    // private double massCollideable;
 
+  public static final double GRAVITY = 9.8;
+  public static final double NEGATIVE_DIRECTION = -1;
+  public static final double NO_INITIAL_VELOCITY = 0;
+  public static final double NO_FORCE = 0;
+  public static final double MOVE_FORCE = 10000; //TODO change to 10
+  private Collection<Collideable> obstacles;
+  private Collection<Moveables> entities;
+  private double dt;
+  private double jumpInitialVelocity;
+  private double initialVelocityY;
+  private double initialVelocityX = 0;
+  private boolean jump = false;
+  // private int screenHeight;
+  private double jumpMaxHeight = 10;
+  private double massMoveables;
+  private double elapsedTime;
+  private double elapsedTimeX;
+  private double moveVelocity = 10;
+  private boolean objectAtCorner;
+  private int enemyDirection = -1;
+  private boolean leftOver = false;
+  private boolean rightOver = false;
+  // private double massCollideable;
 
 //add 'is finished' to confirm if the game has been finished
 
-    // check solidity aspect of obstacle by having boolean that is see through
+  // check solidity aspect of obstacle by having boolean that is see through
 
-    public Game(Collection<Collideable> obstacles, Collection<Moveables> entities, double timeElapsed) {
-        this.obstacles = obstacles;
-        this.entities = entities;
-        this.dt = timeElapsed;
-        elapsedTime = timeElapsed;
-        elapsedTimeX = timeElapsed;
-        jumpInitialVelocity = calculateJumpVelocity();
+  public Game(Collection<Collideable> obstacles, Collection<Moveables> entities,
+      double timeElapsed) {
+    this.obstacles = obstacles;
+    this.entities = entities;
+    this.dt = timeElapsed;
+    elapsedTime = timeElapsed;
+    elapsedTimeX = timeElapsed;
+    jumpInitialVelocity = calculateJumpVelocity();
+  }
+
+  public boolean hasFinished() {
+    return true;
+  }
+
+  private double calculateJumpVelocity() {
+
+    return NEGATIVE_DIRECTION * Math.sqrt((jumpMaxHeight * GRAVITY));
+  }
+
+  public Collection<Collideable> getBackground() {
+    return obstacles;
+  }
+
+  @Override
+  public void updateLevel() {
+    // System.out.println("stepped123");
+    updateMoveables();
+  }
+
+  public Collection<Moveables> getEntities() {
+    updateMoveables();
+    return entities;
+  }
+
+  public void updateMoveables() {
+    // System.out.println("stepped12324");
+    if (jump) {
+      elapsedTime += dt;
+      System.out.println(jump);
+    }
+    for (Moveables entity : entities) {
+      gravityForce(entity);
+      collisionForce(entity);
+      moveEnemy(entity);
+      updatePosition(entity);
+      // System.out.println("force" + entity.getYForce());
+      entity.setYForce(0);
+      entity.setXForce(0);
+    }
+  }
+
+  private void enemyDirection(Moveables entity) {
+    if (!leftOver && rightOver) {
+      entity.setVelocityX(Math.abs(entity.getVelocityX()) * 1);
+    }
+    if (!rightOver && leftOver) {
+      entity.setVelocityX(Math.abs(entity.getVelocityX()) * -1);
     }
 
-    public boolean hasFinished() {
-        return true;
+    System.out.println("status " + leftOver + "     " + rightOver);
+    leftOver = false;
+    rightOver = false;
+  }
+
+  private void simulateFall(Moveables entity, Collideable object) {
+    Rectangle simulate = new Rectangle(entity.getNode().getBoundsInParent().getMinX(),
+        entity.getMaxY(), 0.1, 0.1);
+    if (simulate.intersects(object.getNodeObject().getBoundsInParent())) {
+      leftOver = true;
+
+    }
+    simulate = new Rectangle(entity.getNode().getBoundsInParent().getMaxX(), entity.getMaxY(), 0.1,
+        0.1);
+    if (simulate.intersects(object.getNodeObject().getBoundsInParent())) {
+      rightOver = true;
+    }
+    simulate = new Rectangle(entity.getNode().getBoundsInParent().getMaxX() + 1, entity.getMaxY(),
+        0.1, 0.1);
+
+  }
+
+
+  private void moveEnemy(Moveables entity) {
+    enemyDirection(entity);
+    if (entity.getId().equals("enemy")) {
+      System.out.println("prev " + entity.getPreviousY() + " now " + entity.getMaxY());
+      if (entity.getPreviousY() != entity.getMaxY()) {
+        entity.setMaxY(entity.getPreviousY());
+        entity.setCenterX(entity.getPreviousX());
+        entity.setVelocityX(entity.getVelocityX() * -1);
+        // double c = entity.getMaxY();
+      }
+
+      // double c = entity.getMaxY();
+
+      System.out.println(entity.getVelocityX());
+
+
     }
 
-    private double calculateJumpVelocity() {
+  }
 
-        return NEGATIVE_DIRECTION * Math.sqrt((jumpMaxHeight * GRAVITY));
+  private void collisionForce(Moveables entity) {
+    for (Collideable obstacle : obstacles) {
+      collisions(entity, obstacle);
     }
+    playerEnemyCollision(entity);
+  }
 
-    public Collection<Collideable> getBackground() {
-        return obstacles;
+  protected abstract void playerEnemyCollision(Moveables entity);
+
+
+  protected boolean entityCollision(Moveables player, Moveables e) {
+    if (e.getId().equals("enemy")) {
+      return player.getNode().getBoundsInParent().intersects(e.getNode().getBoundsInParent());
     }
+    return false;
+  }
 
-    @Override
-    public void updateLevel() {
-       // System.out.println("stepped123");
-        updateMoveables();
+  protected boolean checkCornersMoveablesX(Moveables player, Moveables entity) {
+    return areEqualDouble(entity.getNode().getBoundsInParent().getMaxX(),
+        player.getNode().getBoundsInParent().getMinX(), 1) ||
+        areEqualDouble(entity.getNode().getBoundsInParent().getMinX(),
+            player.getNode().getBoundsInParent().getMaxX(), 1);
+  }
+
+  private double newYPosition(Moveables entity) {
+    double change = entity.getMaxY() + entity.getVelocityY() * elapsedTime
+        + entity.getYForce() * elapsedTime * elapsedTime;
+    System.out.println("new y " + entity.getId() + " " + entity.getYForce());
+    return entity.getMaxY() + entity.getVelocityY() * elapsedTime
+        + entity.getYForce() * elapsedTime * elapsedTime;
+  }
+
+  private double newXPosition(Moveables entity) {
+    return entity.getCenterX() + entity.getVelocityX() * elapsedTimeX
+        + entity.getXForce() * elapsedTimeX * elapsedTimeX;
+  }
+
+
+  /*   private double getXForceMoveables(Moveables entity){
+         double changeInX = entity.getPreviousX() - entity.getCenterX();
+         return (changeInX - entity.getVelocityX() * elapsedTime) / (elapsedTime * elapsedTime);
+     }*/
+  private double getYForceMoveables(Moveables entity) {
+    //make previous array or attribuute of entity
+    double changeInY = entity.getPreviousY() - entity.getMaxY();
+    return (changeInY - entity.getVelocityY() * elapsedTime) / (elapsedTime * elapsedTime);
+  }
+
+  private void updatePosition(Moveables entity) {
+    entity.setPreviousX(entity.getCenterX());
+    double c = entity.getMaxY();
+    entity.setPreviousY(entity.getMaxY());
+    entity.setMaxY(newYPosition(entity));
+    entity.setCenterX(newXPosition(entity));
+    if (!areEqualDouble(entity.getPreviousY(), entity.getMaxY(), 1)) {
+      ///////;
+      double b = entity.getMaxY();
     }
+  }
 
-    public Collection<Moveables> getEntities() {
-        updateMoveables();
-        return entities;
-    }
+  private void gravityForce(Moveables entity) {
+    entity.setYForce(entity.getYForce() + GRAVITY);
+  }
 
-    public void updateMoveables() {
-       // System.out.println("stepped12324");
-        if (jump) {
-            elapsedTime += dt;
-            System.out.println(jump);
+
+  private void collisions(Moveables entity, Collideable obstacle) {
+    if (obstacle.getNodeObject().getBoundsInParent()
+        .intersects(entity.getNode().getBoundsInParent())) {
+      if (entity.getId() == "enemy") {
+        simulateFall(entity, obstacle);
+      }
+      List<String> collisionSide = new ArrayList<>();
+      Node object = obstacle.getNodeObject();
+      Map<String, String> collisionTypes = obstacle.getCollisionRules();
+      for (String side : collisionTypes.keySet()) {
+        try {
+          Method myObjMethod = this.getClass().getSuperclass()
+              .getDeclaredMethod(side + "Collision", Moveables.class, Node.class);
+          if ((boolean) myObjMethod.invoke(this, entity, object)) {
+            collisionSide.add(side);
+          }
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+          e.printStackTrace();
         }
-        for (Moveables entity : entities) {
-            gravityForce(entity);
-            collisionForce(entity);
-            moveEnemy(entity);
-            updatePosition(entity);
-<<<<<<< HEAD
-           // System.out.println("force" + entity.getYForce());
-            entity.setYForce(0);
-            entity.setXForce(0);
-=======
+      }
 
-            System.out.println("force" + yForceMoveables);
-            xForceMoveables = 0;
-            yForceMoveables = 0;
->>>>>>> f9e440eaf20c8a9a2162a42a91a1056c47cba2a1
+      for (String side : collisionSide) {
+        try {
+          Method myObjMethod = this.getClass().getSuperclass()
+              .getDeclaredMethod(side + collisionTypes.get(side), Moveables.class, Node.class);
+          myObjMethod.invoke(this, entity, object);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+          e.printStackTrace();
         }
+      }
     }
+  }
 
-    private void enemyDirection(Moveables entity){
-        if(!leftOver && rightOver){
-            entity.setVelocityX(Math.abs(entity.getVelocityX())*1);
-        }
-        if(!rightOver && leftOver){
-            entity.setVelocityX(Math.abs(entity.getVelocityX())*-1);
-        }
+  private boolean rightCollision(Moveables entity, Node object) {
+    return object.getBoundsInParent().getMinX() < entity.getNode().getBoundsInParent().getMaxX() &&
+        object.getBoundsInParent().getMinX() > entity.getNode().getBoundsInParent().getMinX() &&
+        entity.getXForce() > 0 && !checkCornersY(entity, object);
+  }
 
-        System.out.println("status " + leftOver + "     " +  rightOver);
-        leftOver = false;
-        rightOver = false;
+  private boolean leftCollision(Moveables entity, Node object) {
+    return object.getBoundsInParent().getMaxX() > entity.getNode().getBoundsInParent().getMinX() &&
+        object.getBoundsInParent().getMaxX() < entity.getNode().getBoundsInParent().getMaxX() &&
+        entity.getXForce() < 0 && !checkCornersY(entity, object);
+  }
+
+  private boolean bottomCollision(Moveables entity, Node object) {
+    return object.getBoundsInParent().getMaxY() > entity.getNode().getBoundsInParent().getMinY() &&
+        object.getBoundsInParent().getMaxY() < entity.getNode().getBoundsInParent().getMaxY() &&
+        !checkCornersX(entity, object);
+  }
+
+  private boolean topCollision(Moveables entity, Node object) {
+    return object.getBoundsInParent().getMinY() < entity.getNode().getBoundsInParent().getMaxY() &&
+        object.getBoundsInParent().getMinY() > entity.getNode().getBoundsInParent().getMinY() &&
+        !checkCornersX(entity, object);
+  }
+
+  private void leftStandard(Moveables entity, Node object) {
+    System.out.println("left");
+    entity.setXForce(entity.getXForce() - MOVE_FORCE);
+    entity.setCenterX(object.getBoundsInParent().getMaxX() + entity.getEntityWidth() / 2);
+  }
+
+
+  private void rightStandard(Moveables entity, Node object) {
+    System.out.println("right");
+    entity.setXForce(entity.getXForce() + MOVE_FORCE);
+    entity.setCenterX(object.getBoundsInParent().getMinX() - entity.getEntityWidth() / 2);
+  }
+
+  private void bottomStandard(Moveables entity, Node object) {
+    System.out.println("bottom");
+    entity.setMaxY(object.getBoundsInParent().getMaxY() + entity.getEntityHeight());
+    entity.setVelocityY(-entity.getVelocityY());
+  }
+
+  private void topStandard(Moveables entity, Node object) {
+    entity.setMaxY(object.getBoundsInParent().getMinY());
+    entity.setYForce(entity.getYForce() + NEGATIVE_DIRECTION * GRAVITY);
+    System.out.println("top");
+    if (entity.getId().equals("player")) {
+      elapsedTime = dt;
+      entity.setVelocityY(0);
+      jump = false;
     }
+  }
 
-    private void simulateFall(Moveables entity, Collideable object){
-        Rectangle simulate = new Rectangle(entity.getNode().getBoundsInParent().getMinX(), entity.getMaxY(), 0.1, 0.1);
-        if (simulate.intersects(object.getNodeObject().getBoundsInParent())){
-            leftOver = true;
+  private void rightNoCollision(Moveables entity, Node object) {
+  }
 
-        }
-        simulate = new Rectangle(entity.getNode().getBoundsInParent().getMaxX(), entity.getMaxY(),0.1, 0.1);
-        if (simulate.intersects(object.getNodeObject().getBoundsInParent())) {
-            rightOver = true;
-        }
-        simulate = new Rectangle(entity.getNode().getBoundsInParent().getMaxX()+1, entity.getMaxY(),0.1, 0.1);
+  private void leftNoCollision(Moveables entity, Node object) {
+  }
 
+  private void topNoCollision(Moveables entity, Node object) {
+  }
+
+  private void bottomNoCollision(Moveables entity, Node object) {
+  }
+
+
+  private boolean checkCornersY(Moveables entity, Node object) {
+    return areEqualDouble(object.getBoundsInParent().getMinY(),
+        entity.getNode().getBoundsInParent().getMaxY(), 1) ||
+        areEqualDouble(object.getBoundsInParent().getMaxY(),
+            entity.getNode().getBoundsInParent().getMinY(), 1);
+  }
+
+  private boolean checkCornersX(Moveables entity, Node object) {
+    return areEqualDouble(object.getBoundsInParent().getMaxX(),
+        entity.getNode().getBoundsInParent().getMinX(), 1) ||
+        areEqualDouble(object.getBoundsInParent().getMinX(),
+            entity.getNode().getBoundsInParent().getMaxX(), 1);
+  }
+
+
+  private void checkIfOnEdge(Moveables entity, Collideable object) {
+    //if (entity.getNode().getBoundsInParent().getMinX() ){
+    //check if a obstacle is close by with similar x and y. If there is then its fine, else it is about to fall. ceheck for both corners. min of entity and max of obstalce, vs max of osbtalc, vs min for entity
+  }
+
+
+  private boolean cornerOverEdge(Moveables entity, Node object) {
+    return (entity.getNode().getBoundsInParent().getMaxX() > object.getBoundsInParent().getMaxX() &&
+        entity.getNode().getBoundsInParent().getMinX() > object.getBoundsInParent().getMinX());
+  }
+
+  private boolean overEdge(Moveables entity, Node object) {
+    double temp = object.getBoundsInParent().getMaxX();
+    double temp2 = entity.getNode().getBoundsInParent().getMaxX();
+    double temp3 = object.getBoundsInParent().getMinX();
+    double temp4 = entity.getNode().getBoundsInParent().getMinX();
+    return entity.getNode().getBoundsInParent().intersects(object.getBoundsInParent()) && (
+        (object.getBoundsInParent().getMaxX() < entity.getNode().getBoundsInParent().getMaxX()) ||
+            (object.getBoundsInParent().getMinX() > entity.getNode().getBoundsInParent()
+                .getMinX()));
+  }
+
+  private void obstacleTopCollisionMaybeWork(Moveables entity, Node object) {
+    System.out.println("topcol");
+
+  }
+
+  private Moveables findMainPlayer() {
+    for (Moveables entity : entities) {
+      if (entity.getId().equals("player")) {
+        return entity;
+      }
     }
+    throw new RuntimeException("No main player found");
+  }
+
+  public void moveRight() {
+    Moveables entity = findMainPlayer();
+    RIGHT(entity);
+  }
+
+  public void moveLeft() {
+    Moveables entity = findMainPlayer();
+    LEFT(entity);
+  }
+
+  public void moveUp() {
+    Moveables entity = findMainPlayer();
+    UP(entity);
+  }
+
+  public void UP(Moveables entity) {
+    jump = true;
+    entity.setVelocityY(entity.getJumpMax());
+    entity.update();
+  }
 
 
-    private void moveEnemy(Moveables entity) {
-        enemyDirection(entity);
-        if(entity.getId().equals("enemy")){
-            System.out.println("prev " + entity.getPreviousY() + " now " + entity.getMaxY());
-            if(entity.getPreviousY() != entity.getMaxY()){
-                entity.setMaxY(entity.getPreviousY());
-                entity.setCenterX(entity.getPreviousX());
-                entity.setVelocityX(entity.getVelocityX()*-1);
-                // double c = entity.getMaxY();
-            }
+  public void LEFT(Moveables entity) {
+    entity.setPreviousX(entity.getCenterX());
+    entity.setXForce(entity.getXForce() - MOVE_FORCE);
 
-            // double c = entity.getMaxY();
+  }
 
 
-            System.out.println(entity.getVelocityX());
+  public void RIGHT(Moveables entity) {
+    entity.setPreviousX(entity.getCenterX());
+    entity.setXForce(entity.getXForce() + MOVE_FORCE);
+  }
 
-
-        }
-
-    }
-
-    private void collisionForce(Moveables entity) {
-        for (Collideable obstacle : obstacles) {
-            collisions(entity, obstacle);
-        }
-        playerEnemyCollision(entity);
-    }
-
-    protected abstract void playerEnemyCollision(Moveables entity);
-
-
-    protected boolean entityCollision(Moveables player, Moveables e) {
-        if (e.getId().equals("enemy")) {
-            return player.getNode().getBoundsInParent().intersects(e.getNode().getBoundsInParent());
-        }
-        return false;
-    }
-
-    protected boolean checkCornersMoveablesX(Moveables player, Moveables entity) {
-        return areEqualDouble(entity.getNode().getBoundsInParent().getMaxX(), player.getNode().getBoundsInParent().getMinX(), 1) ||
-                areEqualDouble(entity.getNode().getBoundsInParent().getMinX(), player.getNode().getBoundsInParent().getMaxX(), 1);
-    }
-
-    private double newYPosition(Moveables entity) {
-        double change = entity.getMaxY() + entity.getVelocityY() * elapsedTime + entity.getYForce() * elapsedTime * elapsedTime;
-        System.out.println("new y " + entity.getId() + " " + entity.getYForce());
-        return entity.getMaxY() + entity.getVelocityY() * elapsedTime + entity.getYForce() * elapsedTime * elapsedTime;
-    }
-
-    private double newXPosition(Moveables entity) {
-        return entity.getCenterX() + entity.getVelocityX() * elapsedTimeX + entity.getXForce() * elapsedTimeX * elapsedTimeX;
-    }
-
-
- /*   private double getXForceMoveables(Moveables entity){
-        double changeInX = entity.getPreviousX() - entity.getCenterX();
-        return (changeInX - entity.getVelocityX() * elapsedTime) / (elapsedTime * elapsedTime);
-    }*/
-    private double getYForceMoveables(Moveables entity){
-        //make previous array or attribuute of entity
-        double changeInY = entity.getPreviousY() - entity.getMaxY();
-        return (changeInY - entity.getVelocityY() * elapsedTime) / (elapsedTime * elapsedTime);
-    }
-
-    private void updatePosition(Moveables entity) {
-        entity.setPreviousX(entity.getCenterX());
-        double c = entity.getMaxY();
-        entity.setPreviousY(entity.getMaxY());
-        entity.setMaxY(newYPosition(entity));
-        entity.setCenterX(newXPosition(entity));
-        if(!areEqualDouble(entity.getPreviousY(), entity.getMaxY(), 1)){
-            ///////;
-            double b = entity.getMaxY();
-        }
-    }
-
-    private void gravityForce(Moveables entity) {
-        entity.setYForce(entity.getYForce() + GRAVITY);
-    }
-    
-
-    private void collisions(Moveables entity, Collideable obstacle) {
-        if (obstacle.getNodeObject().getBoundsInParent().intersects(entity.getNode().getBoundsInParent())) {
-            if(entity.getId() == "enemy"){
-                simulateFall(entity, obstacle);
-            }
-            List<String> collisionSide = new ArrayList<>();
-            Node object = obstacle.getNodeObject();
-            Map<String, String> collisionTypes = obstacle.getCollisionRules();
-            for(String side : collisionTypes.keySet()){
-                try {
-                    Method myObjMethod = this.getClass().getSuperclass().getDeclaredMethod(side + "Collision", Moveables.class, Node.class);
-                    if((boolean) myObjMethod.invoke(this, entity, object)){
-                        collisionSide.add(side);
-                    }
-                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            for(String side : collisionSide){
-                try {
-                    Method myObjMethod = this.getClass().getSuperclass().getDeclaredMethod(side + collisionTypes.get(side), Moveables.class, Node.class);
-                    myObjMethod.invoke(this, entity, object);
-                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    private boolean rightCollision (Moveables entity, Node object){
-        return object.getBoundsInParent().getMinX() < entity.getNode().getBoundsInParent().getMaxX() &&
-                object.getBoundsInParent().getMinX() > entity.getNode().getBoundsInParent().getMinX() &&
-                entity.getXForce() > 0 && !checkCornersY(entity, object);
-    }
-
-    private boolean leftCollision (Moveables entity, Node object){
-        return object.getBoundsInParent().getMaxX() > entity.getNode().getBoundsInParent().getMinX() &&
-                object.getBoundsInParent().getMaxX() < entity.getNode().getBoundsInParent().getMaxX() &&
-                entity.getXForce() < 0 && !checkCornersY(entity, object);
-    }
-
-    private boolean bottomCollision (Moveables entity, Node object){
-        return object.getBoundsInParent().getMaxY() > entity.getNode().getBoundsInParent().getMinY() &&
-                object.getBoundsInParent().getMaxY() < entity.getNode().getBoundsInParent().getMaxY() &&
-                !checkCornersX(entity, object);
-    }
-
-    private boolean topCollision (Moveables entity, Node object){
-        return object.getBoundsInParent().getMinY() < entity.getNode().getBoundsInParent().getMaxY() &&
-                object.getBoundsInParent().getMinY() > entity.getNode().getBoundsInParent().getMinY() &&
-                !checkCornersX(entity, object);
-    }
-
-    private void leftStandard(Moveables entity, Node object) {
-        System.out.println("left");
-        entity.setXForce(entity.getXForce()- MOVE_FORCE);
-        entity.setCenterX(object.getBoundsInParent().getMaxX() + entity.getEntityWidth() / 2);
-    }
-
-
-    private void rightStandard(Moveables entity, Node object) {
-        System.out.println("right");
-        entity.setXForce(entity.getXForce() + MOVE_FORCE);
-        entity.setCenterX(object.getBoundsInParent().getMinX() - entity.getEntityWidth() / 2);
-    }
-
-    private void bottomStandard(Moveables entity, Node object) {
-        System.out.println("bottom");
-        entity.setMaxY(object.getBoundsInParent().getMaxY() + entity.getEntityHeight());
-        entity.setVelocityY(-entity.getVelocityY());
-    }
-
-    private void topStandard(Moveables entity, Node object) {
-        entity.setMaxY(object.getBoundsInParent().getMinY());
-        entity.setYForce(entity.getYForce() + NEGATIVE_DIRECTION * GRAVITY);
-        System.out.println("top");
-        if(entity.getId().equals("player")) {
-            elapsedTime = dt;
-            entity.setVelocityY(0);
-            jump = false;
-        }
-    }
-
-    private void rightNoCollision(Moveables entity, Node object){}
-    private void leftNoCollision(Moveables entity, Node object){}
-    private void topNoCollision(Moveables entity, Node object){}
-    private void bottomNoCollision(Moveables entity, Node object){}
-
-
-    private boolean checkCornersY(Moveables entity, Node object) {
-        return areEqualDouble(object.getBoundsInParent().getMinY(), entity.getNode().getBoundsInParent().getMaxY(), 1) ||
-                areEqualDouble(object.getBoundsInParent().getMaxY(), entity.getNode().getBoundsInParent().getMinY(), 1);
-    }
-
-    private boolean checkCornersX (Moveables entity, Node object){
-            return areEqualDouble(object.getBoundsInParent().getMaxX(), entity.getNode().getBoundsInParent().getMinX(), 1) ||
-                    areEqualDouble(object.getBoundsInParent().getMinX(), entity.getNode().getBoundsInParent().getMaxX(), 1);
-    }
-
-
-    private void checkIfOnEdge(Moveables entity, Collideable object){
-        //if (entity.getNode().getBoundsInParent().getMinX() ){
-            //check if a obstacle is close by with similar x and y. If there is then its fine, else it is about to fall. ceheck for both corners. min of entity and max of obstalce, vs max of osbtalc, vs min for entity
-        }
-
-
-    private boolean cornerOverEdge(Moveables entity, Node object) {
-        return (entity.getNode().getBoundsInParent().getMaxX() > object.getBoundsInParent().getMaxX() &&
-                entity.getNode().getBoundsInParent().getMinX() > object.getBoundsInParent().getMinX());
-    }
-
-    private boolean overEdge(Moveables entity, Node object){
-        double temp = object.getBoundsInParent().getMaxX();
-        double temp2 =  entity.getNode().getBoundsInParent().getMaxX();
-        double temp3 = object.getBoundsInParent().getMinX();
-        double temp4 = entity.getNode().getBoundsInParent().getMinX();
-        return entity.getNode().getBoundsInParent().intersects(object.getBoundsInParent()) && ((object.getBoundsInParent().getMaxX() < entity.getNode().getBoundsInParent().getMaxX()) ||
-                (object.getBoundsInParent().getMinX() > entity.getNode().getBoundsInParent().getMinX()));
-    }
-
-    private void obstacleTopCollisionMaybeWork(Moveables entity, Node object) {
-        System.out.println("topcol");
-
-    }
-
-    private Moveables findMainPlayer() {
-        for (Moveables entity : entities) {
-            if (entity.getId().equals("player")) {
-                return entity;
-            }
-        }
-        throw new RuntimeException("No main player found");
-    }
-
-    public void moveRight() {
-        Moveables entity = findMainPlayer();
-        RIGHT(entity);
-    }
-
-    public void moveLeft() {
-        Moveables entity = findMainPlayer();
-        LEFT(entity);
-    }
-
-    public void moveUp() {
-        Moveables entity = findMainPlayer();
-        UP(entity);
-    }
-
-        public void UP (Moveables entity){
-            jump = true;
-            entity.setVelocityY(entity.getJumpMax());
-            entity.update();
-        }
-
-
-        public void LEFT (Moveables entity){
-            entity.setPreviousX(entity.getCenterX());
-            entity.setXForce(entity.getXForce() - MOVE_FORCE);
-
-        }
-
-
-        public void RIGHT (Moveables entity){
-            entity.setPreviousX(entity.getCenterX());
-            entity.setXForce(entity.getXForce() + MOVE_FORCE);
-        }
-
-        //https://stackoverflow.com/questions/356807/java-double-comparison-epsilon
-        public boolean areEqualDouble ( double a, double b, int precision){
-            return Math.abs(a - b) <= Math.pow(10, -precision);
-        }
+  //https://stackoverflow.com/questions/356807/java-double-comparison-epsilon
+  public boolean areEqualDouble(double a, double b, int precision) {
+    return Math.abs(a - b) <= Math.pow(10, -precision);
+  }
 
 }
 
