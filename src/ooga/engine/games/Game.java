@@ -7,6 +7,9 @@ import ooga.engine.obstacles.Obstacle;
 
 import java.util.Collection;
 
+import static java.lang.Math.abs;
+import static java.lang.Math.round;
+
 public abstract class Game implements GamePlay {
     public static final double GRAVITY = 9.8;
     public static final double NEGATIVE_DIRECTION = -1;
@@ -73,19 +76,25 @@ public abstract class Game implements GamePlay {
 
     public void updateEntity(){
         System.out.println("stepped12324");
-        for(Entity entity : entities) {
 
+        for(Entity entity : entities) {
+            gravityForce();
             for (Obstacle obstacle : obstacles) {
                 collisionForce(entity, obstacle);
                 updatePosition(entity);
             }
-            gravityForce();
-            if(entity.getID() == 1){
-                System.out.println("yforce" + yForceEntity);
-                System.out.println(objectAtCorner);
 
-                entity.setVelocityX(entity.getVelocityX()*enemyDirection);
-                entity.update();
+            if(entity.getID() == 1){
+                if(!areEqualDouble(entity.getPreviousY(), entity.getMaxY(), 3)){
+
+                    entity.setMaxY((int)entity.getPreviousY());
+                    entity.setVelocityX(entity.getVelocityX()*-1);
+                    double c = entity.getMaxY();
+                    entity.setPreviousY((int)entity.getMaxY());
+                }
+
+                System.out.println(entity.getVelocityX());
+
 
             }
 
@@ -130,9 +139,14 @@ public abstract class Game implements GamePlay {
             elapsedTime += dt;
         }
         entity.setPreviousX(entity.getCenterX());
+        double c = entity.getMaxY();
         entity.setPreviousY(entity.getMaxY());
         entity.setMaxY(newYPosition(entity));
         entity.setCenterX(newXPosition(entity));
+        if(!areEqualDouble(entity.getPreviousY(), entity.getMaxY(), 1)){
+            ///////;
+            double b = entity.getMaxY();
+        }
     }
 
     private void gravityForce(){
@@ -213,7 +227,6 @@ public abstract class Game implements GamePlay {
 
     private void obstacleTopCollision(Entity entity, Obstacle obstacle) {
         System.out.println("topcol");
-        obstacleTopCollisionMaybeWork(entity, obstacle);
         if(obstacle.getNodeObject().getBoundsInParent().getMinY() < entity.getNode().getBoundsInParent().getMaxY() &&
                 obstacle.getNodeObject().getBoundsInParent().getMinY() > entity.getNode().getBoundsInParent().getMinY() &&
                 !checkCornersX(entity, obstacle)) {
@@ -230,30 +243,8 @@ public abstract class Game implements GamePlay {
     }
     private void obstacleTopCollisionMaybeWork(Entity entity, Obstacle obstacle) {
         System.out.println("topcol");
-        checkCornerForFalling(entity, obstacle);
 
     }
-    private void checkCornerForFalling(Entity entity, Obstacle obstacle) {
-        if (objectAtCorner != true) {
-            System.out.println(overEdge(entity, obstacle) + "   123");
-            if (obstacle.getNodeObject().getBoundsInParent().intersects(entity.getNode().getBoundsInParent())) {
-
-
-                if (enemyDirection == -1 && obstacle.getNodeObject().getBoundsInParent().getMinY() > entity.getNode().getBoundsInParent().getMinY() &&
-                        !checkCornersX(entity, obstacle)) {
-                    enemyDirection = 1;
-
-                }
-                else if (enemyDirection == 1 && obstacle.getNodeObject().getBoundsInParent().getMinY() > entity.getNode().getBoundsInParent().getMinY() &&
-                        areEqualDouble(obstacle.getNodeObject().getBoundsInParent().getMaxX(), entity.getNode().getBoundsInParent().getMaxX(), 1)){
-                    enemyDirection = -1;
-                }
-
-                System.out.println(!cornerOverEdge(entity, obstacle) + "   123");
-            }
-        }
-    }
-
 
 
     //CODE BELOW
@@ -300,7 +291,7 @@ public abstract class Game implements GamePlay {
 
     //https://stackoverflow.com/questions/356807/java-double-comparison-epsilon
     public boolean areEqualDouble(double a, double b, int precision) {
-        return Math.abs(a - b) <= Math.pow(10, -precision);
+        return abs(a - b) <= Math.pow(10, -precision);
     }
 
 
