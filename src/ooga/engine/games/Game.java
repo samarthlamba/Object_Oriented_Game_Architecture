@@ -82,11 +82,8 @@ public abstract class Game implements GamePlay {
             elapsedTime += dt;
         }
         for (Entity entity : entities) {
-            updatePosition(entity);
             gravityForce();
-            updatePosition(entity);
             collisionForce(entity);
-            updatePosition(entity);
             moveEnemy(entity);
             updatePosition(entity);
             System.out.println("force" + yForceEntity);
@@ -97,12 +94,12 @@ public abstract class Game implements GamePlay {
 
     private void moveEnemy(Entity entity) {
         if(entity.getId().equals("enemy")){
-            if(!areEqualDouble(entity.getPreviousY(), entity.getMaxY(), 3)){
-
-                entity.setMaxY((int)entity.getPreviousY());
+            System.out.println("prev " + entity.getPreviousY() + " now " + entity.getMaxY());
+            if(entity.getPreviousY() != entity.getMaxY()){
+                entity.setMaxY(entity.getPreviousY());
+                entity.setCenterX(entity.getPreviousX());
                 entity.setVelocityX(entity.getVelocityX()*-1);
-                double c = entity.getMaxY();
-                entity.setPreviousY((int)entity.getMaxY());
+               // double c = entity.getMaxY();
             }
 
             System.out.println(entity.getVelocityX());
@@ -124,6 +121,7 @@ public abstract class Game implements GamePlay {
         if (entity.getId().equals("player")) {
             for (Entity e : entities) {
                 if (entityCollision(entity, e)) {
+                    System.out.println(entityCollision(entity, e));
                     if (entityTopCollision(entity, e)) {
                         e.setHitpoints(e.getHitpoints() - 1);
                     } else {
@@ -134,11 +132,11 @@ public abstract class Game implements GamePlay {
         }
     }
 
-    private boolean entityCollision(Entity player, Entity entity) {
-        if (entity.getId().equals("enemy")) {
-            return player.getNode().getBoundsInParent().intersects(entity.getNode().getBoundsInParent());
+    private boolean entityCollision(Entity player, Entity e) {
+        if (e.getId().equals("enemy")) {
+            return player.getNode().getBoundsInParent().intersects(e.getNode().getBoundsInParent());
         }
-        return true;
+        return false;
     }
 
     private boolean entityTopCollision(Entity player, Entity entity) {
