@@ -79,7 +79,9 @@ public abstract class Game implements GamePlay {
         for (Entity entity : entities) {
             updatePosition(entity);
             gravityForce();
+            updatePosition(entity);
             collisionForce(entity);
+            updatePosition(entity);
             moveEnemy(entity);
             updatePosition(entity);
             System.out.println("force" + yForceEntity);
