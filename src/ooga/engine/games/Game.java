@@ -18,7 +18,7 @@ public abstract class Game implements GamePlay {
     public static final double NEGATIVE_DIRECTION = -1;
     public static final double NO_INITIAL_VELOCITY = 0;
     public static final double NO_FORCE = 0;
-    public static final double MOVE_FORCE = 10;
+    public static final double MOVE_FORCE = 100; //TODO change to 10
     private Collection<Collideable> obstacles;
     private Collection<Moveables> entities;
     private double dt;
@@ -85,7 +85,7 @@ public abstract class Game implements GamePlay {
             moveEnemy(entity);
             updatePosition(entity);
             System.out.println("force" + yForceMoveables);
-            xForceMoveables = 0;
+//            xForceMoveables = 0;
             yForceMoveables = 0;
         }
     }
@@ -285,6 +285,29 @@ public abstract class Game implements GamePlay {
 
     }
 
+    private Moveables findMainPlayer() {
+        for (Moveables entity : entities) {
+            if (entity.getId().equals("player")) {
+                return entity;
+            }
+        }
+        throw new RuntimeException("No main player found");
+    }
+
+    public void moveRight() {
+        Moveables entity = findMainPlayer();
+        RIGHT(entity);
+    }
+
+    public void moveLeft() {
+        Moveables entity = findMainPlayer();
+        LEFT(entity);
+    }
+
+    public void moveUp() {
+        Moveables entity = findMainPlayer();
+        UP(entity);
+    }
 
         public void UP (Moveables entity){
             jump = true;

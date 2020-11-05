@@ -10,4 +10,9 @@ public interface GamePlay {
     void updateLevel();
     Collection<Collideable> getBackground();
     Collection<Moveables> getEntities();
+    void moveRight();
+    void moveLeft();
+    void moveUp();
+
+    void updateMoveables();
 }

@@ -38,5 +38,6 @@ public class MarioGame extends Game {
             entity.getNode().getBoundsInParent().getMinY() > player.getNode().getBoundsInParent().getMinY() &&
             !checkCornersMoveablesX(player, entity);
   }
+
 }
 

@@ -1,6 +1,7 @@
 package ooga.view;
 
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ooga.engine.games.GamePlay;
@@ -19,6 +20,7 @@ private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle(DEFAU
 
     private Stage stage;
     private GamePlay game;
+    private GamePlayScreen gameScreen;
 
     public Display(Stage initialStage) {
         stage = initialStage;
@@ -31,16 +33,17 @@ private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle(DEFAU
 
     public void setGameDisplay(GamePlay newGame) {
         game = newGame;
-        GamePlayScreen screen = new GamePlayScreen();
+        gameScreen = new GamePlayScreen();
         if (game!=null) {
-            screen.setGameScreen(game);
+            gameScreen.setGameScreen(game);
         } else {
             throw new RuntimeException("Game never defined"); //TODO maybe remove
         }
-        stage.setScene(screen.getView());
+
+        stage.setScene(gameScreen.getView());
     }
     public void updateDisplay() {
-        game.updateLevel();
+        gameScreen.update();
     }
 
     public void setGameMenuScreen (String gameLabel, Consumer<String> e) { //TODO
