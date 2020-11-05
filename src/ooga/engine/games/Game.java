@@ -8,9 +8,7 @@ import ooga.engine.obstacles.Collideable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.round;
@@ -169,20 +167,80 @@ public abstract class Game implements GamePlay {
 
     private void collisions(Moveables entity, Collideable obstacle) {
         if (obstacle.getNodeObject().getBoundsInParent().intersects(entity.getNode().getBoundsInParent())) {
-            Map<String, String> collisionTypes = obstacle.getCollisionRules();
+            List<String> collisionSide = new ArrayList<>();
             Node object = obstacle.getNodeObject();
-            for(String direction : collisionTypes.keySet()){
-                String type = collisionTypes.get(direction);
+            Map<String, String> collisionTypes = obstacle.getCollisionRules();
+            for(String side : collisionTypes.keySet()){
                 try {
-                    System.out.println(direction + collisionTypes.get(direction));
-                    Method myObjMethod = this.getClass().getSuperclass().getDeclaredMethod(direction + type, Moveables.class, Node.class);
+                    Method myObjMethod = this.getClass().getSuperclass().getDeclaredMethod(side + "Collision", Moveables.class, Node.class);
+                    if((boolean) myObjMethod.invoke(this, entity, object)){
+                        collisionSide.add(side);
+                    }
+                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            for(String side : collisionSide){
+                try {
+                    Method myObjMethod = this.getClass().getSuperclass().getDeclaredMethod(side + collisionTypes.get(side), Moveables.class, Node.class);
                     myObjMethod.invoke(this, entity, object);
                 } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                     e.printStackTrace();
                 }
-
             }
         }
+    }
+
+    private boolean rightCollision (Moveables entity, Node object){
+        return object.getBoundsInParent().getMinX() < entity.getNode().getBoundsInParent().getMaxX() &&
+                object.getBoundsInParent().getMinX() > entity.getNode().getBoundsInParent().getMinX() &&
+                xForceMoveables > 0 && !checkCornersY(entity, object);
+    }
+
+    private boolean leftCollision (Moveables entity, Node object){
+        return object.getBoundsInParent().getMaxX() > entity.getNode().getBoundsInParent().getMinX() &&
+                object.getBoundsInParent().getMaxX() < entity.getNode().getBoundsInParent().getMaxX() &&
+                xForceMoveables < 0 && !checkCornersY(entity, object);
+    }
+
+    private boolean bottomCollision (Moveables entity, Node object){
+        return object.getBoundsInParent().getMaxY() > entity.getNode().getBoundsInParent().getMinY() &&
+                object.getBoundsInParent().getMaxY() < entity.getNode().getBoundsInParent().getMaxY() &&
+                !checkCornersX(entity, object);
+    }
+
+    private boolean topCollision (Moveables entity, Node object){
+        return object.getBoundsInParent().getMinY() < entity.getNode().getBoundsInParent().getMaxY() &&
+                object.getBoundsInParent().getMinY() > entity.getNode().getBoundsInParent().getMinY() &&
+                !checkCornersX(entity, object);
+    }
+
+    private void leftStandard(Moveables entity, Node object) {
+        System.out.println("left");
+        xForceMoveables -= MOVE_FORCE;
+        entity.setCenterX(object.getBoundsInParent().getMaxX() + entity.getEntityWidth() / 2);
+    }
+
+
+    private void rightStandard(Moveables entity, Node object) {
+        System.out.println("right");
+        xForceMoveables += MOVE_FORCE;
+        entity.setCenterX(object.getBoundsInParent().getMinX() - entity.getEntityWidth() / 2);
+    }
+
+    private void bottomStandard(Moveables entity, Node object) {
+        System.out.println("bottom");
+        entity.setMaxY(object.getBoundsInParent().getMaxY() + entity.getEntityHeight());
+    }
+
+    private void topStandard(Moveables entity, Node object) {
+        entity.setMaxY(object.getBoundsInParent().getMinY());
+        yForceMoveables += NEGATIVE_DIRECTION * GRAVITY;
+        System.out.println("top");
+        entity.setVelocityY(0);
+        elapsedTime = dt;
+        jump = false;
     }
 
 
@@ -196,73 +254,12 @@ public abstract class Game implements GamePlay {
                     areEqualDouble(object.getBoundsInParent().getMinX(), entity.getNode().getBoundsInParent().getMaxX(), 1);
     }
 
-    private void leftStandard(Moveables entity, Node object) {
-        if(leftCollision(entity, object)) {
-            System.out.println("left");
-            xForceMoveables -= MOVE_FORCE;
-            entity.setCenterX(object.getBoundsInParent().getMaxX() + entity.getEntityWidth() / 2);
-        }
-    }
-
-
-    private boolean leftCollision (Moveables entity, Node object){
-            return object.getBoundsInParent().getMaxX() > entity.getNode().getBoundsInParent().getMinX() &&
-                    object.getBoundsInParent().getMaxX() < entity.getNode().getBoundsInParent().getMaxX() &&
-                    xForceMoveables < 0 && !checkCornersY(entity, object);
-    }
-
 
     private void checkIfOnEdge(Moveables entity, Collideable object){
         //if (entity.getNode().getBoundsInParent().getMinX() ){
             //check if a obstacle is close by with similar x and y. If there is then its fine, else it is about to fall. ceheck for both corners. min of entity and max of obstalce, vs max of osbtalc, vs min for entity
         }
 
-
-    private void rightStandard(Moveables entity, Node object) {
-        if(rightCollision(entity, object)) {
-            System.out.println("right");
-            xForceMoveables += MOVE_FORCE;
-            entity.setCenterX(object.getBoundsInParent().getMinX() - entity.getEntityWidth() / 2);
-        }
-    }
-
-    private boolean rightCollision (Moveables entity, Node object){
-            return object.getBoundsInParent().getMinX() < entity.getNode().getBoundsInParent().getMaxX() &&
-                    object.getBoundsInParent().getMinX() > entity.getNode().getBoundsInParent().getMinX() &&
-                    xForceMoveables > 0 && !checkCornersY(entity, object);
-    }
-
-
-    private void bottomStandard(Moveables entity, Node object) {
-        if(bottomCollision(entity, object)) {
-            System.out.println("bottom");
-            entity.setMaxY(object.getBoundsInParent().getMaxY() + entity.getEntityHeight());
-        }
-    }
-
-    private boolean bottomCollision (Moveables entity, Node object){
-        return object.getBoundsInParent().getMaxY() > entity.getNode().getBoundsInParent().getMinY() &&
-               object.getBoundsInParent().getMaxY() < entity.getNode().getBoundsInParent().getMaxY() &&
-               !checkCornersX(entity, object);
-        }
-
-
-    private void topStandard(Moveables entity, Node object) {
-        if(topCollision(entity, object)) {
-            entity.setMaxY(object.getBoundsInParent().getMinY());
-            yForceMoveables += NEGATIVE_DIRECTION * GRAVITY;
-            System.out.println("top");
-            entity.setVelocityY(0);
-            elapsedTime = dt;
-            jump = false;
-        }
-    }
-
-    private boolean topCollision (Moveables entity, Node object){
-        return object.getBoundsInParent().getMinY() < entity.getNode().getBoundsInParent().getMaxY() &&
-               object.getBoundsInParent().getMinY() > entity.getNode().getBoundsInParent().getMinY() &&
-               !checkCornersX(entity, object);
-    }
 
     private boolean cornerOverEdge(Moveables entity, Node object) {
         return (entity.getNode().getBoundsInParent().getMaxX() > object.getBoundsInParent().getMaxX() &&
