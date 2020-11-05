@@ -43,7 +43,7 @@ private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle(DEFAU
         stage.setScene(gameScreen.getView());
     }
     public void updateDisplay() {
-        gameScreen.update();
+        gameScreen.update();//TODo
     }
 
     public void setGameMenuScreen (String gameLabel, Consumer<String> e) { //TODO

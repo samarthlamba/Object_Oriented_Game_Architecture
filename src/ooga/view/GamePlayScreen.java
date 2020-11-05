@@ -17,7 +17,6 @@ import ooga.engine.obstacles.Collideable;
 import ooga.engine.obstacles.Obstacle;
 
 import java.lang.reflect.Method;
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -30,14 +29,11 @@ public class GamePlayScreen extends Screen{
     private double mainWidth;
     private double mainHeight;
     private ResourceBundle defaultKeyResources = ResourceBundle.getBundle("DefaultKeys");//tODO
-//    private Object up;
-//    private Object right;
-//    private Object left;
     private List<Object> keys;
     private GamePlay game;
     private Group background;
     private Moveables mainPlayer;
-//
+
     public void setGameScreen(GamePlay givenGame) {
         Pane gamePane = new Pane(); //Todo justify
         background = new Group();
@@ -45,22 +41,11 @@ public class GamePlayScreen extends Screen{
         keys = new ArrayList<>();
         for (Moveables entity : game.getEntities()) {
             if (entity.getId().equals("player")) {
-
-//        Group gamePane = new Group(); //Todo justify
                 mainPlayer = entity;
-                mainX = entity.getNode().getLayoutBounds().getMinX();
-                mainY = entity.getNode().getLayoutBounds().getMinY();
                 double width = entity.getNode().getLayoutBounds().getWidth();
                 double height = entity.getNode().getLayoutBounds().getHeight();
-                double x = SCREEN_WIDTH / 2 - width / 2;
-                double y = SCREEN_HEIGHT / 2 - height / 2;
-//                Rectangle entityFig = addEntityToScene(x, y, width, height);
-//                System.out.println(x + "  " + y);
                 mainWidth = width;
                 mainHeight = height;
-//                gamePane.getChildren().add(entityFig);
-
-//                gamePane.getChildren().add(entity.getNode());//TODO
                 Shape entityShape = (Shape) entity.getNode();
                 entityShape.setFill(Color.BLUE);
                 background.getChildren().add(entityShape);
@@ -77,10 +62,7 @@ public class GamePlayScreen extends Screen{
             obstacleNode.setFill(Color.BROWN);
             background.getChildren().add(obstacleNode);
         }
-        double sceneShiftX = -(mainX - (SCREEN_WIDTH/2 - mainWidth/2));
-        double sceneShiftY = -(mainY - (SCREEN_HEIGHT/2 - mainHeight/2));
-        background.setTranslateX(sceneShiftX);
-        background.setTranslateY(sceneShiftY);
+        update();
         gamePane.getChildren().add(background);
 //        HeadsUpDisplay hud = new HeadsUpDisplay();
         BorderPane root = new BorderPane();
@@ -105,17 +87,8 @@ public class GamePlayScreen extends Screen{
         if (keys.contains(code)) {
             String methodName = defaultKeyResources.getString(code.toString());
             try {
-                double x = mainX;
-                double mx = mainPlayer.getNode().getLayoutBounds().getMinX();
-                double mmx = mainPlayer.getCenterX();
                 Method method = game.getClass().getMethod(methodName);
-//
                 method.invoke(game,null);
-                game.updateMoveables();//TODO remove
-                double xx = mainX;
-                double mxx = mainPlayer.getCenterX();
-
-                int w = 0;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -129,10 +102,8 @@ public class GamePlayScreen extends Screen{
     }
 
     public void update(){
-        mainX = mainPlayer.getNode().getLayoutBounds().getMinX();
-        mainY = mainPlayer.getNode().getLayoutBounds().getMinY();
-        double x = mainPlayer.getCenterX();
-        double y = mainPlayer.getMaxY();
+        mainX = mainPlayer.getCenterX() - mainWidth/2;
+        mainY = mainPlayer.getMaxY() - mainHeight;
         double sceneShiftX = -(mainX - (SCREEN_WIDTH/2 - mainWidth/2));
         double sceneShiftY = -(mainY - (SCREEN_HEIGHT/2 - mainHeight/2));
         background.setTranslateX(sceneShiftX);
