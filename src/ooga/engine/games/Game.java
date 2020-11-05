@@ -129,7 +129,14 @@ public abstract class Game implements GamePlay {
         enemyDirection(entity);
         if(entity.getId().equals("enemy")){
             System.out.println("prev " + entity.getPreviousY() + " now " + entity.getMaxY());
-               // double c = entity.getMaxY();
+            if(entity.getPreviousY() != entity.getMaxY()){
+                entity.setMaxY(entity.getPreviousY());
+                entity.setCenterX(entity.getPreviousX());
+                entity.setVelocityX(entity.getVelocityX()*-1);
+                // double c = entity.getMaxY();
+            }
+
+            // double c = entity.getMaxY();
 
 
             System.out.println(entity.getVelocityX());
