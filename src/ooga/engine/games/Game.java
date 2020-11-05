@@ -2,6 +2,7 @@
 package ooga.engine.games;
 
 import javafx.scene.Node;
+import ooga.engine.entities.Entity;
 import ooga.engine.entities.Moveables;
 import ooga.engine.obstacles.Collideable;
 
@@ -174,7 +175,7 @@ public abstract class Game implements GamePlay {
                 String type = collisionTypes.get(direction);
                 try {
                     System.out.println(direction + collisionTypes.get(direction));
-                    Method myObjMethod = this.getClass().getDeclaredMethod(direction + type, Moveables.class, Node.class);
+                    Method myObjMethod = this.getClass().getSuperclass().getDeclaredMethod(direction + type, Moveables.class, Node.class);
                     myObjMethod.invoke(this, entity, object);
                 } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                     e.printStackTrace();
@@ -194,7 +195,6 @@ public abstract class Game implements GamePlay {
             return areEqualDouble(object.getBoundsInParent().getMaxX(), entity.getNode().getBoundsInParent().getMinX(), 1) ||
                     areEqualDouble(object.getBoundsInParent().getMinX(), entity.getNode().getBoundsInParent().getMaxX(), 1);
     }
-
 
     private void leftStandard(Moveables entity, Node object) {
         if(leftCollision(entity, object)) {
