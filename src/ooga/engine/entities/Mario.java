@@ -8,10 +8,10 @@ public class Mario extends Player {
   }
 
   public void update() {
-    System.out.println("heeeeeeee" + getNode().getBoundsInParent().getMaxY());
-    //getNode().setLayoutX(getNode().getLayoutBounds().getCenterX()+1);
-    getNode().relocate(getNode().getBoundsInParent().getMinX()+getVelocityX(), getNode().getBoundsInParent().getMinY() + getVelocityY());
-    System.out.println("heeeeeeee" + getNode().getBoundsInParent().getMaxY());
+    if(getHitpoints() < 0){
+      status_Alive = false;
+    }
   }
+
 }
 

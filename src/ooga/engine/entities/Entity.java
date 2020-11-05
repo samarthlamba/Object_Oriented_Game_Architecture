@@ -15,6 +15,7 @@ public abstract class Entity extends Node implements Moveables {
   private double previousX;
   private double previousY;
   private double jumpCapacity = 0;
+  boolean status_Alive = true;
 
   public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
     this.SCENE_WIDTH = objectWidth;
@@ -28,6 +29,10 @@ public abstract class Entity extends Node implements Moveables {
 
   public Node getNode() {
     return nodeObject;
+  }
+
+  public boolean getStatusAlive(){
+      return this.status_Alive;
   }
 
   //public abstract int getID();

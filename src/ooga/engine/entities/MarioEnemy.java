@@ -8,9 +8,8 @@ public class MarioEnemy extends Enemy{
     }
 
     public void update() {
-        System.out.println("heeeeeeee" + getNode().getBoundsInParent().getCenterX());
-            //getNode().setLayoutX(getNode().getLayoutBounds().getCenterX()+1);
-        getNode().relocate(getNode().getBoundsInParent().getMinX()+getVelocityX(), getNode().getBoundsInParent().getMinY());
-            System.out.println("heeeeeeee" + getNode().getBoundsInParent().getCenterX());
+        if(getHitpoints() < 0){
+            status_Alive = false;
         }
+    }
     }
