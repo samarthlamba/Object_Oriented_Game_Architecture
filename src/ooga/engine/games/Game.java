@@ -5,7 +5,11 @@ import javafx.scene.Node;
 import ooga.engine.entities.Moveables;
 import ooga.engine.obstacles.Collideable;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.round;
@@ -106,10 +110,11 @@ public abstract class Game implements GamePlay {
 
     private void collisionForce(Moveables entity) {
         for (Collideable obstacle : obstacles) {
-            collisions(entity, obstacle.getNodeObject());
+            collisions(entity, obstacle);
         }
         playerEnemyCollision(entity);
     }
+
     protected abstract void playerEnemyCollision(Moveables entity);
 
 
@@ -161,12 +166,21 @@ public abstract class Game implements GamePlay {
     }
     
 
-    private void collisions(Moveables entity, Node object) {
-        if (object.getBoundsInParent().intersects(entity.getNode().getBoundsInParent())) {
-            obstacleTopCollision(entity, object);
-            obstacleBottomCollision(entity, object);
-            obstacleRightCollision(entity, object);
-            obstacleLeftCollision(entity, object);
+    private void collisions(Moveables entity, Collideable obstacle) {
+        if (obstacle.getNodeObject().getBoundsInParent().intersects(entity.getNode().getBoundsInParent())) {
+            Map<String, String> collisionTypes = obstacle.getCollisionRules();
+            Node object = obstacle.getNodeObject();
+            for(String direction : collisionTypes.keySet()){
+                String type = collisionTypes.get(direction);
+                try {
+                    System.out.println(direction + collisionTypes.get(direction));
+                    Method myObjMethod = this.getClass().getDeclaredMethod(direction + type, Moveables.class, Node.class);
+                    myObjMethod.invoke(this, entity, object);
+                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+
+            }
         }
     }
 
@@ -181,8 +195,9 @@ public abstract class Game implements GamePlay {
                     areEqualDouble(object.getBoundsInParent().getMinX(), entity.getNode().getBoundsInParent().getMaxX(), 1);
     }
 
-    private void obstacleLeftCollision (Moveables entity, Node object) {
-        if (leftCollision(entity, object)) {
+
+    private void leftStandard(Moveables entity, Node object) {
+        if(leftCollision(entity, object)) {
             System.out.println("left");
             xForceMoveables -= MOVE_FORCE;
             entity.setCenterX(object.getBoundsInParent().getMaxX() + entity.getEntityWidth() / 2);
@@ -203,13 +218,12 @@ public abstract class Game implements GamePlay {
         }
 
 
-    private void obstacleRightCollision(Moveables entity, Node object) {
-        if(rightCollision(entity, object)){
+    private void rightStandard(Moveables entity, Node object) {
+        if(rightCollision(entity, object)) {
             System.out.println("right");
             xForceMoveables += MOVE_FORCE;
-            entity.setCenterX(object.getBoundsInParent().getMinX() - entity.getEntityWidth()/2);
+            entity.setCenterX(object.getBoundsInParent().getMinX() - entity.getEntityWidth() / 2);
         }
-
     }
 
     private boolean rightCollision (Moveables entity, Node object){
@@ -218,28 +232,32 @@ public abstract class Game implements GamePlay {
                     xForceMoveables > 0 && !checkCornersY(entity, object);
     }
 
-    private void obstacleBottomCollision (Moveables entity, Node object){
-        if (bottomCollision(entity, object)) {
+
+    private void bottomStandard(Moveables entity, Node object) {
+        if(bottomCollision(entity, object)) {
             System.out.println("bottom");
             entity.setMaxY(object.getBoundsInParent().getMaxY() + entity.getEntityHeight());
         }
     }
+
     private boolean bottomCollision (Moveables entity, Node object){
         return object.getBoundsInParent().getMaxY() > entity.getNode().getBoundsInParent().getMinY() &&
                object.getBoundsInParent().getMaxY() < entity.getNode().getBoundsInParent().getMaxY() &&
                !checkCornersX(entity, object);
         }
 
-        private void obstacleTopCollision (Moveables entity, Node object){
-            if (topCollision(entity, object)) {
-                entity.setMaxY(object.getBoundsInParent().getMinY());
-                yForceMoveables += NEGATIVE_DIRECTION * GRAVITY;
-                System.out.println("top");
-                entity.setVelocityY(0);
-                elapsedTime = dt;
-                jump = false;
-            }
+
+    private void topStandard(Moveables entity, Node object) {
+        if(topCollision(entity, object)) {
+            entity.setMaxY(object.getBoundsInParent().getMinY());
+            yForceMoveables += NEGATIVE_DIRECTION * GRAVITY;
+            System.out.println("top");
+            entity.setVelocityY(0);
+            elapsedTime = dt;
+            jump = false;
         }
+    }
+
     private boolean topCollision (Moveables entity, Node object){
         return object.getBoundsInParent().getMinY() < entity.getNode().getBoundsInParent().getMaxY() &&
                object.getBoundsInParent().getMinY() > entity.getNode().getBoundsInParent().getMinY() &&

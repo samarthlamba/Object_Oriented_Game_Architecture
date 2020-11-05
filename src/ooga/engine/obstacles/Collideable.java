@@ -7,5 +7,5 @@ import java.util.Map;
 
 public interface Collideable {
   Node getNodeObject();
-  Map<String, String> collisionRules();
+  Map<String, String> getCollisionRules();
 }

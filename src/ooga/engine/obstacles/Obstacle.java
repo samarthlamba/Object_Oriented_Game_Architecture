@@ -53,5 +53,5 @@ public abstract class Obstacle extends Rectangle implements Collideable{
 
   public abstract Node getNodeObject();
 
-  public abstract Map<String, String> collisionRules();
+  public abstract Map<String, String> getCollisionRules();
 }
