@@ -2,13 +2,17 @@
 package ooga.engine.games;
 
 import javafx.scene.Node;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import ooga.engine.entities.Entity;
 import ooga.engine.entities.Moveables;
 import ooga.engine.obstacles.Collideable;
 
+import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.List;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.round;
@@ -34,6 +38,8 @@ public abstract class Game implements GamePlay {
     private double moveVelocity = 10;
     private boolean objectAtCorner;
     private int enemyDirection =-1;
+    private boolean leftOver = false;
+    private boolean rightOver = false;
     // private double massCollideable;
 
 
@@ -85,21 +91,60 @@ public abstract class Game implements GamePlay {
             collisionForce(entity);
             moveEnemy(entity);
             updatePosition(entity);
+<<<<<<< HEAD
            // System.out.println("force" + entity.getYForce());
             entity.setYForce(0);
             entity.setXForce(0);
+=======
+
+            System.out.println("force" + yForceMoveables);
+            xForceMoveables = 0;
+            yForceMoveables = 0;
+>>>>>>> f9e440eaf20c8a9a2162a42a91a1056c47cba2a1
         }
     }
 
+    private void enemyDirection(Moveables entity){
+        if(!leftOver && rightOver){
+            entity.setVelocityX(Math.abs(entity.getVelocityX())*1);
+        }
+        if(!rightOver && leftOver){
+            entity.setVelocityX(Math.abs(entity.getVelocityX())*-1);
+        }
+
+        System.out.println("status " + leftOver + "     " +  rightOver);
+        leftOver = false;
+        rightOver = false;
+    }
+
+    private void simulateFall(Moveables entity, Collideable object){
+        Rectangle simulate = new Rectangle(entity.getNode().getBoundsInParent().getMinX(), entity.getMaxY(), 0.1, 0.1);
+        if (simulate.intersects(object.getNodeObject().getBoundsInParent())){
+            leftOver = true;
+
+        }
+        simulate = new Rectangle(entity.getNode().getBoundsInParent().getMaxX(), entity.getMaxY(),0.1, 0.1);
+        if (simulate.intersects(object.getNodeObject().getBoundsInParent())) {
+            rightOver = true;
+        }
+        simulate = new Rectangle(entity.getNode().getBoundsInParent().getMaxX()+1, entity.getMaxY(),0.1, 0.1);
+
+    }
+
+
     private void moveEnemy(Moveables entity) {
+        enemyDirection(entity);
         if(entity.getId().equals("enemy")){
             System.out.println("prev " + entity.getPreviousY() + " now " + entity.getMaxY());
             if(entity.getPreviousY() != entity.getMaxY()){
                 entity.setMaxY(entity.getPreviousY());
                 entity.setCenterX(entity.getPreviousX());
                 entity.setVelocityX(entity.getVelocityX()*-1);
-               // double c = entity.getMaxY();
+                // double c = entity.getMaxY();
             }
+
+            // double c = entity.getMaxY();
+
 
             System.out.println(entity.getVelocityX());
 
@@ -170,6 +215,9 @@ public abstract class Game implements GamePlay {
 
     private void collisions(Moveables entity, Collideable obstacle) {
         if (obstacle.getNodeObject().getBoundsInParent().intersects(entity.getNode().getBoundsInParent())) {
+            if(entity.getId() == "enemy"){
+                simulateFall(entity, obstacle);
+            }
             List<String> collisionSide = new ArrayList<>();
             Node object = obstacle.getNodeObject();
             Map<String, String> collisionTypes = obstacle.getCollisionRules();
