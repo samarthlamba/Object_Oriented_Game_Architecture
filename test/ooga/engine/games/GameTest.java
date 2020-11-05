@@ -20,10 +20,12 @@ class GameTest {
        double initialPosition = 75;
        Moveables entity = entities.iterator().next();
        assertEquals(initialPosition, entity.getCenterX());
-       game.RIGHT(entity);
-       game.updateMoveables();
+       for(int i = 0; i < 100; i++){
+           game.RIGHT(entity);
+           game.updateMoveables();
+       }
        System.out.println(entity.getCenterX());
-       assertTrue(game.areEqualDouble(75, entity.getCenterX(), 2));
+       assertTrue(game.areEqualDouble(75.27, entity.getCenterX(), 2));
    }
 
     @Test
@@ -47,7 +49,7 @@ class GameTest {
         Moveables entity = entities.iterator().next();
         game.UP(entity);
         double previous = 200;
-        for(int i = 0; i < 2000; i++) {
+        for(int i = 0; i < 100; i++) {
             game.updateMoveables();
            // assertTrue(entity.getMaxY() < previous);
             System.out.println(entity.getMaxY());

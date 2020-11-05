@@ -246,8 +246,8 @@ public abstract class Game implements GamePlay {
     private void rightNoCollision(Moveables entity, Node object){}
     private void leftNoCollision(Moveables entity, Node object){}
     private void topNoCollision(Moveables entity, Node object){}
-    private void bottonNoCollision(Moveables entity, Node object){}
-    
+    private void bottomNoCollision(Moveables entity, Node object){}
+
 
     private boolean checkCornersY(Moveables entity, Node object) {
         return areEqualDouble(object.getBoundsInParent().getMinY(), entity.getNode().getBoundsInParent().getMaxY(), 1) ||
