@@ -4,7 +4,7 @@ public class MarioEnemy extends Enemy{
 
     public MarioEnemy(int objectWidth, int objectHeight, double initialX, double initialY) {
         super(objectWidth, objectHeight, initialX, initialY);
-        this.setVelocityX(-10);
+        this.setVelocityX(1);
     }
 
     public void update() {

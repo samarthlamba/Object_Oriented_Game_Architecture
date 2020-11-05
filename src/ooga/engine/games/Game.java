@@ -26,6 +26,8 @@ public abstract class Game implements GamePlay {
     private double yForceEntity = 0;
     private double massEntity;
     private double elapsedTime;
+    private boolean objectAtCorner;
+    private int enemyDirection =-1;
     // private double massObstacle;
 
 
@@ -72,11 +74,21 @@ public abstract class Game implements GamePlay {
     public void updateEntity(){
         System.out.println("stepped12324");
         for(Entity entity : entities) {
-            gravityForce();
+
             for (Obstacle obstacle : obstacles) {
                 collisionForce(entity, obstacle);
                 updatePosition(entity);
             }
+            gravityForce();
+            if(entity.getID() == 1){
+                System.out.println("yforce" + yForceEntity);
+                System.out.println(objectAtCorner);
+
+                entity.setVelocityX(entity.getVelocityX()*enemyDirection);
+                entity.update();
+
+            }
+
             if(entity.getID() == 0){
                 for(Entity e : entities){
                     if(entityCollision(entity, e)){
@@ -85,19 +97,7 @@ public abstract class Game implements GamePlay {
                     }
                 }
             }
-            if(entity.getID() == 1){
-                System.out.println(yForceEntity);
-                if(yForceEntity == 0){
-                    System.out.println("working " + entity.getVelocityX());
-                   // entity.setVelocityX(entity.getVelocityX());
-                    entity.update();
-
-                }
-                else{
-                    entity.setVelocityX(entity.getVelocityX()*-1);
-                    entity.update();
-                }
-            }
+            objectAtCorner = false;
             xForceEntity = 0;
             yForceEntity = 0;
         }
@@ -118,11 +118,6 @@ public abstract class Game implements GamePlay {
     private double newXPosition (Entity entity){
         return entity.getCenterX() + entity.getVelocityX() * elapsedTime + xForceEntity * elapsedTime * elapsedTime;
     }
-
- /*   private double getXForceEntity(Entity entity){
-        double changeInX = entity.getPreviousX() - entity.getCenterX();
-        return (changeInX - entity.getVelocityX() * elapsedTime) / (elapsedTime * elapsedTime);
-    }*/
 
     private double getYForceEntity(Entity entity){
         //make previous array or attribuute of entity
@@ -164,6 +159,21 @@ public abstract class Game implements GamePlay {
                 areEqualDouble(obstacle.getNodeObject().getBoundsInParent().getMinX(), entity.getNode().getBoundsInParent().getMaxX(), 1);
     }
 
+    private boolean cornerOverEdge(Entity entity, Obstacle obstacle) {
+        return (entity.getNode().getBoundsInParent().getMaxX() > obstacle.getNodeObject().getBoundsInParent().getMaxX() &&
+                entity.getNode().getBoundsInParent().getMinX() > obstacle.getNodeObject().getBoundsInParent().getMinX());
+
+    }
+
+    private boolean overEdge(Entity entity, Obstacle obstacle){
+        double temp = obstacle.getNodeObject().getBoundsInParent().getMaxX();
+        double temp2 =  entity.getNode().getBoundsInParent().getMaxX();
+        double temp3 = obstacle.getNodeObject().getBoundsInParent().getMinX();
+        double temp4 = entity.getNode().getBoundsInParent().getMinX();
+        return entity.getNode().getBoundsInParent().intersects(obstacle.getNodeObject().getBoundsInParent()) && ((obstacle.getNodeObject().getBoundsInParent().getMaxX() < entity.getNode().getBoundsInParent().getMaxX()) ||
+                (obstacle.getNodeObject().getBoundsInParent().getMinX() > entity.getNode().getBoundsInParent().getMinX()));
+    }
+
     private void obstacleLeftCollision(Entity entity, Obstacle obstacle) {
         if(obstacle.getNodeObject().getBoundsInParent().getMaxX() > entity.getNode().getBoundsInParent().getMinX() &&
                 obstacle.getNodeObject().getBoundsInParent().getMaxX() < entity.getNode().getBoundsInParent().getMaxX() &&
@@ -174,6 +184,12 @@ public abstract class Game implements GamePlay {
         }
 
     }
+
+    private void checkIfOnEdge(Entity entity, Obstacle obstacle){
+        //if (entity.getNode().getBoundsInParent().getMinX() ){
+            //check if a obstacle is close by with similar x and y. If there is then its fine, else it is about to fall. ceheck for both corners. min of entity and max of obstalce, vs max of osbtalc, vs min for entity
+        }
+
 
     private void obstacleRightCollision(Entity entity, Obstacle obstacle) {
         if(obstacle.getNodeObject().getBoundsInParent().getMinX() < entity.getNode().getBoundsInParent().getMaxX() &&
@@ -196,6 +212,8 @@ public abstract class Game implements GamePlay {
     }
 
     private void obstacleTopCollision(Entity entity, Obstacle obstacle) {
+        System.out.println("topcol");
+        obstacleTopCollisionMaybeWork(entity, obstacle);
         if(obstacle.getNodeObject().getBoundsInParent().getMinY() < entity.getNode().getBoundsInParent().getMaxY() &&
                 obstacle.getNodeObject().getBoundsInParent().getMinY() > entity.getNode().getBoundsInParent().getMinY() &&
                 !checkCornersX(entity, obstacle)) {
@@ -206,8 +224,35 @@ public abstract class Game implements GamePlay {
             elapsedTime = dt;
             jump = false;
         }
-    }
 
+
+
+    }
+    private void obstacleTopCollisionMaybeWork(Entity entity, Obstacle obstacle) {
+        System.out.println("topcol");
+        checkCornerForFalling(entity, obstacle);
+
+    }
+    private void checkCornerForFalling(Entity entity, Obstacle obstacle) {
+        if (objectAtCorner != true) {
+            System.out.println(overEdge(entity, obstacle) + "   123");
+            if (obstacle.getNodeObject().getBoundsInParent().intersects(entity.getNode().getBoundsInParent())) {
+
+
+                if (enemyDirection == -1 && obstacle.getNodeObject().getBoundsInParent().getMinY() > entity.getNode().getBoundsInParent().getMinY() &&
+                        !checkCornersX(entity, obstacle)) {
+                    enemyDirection = 1;
+
+                }
+                else if (enemyDirection == 1 && obstacle.getNodeObject().getBoundsInParent().getMinY() > entity.getNode().getBoundsInParent().getMinY() &&
+                        areEqualDouble(obstacle.getNodeObject().getBoundsInParent().getMaxX(), entity.getNode().getBoundsInParent().getMaxX(), 1)){
+                    enemyDirection = -1;
+                }
+
+                System.out.println(!cornerOverEdge(entity, obstacle) + "   123");
+            }
+        }
+    }
 
 
 
