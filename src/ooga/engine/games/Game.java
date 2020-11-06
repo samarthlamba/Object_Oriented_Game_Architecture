@@ -9,6 +9,7 @@ import ooga.engine.entities.Moveables;
 import ooga.engine.obstacles.Collideable;
 
 import java.awt.*;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -22,7 +23,7 @@ public abstract class Game implements GamePlay {
     public static final double NEGATIVE_DIRECTION = -1;
     public static final double NO_INITIAL_VELOCITY = 0;
     public static final double NO_FORCE = 0;
-    public static final double MOVE_FORCE = 10000; //TODO change to 10
+    public static final double MOVE_FORCE = 50000; //TODO change to 10
     private Collection<Collideable> obstacles;
     private Collection<Moveables> entities;
     private double dt;
@@ -33,8 +34,6 @@ public abstract class Game implements GamePlay {
     // private int screenHeight;
     private double jumpMaxHeight = 10;
     private double massMoveables;
-    private double elapsedTime;
-    private double elapsedTimeX;
     private double moveVelocity = 10;
     private boolean objectAtCorner;
     private int enemyDirection =-1;
@@ -50,9 +49,11 @@ public abstract class Game implements GamePlay {
     public Game(Collection<Collideable> obstacles, Collection<Moveables> entities, double timeElapsed) {
         this.obstacles = obstacles;
         this.entities = entities;
+        for(Moveables entity : entities){
+            entity.setTimeElapsedY(timeElapsed);
+            entity.setTimeElapsedX(timeElapsed);
+        }
         this.dt = timeElapsed;
-        elapsedTime = timeElapsed;
-        elapsedTimeX = timeElapsed;
         jumpInitialVelocity = calculateJumpVelocity();
     }
 
@@ -82,25 +83,18 @@ public abstract class Game implements GamePlay {
 
     public void updateMoveables() {
        // System.out.println("stepped12324");
-        if (jump) {
-            elapsedTime += dt;
-            System.out.println(jump);
-        }
         for (Moveables entity : entities) {
+            if (entity.isJump()) {
+                entity.setTimeElapsedY(entity.getTimeElapsedY() + entity.getTimeElapsedX() * 6);
+            }
             gravityForce(entity);
             collisionForce(entity);
             moveEnemy(entity);
             updatePosition(entity);
-<<<<<<< HEAD
-           // System.out.println("force" + entity.getYForce());
+            System.out.println("force" + entity.getYForce());
             entity.setYForce(0);
             entity.setXForce(0);
-=======
 
-            System.out.println("force" + yForceMoveables);
-            xForceMoveables = 0;
-            yForceMoveables = 0;
->>>>>>> f9e440eaf20c8a9a2162a42a91a1056c47cba2a1
         }
     }
 
@@ -112,7 +106,7 @@ public abstract class Game implements GamePlay {
             entity.setVelocityX(Math.abs(entity.getVelocityX())*-1);
         }
 
-        System.out.println("status " + leftOver + "     " +  rightOver);
+        //System.out.println("status " + leftOver + "     " +  rightOver);
         leftOver = false;
         rightOver = false;
     }
@@ -176,25 +170,25 @@ public abstract class Game implements GamePlay {
     }
 
     private double newYPosition(Moveables entity) {
-        double change = entity.getMaxY() + entity.getVelocityY() * elapsedTime + entity.getYForce() * elapsedTime * elapsedTime;
-        System.out.println("new y " + entity.getId() + " " + entity.getYForce());
-        return entity.getMaxY() + entity.getVelocityY() * elapsedTime + entity.getYForce() * elapsedTime * elapsedTime;
+        double change = entity.getMaxY() + entity.getVelocityY() * entity.getTimeElapsedY() + entity.getYForce() * entity.getTimeElapsedY() * entity.getTimeElapsedY();
+        System.out.println("new y " + entity.getId() + " " + entity.getTimeElapsedY());
+        return entity.getMaxY() + entity.getVelocityY() * entity.getTimeElapsedY() + entity.getYForce() * entity.getTimeElapsedY() * entity.getTimeElapsedY();
     }
 
     private double newXPosition(Moveables entity) {
-        return entity.getCenterX() + entity.getVelocityX() * elapsedTimeX + entity.getXForce() * elapsedTimeX * elapsedTimeX;
+        return entity.getCenterX() + entity.getVelocityX() * entity.getTimeElapsedX() + entity.getXForce() * entity.getTimeElapsedX() * entity.getTimeElapsedX();
     }
 
 
  /*   private double getXForceMoveables(Moveables entity){
         double changeInX = entity.getPreviousX() - entity.getCenterX();
         return (changeInX - entity.getVelocityX() * elapsedTime) / (elapsedTime * elapsedTime);
-    }*/
+    }
     private double getYForceMoveables(Moveables entity){
         //make previous array or attribuute of entity
         double changeInY = entity.getPreviousY() - entity.getMaxY();
-        return (changeInY - entity.getVelocityY() * elapsedTime) / (elapsedTime * elapsedTime);
-    }
+        return (changeInY - entity.getVelocityY() * entity.getTimeElapsedY() ) / (entity.getTimeElapsedY()  * entity.getTimeElapsedY()) ;
+    }*/
 
     private void updatePosition(Moveables entity) {
         entity.setPreviousX(entity.getCenterX());
@@ -234,10 +228,10 @@ public abstract class Game implements GamePlay {
 
             for(String side : collisionSide){
                 try {
-                    Method myObjMethod = this.getClass().getSuperclass().getDeclaredMethod(side + collisionTypes.get(side), Moveables.class, Node.class);
-                    myObjMethod.invoke(this, entity, object);
-                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
+                    Method myObjMethod = Class.forName("ooga.engine.obstacles.Collideable").getDeclaredMethod(side + "Collideable", Moveables.class);
+                    myObjMethod.invoke(obstacle, entity);
+                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e) {
+                  e.printStackTrace();
                 }
             }
         }
@@ -266,41 +260,6 @@ public abstract class Game implements GamePlay {
                 object.getBoundsInParent().getMinY() > entity.getNode().getBoundsInParent().getMinY() &&
                 !checkCornersX(entity, object);
     }
-
-    private void leftStandard(Moveables entity, Node object) {
-        System.out.println("left");
-        entity.setXForce(entity.getXForce()- MOVE_FORCE);
-        entity.setCenterX(object.getBoundsInParent().getMaxX() + entity.getEntityWidth() / 2);
-    }
-
-
-    private void rightStandard(Moveables entity, Node object) {
-        System.out.println("right");
-        entity.setXForce(entity.getXForce() + MOVE_FORCE);
-        entity.setCenterX(object.getBoundsInParent().getMinX() - entity.getEntityWidth() / 2);
-    }
-
-    private void bottomStandard(Moveables entity, Node object) {
-        System.out.println("bottom");
-        entity.setMaxY(object.getBoundsInParent().getMaxY() + entity.getEntityHeight());
-        entity.setVelocityY(-entity.getVelocityY());
-    }
-
-    private void topStandard(Moveables entity, Node object) {
-        entity.setMaxY(object.getBoundsInParent().getMinY());
-        entity.setYForce(entity.getYForce() + NEGATIVE_DIRECTION * GRAVITY);
-        System.out.println("top");
-        if(entity.getId().equals("player")) {
-            elapsedTime = dt;
-            entity.setVelocityY(0);
-            jump = false;
-        }
-    }
-
-    private void rightNoCollision(Moveables entity, Node object){}
-    private void leftNoCollision(Moveables entity, Node object){}
-    private void topNoCollision(Moveables entity, Node object){}
-    private void bottomNoCollision(Moveables entity, Node object){}
 
 
     private boolean checkCornersY(Moveables entity, Node object) {
@@ -364,9 +323,11 @@ public abstract class Game implements GamePlay {
     }
 
         public void UP (Moveables entity){
-            jump = true;
+            entity.setJump(true);
+            System.out.println("up");
             entity.setVelocityY(entity.getJumpMax());
-            entity.update();
+            entity.setMaxY(entity.getMaxY() - 1);
+            System.out.println(entity.getMaxY());
         }
 
 

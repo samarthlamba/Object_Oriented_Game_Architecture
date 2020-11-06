@@ -11,16 +11,17 @@ public abstract class Entity extends Node implements Moveables {
   private int currentHitpoints = 5;
   private Node nodeObject;
   private double speed = 0;
-  private static final int JUMP_CAPACITY = -10;
+  private static final int JUMP_CAPACITY = -20;
   private double previousX;
   private double previousY;
   private double jumpCapacity = 0;
-<<<<<<< HEAD
   private double xForce = 0;
   private double yForce = 0;
-=======
   boolean status_Alive = true;
->>>>>>> f9e440eaf20c8a9a2162a42a91a1056c47cba2a1
+  private double timeElapsedY = 0;
+  private double timeElapsedX = 0;
+  private boolean jump = false;
+  private double timeInterval = 0;
 
   public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
     this.SCENE_WIDTH = objectWidth;
@@ -137,6 +138,29 @@ public abstract class Entity extends Node implements Moveables {
       return yForce;
   }
 
+    public double getTimeElapsedX() {
+        return timeElapsedX;
+    }
 
-  //add id.
+    public double getTimeElapsedY(){
+      return timeElapsedY;
+    }
+
+    public void setTimeElapsedY(double time){
+      timeElapsedY = time;
+    }
+
+
+    public void setTimeElapsedX(double time){
+        timeElapsedX = time;
+    }
+
+    public boolean isJump(){
+      return jump;
+    }
+
+    public void setJump(boolean isJump){
+      jump = isJump;
+    }
+    //add id.
 }

@@ -57,6 +57,19 @@ import javafx.scene.Node;
    double getXForce();
    void setXForce(double force);
    void setYForce(double force);
+
+  double getTimeElapsedX();
+
+  double getTimeElapsedY();
+
+  void setTimeElapsedY(double time);
+
+  void setTimeElapsedX(double time);
+
+  boolean isJump();
+
+  void setJump(boolean jump);
+
   //true = right
 
 }

@@ -2,6 +2,7 @@ package ooga.engine.obstacles;
 
 
 import javafx.scene.Node;
+import ooga.engine.entities.Moveables;
 
 import java.util.Map;
 
@@ -30,4 +31,5 @@ public class Ladder extends Obstacle {
     public Map<String, String> getCollisionRules(){
         return Map.of("left", "NoCollision", "right", "NoCollision", "top", "Standard", "bottom", "NoCollision");
     }
+
 }

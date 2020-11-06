@@ -105,7 +105,7 @@ public class GamePlayScreen extends Screen{
         mainX = mainPlayer.getCenterX() - mainWidth/2;
         mainY = mainPlayer.getMaxY() - mainHeight;
         double sceneShiftX = -(mainX - (SCREEN_WIDTH/2 - mainWidth/2));
-        double sceneShiftY = -(mainY - (SCREEN_HEIGHT/2 - mainHeight/2));
+        double sceneShiftY = -(mainY - (SCREEN_HEIGHT/2 - mainHeight));
         background.setTranslateX(sceneShiftX);
         background.setTranslateY(sceneShiftY);
     }
