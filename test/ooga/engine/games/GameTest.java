@@ -1,7 +1,7 @@
 package ooga.engine.games;
 
 import ooga.engine.games.Game;
-import ooga.engine.entities.Entity;
+import ooga.engine.entities.Moveables;
 import ooga.loader.GameFactory;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,57 +15,117 @@ class GameTest {
 
    @Test
    public void rightMovementTest() {
-       Game game = factory.makeCorrectGame("testJump.csv");
-       Collection<Entity> entities = game.getEntities();
-       double initialPosition = 50;
-       Entity entity = entities.iterator().next();
-       assertEquals(initialPosition, entity.getX());
+       Game game = factory.makeCorrectGame("testMovement.csv");
+       Collection<Moveables> entities = game.getEntities();
+       double initialPosition = 75;
+       Moveables entity = entities.iterator().next();
+       assertEquals(initialPosition, entity.getCenterX());
        game.RIGHT(entity);
-       game.updateEntity();
-       System.out.println(entity.getY());
-       assertTrue(game.areEqualDouble(50.333, entity.getX(), 2));
+       game.updateMoveables();
+       System.out.println(entity.getCenterX());
+       assertTrue(game.areEqualDouble(88.88, entity.getCenterX(), 2));
    }
 
     @Test
     public void leftMovementTest() {
-        Game game = factory.makeCorrectGame("testJump.csv");
-        Collection<Entity> entities = game.getEntities();
-        double initialPosition = 50;
-        Entity entity = entities.iterator().next();
-        assertEquals(initialPosition, entity.getX());
-        System.out.println(entity.getX());
+        Game game = factory.makeCorrectGame("testMovement.csv");
+        Collection<Moveables> entities = game.getEntities();
+        double initialPosition = 75;
+        Moveables entity = entities.iterator().next();
+        assertEquals(initialPosition, entity.getCenterX());
         game.LEFT(entity);
-        game.updateEntity();
-        System.out.println(entity.getX());
-        assertTrue(game.areEqualDouble(49.666, entity.getX(), 2));
+        game.updateMoveables();
+        System.out.println(entity.getCenterX());
+        assertTrue(game.areEqualDouble(61.1, entity.getCenterX(), 1));
     }
 
     @Test
     public void jumpTest(){
-        Game game = factory.makeCorrectGame("testJump.csv");
-        Collection<Entity> entities = game.getEntities();
-        Entity entity = entities.iterator().next();
+        Game game = factory.makeCorrectGame("testMovement.csv");
+        Collection<Moveables> entities = game.getEntities();
+        Moveables entity = entities.iterator().next();
         game.UP(entity);
-        double previous = 150;
-        System.out.println(entity.getY());
-        for(int i = 0; i < 8; i++) {
-            game.updateEntity();
-            assertTrue(entity.getY() < previous);
-            previous = entity.getY();
-            //System.out.println(previous);
+        double previous = 200;
+        for(int i = 0; i < 13; i++) {
+            game.updateMoveables();
+            assertTrue(entity.getMaxY() < previous);
+            System.out.println(entity.getMaxY());
+            previous = entity.getMaxY();
         }
-        for(int i = 0; i < 10; i++) {
-            game.updateEntity();
-            assertTrue(entity.getY() >= previous);
-            previous = entity.getY();
+        for(int i = 0; i < 12; i++) {
+            game.updateMoveables();
+            assertTrue(entity.getMaxY() >= previous);
+            System.out.println(entity.getMaxY());
+            previous = entity.getMaxY();
         }
 
         for(int i = 0; i < 10; i++){
-            game.updateEntity();
+            game.updateMoveables();
+            System.out.println(entity.getMaxY());
         }
 
-        assertEquals(entity.getY(), 200);
+        assertTrue(game.areEqualDouble(entity.getMaxY(), 200, 1));
     }
 
+    @Test
+    public void leftCollisionTest() {
+        Game game = factory.makeCorrectGame("testNoMovement.csv");
+        Collection<Moveables> entities = game.getEntities();
+        double initialPosition = 75;
+        Moveables entity = entities.iterator().next();
+        assertEquals(initialPosition, entity.getCenterX());
+        System.out.println(entity.getCenterX());
+        for(int i = 0; i < 100; i++){
+            game.LEFT(entity);
+            game.updateMoveables();
+        }
+
+        assertTrue(game.areEqualDouble(60.83, entity.getCenterX(), 1));
+    }
+
+    @Test
+    public void rightCollisionTest() {
+        Game game = factory.makeCorrectGame("testNoMovement.csv");
+        Collection<Moveables> entities = game.getEntities();
+        double initialPosition = 75;
+        Moveables entity = entities.iterator().next();
+        assertEquals(initialPosition, entity.getCenterX());
+        for(int i = 0; i < 10; i++){
+            game.RIGHT(entity);
+            game.updateMoveables();
+            System.out.println(entity.getCenterX());
+        }
+        assertTrue(game.areEqualDouble(89.16, entity.getCenterX(), 1));
+    }
+
+    @Test
+    public void rightWallCollisionTest() {
+        Game game = factory.makeCorrectGame("noRightMovement.csv");
+        Collection<Moveables> entities = game.getEntities();
+        double initialPosition = 75;
+        Moveables entity = entities.iterator().next();
+        assertEquals(initialPosition, entity.getCenterX());
+        for(int i = 0; i < 10; i++){
+            game.RIGHT(entity);
+            game.updateMoveables();
+        }
+        assertTrue(game.areEqualDouble(89.16, entity.getCenterX(), 1));
+    }
+
+    @Test
+    public void bottomCollisionTest(){
+        Game game = factory.makeCorrectGame("testCeilingMovement.csv");
+        Collection<Moveables> entities = game.getEntities();
+        double initialPosition = 75;
+        Moveables entity = entities.iterator().next();
+        assertEquals(initialPosition, entity.getCenterX());
+        game.UP(entity);
+        for(int i = 0; i < 300; i++){
+            game.updateMoveables();
+            System.out.println(entity.getMaxY());
+        }
+        assertTrue(game.areEqualDouble(75, entity.getCenterX(), 1));
+
+    }
 
 }

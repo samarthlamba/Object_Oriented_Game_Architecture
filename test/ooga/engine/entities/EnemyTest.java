@@ -17,10 +17,10 @@ class EnemyTest {
       assertEquals(ans.getLayoutBounds(), testEntityEnemy.getNode().getLayoutBounds());
     }
 
-    @Test
+    /*@Test
     void getID() {
       assertEquals(1, testEntityEnemy.getID());
-    }
+    }*/
 
     @Test
     void getVelocityX() {
@@ -56,14 +56,14 @@ class EnemyTest {
 
     @Test
     void setX() {
-      testEntityEnemy.setX(98);
-      assertEquals(98, testEntityEnemy.getX());
+      testEntityEnemy.setCenterX(98);
+      assertEquals(98, testEntityEnemy.getCenterX());
     }
 
     @Test
     void setY() {
-      testEntityEnemy.setY(87);
-      assertEquals(87, testEntityEnemy.getY());
+      testEntityEnemy.setMaxY(87);
+      assertEquals(87, testEntityEnemy.getMaxY());
     }
 
     @Test

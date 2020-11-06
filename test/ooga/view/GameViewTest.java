@@ -4,7 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Collection;
 import javafx.scene.Scene;
 import ooga.engine.entities.Entity;
+import ooga.engine.entities.Moveables;
 import ooga.engine.games.Game;
+import ooga.engine.obstacles.Collideable;
 import ooga.engine.obstacles.Obstacle;
 import ooga.loader.GameFactory;
 import org.junit.jupiter.api.Test;
@@ -19,8 +21,8 @@ public class GameViewTest extends DukeApplicationTest{
     javafxRun(() -> {
       GameView myView = new GameView(myGame);
       Scene myScene = myView.getView();
-      Collection<Obstacle> obstacles = myGame.getBackground();
-      Collection<Entity> entities = myGame.getEntities();
+      Collection<Collideable> obstacles = myGame.getBackground();
+      Collection<Moveables> entities = myGame.getEntities();
       obstacles.stream().forEach(obstacle -> {
         assertTrue(myScene.getRoot().getChildrenUnmodifiable().contains(obstacle.getNodeObject()));
       });
@@ -29,5 +31,4 @@ public class GameViewTest extends DukeApplicationTest{
       });
     });
   }
-
 }

@@ -15,10 +15,10 @@ class EntityTest {
     assertEquals(ans.getLayoutBounds(), testEntity.getNode().getLayoutBounds());
   }
 
-  @Test
+ /* @Test
   void getID() {
-    assertEquals(0, testEntity.getID());
-  }
+    assertEquals("player", testEntity.getId());
+  }*/
 
   @Test
   void getVelocityX() {
@@ -54,14 +54,14 @@ class EntityTest {
 
   @Test
   void setX() {
-    testEntity.setX(18);
-    assertEquals(18, testEntity.getX());
+    testEntity.setCenterX(18);
+    assertEquals(18, testEntity.getCenterX());
   }
 
   @Test
   void setY() {
-    testEntity.setY(47);
-    assertEquals(47, testEntity.getY());
+    testEntity.setMaxY(47);
+    assertEquals(47, testEntity.getMaxY());
   }
 
   @Test
