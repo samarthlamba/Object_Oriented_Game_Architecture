@@ -28,8 +28,12 @@ public class Ladder extends Obstacle {
     }
 
     @Override
-    public Map<String, String> getCollisionRules(){
-        return Map.of("left", "NoCollision", "right", "NoCollision", "top", "Standard", "bottom", "NoCollision");
-    }
+    public void leftCollideable(Moveables entity) {}
+
+    @Override
+    public void rightCollideable(Moveables entity) {}
+
+    @Override
+    public void bottomCollideable(Moveables entity) {}
 
 }

@@ -11,7 +11,7 @@ public abstract class Entity extends Node implements Moveables {
   private int currentHitpoints = 5;
   private Node nodeObject;
   private double speed = 0;
-  private static final int JUMP_CAPACITY = -200;
+  private static final int JUMP_CAPACITY = -195;
   private double previousX;
   private double previousY;
   private double jumpCapacity = 0;

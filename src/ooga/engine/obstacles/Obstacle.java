@@ -57,33 +57,32 @@ public abstract class Obstacle extends Rectangle implements Collideable{
 
   public abstract Node getNodeObject();
 
-  public abstract Map<String, String> getCollisionRules();
 
   public void leftCollideable(Moveables entity) {
-    System.out.println("left");
-    entity.setXForce(entity.getXForce() - MOVE_FORCE);
+    //System.out.println("left");
+    entity.setXForce(entity.getXForce() + MOVE_FORCE);
     entity.setCenterX(getBoundsInParent().getMaxX() + entity.getEntityWidth() / 2);
   }
 
 
   public void rightCollideable(Moveables entity) {
-    System.out.println("right");
-    entity.setXForce(entity.getXForce() + MOVE_FORCE);
+   // System.out.println("right");
+    entity.setXForce(entity.getXForce() - MOVE_FORCE);
     entity.setCenterX(getBoundsInParent().getMinX() - entity.getEntityWidth() / 2);
   }
 
   public void bottomCollideable(Moveables entity) {
-    System.out.println("bottom");
+   // System.out.println("bottom");
     //entity.setMaxY(getBoundsInParent().getMaxY() + entity.getEntityHeight());
     entity.setYForce(GRAVITY);
     entity.setVelocityY(0);
-    entity.setJump(false);
+    //entity.setJump(false);
   }
 
   public void topCollideable(Moveables entity) {
     entity.setMaxY(getBoundsInParent().getMinY());
     entity.setYForce(entity.getYForce() + NEGATIVE_DIRECTION * GRAVITY);
-    System.out.println("top");
+   // System.out.println("top");
       entity.setTimeElapsedY(entity.getTimeElapsedX());
      //elapsedTime = dt;
       entity.setVelocityY(0);

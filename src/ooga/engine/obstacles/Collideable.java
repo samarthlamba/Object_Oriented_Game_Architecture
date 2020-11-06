@@ -8,7 +8,6 @@ import java.util.Map;
 
 public interface Collideable {
   Node getNodeObject();
-  Map<String, String> getCollisionRules();
   void leftCollideable(Moveables entity);
   void rightCollideable(Moveables entity);
   void topCollideable(Moveables entity);

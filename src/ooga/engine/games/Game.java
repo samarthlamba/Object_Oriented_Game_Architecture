@@ -39,6 +39,7 @@ public abstract class Game implements GamePlay {
     private int enemyDirection =-1;
     private boolean leftOver = false;
     private boolean rightOver = false;
+    private Set<String> collisionTypes = Set.of("right", "left", "top", "bottom");
     // private double massCollideable;
 
 
@@ -86,7 +87,6 @@ public abstract class Game implements GamePlay {
         for (Moveables entity : entities) {
             if (entity.isJump() && entity.getTimeElapsedY() < .3) {
                 entity.setTimeElapsedY(entity.getTimeElapsedY() + entity.getTimeElapsedX());
-                System.out.println(entity.getTimeElapsedY());
             }
             if(entity.getId().equals("player")) {
                 entity.setJump(true);
@@ -182,17 +182,6 @@ public abstract class Game implements GamePlay {
         return entity.getCenterX() + entity.getVelocityX() * entity.getTimeElapsedX() + entity.getXForce() * entity.getTimeElapsedX() * entity.getTimeElapsedX();
     }
 
-
- /*   private double getXForceMoveables(Moveables entity){
-        double changeInX = entity.getPreviousX() - entity.getCenterX();
-        return (changeInX - entity.getVelocityX() * elapsedTime) / (elapsedTime * elapsedTime);
-    }
-    private double getYForceMoveables(Moveables entity){
-        //make previous array or attribuute of entity
-        double changeInY = entity.getPreviousY() - entity.getMaxY();
-        return (changeInY - entity.getVelocityY() * entity.getTimeElapsedY() ) / (entity.getTimeElapsedY()  * entity.getTimeElapsedY()) ;
-    }*/
-
     private void updatePosition(Moveables entity) {
         entity.setPreviousX(entity.getCenterX());
         double c = entity.getMaxY();
@@ -208,33 +197,34 @@ public abstract class Game implements GamePlay {
     private void gravityForce(Moveables entity) {
         entity.setYForce(entity.getYForce() + GRAVITY);
     }
-    
+
 
     private void collisions(Moveables entity, Collideable obstacle) {
         if (obstacle.getNodeObject().getBoundsInParent().intersects(entity.getNode().getBoundsInParent())) {
             if(entity.getId() == "enemy"){
                 simulateFall(entity, obstacle);
             }
-            List<String> collisionSide = new ArrayList<>();
             Node object = obstacle.getNodeObject();
-            Map<String, String> collisionTypes = obstacle.getCollisionRules();
-            for(String side : collisionTypes.keySet()){
+            List<String> collisionSide = new ArrayList<>();
+            for(String side : collisionTypes){
                 try {
-                    Method myObjMethod = this.getClass().getSuperclass().getDeclaredMethod(side + "Collision", Moveables.class, Node.class);
-                    if((boolean) myObjMethod.invoke(this, entity, object)){
+                    Class gameSuperClass = this.getClass().getSuperclass();
+                    Method findCollisionSide = gameSuperClass.getDeclaredMethod(side + "Collision", Moveables.class, Node.class);
+                    if((boolean) findCollisionSide.invoke(this, entity, object)){
                         collisionSide.add(side);
                     }
                 } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
+                    e.printStackTrace(); //TODO: handle error better
                 }
             }
 
             for(String side : collisionSide){
                 try {
-                    Method myObjMethod = Class.forName("ooga.engine.obstacles.Collideable").getDeclaredMethod(side + "Collideable", Moveables.class);
-                    myObjMethod.invoke(obstacle, entity);
+                    Class collideableInterface = Class.forName("ooga.engine.obstacles.Collideable");
+                    Method actionOnCollision = collideableInterface.getDeclaredMethod(side + "Collideable", Moveables.class);
+                    actionOnCollision.invoke(obstacle, entity);
                 } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e) {
-                  e.printStackTrace();
+                  e.printStackTrace(); //TODO: handle error better
                 }
             }
         }
@@ -296,10 +286,6 @@ public abstract class Game implements GamePlay {
                 (object.getBoundsInParent().getMinX() > entity.getNode().getBoundsInParent().getMinX()));
     }
 
-    private void obstacleTopCollisionMaybeWork(Moveables entity, Node object) {
-       // System.out.println("topcol");
-
-    }
 
     private Moveables findMainPlayer() {
         for (Moveables entity : entities) {
@@ -327,10 +313,8 @@ public abstract class Game implements GamePlay {
 
         public void UP (Moveables entity){
             entity.setJump(true);
-            System.out.println("up");
             entity.setVelocityY(entity.getJumpMax());
-            entity.setMaxY(entity.getMaxY() - 3);
-            System.out.println(entity.getMaxY());
+            entity.setMaxY(entity.getMaxY() - 2);
         }
 
 

@@ -26,8 +26,4 @@ public class Wall extends Obstacle {
     return new Wall(obstacleWidth, obstacleHeight, initialX, initialY);
   }
 
-  @Override
-  public Map<String, String> getCollisionRules(){
-    return Map.of("left", "Standard", "right", "Standard", "top", "Standard", "bottom", "Standard");
-  }
 }
