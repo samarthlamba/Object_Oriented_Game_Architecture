@@ -46,13 +46,13 @@ class GameTest {
         Moveables entity = entities.iterator().next();
         game.UP(entity);
         double previous = 200;
-        for(int i = 0; i < 13; i++) {
+        for(int i = 0; i < 16; i++) {
             game.updateMoveables();
             assertTrue(entity.getMaxY() < previous);
             System.out.println(entity.getMaxY());
             previous = entity.getMaxY();
         }
-        for(int i = 0; i < 12; i++) {
+        for(int i = 0; i < 17; i++) {
             game.updateMoveables();
             assertTrue(entity.getMaxY() >= previous);
             System.out.println(entity.getMaxY());
@@ -80,7 +80,7 @@ class GameTest {
             game.updateMoveables();
         }
 
-        assertTrue(game.areEqualDouble(60.83, entity.getCenterX(), 1));
+        assertTrue(game.areEqualDouble(61.38, entity.getCenterX(), 1));
     }
 
     @Test
@@ -95,7 +95,7 @@ class GameTest {
             game.updateMoveables();
             System.out.println(entity.getCenterX());
         }
-        assertTrue(game.areEqualDouble(89.16, entity.getCenterX(), 1));
+        assertTrue(game.areEqualDouble(88.61, entity.getCenterX(), 1));
     }
 
     @Test
@@ -109,7 +109,7 @@ class GameTest {
             game.RIGHT(entity);
             game.updateMoveables();
         }
-        assertTrue(game.areEqualDouble(89.16, entity.getCenterX(), 1));
+        assertTrue(game.areEqualDouble(88.61, entity.getCenterX(), 1));
     }
 
     @Test
