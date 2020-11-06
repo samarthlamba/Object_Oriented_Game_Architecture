@@ -85,7 +85,7 @@ public abstract class Game implements GamePlay {
     public void updateMoveables() {
        // System.out.println("stepped12324");
         for (Moveables entity : entities) {
-            if (entity.isJump() && entity.getTimeElapsedY() < .3) {
+            if (entity.isJump() && entity.getTimeElapsedY() < .35) {
                 entity.setTimeElapsedY(entity.getTimeElapsedY() + entity.getTimeElapsedX());
             }
             if(entity.getId().equals("player")) {
