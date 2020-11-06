@@ -19,7 +19,7 @@ import static java.lang.Math.abs;
 import static java.lang.Math.round;
 
 public abstract class Game implements GamePlay {
-    public static final double GRAVITY = 9.8;
+    public static final double GRAVITY = 800;
     public static final double NEGATIVE_DIRECTION = -1;
     public static final double NO_INITIAL_VELOCITY = 0;
     public static final double NO_FORCE = 0;
@@ -84,14 +84,18 @@ public abstract class Game implements GamePlay {
     public void updateMoveables() {
        // System.out.println("stepped12324");
         for (Moveables entity : entities) {
-            if (entity.isJump()) {
-                entity.setTimeElapsedY(entity.getTimeElapsedY() + entity.getTimeElapsedX() * 6);
+            if (entity.isJump() && entity.getTimeElapsedY() < .3) {
+                entity.setTimeElapsedY(entity.getTimeElapsedY() + entity.getTimeElapsedX());
+                System.out.println(entity.getTimeElapsedY());
+            }
+            if(entity.getId().equals("player")) {
+                entity.setJump(true);
             }
             gravityForce(entity);
             collisionForce(entity);
             moveEnemy(entity);
             updatePosition(entity);
-            System.out.println("force" + entity.getYForce());
+           // System.out.println("force" + entity.getYForce());
             entity.setYForce(0);
             entity.setXForce(0);
 
@@ -129,7 +133,7 @@ public abstract class Game implements GamePlay {
     private void moveEnemy(Moveables entity) {
         enemyDirection(entity);
         if(entity.getId().equals("enemy")){
-            System.out.println("prev " + entity.getPreviousY() + " now " + entity.getMaxY());
+           // System.out.println("prev " + entity.getPreviousY() + " now " + entity.getMaxY());
             if(entity.getPreviousY() != entity.getMaxY()){
                 entity.setMaxY(entity.getPreviousY());
                 entity.setCenterX(entity.getPreviousX());
@@ -140,7 +144,7 @@ public abstract class Game implements GamePlay {
             // double c = entity.getMaxY();
 
 
-            System.out.println(entity.getVelocityX());
+           // System.out.println(entity.getVelocityX());
 
 
         }
@@ -171,7 +175,6 @@ public abstract class Game implements GamePlay {
 
     private double newYPosition(Moveables entity) {
         double change = entity.getMaxY() + entity.getVelocityY() * entity.getTimeElapsedY() + entity.getYForce() * entity.getTimeElapsedY() * entity.getTimeElapsedY();
-        System.out.println("new y " + entity.getId() + " " + entity.getTimeElapsedY());
         return entity.getMaxY() + entity.getVelocityY() * entity.getTimeElapsedY() + entity.getYForce() * entity.getTimeElapsedY() * entity.getTimeElapsedY();
     }
 
@@ -294,7 +297,7 @@ public abstract class Game implements GamePlay {
     }
 
     private void obstacleTopCollisionMaybeWork(Moveables entity, Node object) {
-        System.out.println("topcol");
+       // System.out.println("topcol");
 
     }
 
@@ -326,7 +329,7 @@ public abstract class Game implements GamePlay {
             entity.setJump(true);
             System.out.println("up");
             entity.setVelocityY(entity.getJumpMax());
-            entity.setMaxY(entity.getMaxY() - 1);
+            entity.setMaxY(entity.getMaxY() - 5);
             System.out.println(entity.getMaxY());
         }
 
