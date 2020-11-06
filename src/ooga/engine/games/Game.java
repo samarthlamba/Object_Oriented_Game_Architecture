@@ -329,7 +329,7 @@ public abstract class Game implements GamePlay {
             entity.setJump(true);
             System.out.println("up");
             entity.setVelocityY(entity.getJumpMax());
-            entity.setMaxY(entity.getMaxY() - 5);
+            entity.setMaxY(entity.getMaxY() - 3);
             System.out.println(entity.getMaxY());
         }
 
