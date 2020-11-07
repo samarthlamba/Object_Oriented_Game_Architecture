@@ -54,8 +54,11 @@ import javafx.scene.Node;
    String getId();
 
    double getYForce();
+
    double getXForce();
+
    void setXForce(double force);
+
    void setYForce(double force);
 
   double getTimeElapsedX();

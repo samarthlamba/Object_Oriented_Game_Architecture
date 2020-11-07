@@ -4,6 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Rectangle;
+import ooga.engine.obstacles.Collideable;
 
 public abstract class Entity extends Node implements Moveables {
   private final int SCENE_WIDTH;
