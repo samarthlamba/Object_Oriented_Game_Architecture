@@ -115,14 +115,14 @@ public abstract class Game implements GamePlay {
         rightOver = false;
     }
 
-    private void simulateFall(Moveables entity, Collideable object){
+    private void simulateFall(Moveables entity, Node object){
         Rectangle simulate = new Rectangle(entity.getNode().getBoundsInParent().getMinX(), entity.getMaxY(), 0.1, 0.1);
-        if (simulate.intersects(object.getNodeObject().getBoundsInParent())){
+        if (simulate.intersects(object.getBoundsInParent())){
             leftOver = true;
 
         }
         simulate = new Rectangle(entity.getNode().getBoundsInParent().getMaxX(), entity.getMaxY(),0.1, 0.1);
-        if (simulate.intersects(object.getNodeObject().getBoundsInParent())) {
+        if (simulate.intersects(object.getBoundsInParent())) {
             rightOver = true;
         }
         simulate = new Rectangle(entity.getNode().getBoundsInParent().getMaxX()+1, entity.getMaxY(),0.1, 0.1);
@@ -153,7 +153,8 @@ public abstract class Game implements GamePlay {
 
     private void collisionForce(Moveables entity) {
         for (Collideable obstacle : obstacles) {
-            collisions(entity, obstacle);
+            Node object = obstacle.getNodeObject();
+            collisions(entity, object);
         }
         playerEnemyCollision(entity);
     }
@@ -199,12 +200,11 @@ public abstract class Game implements GamePlay {
     }
 
 
-    private void collisions(Moveables entity, Collideable obstacle) {
-        if (obstacle.getNodeObject().getBoundsInParent().intersects(entity.getNode().getBoundsInParent())) {
+    private void collisions(Moveables entity, Node object) {
+        if (object.getBoundsInParent().intersects(entity.getNode().getBoundsInParent())) {
             if(entity.getId() == "enemy"){
-                simulateFall(entity, obstacle);
+                simulateFall(entity, object);
             }
-            Node object = obstacle.getNodeObject();
             List<String> collisionSide = new ArrayList<>();
             for(String side : collisionTypes){
                 try {
@@ -220,14 +220,27 @@ public abstract class Game implements GamePlay {
 
             for(String side : collisionSide){
                 try {
-                    Class collideableInterface = Class.forName("ooga.engine.obstacles.Collideable");
-                    Method actionOnCollision = collideableInterface.getDeclaredMethod(side + "Collideable", Moveables.class);
-                    actionOnCollision.invoke(obstacle, entity);
+                    String classPathName = getClassPath(object);
+                    System.out.println(classPathName);
+                    Class collision = Class.forName(classPathName);
+                    Method actionOnCollision = collision.getDeclaredMethod(side + "Collideable", Moveables.class);
+                    actionOnCollision.invoke(object, entity);
                 } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e) {
                   e.printStackTrace(); //TODO: handle error better
                 }
             }
         }
+    }
+
+    private String getClassPath(Node object) {
+        String[] className = object.getClass().getName().split("\\.");
+       if(className[2].equals("obstacles")){
+            className[3] = "Collideable";
+        }
+        else{
+            className[3] = "Moveables";
+        }
+        return String.join(".", className);
     }
 
     private boolean rightCollision (Moveables entity, Node object){
