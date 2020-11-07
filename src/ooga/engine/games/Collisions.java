@@ -59,6 +59,14 @@ public class Collisions {
         return String.join(".", className);
     }
 
+    protected boolean entityCollision(Moveables player, Moveables e) {
+        if (e.getId().equals("enemy")) {
+            return player.getNode().getBoundsInParent().intersects(e.getNode().getBoundsInParent());
+        }
+        return false;
+    }
+
+
     private boolean rightCollision(Moveables entity, Node object) {
         return object.getBoundsInParent().getMinX() < entity.getNode().getBoundsInParent().getMaxX() &&
                 object.getBoundsInParent().getMinX() > entity.getNode().getBoundsInParent().getMinX() &&

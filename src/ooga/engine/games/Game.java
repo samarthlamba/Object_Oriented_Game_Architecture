@@ -124,18 +124,11 @@ public abstract class Game implements GamePlay {
             Node object = obstacle.getNodeObject();
             collisions(entity, object);
         }
-        playerEnemyCollision(entity);
     }
 
-    protected abstract void playerEnemyCollision(Moveables entity);
 
 
-    protected boolean entityCollision(Moveables player, Moveables e) {
-        if (e.getId().equals("enemy")) {
-            return player.getNode().getBoundsInParent().intersects(e.getNode().getBoundsInParent());
-        }
-        return false;
-    }
+
 
     protected boolean checkCornersMoveablesX(Moveables player, Moveables entity) {
         return areEqualDouble(entity.getNode().getBoundsInParent().getMaxX(), player.getNode().getBoundsInParent().getMinX(), 1) ||

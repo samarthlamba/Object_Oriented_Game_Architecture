@@ -38,8 +38,9 @@ public class MarioGame extends Game {
       Node object = obstacle.getNodeObject();
       collisions(entity, object);
     }
-    playerEnemyCollision(entity);
   }
+
+
   @Override
   public void collisions(Moveables entity, Node object) {
     if (object.getBoundsInParent().intersects(entity.getNode().getBoundsInParent())) {
@@ -51,21 +52,7 @@ public class MarioGame extends Game {
     }
   }
 
-    @Override
-    protected void playerEnemyCollision(Moveables entity) {
-      if (entity.getId().equals("player")) {
-        for (Moveables e : entities) {
-          if (entityCollision(entity, e)) {
-            System.out.println(entityCollision(entity, e));
-            if (entityTopCollision(entity, e)) {
-              e.setHitpoints(e.getHitpoints() - 1);
-            } else {
-              entity.setHitpoints(entity.getHitpoints() - 1);
-            }
-          }
-        }
-      }
-    }
+
   @Override
   public void moveEnemy(Moveables entity) {
     enemyDirection(entity);
@@ -98,12 +85,6 @@ public class MarioGame extends Game {
     //System.out.println("status " + leftOver + "     " +  rightOver);
     leftOver = false;
     rightOver = false;
-  }
-
-  private boolean entityTopCollision(Moveables player, Moveables entity) {
-    return entity.getNode().getBoundsInParent().getMinY() < player.getNode().getBoundsInParent().getMaxY() &&
-            entity.getNode().getBoundsInParent().getMinY() > player.getNode().getBoundsInParent().getMinY() &&
-            !checkCornersMoveablesX(player, entity);
   }
 
 }

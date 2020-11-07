@@ -13,8 +13,5 @@ public class VikingsGame extends Game{
     super(obstacles, entities, timeElapsed);
   }
 
-  @Override
-  protected void playerEnemyCollision(Moveables entity) {
 
-  }
 }

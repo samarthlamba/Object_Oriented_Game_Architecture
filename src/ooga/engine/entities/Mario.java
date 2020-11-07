@@ -12,6 +12,12 @@ public class Mario extends Player {
       status_Alive = false;
     }
   }
+  @Override
+  public void topMoveables(Moveables entity) {
+    entity.setHitpoints(entity.getHitpoints() - 1);
+          }
+
+
 
 }
 
