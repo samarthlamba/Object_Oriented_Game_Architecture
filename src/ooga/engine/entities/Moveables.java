@@ -73,6 +73,10 @@ import javafx.scene.Node;
 
   void setJump(boolean jump);
 
+  void leftMoveables(Moveables entity);
+  void rightMoveables(Moveables entity);
+  void topMoveables(Moveables entity);
+  void bottomMoveables(Moveables entity);
   //true = right
 
 }
