@@ -203,9 +203,78 @@ public abstract class Game implements GamePlay {
             if (entity.getId() == "enemy") {
                 simulateFall(entity, object);
             }
-            handleCollisions.collisions(entity,object);
+
+            handleCollisions.collisions(entity, object);
         }
     }
+
+    private String getClassPath(Node object) {
+        String[] className = object.getClass().getName().split("\\.");
+       if(className[2].equals("obstacles")){
+            className[3] = "Collideable";
+        }
+        else{
+            className[3] = "Moveables";
+        }
+        return String.join(".", className);
+    }
+
+    private boolean rightCollision (Moveables entity, Node object){
+        return object.getBoundsInParent().getMinX() < entity.getNode().getBoundsInParent().getMaxX() &&
+                object.getBoundsInParent().getMinX() > entity.getNode().getBoundsInParent().getMinX() &&
+                entity.getXForce() > 0 && !checkCornersY(entity, object);
+    }
+
+    private boolean leftCollision (Moveables entity, Node object){
+        return object.getBoundsInParent().getMaxX() > entity.getNode().getBoundsInParent().getMinX() &&
+                object.getBoundsInParent().getMaxX() < entity.getNode().getBoundsInParent().getMaxX() &&
+                entity.getXForce() < 0 && !checkCornersY(entity, object);
+    }
+
+    private boolean bottomCollision (Moveables entity, Node object){
+        return object.getBoundsInParent().getMaxY() > entity.getNode().getBoundsInParent().getMinY() &&
+                object.getBoundsInParent().getMaxY() < entity.getNode().getBoundsInParent().getMaxY() &&
+                !checkCornersX(entity, object);
+    }
+
+    private boolean topCollision (Moveables entity, Node object){
+        return object.getBoundsInParent().getMinY() < entity.getNode().getBoundsInParent().getMaxY() &&
+                object.getBoundsInParent().getMinY() > entity.getNode().getBoundsInParent().getMinY() &&
+                !checkCornersX(entity, object);
+    }
+
+
+    private boolean checkCornersY(Moveables entity, Node object) {
+        return areEqualDouble(object.getBoundsInParent().getMinY(), entity.getNode().getBoundsInParent().getMaxY(), 1) ||
+                areEqualDouble(object.getBoundsInParent().getMaxY(), entity.getNode().getBoundsInParent().getMinY(), 1);
+    }
+
+    private boolean checkCornersX (Moveables entity, Node object){
+            return areEqualDouble(object.getBoundsInParent().getMaxX(), entity.getNode().getBoundsInParent().getMinX(), 1) ||
+                    areEqualDouble(object.getBoundsInParent().getMinX(), entity.getNode().getBoundsInParent().getMaxX(), 1);
+    }
+
+
+    private void checkIfOnEdge(Moveables entity, Collideable object){
+        //if (entity.getNode().getBoundsInParent().getMinX() ){
+            //check if a obstacle is close by with similar x and y. If there is then its fine, else it is about to fall. ceheck for both corners. min of entity and max of obstalce, vs max of osbtalc, vs min for entity
+        }
+
+
+    private boolean cornerOverEdge(Moveables entity, Node object) {
+        return (entity.getNode().getBoundsInParent().getMaxX() > object.getBoundsInParent().getMaxX() &&
+                entity.getNode().getBoundsInParent().getMinX() > object.getBoundsInParent().getMinX());
+    }
+
+    private boolean overEdge(Moveables entity, Node object){
+        double temp = object.getBoundsInParent().getMaxX();
+        double temp2 =  entity.getNode().getBoundsInParent().getMaxX();
+        double temp3 = object.getBoundsInParent().getMinX();
+        double temp4 = entity.getNode().getBoundsInParent().getMinX();
+        return entity.getNode().getBoundsInParent().intersects(object.getBoundsInParent()) && ((object.getBoundsInParent().getMaxX() < entity.getNode().getBoundsInParent().getMaxX()) ||
+                (object.getBoundsInParent().getMinX() > entity.getNode().getBoundsInParent().getMinX()));
+    }
+
 
     private Moveables findMainPlayer() {
         for (Moveables entity : entities) {

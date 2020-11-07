@@ -26,7 +26,7 @@ public class Collisions {
         List<String> collisionSide = new ArrayList<>();
         for (String side : collisionTypes) {
             try {
-                Class gameSuperClass = this.getClass().getSuperclass();
+                Class gameSuperClass = this.getClass();
                 Method findCollisionSide = gameSuperClass.getDeclaredMethod(side + "Collision", Moveables.class, Node.class);
                 if ((boolean) findCollisionSide.invoke(this, entity, object)) {
                     collisionSide.add(side);
@@ -39,6 +39,7 @@ public class Collisions {
         for (String side : collisionSide) {
             try {
                 String classPathName = getClassPath(object);
+                System.out.println(classPathName);
                 Class collision = Class.forName(classPathName);
                 Method actionOnCollision = collision.getDeclaredMethod(side + classPathName.split("\\.")[3], Moveables.class);
                 actionOnCollision.invoke(object, entity);
