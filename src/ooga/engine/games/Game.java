@@ -2,14 +2,11 @@
 package ooga.engine.games;
 
 import javafx.scene.Node;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import ooga.engine.entities.Entity;
 import ooga.engine.entities.Moveables;
+import ooga.engine.games.beans.GameBean;
 import ooga.engine.obstacles.Collideable;
 
-import java.awt.*;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -19,11 +16,14 @@ import static java.lang.Math.abs;
 import static java.lang.Math.round;
 
 public abstract class Game implements GamePlay {
-    public static final double GRAVITY = 800;
+    //public static final double GRAVITY = 800;
+    //We could probably change these to ENUMS
     public static final double NEGATIVE_DIRECTION = -1;
     public static final double NO_INITIAL_VELOCITY = 0;
     public static final double NO_FORCE = 0;
-    public static final double MOVE_FORCE = 50000; //TODO change to 10
+    //public static final double MOVE_FORCE = 50000; //TODO change to 10
+    private final double gravity;
+    private final double moveForce;
     private Collection<Collideable> obstacles;
     private Collection<Moveables> entities;
     private double dt;
@@ -47,7 +47,10 @@ public abstract class Game implements GamePlay {
 
     // check solidity aspect of obstacle by having boolean that is see through
 
-    public Game(Collection<Collideable> obstacles, Collection<Moveables> entities, double timeElapsed) {
+    public Game(Collection<Collideable> obstacles, Collection<Moveables> entities, double timeElapsed,
+        GameBean bean) {
+        this.gravity = bean.getGravity();
+        this.moveForce = bean.getMoveForce();
         this.obstacles = obstacles;
         this.entities = entities;
         for(Moveables entity : entities){
@@ -64,7 +67,7 @@ public abstract class Game implements GamePlay {
 
     private double calculateJumpVelocity() {
 
-        return NEGATIVE_DIRECTION * Math.sqrt((jumpMaxHeight * GRAVITY));
+        return NEGATIVE_DIRECTION * Math.sqrt((jumpMaxHeight * gravity));
     }
 
     public Collection<Collideable> getBackground() {
@@ -195,7 +198,7 @@ public abstract class Game implements GamePlay {
     }
 
     private void gravityForce(Moveables entity) {
-        entity.setYForce(entity.getYForce() + GRAVITY);
+        entity.setYForce(entity.getYForce() + gravity);
     }
 
 
@@ -320,14 +323,14 @@ public abstract class Game implements GamePlay {
 
         public void LEFT (Moveables entity){
             entity.setPreviousX(entity.getCenterX());
-            entity.setXForce(entity.getXForce() - MOVE_FORCE);
+            entity.setXForce(entity.getXForce() - moveForce);
 
         }
 
 
         public void RIGHT (Moveables entity){
             entity.setPreviousX(entity.getCenterX());
-            entity.setXForce(entity.getXForce() + MOVE_FORCE);
+            entity.setXForce(entity.getXForce() + moveForce);
         }
 
         //https://stackoverflow.com/questions/356807/java-double-comparison-epsilon

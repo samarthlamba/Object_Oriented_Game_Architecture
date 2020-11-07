@@ -11,14 +11,12 @@ import ooga.engine.games.Game;
 import ooga.engine.games.GamePlay;
 import ooga.loader.GameFactory;
 import ooga.view.Display;
-import ooga.view.MainMenuScreen;
 import ooga.view.Screen;
 
 import java.util.ResourceBundle;
 
 public class Driver extends Application {
   protected Game myGame;
-  protected MainMenuScreen myMenu;
 
   private static final int STEP_SPEED = 100;
   private static final ResourceBundle LEVEL_FILE_LOCATIONS = ResourceBundle.getBundle("LevelFileLocations");

@@ -2,8 +2,8 @@ package ooga.engine.games;
 
 import java.util.Collection;
 
-import ooga.engine.games.Game;
 import ooga.engine.entities.Moveables;
+import ooga.engine.games.beans.MarioBean;
 import ooga.engine.obstacles.Collideable;
 
 public class MarioGame extends Game {
@@ -11,8 +11,8 @@ public class MarioGame extends Game {
   private Collection<Moveables> entities;
 
   public MarioGame(Collection<Collideable> obstacleCollection, Collection<Moveables> entityCollection,
-                   double timeElapsed) {
-    super(obstacleCollection, entityCollection, timeElapsed);
+                   double timeElapsed, MarioBean bean) {
+    super(obstacleCollection, entityCollection, timeElapsed,bean);
     entities = entityCollection;
     obstacles = obstacleCollection;
   }
