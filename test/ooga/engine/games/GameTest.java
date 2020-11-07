@@ -15,7 +15,7 @@ class GameTest {
 
    @Test
    public void rightMovementTest() {
-       Game game = factory.makeCorrectGame("testMovement.csv");
+       Game game = factory.makeCorrectGame("testMovement");
        Collection<Moveables> entities = game.getEntities();
        double initialPosition = 75;
        Moveables entity = entities.iterator().next();
@@ -28,7 +28,7 @@ class GameTest {
 
     @Test
     public void leftMovementTest() {
-        Game game = factory.makeCorrectGame("testMovement.csv");
+        Game game = factory.makeCorrectGame("testMovement");
         Collection<Moveables> entities = game.getEntities();
         double initialPosition = 75;
         Moveables entity = entities.iterator().next();
@@ -41,7 +41,7 @@ class GameTest {
 
     @Test
     public void jumpTest(){
-        Game game = factory.makeCorrectGame("testMovement.csv");
+        Game game = factory.makeCorrectGame("testMovement");
         Collection<Moveables> entities = game.getEntities();
         Moveables entity = entities.iterator().next();
         game.UP(entity);
@@ -69,7 +69,7 @@ class GameTest {
 
     @Test
     public void leftCollisionTest() {
-        Game game = factory.makeCorrectGame("testNoMovement.csv");
+        Game game = factory.makeCorrectGame("testNoMovement");
         Collection<Moveables> entities = game.getEntities();
         double initialPosition = 75;
         Moveables entity = entities.iterator().next();
@@ -85,7 +85,7 @@ class GameTest {
 
     @Test
     public void rightCollisionTest() {
-        Game game = factory.makeCorrectGame("testNoMovement.csv");
+        Game game = factory.makeCorrectGame("testNoMovement");
         Collection<Moveables> entities = game.getEntities();
         double initialPosition = 75;
         Moveables entity = entities.iterator().next();
@@ -100,7 +100,7 @@ class GameTest {
 
     @Test
     public void rightWallCollisionTest() {
-        Game game = factory.makeCorrectGame("noRightMovement.csv");
+        Game game = factory.makeCorrectGame("noRightMovement");
         Collection<Moveables> entities = game.getEntities();
         double initialPosition = 75;
         Moveables entity = entities.iterator().next();
@@ -114,7 +114,7 @@ class GameTest {
 
     @Test
     public void bottomCollisionTest(){
-        Game game = factory.makeCorrectGame("testCeilingMovement.csv");
+        Game game = factory.makeCorrectGame("testCeilingMovement");
         Collection<Moveables> entities = game.getEntities();
         double initialPosition = 75;
         Moveables entity = entities.iterator().next();

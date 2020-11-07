@@ -1,8 +1,10 @@
 package ooga.loader;
 
+import static javafx.beans.binding.Bindings.when;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Collection;
 
@@ -21,7 +23,7 @@ public class GameFactoryTest {
 
   @Test
   public void testFactoryConstructsProperGame() {
-    Game gameFromLoader = factory.makeCorrectGame("testFile.csv");
+    Game gameFromLoader = factory.makeCorrectGame("TestFile");
     assertTrue(gameFromLoader instanceof MarioGame);
     Collection<Moveables> entitiesFromGame = gameFromLoader.getEntities();
     Collection<Collideable> obstaclesFromGame = gameFromLoader.getBackground();
@@ -38,30 +40,49 @@ public class GameFactoryTest {
   @Test
   public void testFactoryThrowsExceptionWithBadSymbol() {
     try{
-      factory.makeCorrectGame("testFileBadSymbols.csv");
+      factory.makeCorrectGame("testFileBadSymbols");
     } catch (Exception e) {
       assertTrue(e instanceof FactoryException);
-      assertEquals("Unable to build game from testFileBadSymbols.csv: Symbol 2 not present in this game",e.getMessage());
+      assertEquals("Unable to build game from testFileBadSymbols: Symbol 2 not present in this game",e.getMessage());
     }
   }
 
   @Test
   public void testFactoryThrowsExceptionIfFileNotFound() {
     try {
-      factory.makeCorrectGame("notAFile.csv");
+      factory.makeCorrectGame("notAFile");
     } catch (Exception e) {
       assertTrue(e instanceof FactoryException);
-      assertEquals("Unable to build game from notAFile.csv: Could not find file with name notAFile.csv",e.getMessage());
+      assertEquals("Unable to build game from notAFile: Could not find file with name notAFile.csv",e.getMessage());
     }
   }
 
   @Test
   public void testFactoryThrowsExceptionOnEmptyFile() {
     try {
-      factory.makeCorrectGame("testEmptyFile.csv");
+      factory.makeCorrectGame("testEmptyFile");
     } catch (Exception e) {
       assertTrue(e instanceof FactoryException);
-      assertEquals("Unable to build game from testEmptyFile.csv: Empty file",e.getMessage());
+      assertEquals("Unable to build game from testEmptyFile: Empty file",e.getMessage());
+    }
+  }
+
+  @Test
+  public void testFactoryUsesDefaultsIfNoPropertiesExistsForLevel() {
+    try {
+      Game game = factory.makeCorrectGame("MarioLevel2");
+    } catch (Exception e) {
+      fail();
+    }
+  }
+
+  @Test
+  public void testMalformedBeanThrowsError() {
+    try {
+      factory.makeCorrectGame("MalformedBean");
+    } catch (Exception e) {
+      assertTrue(e instanceof FactoryException);
+      assertEquals("Unable to build game from MalformedBean: Error making Bean",e.getMessage());
     }
   }
 
