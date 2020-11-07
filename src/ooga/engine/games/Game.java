@@ -221,9 +221,8 @@ public abstract class Game implements GamePlay {
             for(String side : collisionSide){
                 try {
                     String classPathName = getClassPath(object);
-                    System.out.println(classPathName);
                     Class collision = Class.forName(classPathName);
-                    Method actionOnCollision = collision.getDeclaredMethod(side + "Collideable", Moveables.class);
+                    Method actionOnCollision = collision.getDeclaredMethod(side + classPathName.split("\\.")[3], Moveables.class);
                     actionOnCollision.invoke(object, entity);
                 } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e) {
                   e.printStackTrace(); //TODO: handle error better
