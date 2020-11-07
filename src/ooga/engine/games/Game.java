@@ -37,10 +37,8 @@ public abstract class Game implements GamePlay {
     private double moveVelocity = 10;
     private boolean objectAtCorner;
     private int enemyDirection =-1;
-    private boolean leftOver = false;
-    private boolean rightOver = false;
     private Set<String> collisionTypes = Set.of("right", "left", "top", "bottom");
-    private Collisions handleCollisions;
+    Collisions handleCollisions;
     // private double massCollideable;
 
 
@@ -104,36 +102,11 @@ public abstract class Game implements GamePlay {
         }
     }
 
-    private void enemyDirection(Moveables entity){
-        if(!leftOver && rightOver){
-            entity.setVelocityX(Math.abs(entity.getVelocityX())*1);
-        }
-        if(!rightOver && leftOver){
-            entity.setVelocityX(Math.abs(entity.getVelocityX())*-1);
-        }
-
-        //System.out.println("status " + leftOver + "     " +  rightOver);
-        leftOver = false;
-        rightOver = false;
-    }
-
-    private void simulateFall(Moveables entity, Node object){
-        Rectangle simulate = new Rectangle(entity.getNode().getBoundsInParent().getMinX(), entity.getMaxY(), 0.1, 0.1);
-        if (simulate.intersects(object.getBoundsInParent())){
-            leftOver = true;
-
-        }
-        simulate = new Rectangle(entity.getNode().getBoundsInParent().getMaxX(), entity.getMaxY(),0.1, 0.1);
-        if (simulate.intersects(object.getBoundsInParent())) {
-            rightOver = true;
-        }
-        simulate = new Rectangle(entity.getNode().getBoundsInParent().getMaxX()+1, entity.getMaxY(),0.1, 0.1);
-
-    }
 
 
-    private void moveEnemy(Moveables entity) {
-        enemyDirection(entity);
+
+
+    public void moveEnemy(Moveables entity) {
         if(entity.getId().equals("enemy")){
            // System.out.println("prev " + entity.getPreviousY() + " now " + entity.getMaxY());
             if(entity.getPreviousY() != entity.getMaxY()){
@@ -142,18 +115,11 @@ public abstract class Game implements GamePlay {
                 entity.setVelocityX(entity.getVelocityX()*-1);
                 // double c = entity.getMaxY();
             }
-
-            // double c = entity.getMaxY();
-
-
-           // System.out.println(entity.getVelocityX());
-
-
         }
 
     }
 
-    private void collisionForce(Moveables entity) {
+    public void collisionForce(Moveables entity) {
         for (Collideable obstacle : obstacles) {
             Node object = obstacle.getNodeObject();
             collisions(entity, object);
@@ -198,12 +164,8 @@ public abstract class Game implements GamePlay {
     }
 
 
-    private void collisions(Moveables entity, Node object) {
+    public void collisions(Moveables entity, Node object) {
         if (object.getBoundsInParent().intersects(entity.getNode().getBoundsInParent())) {
-            if (entity.getId() == "enemy") {
-                simulateFall(entity, object);
-            }
-
             handleCollisions.collisions(entity, object);
         }
     }
