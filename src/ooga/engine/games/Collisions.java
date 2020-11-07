@@ -39,7 +39,6 @@ public class Collisions {
         for (String side : collisionSide) {
             try {
                 String classPathName = getClassPath(object);
-                System.out.println(classPathName);
                 Class collision = Class.forName(classPathName);
                 Method actionOnCollision = collision.getDeclaredMethod(side + classPathName.split("\\.")[3], Moveables.class);
                 actionOnCollision.invoke(object, entity);
