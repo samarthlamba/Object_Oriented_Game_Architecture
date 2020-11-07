@@ -163,12 +163,12 @@ public abstract class Entity extends Node implements Moveables {
       jump = isJump;
     }
 
-    public void leftMoveables(Moveables enemy) {}
+    public void leftMoveables(Moveables entity) {}
 
-    public void rightMoveables(Moveables enemy) {}
+    public void rightMoveables(Moveables entity) {}
 
-    public void bottomMoveables(Moveables enemy) {}
+    public void bottomMoveables(Moveables entity) {}
 
-    public void topMoveables(Moveables enemy) {}
+    public void topMoveables(Moveables entity) {}
     //add id.
 }
