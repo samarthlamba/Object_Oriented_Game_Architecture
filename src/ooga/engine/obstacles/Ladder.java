@@ -21,10 +21,9 @@ public class Ladder extends Obstacle {
         this.obstacleWidth = obstacleWidth;
         setId(ID);
     }
-
     @Override
     public Node getNodeObject(){
-        return new Ladder(obstacleWidth, obstacleHeight, initialX, initialY);
+        return this;
     }
 
     @Override

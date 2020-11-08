@@ -55,7 +55,6 @@ public abstract class Obstacle extends Rectangle implements Collideable{
     moveY = Y;
   }
 
-  public abstract Node getNodeObject();
 
 
   public void leftCollideable(Moveables entity) {

@@ -1,10 +1,8 @@
 package ooga.engine.games;
 
 import java.util.Collection;
-
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
-import ooga.engine.games.Game;
 import ooga.engine.entities.Moveables;
 import ooga.engine.obstacles.Collideable;
 
@@ -21,6 +19,9 @@ public class MarioGame extends Game {
     obstacles = obstacleCollection;
   }
 
+  public boolean hasFinished(){
+    return false;
+  }
   private void simulateFall(Moveables entity, Node object){
     Rectangle simulate = new Rectangle(entity.getNode().getBoundsInParent().getMinX(), entity.getMaxY(), 0.1, 0.1);
     if (simulate.intersects(object.getBoundsInParent())){
