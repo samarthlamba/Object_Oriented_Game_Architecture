@@ -7,9 +7,4 @@ public class MarioEnemy extends Enemy{
         this.setVelocityX(-200);
     }
 
-    public void update() {
-        if(getHitpoints() < 0){
-            status_Alive = false;
-        }
-    }
     }

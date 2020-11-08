@@ -70,8 +70,6 @@ public abstract class Entity extends Node implements Moveables {
       nodeObject.setLayoutX(inputX - nodeObject.getLayoutBounds().getCenterX());
   }
 
-  public abstract void update();
-
   public void setMaxY(double inputY){
       nodeObject.setLayoutY(inputY - nodeObject.getLayoutBounds().getMaxY());
     //nodeObject.setLayoutY(inputY+nodeObject.getLayoutY());
@@ -79,6 +77,9 @@ public abstract class Entity extends Node implements Moveables {
 
   public void setHitpoints(int hitpoints){
     currentHitpoints=hitpoints;
+    if (currentHitpoints < 0){
+    status_Alive = false;
+      }
   }
 
   public int getHitpoints(){

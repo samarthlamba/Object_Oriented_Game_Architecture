@@ -9,8 +9,5 @@ public class Viking extends Player{
     super(sceneWidth, sceneHeight, initialX, initialY);
   }
 
-  @Override
-  public void update() {
 
-  }
 }

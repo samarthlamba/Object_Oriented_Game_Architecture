@@ -9,8 +9,5 @@ public class Goblin extends Enemy{
     super(objectWidth, objectHeight, initialX, initialY);
   }
 
-  @Override
-  public void update() {
 
-  }
 }

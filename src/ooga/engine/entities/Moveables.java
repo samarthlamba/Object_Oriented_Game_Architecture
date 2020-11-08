@@ -23,7 +23,6 @@ import javafx.scene.Node;
 
    void setCenterX(double inputX);
 
-   abstract void update();
 
    void setMaxY(double inputY);
 

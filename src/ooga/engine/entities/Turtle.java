@@ -10,7 +10,9 @@ public class Turtle extends Enemy{
   }
 
   @Override
-  public void update() {
-
+  public void topMoveables(Moveables entity) {
+    if (entity.getId() == "player"){
+      entity.setVelocityY(20);
   }
+}
 }
