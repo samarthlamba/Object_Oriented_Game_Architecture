@@ -76,9 +76,9 @@ public abstract class Entity extends Node implements Moveables {
   }
 
   public void setHitpoints(int hitpoints){
-    currentHitpoints=hitpoints;
-    if (currentHitpoints < 0){
-    status_Alive = false;
+      currentHitpoints=hitpoints;
+      if (currentHitpoints < 0){
+          status_Alive = false;
       }
   }
 
