@@ -36,7 +36,7 @@ public abstract class Game implements GamePlay {
     private double massMoveables;
     private double moveVelocity = 10;
     private boolean objectAtCorner;
-    private int enemyDirection =-1;
+    private int enemyDirection = -1;
     private Set<String> collisionTypes = Set.of("right", "left", "top", "bottom");
     Collisions handleCollisions;
     // private double massCollideable;
@@ -50,7 +50,7 @@ public abstract class Game implements GamePlay {
         this.obstacles = obstacles;
         this.entities = entities;
         handleCollisions = new Collisions(obstacles, entities);
-        for(Moveables entity : entities){
+        for (Moveables entity : entities) {
             entity.setTimeElapsedY(timeElapsed);
             entity.setTimeElapsedX(timeElapsed);
         }
@@ -73,7 +73,7 @@ public abstract class Game implements GamePlay {
 
     @Override
     public void updateLevel() {
-       // System.out.println("stepped123");
+        // System.out.println("stepped123");
         updateMoveables();
     }
 
@@ -83,19 +83,19 @@ public abstract class Game implements GamePlay {
     }
 
     public void updateMoveables() {
-       // System.out.println("stepped12324");
+        // System.out.println("stepped12324");
         for (Moveables entity : entities) {
             if (entity.isJump() && entity.getTimeElapsedY() < .35) {
                 entity.setTimeElapsedY(entity.getTimeElapsedY() + entity.getTimeElapsedX());
             }
-            if(entity.getId().equals("player")) {
+            if (entity.getId().equals("player")) {
                 entity.setJump(true);
             }
             gravityForce(entity);
             collisionForce(entity);
             moveEnemy(entity);
             updatePosition(entity);
-           // System.out.println("force" + entity.getYForce());
+            // System.out.println("force" + entity.getYForce());
             entity.setYForce(0);
             entity.setXForce(0);
 
@@ -103,16 +103,13 @@ public abstract class Game implements GamePlay {
     }
 
 
-
-
-
     public void moveEnemy(Moveables entity) {
-        if(entity.getId().equals("enemy")){
-           // System.out.println("prev " + entity.getPreviousY() + " now " + entity.getMaxY());
-            if(entity.getPreviousY() != entity.getMaxY()){
+        if (entity.getId().equals("enemy")) {
+            // System.out.println("prev " + entity.getPreviousY() + " now " + entity.getMaxY());
+            if (entity.getPreviousY() != entity.getMaxY()) {
                 entity.setMaxY(entity.getPreviousY());
                 entity.setCenterX(entity.getPreviousX());
-                entity.setVelocityX(entity.getVelocityX()*-1);
+                entity.setVelocityX(entity.getVelocityX() * -1);
                 // double c = entity.getMaxY();
             }
         }
@@ -125,9 +122,6 @@ public abstract class Game implements GamePlay {
             collisions(entity, object);
         }
     }
-
-
-
 
 
     protected boolean checkCornersMoveablesX(Moveables player, Moveables entity) {
@@ -187,29 +181,29 @@ public abstract class Game implements GamePlay {
         UP(entity);
     }
 
-        public void UP (Moveables entity){
-            entity.setJump(true);
-            entity.setVelocityY(entity.getJumpMax());
-            entity.setMaxY(entity.getMaxY() - 2);
-        }
+    public void UP(Moveables entity) {
+        entity.setJump(true);
+        entity.setVelocityY(entity.getJumpMax());
+        entity.setMaxY(entity.getMaxY() - 2);
+    }
 
 
-        public void LEFT (Moveables entity){
-            entity.setPreviousX(entity.getCenterX());
-            entity.setXForce(entity.getXForce() - MOVE_FORCE);
+    public void LEFT(Moveables entity) {
+        entity.setPreviousX(entity.getCenterX());
+        entity.setXForce(entity.getXForce() - MOVE_FORCE);
 
-        }
+    }
 
 
-        public void RIGHT (Moveables entity){
-            entity.setPreviousX(entity.getCenterX());
-            entity.setXForce(entity.getXForce() + MOVE_FORCE);
-        }
+    public void RIGHT(Moveables entity) {
+        entity.setPreviousX(entity.getCenterX());
+        entity.setXForce(entity.getXForce() + MOVE_FORCE);
+    }
 
-        //https://stackoverflow.com/questions/356807/java-double-comparison-epsilon
-        public boolean areEqualDouble ( double a, double b, int precision){
-            return Math.abs(a - b) <= Math.pow(10, -precision);
-        }
+    //https://stackoverflow.com/questions/356807/java-double-comparison-epsilon
+    public boolean areEqualDouble(double a, double b, int precision) {
+        return Math.abs(a - b) <= Math.pow(10, -precision);
+    }
 
 }
 
