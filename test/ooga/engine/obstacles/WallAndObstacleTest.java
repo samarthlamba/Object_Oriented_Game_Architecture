@@ -11,27 +11,27 @@ class WallAndObstacleTest {
 
     @Test
     void moveXBy() {
-        double initialY = testWall.getNodeObject().getBoundsInParent().getCenterY();
+        double initialY = testWall.getBoundsInParent().getCenterY();
         testWall.moveXBy(10);
-        assertEquals(70, testWall.getNodeObject().getBoundsInParent().getCenterX());
+        assertEquals(70, testWall.getBoundsInParent().getCenterX());
         testWall.moveXBy(10);
-        assertEquals(initialY, testWall.getNodeObject().getBoundsInParent().getCenterY());
-        assertEquals(80, testWall.getNodeObject().getBoundsInParent().getCenterX());
+        assertEquals(initialY, testWall.getBoundsInParent().getCenterY());
+        assertEquals(80, testWall.getBoundsInParent().getCenterX());
         testWall.moveXBy(-30);
-        assertEquals(50, testWall.getNodeObject().getBoundsInParent().getCenterX());
-        assertEquals(initialY, testWall.getNodeObject().getBoundsInParent().getCenterY());
+        assertEquals(50, testWall.getBoundsInParent().getCenterX());
+        assertEquals(initialY, testWall.getBoundsInParent().getCenterY());
     }
 
 
     @Test
     void moveY() {
-        double initialX = testWall.getNodeObject().getBoundsInParent().getCenterX();
+        double initialX = testWall.getBoundsInParent().getCenterX();
         testWall.moveYBy(15);
-        assertEquals(75, testWall.getNodeObject().getBoundsInParent().getCenterY());
-        assertEquals(initialX, testWall.getNodeObject().getBoundsInParent().getCenterX());
+        assertEquals(75, testWall.getBoundsInParent().getCenterY());
+        assertEquals(initialX, testWall.getBoundsInParent().getCenterX());
         testWall.moveYBy(-25);
-        assertEquals(50, testWall.getNodeObject().getBoundsInParent().getCenterY());
-        assertEquals(initialX, testWall.getNodeObject().getBoundsInParent().getCenterX());
+        assertEquals(50, testWall.getBoundsInParent().getCenterY());
+        assertEquals(initialX, testWall.getBoundsInParent().getCenterX());
     }
 
     @Test
