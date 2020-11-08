@@ -60,13 +60,15 @@ public abstract class Obstacle extends Rectangle implements Collideable{
 
   public void leftCollideable(Moveables entity) {
     entity.setXForce(0);
-    entity.setCenterX(getBoundsInParent().getMaxX() + entity.getEntityWidth() / 2);
+    entity.setCenterX(getBoundsInParent().getMaxX() + entity.getEntityWidth()/2);
+    entity.setVelocityX(entity.getVelocityX() * NEGATIVE_DIRECTION);
   }
 
 
   public void rightCollideable(Moveables entity) {
     entity.setXForce(0);
-    entity.setCenterX(getBoundsInParent().getMinX() - entity.getEntityWidth() / 2);
+    entity.setCenterX(getBoundsInParent().getMinX() - entity.getEntityWidth()/2);
+    entity.setVelocityX(entity.getVelocityX() * NEGATIVE_DIRECTION);
   }
 
   public void bottomCollideable(Moveables entity) {

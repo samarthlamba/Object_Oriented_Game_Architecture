@@ -47,7 +47,6 @@ public class MarioGame extends Game {
       if (entity.getId() == "enemy") {
         simulateFall(entity, object);
       }
-
       handleCollisions.collisions(entity, object);
     }
   }
@@ -84,7 +83,6 @@ public class MarioGame extends Game {
     if(!rightOver && leftOver){
       entity.setVelocityX(Math.abs(entity.getVelocityX())*-1);
     }
-
     //System.out.println("status " + leftOver + "     " +  rightOver);
     leftOver = false;
     rightOver = false;

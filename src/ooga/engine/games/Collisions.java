@@ -70,13 +70,13 @@ public class Collisions {
     private boolean rightCollision(Moveables entity, Node object) {
         return object.getBoundsInParent().getMinX() < entity.getNode().getBoundsInParent().getMaxX() &&
                 object.getBoundsInParent().getMinX() > entity.getNode().getBoundsInParent().getMinX() &&
-                entity.getXForce() > 0 && !checkCornersY(entity, object);
+                entity.getXForce() >= 0 && !checkCornersY(entity, object);
     }
 
     private boolean leftCollision(Moveables entity, Node object) {
         return object.getBoundsInParent().getMaxX() > entity.getNode().getBoundsInParent().getMinX() &&
                 object.getBoundsInParent().getMaxX() < entity.getNode().getBoundsInParent().getMaxX() &&
-                entity.getXForce() < 0 && !checkCornersY(entity, object);
+                entity.getXForce() <= 0 && !checkCornersY(entity, object);
     }
 
     private boolean bottomCollision(Moveables entity, Node object) {
@@ -92,13 +92,13 @@ public class Collisions {
     }
 
     private boolean checkCornersY(Moveables entity, Node object) {
-        return areEqualDouble(object.getBoundsInParent().getMinY(), entity.getNode().getBoundsInParent().getMaxY(), 1) ||
-                areEqualDouble(object.getBoundsInParent().getMaxY(), entity.getNode().getBoundsInParent().getMinY(), 1);
+        return areEqualDouble(object.getBoundsInParent().getMinY(), entity.getNode().getBoundsInParent().getMaxY(), 0) ||
+                areEqualDouble(object.getBoundsInParent().getMaxY(), entity.getNode().getBoundsInParent().getMinY(), 0);
     }
 
     private boolean checkCornersX(Moveables entity, Node object) {
-        return areEqualDouble(object.getBoundsInParent().getMaxX(), entity.getNode().getBoundsInParent().getMinX(), 1) ||
-                areEqualDouble(object.getBoundsInParent().getMinX(), entity.getNode().getBoundsInParent().getMaxX(), 1);
+        return areEqualDouble(object.getBoundsInParent().getMaxX(), entity.getNode().getBoundsInParent().getMinX(), 0) ||
+                areEqualDouble(object.getBoundsInParent().getMinX(), entity.getNode().getBoundsInParent().getMaxX(), 0);
     }
 
     //https://stackoverflow.com/questions/356807/java-double-comparison-epsilon
