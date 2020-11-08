@@ -80,7 +80,7 @@ class GameTest {
             game.updateMoveables();
         }
 
-        assertTrue(game.areEqualDouble(61.38, entity.getCenterX(), 1));
+        assertTrue(game.areEqualDouble(75, entity.getCenterX(), 1));
     }
 
     @Test
@@ -95,7 +95,7 @@ class GameTest {
             game.updateMoveables();
             System.out.println(entity.getCenterX());
         }
-        assertTrue(game.areEqualDouble(88.61, entity.getCenterX(), 1));
+        assertTrue(game.areEqualDouble(75, entity.getCenterX(), 1));
     }
 
     @Test
@@ -109,7 +109,7 @@ class GameTest {
             game.RIGHT(entity);
             game.updateMoveables();
         }
-        assertTrue(game.areEqualDouble(88.61, entity.getCenterX(), 1));
+        assertTrue(game.areEqualDouble(75, entity.getCenterX(), 1));
     }
 
     @Test

@@ -39,7 +39,6 @@ public abstract class Game implements GamePlay {
     private int enemyDirection = -1;
     private Set<String> collisionTypes = Set.of("right", "left", "top", "bottom");
     Collisions handleCollisions;
-    // private double massCollideable;
 
 
 //add 'is finished' to confirm if the game has been finished
