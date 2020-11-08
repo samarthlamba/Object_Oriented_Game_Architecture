@@ -86,4 +86,27 @@ public class GameFactoryTest {
     }
   }
 
+  @Test
+  public void testEveryMarioLevelLoads() {
+    try {
+      factory.makeCorrectGame("MarioLevel1");
+      factory.makeCorrectGame("MarioLevel2");
+      factory.makeCorrectGame("MarioLevel3");
+    } catch (Exception e) {
+      fail();
+    }
+
+  }
+
+  @Test
+  public void testEveryMetroidLevelLoads() {
+    try {
+      factory.makeCorrectGame("MetroidLevel1");
+      factory.makeCorrectGame("MetroidLevel2");
+      factory.makeCorrectGame("MetroidLevel3");
+    } catch (Exception e) {
+      fail();
+    }
+  }
+
 }
