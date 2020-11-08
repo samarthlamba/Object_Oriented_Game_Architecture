@@ -8,7 +8,7 @@ import ooga.engine.obstacles.Obstacle;
  * Gives mario coin when hit
  */
 public class Coin extends Obstacle {
-
+  private int totalMoney = 0;
   public Coin(int obstacleWidth, int obstacleHeight, double initialX, double initialY) {
     super(obstacleWidth, obstacleHeight, initialX, initialY);
   }
@@ -18,4 +18,11 @@ public class Coin extends Obstacle {
     return null;
   }
 
+  public void addMoney(int amount){
+    totalMoney = totalMoney + amount;
+  }
+
+  public int getTotalMoney() {
+    return totalMoney;
+  }
 }
