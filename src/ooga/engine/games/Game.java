@@ -79,6 +79,7 @@ public abstract class Game implements GamePlay {
     }
 
     public void updateEntity() {
+
         // System.out.println("stepped12324");
         for (Entity entity : entities) {
             if (entity.isJump() && entity.getTimeElapsedY() < .35) {
@@ -96,6 +97,8 @@ public abstract class Game implements GamePlay {
             entity.setXForce(0);
 
         }
+
+        entities.removeIf(e -> e.getStatusAlive() == false);
     }
 
 
