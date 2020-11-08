@@ -1,6 +1,7 @@
 package ooga.engine.games;
 
 import javafx.scene.Node;
+import ooga.engine.entities.Entity;
 import ooga.engine.entities.Moveables;
 import ooga.engine.obstacles.Collideable;
 
@@ -40,7 +41,7 @@ public class Collisions {
             try {
                 String classPathName = getClassPath(object);
                 Class collision = Class.forName(classPathName);
-                Method actionOnCollision = collision.getDeclaredMethod(side + classPathName.split("\\.")[3], Moveables.class);
+                Method actionOnCollision = collision.getDeclaredMethod(side + "Collideable", Moveables.class);
                 actionOnCollision.invoke(object, entity);
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e) {
                 e.printStackTrace(); //TODO: handle error better
@@ -54,7 +55,7 @@ public class Collisions {
         if (className[2].equals("obstacles")) {
             className[3] = "Collideable";
         } else {
-            className[3] = "Moveables";
+            className[3] = "Entity";
         }
         return String.join(".", className);
     }

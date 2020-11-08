@@ -1,5 +1,7 @@
 package ooga.engine.entities;
 
+import javafx.scene.Node;
+
 public class Goomba extends Enemy{
     public static final int VELOCITY = 200;
     public static final int GOOMBA_HEALTH = 1;
@@ -11,21 +13,26 @@ public class Goomba extends Enemy{
     }
 
     @Override
-    public void leftMoveables(Moveables entity) {
+    public Node getNodeObject() {
+        return null;
+    }
+
+    @Override
+    public void leftCollideable(Moveables entity) {
         if (entity.getId() == "player"){
             entity.setHitpoints(entity.getHitpoints()+HEALTH_PENALTY);
         }
     }
 
     @Override
-    public void rightMoveables(Moveables entity) {
+    public void rightCollideable(Moveables entity) {
         if (entity.getId() == "player"){
             entity.setHitpoints(entity.getHitpoints()+HEALTH_PENALTY);
         }
     }
 
     @Override
-    public void bottomMoveables(Moveables entity) {
+    public void bottomCollideable(Moveables entity) {
         if (entity.getId() == "player"){
             entity.setHitpoints(entity.getHitpoints()+HEALTH_PENALTY);
         }

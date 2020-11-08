@@ -1,5 +1,7 @@
 package ooga.engine.entities;
 
+import javafx.scene.Node;
+
 /**
  * Lost Vikings Implementation of player
  */
@@ -10,4 +12,8 @@ public class Viking extends Player{
   }
 
 
+  @Override
+  public Node getNodeObject() {
+    return null;
+  }
 }

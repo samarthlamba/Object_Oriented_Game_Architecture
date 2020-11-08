@@ -1,5 +1,7 @@
 package ooga.engine.entities;
 
+import javafx.scene.Node;
+
 /**
  * Enemy in mario that gives y velocity when you jump on them
  */
@@ -10,9 +12,14 @@ public class Turtle extends Enemy{
   }
 
   @Override
-  public void topMoveables(Moveables entity) {
+  public void topCollideable(Moveables entity) {
     if (entity.getId() == "player"){
       entity.setVelocityY(20);
   }
 }
+
+  @Override
+  public Node getNodeObject() {
+    return null;
+  }
 }

@@ -1,5 +1,7 @@
 package ooga.engine.entities;
 
+import javafx.scene.Node;
+
 /**
  * Metroid basic enemy
  */
@@ -10,4 +12,8 @@ public class SpacePirate extends Enemy{
   }
 
 
+  @Override
+  public Node getNodeObject() {
+    return null;
+  }
 }
