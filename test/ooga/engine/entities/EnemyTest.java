@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EnemyTest {
 
-  Entity testEntityEnemy = new MarioEnemy(100, 100, 50, 50);
+  Entity testEntityEnemy = new Goomba(100, 100, 50, 50);
 
     @Test
     void getNode() {

@@ -4,6 +4,7 @@ package ooga.engine.games;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import ooga.engine.entities.Bullet;
 import ooga.engine.entities.Entity;
 import ooga.engine.entities.Moveables;
 import ooga.engine.obstacles.Collideable;
@@ -24,6 +25,9 @@ public abstract class Game implements GamePlay {
     public static final double NO_INITIAL_VELOCITY = 0;
     public static final double NO_FORCE = 0;
     public static final double MOVE_FORCE = 50000; //TODO change to 10
+    private static final int BULLET_WIDTH = 10;
+    private static final int BULLET_HEIGHT = 3;
+    private static final double BULLET_VELOCITY = -30;
     private Collection<Collideable> obstacles;
     private Collection<Moveables> entities;
     private double dt;
@@ -146,7 +150,9 @@ public abstract class Game implements GamePlay {
     }
 
     private void gravityForce(Moveables entity) {
-        entity.setYForce(entity.getYForce() + GRAVITY);
+        if(entity.hasGravity()) {
+            entity.setYForce(entity.getYForce() + GRAVITY);
+        }
     }
 
 
@@ -180,6 +186,20 @@ public abstract class Game implements GamePlay {
         UP(entity);
     }
 
+    public void fireBullets(){
+        Moveables entity = findMainPlayer();
+        double bulletStartX = entity.getCenterX() - entity.getEntityWidth()/2;
+        double bulletStartY = entity.getMaxY() - entity.getEntityHeight()/2;
+        double bulletVelocity = BULLET_VELOCITY;
+        if(entity.getFacing()) {
+            bulletStartX = entity.getCenterX() + entity.getEntityWidth()/2;
+            bulletVelocity *= NEGATIVE_DIRECTION;
+        }
+        Bullet bullet = new Bullet(BULLET_WIDTH, BULLET_HEIGHT, bulletStartX, bulletStartY);
+        bullet.setVelocityX(bulletVelocity);
+        entities.add(bullet);
+    }
+
     public void UP(Moveables entity) {
         entity.setJump(true);
         entity.setVelocityY(entity.getJumpMax());
@@ -190,14 +210,16 @@ public abstract class Game implements GamePlay {
     public void LEFT(Moveables entity) {
         entity.setPreviousX(entity.getCenterX());
         entity.setXForce(entity.getXForce() - MOVE_FORCE);
-
+        entity.setFacing(false);
     }
 
 
     public void RIGHT(Moveables entity) {
         entity.setPreviousX(entity.getCenterX());
         entity.setXForce(entity.getXForce() + MOVE_FORCE);
+        entity.setFacing(true);
     }
+
 
     //https://stackoverflow.com/questions/356807/java-double-comparison-epsilon
     public boolean areEqualDouble(double a, double b, int precision) {

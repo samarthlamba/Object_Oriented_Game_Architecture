@@ -69,10 +69,15 @@ import javafx.scene.Node;
 
   void setJump(boolean jump);
 
+  boolean hasGravity();
+
   void leftMoveables(Moveables entity);
   void rightMoveables(Moveables entity);
   void topMoveables(Moveables entity);
   void bottomMoveables(Moveables entity);
   //true = right
+
+  void setFacing(boolean facing);
+  boolean getFacing();
 
 }

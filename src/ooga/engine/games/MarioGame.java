@@ -52,6 +52,9 @@ public class MarioGame extends Game {
     }
   }
 
+  @Override
+  public void fireBullets() {}
+
 
   @Override
   public void moveEnemy(Moveables entity) {

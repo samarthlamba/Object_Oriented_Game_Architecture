@@ -22,6 +22,7 @@ public abstract class Entity extends Node implements Moveables {
   private double timeElapsedX = 0;
   private boolean jump = false;
   private double timeInterval = 0;
+  private boolean facing = true;
 
   public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
     this.SCENE_WIDTH = objectWidth;
@@ -171,5 +172,17 @@ public abstract class Entity extends Node implements Moveables {
     public void bottomMoveables(Moveables entity) {}
 
     public void topMoveables(Moveables entity) {}
+
+    public boolean hasGravity(){
+      return true;
+    }
+
+    public boolean getFacing(){
+      return facing;
+    }
+
+    public void setFacing(boolean direction){
+      facing = direction;
+    }
     //add id.
 }

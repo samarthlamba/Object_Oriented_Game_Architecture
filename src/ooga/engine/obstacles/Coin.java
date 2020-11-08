@@ -1,6 +1,7 @@
 package ooga.engine.obstacles;
 
 import javafx.scene.Node;
+import ooga.engine.entities.Moveables;
 import ooga.engine.obstacles.Obstacle;
 
 /**
@@ -16,4 +17,5 @@ public class Coin extends Obstacle {
   public Node getNodeObject() {
     return null;
   }
+
 }
