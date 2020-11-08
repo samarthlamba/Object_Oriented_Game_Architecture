@@ -2,9 +2,6 @@ package ooga.engine.obstacles;
 
 
 import javafx.scene.Node;
-import ooga.engine.entities.Moveables;
-
-import java.util.Map;
 
 public class Wall extends Obstacle {
   private double initialX;

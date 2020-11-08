@@ -18,21 +18,21 @@ public class Goomba extends Enemy{
     }
 
     @Override
-    public void leftCollideable(Moveables entity) {
+    public void leftCollideable(Entity entity) {
         if (entity.getId() == "player"){
             entity.setHitpoints(entity.getHitpoints()+HEALTH_PENALTY);
         }
     }
 
     @Override
-    public void rightCollideable(Moveables entity) {
+    public void rightCollideable(Entity entity) {
         if (entity.getId() == "player"){
             entity.setHitpoints(entity.getHitpoints()+HEALTH_PENALTY);
         }
     }
 
     @Override
-    public void bottomCollideable(Moveables entity) {
+    public void bottomCollideable(Entity entity) {
         if (entity.getId() == "player"){
             entity.setHitpoints(entity.getHitpoints()+HEALTH_PENALTY);
         }

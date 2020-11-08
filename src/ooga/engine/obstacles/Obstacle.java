@@ -1,10 +1,7 @@
 package ooga.engine.obstacles;
 
-import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
-import ooga.engine.entities.Moveables;
-
-import java.util.Map;
+import ooga.engine.entities.Entity;
 
 public abstract class Obstacle extends Rectangle implements Collideable{
   private static final double MOVE_FORCE = 1000;
@@ -57,20 +54,20 @@ public abstract class Obstacle extends Rectangle implements Collideable{
 
 
 
-  public void leftCollideable(Moveables entity) {
+  public void leftCollideable(Entity entity) {
     entity.setXForce(0);
     entity.setCenterX(getBoundsInParent().getMaxX() + entity.getEntityWidth()/2);
     entity.setVelocityX(entity.getVelocityX() * NEGATIVE_DIRECTION);
   }
 
 
-  public void rightCollideable(Moveables entity) {
+  public void rightCollideable(Entity entity) {
     entity.setXForce(0);
     entity.setCenterX(getBoundsInParent().getMinX() - entity.getEntityWidth()/2);
     entity.setVelocityX(entity.getVelocityX() * NEGATIVE_DIRECTION);
   }
 
-  public void bottomCollideable(Moveables entity) {
+  public void bottomCollideable(Entity entity) {
    // System.out.println("bottom");
     //entity.setMaxY(getBoundsInParent().getMaxY() + entity.getEntityHeight());
     entity.setYForce(GRAVITY);
@@ -78,7 +75,7 @@ public abstract class Obstacle extends Rectangle implements Collideable{
     //entity.setJump(false);
   }
 
-  public void topCollideable(Moveables entity) {
+  public void topCollideable(Entity entity) {
     entity.setMaxY(getBoundsInParent().getMinY());
     entity.setYForce(entity.getYForce() + NEGATIVE_DIRECTION * GRAVITY);
     entity.setTimeElapsedY(entity.getTimeElapsedX());

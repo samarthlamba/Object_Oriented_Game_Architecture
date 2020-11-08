@@ -1,12 +1,10 @@
 package ooga.engine.entities;
 
 import javafx.scene.Node;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Rectangle;
 import ooga.engine.obstacles.Collideable;
 
-public abstract class Entity extends Node implements Moveables, Collideable {
+public abstract class Entity extends Node implements Moveable, Collideable {
   private final int SCENE_WIDTH;
   private final int SCENE_HEIGHT;
   private int currentHitpoints = 5;
@@ -166,13 +164,13 @@ public abstract class Entity extends Node implements Moveables, Collideable {
       jump = isJump;
     }
 
-    public void leftCollideable(Moveables entity) {}
+    public void leftCollideable(Entity entity) {}
 
-    public void rightCollideable(Moveables entity) {}
+    public void rightCollideable(Entity entity) {}
 
-    public void bottomCollideable(Moveables entity) {}
+    public void bottomCollideable(Entity entity) {}
 
-    public void topCollideable(Moveables entity) {}
+    public void topCollideable(Entity entity) {}
 
     public boolean hasGravity(){
       return true;

@@ -12,7 +12,7 @@ public class Turtle extends Enemy{
   }
 
   @Override
-  public void topCollideable(Moveables entity) {
+  public void topCollideable(Entity entity) {
     if (entity.getId() == "player"){
       entity.setVelocityY(20);
   }

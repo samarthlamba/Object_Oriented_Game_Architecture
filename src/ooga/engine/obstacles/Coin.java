@@ -1,8 +1,6 @@
 package ooga.engine.obstacles;
 
 import javafx.scene.Node;
-import ooga.engine.entities.Moveables;
-import ooga.engine.obstacles.Obstacle;
 
 /**
  * Gives mario coin when hit

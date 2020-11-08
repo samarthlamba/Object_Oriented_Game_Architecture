@@ -17,10 +17,11 @@ public class Mario extends Player {
     }
 
     @Override
-    public void topCollideable(Moveables entity) {
+    public void topCollideable(Entity entity) {
         if (entity.getId() == "enemy") {
             entity.setHitpoints(entity.getHitpoints() - 1);
         }
     }
+
 }
 

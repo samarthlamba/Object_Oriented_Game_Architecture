@@ -1,20 +1,16 @@
 package ooga.view;
 
-import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import ooga.engine.entities.Entity;
-import ooga.engine.entities.Moveables;
+import ooga.engine.entities.Moveable;
 import ooga.engine.games.GamePlay;
 import ooga.engine.obstacles.Collideable;
-import ooga.engine.obstacles.Obstacle;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -32,14 +28,14 @@ public class GamePlayScreen extends Screen{
     private List<Object> keys;
     private GamePlay game;
     private Group background;
-    private Moveables mainPlayer;
+    private Moveable mainPlayer;
 
     public void setGameScreen(GamePlay givenGame) {
         Pane gamePane = new Pane(); //Todo justify
         background = new Group();
         game = givenGame;
         keys = new ArrayList<>();
-        for (Moveables entity : game.getEntities()) {
+        for (Moveable entity : game.getEntities()) {
             if (entity.getId().equals("player")) {
                 mainPlayer = entity;
                 double width = entity.getNode().getLayoutBounds().getWidth();

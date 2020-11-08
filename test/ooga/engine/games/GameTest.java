@@ -1,7 +1,6 @@
 package ooga.engine.games;
 
-import ooga.engine.games.Game;
-import ooga.engine.entities.Moveables;
+import ooga.engine.entities.Entity;
 import ooga.loader.GameFactory;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,9 +15,9 @@ class GameTest {
    @Test
    public void rightMovementTest() {
        Game game = factory.makeCorrectGame("testMovement.csv");
-       Collection<Moveables> entities = game.getEntities();
+       Collection<Entity> entities = (Collection<Entity>) game.getEntities();
        double initialPosition = 75;
-       Moveables entity = entities.iterator().next();
+       Entity entity = entities.iterator().next();
        assertEquals(initialPosition, entity.getCenterX());
        game.RIGHT(entity);
        game.updateLevel();
@@ -29,9 +28,9 @@ class GameTest {
     @Test
     public void leftMovementTest() {
         Game game = factory.makeCorrectGame("testMovement.csv");
-        Collection<Moveables> entities = game.getEntities();
+        Collection<Entity> entities = (Collection<Entity>) game.getEntities();
         double initialPosition = 75;
-        Moveables entity = entities.iterator().next();
+        Entity entity = entities.iterator().next();
         assertEquals(initialPosition, entity.getCenterX());
         game.LEFT(entity);
         game.updateLevel();
@@ -42,8 +41,8 @@ class GameTest {
     @Test
     public void jumpTest(){
         Game game = factory.makeCorrectGame("testMovement.csv");
-        Collection<Moveables> entities = game.getEntities();
-        Moveables entity = entities.iterator().next();
+        Collection<Entity> entities = (Collection<Entity>) game.getEntities();
+        Entity entity = entities.iterator().next();
         game.UP(entity);
         double previous = 200;
         for(int i = 0; i < 16; i++) {
@@ -70,9 +69,9 @@ class GameTest {
     @Test
     public void leftCollisionTest() {
         Game game = factory.makeCorrectGame("testNoMovement.csv");
-        Collection<Moveables> entities = game.getEntities();
+        Collection<Entity> entities = (Collection<Entity>) game.getEntities();
         double initialPosition = 75;
-        Moveables entity = entities.iterator().next();
+        Entity entity = entities.iterator().next();
         assertEquals(initialPosition, entity.getCenterX());
         System.out.println(entity.getCenterX());
         for(int i = 0; i < 100; i++){
@@ -86,9 +85,9 @@ class GameTest {
     @Test
     public void rightCollisionTest() {
         Game game = factory.makeCorrectGame("testNoMovement.csv");
-        Collection<Moveables> entities = game.getEntities();
+        Collection<Entity> entities = (Collection<Entity>) game.getEntities();
         double initialPosition = 75;
-        Moveables entity = entities.iterator().next();
+        Entity entity = entities.iterator().next();
         assertEquals(initialPosition, entity.getCenterX());
         for(int i = 0; i < 10; i++){
             game.RIGHT(entity);
@@ -101,9 +100,9 @@ class GameTest {
     @Test
     public void rightWallCollisionTest() {
         Game game = factory.makeCorrectGame("noRightMovement.csv");
-        Collection<Moveables> entities = game.getEntities();
+        Collection<Entity> entities = (Collection<Entity>) game.getEntities();
         double initialPosition = 75;
-        Moveables entity = entities.iterator().next();
+        Entity entity = entities.iterator().next();
         assertEquals(initialPosition, entity.getCenterX());
         for(int i = 0; i < 10; i++){
             game.RIGHT(entity);
@@ -115,9 +114,9 @@ class GameTest {
     @Test
     public void bottomCollisionTest(){
         Game game = factory.makeCorrectGame("testCeilingMovement.csv");
-        Collection<Moveables> entities = game.getEntities();
+        Collection<Entity> entities = (Collection<Entity>) game.getEntities();
         double initialPosition = 75;
-        Moveables entity = entities.iterator().next();
+        Entity entity = entities.iterator().next();
         assertEquals(initialPosition, entity.getCenterX());
         game.UP(entity);
         for(int i = 0; i < 300; i++){

@@ -3,16 +3,16 @@ package ooga.engine.games;
 import java.util.Collection;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
-import ooga.engine.entities.Moveables;
-import ooga.engine.obstacles.Collideable;
+import ooga.engine.entities.Entity;
+import ooga.engine.obstacles.Obstacle;
 
 public class MarioGame extends Game {
-  private Collection<Collideable> obstacles;
-  private Collection<Moveables> entities;
+  private Collection<Obstacle> obstacles;
+  private Collection<Entity> entities;
   private boolean leftOver = false;
   private boolean rightOver = false;
 
-  public MarioGame(Collection<Collideable> obstacleCollection, Collection<Moveables> entityCollection,
+  public MarioGame(Collection<Obstacle> obstacleCollection, Collection<Entity> entityCollection,
                    double timeElapsed) {
     super(obstacleCollection, entityCollection, timeElapsed);
     entities = entityCollection;
@@ -22,7 +22,7 @@ public class MarioGame extends Game {
   public boolean hasFinished(){
     return false;
   }
-  private void simulateFall(Moveables entity, Node object){
+  private void simulateFall(Entity entity, Node object){
     Rectangle simulate = new Rectangle(entity.getNode().getBoundsInParent().getMinX(), entity.getMaxY(), 0.1, 0.1);
     if (simulate.intersects(object.getBoundsInParent())){
       leftOver = true;
@@ -34,8 +34,8 @@ public class MarioGame extends Game {
     }
   }
   @Override
-  public void collisionForce(Moveables entity) {
-    for (Collideable obstacle : obstacles) {
+  public void collisionForce(Entity entity) {
+    for (Obstacle obstacle : obstacles) {
       Node object = obstacle.getNodeObject();
       collisions(entity, object);
     }
@@ -43,7 +43,7 @@ public class MarioGame extends Game {
 
 
   @Override
-  public void collisions(Moveables entity, Node object) {
+  public void collisions(Entity entity, Node object) {
     if (object.getBoundsInParent().intersects(entity.getNode().getBoundsInParent())) {
       if (entity.getId() == "enemy") {
         simulateFall(entity, object);
@@ -57,7 +57,7 @@ public class MarioGame extends Game {
 
 
   @Override
-  public void moveEnemy(Moveables entity) {
+  public void moveEnemy(Entity entity) {
     enemyDirection(entity);
     if(entity.getId().equals("enemy")){
       // System.out.println("prev " + entity.getPreviousY() + " now " + entity.getMaxY());
@@ -77,7 +77,7 @@ public class MarioGame extends Game {
     }
 
   }
-  private void enemyDirection(Moveables entity){
+  private void enemyDirection(Entity entity){
     if(!leftOver && rightOver){
       entity.setVelocityX(Math.abs(entity.getVelocityX())*1);
     }
