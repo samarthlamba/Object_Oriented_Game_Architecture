@@ -13,5 +13,9 @@ public class VikingsGame extends Game{
     super(obstacles, entities, timeElapsed);
   }
 
+  public boolean hasFinished(){
+    return false;
+  }
+
 
 }

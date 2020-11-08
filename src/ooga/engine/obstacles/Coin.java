@@ -15,7 +15,7 @@ public class Coin extends Obstacle {
 
   @Override
   public Node getNodeObject() {
-    return null;
+    return this;
   }
 
 }

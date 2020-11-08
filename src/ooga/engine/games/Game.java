@@ -49,6 +49,7 @@ public abstract class Game implements GamePlay {
 
     // check solidity aspect of obstacle by having boolean that is see through
 
+
     public Game(Collection<Collideable> obstacles, Collection<Moveables> entities, double timeElapsed) {
         this.obstacles = obstacles;
         this.entities = entities;
@@ -61,9 +62,7 @@ public abstract class Game implements GamePlay {
         jumpInitialVelocity = calculateJumpVelocity();
     }
 
-    public boolean hasFinished() {
-        return true;
-    }
+    public abstract boolean hasFinished();
 
     private double calculateJumpVelocity() {
 

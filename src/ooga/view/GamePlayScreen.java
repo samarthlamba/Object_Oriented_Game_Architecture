@@ -58,7 +58,7 @@ public class GamePlayScreen extends Screen{
         }
 
         for (Collideable obstacle : game.getBackground()) {
-            Shape obstacleNode = (Shape) obstacle.getNodeObject();
+            Shape obstacleNode = (Shape) obstacle;
             obstacleNode.setFill(Color.BROWN);
             background.getChildren().add(obstacleNode);
         }

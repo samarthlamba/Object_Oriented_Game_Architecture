@@ -12,5 +12,7 @@ public class MetroidGame extends Game{
                      Collection<Moveables> entities, double timeElapsed) {
     super(obstacles, entities, timeElapsed);
   }
-
+  public boolean hasFinished(){
+    return false;
+  }
   }

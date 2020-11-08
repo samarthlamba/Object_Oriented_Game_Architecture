@@ -24,7 +24,7 @@ public class Wall extends Obstacle {
 
   @Override
   public Node getNodeObject(){
-    return new Wall(obstacleWidth, obstacleHeight, initialX, initialY);
+    return this;
   }
 
 }
