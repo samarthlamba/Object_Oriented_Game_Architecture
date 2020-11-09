@@ -5,11 +5,14 @@ import java.util.Collection;
 import ooga.engine.entities.weapon.Bullet;
 import ooga.engine.entities.Entity;
 import ooga.engine.obstacles.Obstacle;
+import ooga.view.GamePlayScreen;
 
 public class MetroidGame extends Game{
   private static final int BULLET_WIDTH = 10;
   private static final int BULLET_HEIGHT = 3;
   private static final double BULLET_VELOCITY = -30;
+  private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
+
   public MetroidGame(Collection<Obstacle> obstacles,
                      Collection<Entity> entities, double timeElapsed) {
     super(obstacles, entities, timeElapsed);
@@ -32,6 +35,7 @@ public class MetroidGame extends Game{
     Bullet bullet = new Bullet(BULLET_WIDTH, BULLET_HEIGHT, bulletStartX, bulletStartY);
     bullet.setVelocityX(bulletVelocity);
     entities.add(bullet);
+    tempGamePlayScreen.spawn(bullet);
   }
 
   }

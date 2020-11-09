@@ -106,6 +106,10 @@ public class GamePlayScreen extends Screen{
         background.setTranslateY(sceneShiftY);
     }
 
+    public void spawn(Moveable entity){}
+
+    public void remove(Moveable entity){}
+
     @Override
     public Scene getView() {
         return scene;

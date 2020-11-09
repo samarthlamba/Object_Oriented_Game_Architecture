@@ -6,6 +6,7 @@ import ooga.engine.entities.Entity;
 import ooga.engine.entities.Moveable;
 import ooga.engine.obstacles.Collideable;
 import ooga.engine.obstacles.Obstacle;
+import ooga.view.GamePlayScreen;
 
 import java.util.*;
 
@@ -37,6 +38,7 @@ public abstract class Game implements GamePlay {
     private Set<String> collisionTypes = Set.of("right", "left", "top", "bottom");
     Collisions handleCollisions;
     private int totalPoints = 0;
+    private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
 
 
 //add 'is finished' to confirm if the game has been finished
@@ -95,6 +97,9 @@ public abstract class Game implements GamePlay {
         // System.out.println("force" + entity.getYForce());
         entity.setYForce(0);
         entity.setXForce(0);
+        if(!entity.getStatusAlive()){
+            tempGamePlayScreen.remove(entity);
+        }
     }
 
     protected void removeEntity() {

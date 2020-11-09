@@ -5,6 +5,7 @@ import java.util.Collection;
 import ooga.engine.entities.weapon.Arrow;
 import ooga.engine.entities.Entity;
 import ooga.engine.obstacles.Obstacle;
+import ooga.view.GamePlayScreen;
 
 public class VikingsGame extends Game{
 
@@ -12,6 +13,8 @@ public class VikingsGame extends Game{
   private static final int ARROW_HEIGHT = 3;
   private static final double ARROW_VELOCITY = -30;
   private static final double UPWARDS_VELOCITY = -20;
+  private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
+
   public VikingsGame(Collection<Obstacle> obstacles,
                      Collection<Entity> entities, double timeElapsed) {
     super(obstacles, entities, timeElapsed);
@@ -35,6 +38,7 @@ public class VikingsGame extends Game{
     arrow.setVelocityX(arrowVelocity);
     arrow.setVelocityY(UPWARDS_VELOCITY);
     entities.add(arrow);
+    tempGamePlayScreen.spawn(arrow);
   }
 
 

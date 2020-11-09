@@ -8,6 +8,7 @@ import javafx.scene.shape.Rectangle;
 import ooga.engine.entities.Entity;
 import ooga.engine.entities.object.Coin;
 import ooga.engine.obstacles.Obstacle;
+import ooga.view.GamePlayScreen;
 
 public class MarioGame extends Game {
   private Collection<Obstacle> obstacles;
@@ -15,6 +16,7 @@ public class MarioGame extends Game {
   private boolean leftOver = false;
   private boolean rightOver = false;
   private int coinSize = 50;
+  private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
 
   public MarioGame(Collection<Obstacle> obstacleCollection, Collection<Entity> entityCollection,
                    double timeElapsed) {
@@ -70,8 +72,9 @@ public class MarioGame extends Game {
     double xForce = randXForceHigh.nextDouble() * 1000 + randXForceLow.nextDouble() * -1000;
     double yForce = randYForceHigh.nextDouble() * 100 + randYForceLow.nextDouble() * -100;
     coin.setXForce(xForce);
-    coin.setY(yForce);
+    coin.setYForce(yForce);
     entities.add(coin);
+    tempGamePlayScreen.spawn(coin);
   }
 
  /* @Override
