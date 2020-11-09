@@ -3,7 +3,6 @@ package ooga.engine.obstacles;
 
 import javafx.scene.Node;
 import ooga.engine.entities.Entity;
-import ooga.engine.entities.Moveable;
 
 public class Ladder extends Obstacle {
     private double initialX;
@@ -19,10 +18,6 @@ public class Ladder extends Obstacle {
         this.obstacleHeight = obstacleHeight;
         this.obstacleWidth = obstacleWidth;
         setId(ID);
-    }
-    @Override
-    public Node getNodeObject(){
-        return this;
     }
 
     @Override

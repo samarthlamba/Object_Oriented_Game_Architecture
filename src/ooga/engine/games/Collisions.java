@@ -1,6 +1,5 @@
 package ooga.engine.games;
 
-import javafx.scene.Node;
 import ooga.engine.entities.Entity;
 import ooga.engine.entities.Entity;
 import ooga.engine.obstacles.Obstacle;
@@ -11,22 +10,14 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 public class Collisions {
-    private Collection<Obstacle> obstacles;
-    private Collection<Entity> entities;
     private Set<String> collisionTypes = Set.of("right", "left", "top", "bottom");
 
-    public Collisions(Collection<Obstacle> obstacles, Collection<Entity> entities) {
-        this.obstacles = obstacles;
-        this.entities = entities;
-
-    }
-
-    public void collisions(Entity entity, Node object) {
+    public void collisions(Entity entity, Collideable object) {
         List<String> collisionSide = new ArrayList<>();
         for (String side : collisionTypes) {
             try {
                 Class gameSuperClass = this.getClass();
-                Method findCollisionSide = gameSuperClass.getDeclaredMethod(side + "Collision", Entity.class, Node.class);
+                Method findCollisionSide = gameSuperClass.getDeclaredMethod(side + "Collision", Entity.class, Collideable.class);
                 if ((boolean) findCollisionSide.invoke(this, entity, object)) {
                     collisionSide.add(side);
                 }
@@ -48,12 +39,11 @@ public class Collisions {
         }
     }
 
-    private String getClassPath(Node object) {
+    private String getClassPath(Collideable object) {
         String[] className = object.getClass().getName().split("\\.");
-        if (className[2].equals("obstacles")) {
-            className[3] = "Collideable";
-        } else {
-            className[3] = "Entity";
+        className[2] = "games";
+        className[3] = "Collideable";
+        if(className.length > 4) {
             className = Arrays.copyOf(className, className.length - 1);
         }
         return String.join(".", className);
@@ -66,38 +56,38 @@ public class Collisions {
         return false;
     }
 
-    private boolean rightCollision(Entity entity, Node object) {
-        return object.getBoundsInParent().getMinX() < entity.getNode().getBoundsInParent().getMaxX() &&
-                object.getBoundsInParent().getMinX() > entity.getNode().getBoundsInParent().getMinX() &&
+    private boolean rightCollision(Entity entity, Collideable object) {
+        return object.getNode().getBoundsInParent().getMinX() < entity.getNode().getBoundsInParent().getMaxX() &&
+                object.getNode().getBoundsInParent().getMinX() > entity.getNode().getBoundsInParent().getMinX() &&
                 entity.getXForce() >= 0 && !checkCornersY(entity, object);
     }
 
-    private boolean leftCollision(Entity entity, Node object) {
-        return object.getBoundsInParent().getMaxX() > entity.getNode().getBoundsInParent().getMinX() &&
-                object.getBoundsInParent().getMaxX() < entity.getNode().getBoundsInParent().getMaxX() &&
+    private boolean leftCollision(Entity entity, Collideable object) {
+        return object.getNode().getBoundsInParent().getMaxX() > entity.getNode().getBoundsInParent().getMinX() &&
+                object.getNode().getBoundsInParent().getMaxX() < entity.getNode().getBoundsInParent().getMaxX() &&
                 entity.getXForce() <= 0 && !checkCornersY(entity, object);
     }
 
-    private boolean bottomCollision(Entity entity, Node object) {
-        return object.getBoundsInParent().getMaxY() > entity.getNode().getBoundsInParent().getMinY() &&
-                object.getBoundsInParent().getMaxY() < entity.getNode().getBoundsInParent().getMaxY() &&
+    private boolean bottomCollision(Entity entity, Collideable object) {
+        return object.getNode().getBoundsInParent().getMaxY() > entity.getNode().getBoundsInParent().getMinY() &&
+                object.getNode().getBoundsInParent().getMaxY() < entity.getNode().getBoundsInParent().getMaxY() &&
                 !checkCornersX(entity, object);
     }
 
-    private boolean topCollision(Entity entity, Node object) {
-        return object.getBoundsInParent().getMinY() < entity.getNode().getBoundsInParent().getMaxY() &&
-                object.getBoundsInParent().getMinY() > entity.getNode().getBoundsInParent().getMinY() &&
+    private boolean topCollision(Entity entity, Collideable object) {
+        return object.getNode().getBoundsInParent().getMinY() < entity.getNode().getBoundsInParent().getMaxY() &&
+                object.getNode().getBoundsInParent().getMinY() > entity.getNode().getBoundsInParent().getMinY() &&
                 !checkCornersX(entity, object);
     }
 
-    private boolean checkCornersY(Entity entity, Node object) {
-        return areEqualDouble(object.getBoundsInParent().getMinY(), entity.getNode().getBoundsInParent().getMaxY(), 0) ||
-                areEqualDouble(object.getBoundsInParent().getMaxY(), entity.getNode().getBoundsInParent().getMinY(), 0);
+    private boolean checkCornersY(Entity entity, Collideable object) {
+        return areEqualDouble(object.getNode().getBoundsInParent().getMinY(), entity.getNode().getBoundsInParent().getMaxY(), 0) ||
+                areEqualDouble(object.getNode().getBoundsInParent().getMaxY(), entity.getNode().getBoundsInParent().getMinY(), 0);
     }
 
-    private boolean checkCornersX(Entity entity, Node object) {
-        return areEqualDouble(object.getBoundsInParent().getMaxX(), entity.getNode().getBoundsInParent().getMinX(), 0) ||
-                areEqualDouble(object.getBoundsInParent().getMinX(), entity.getNode().getBoundsInParent().getMaxX(), 0);
+    private boolean checkCornersX(Entity entity, Collideable object) {
+        return areEqualDouble(object.getNode().getBoundsInParent().getMaxX(), entity.getNode().getBoundsInParent().getMinX(), 0) ||
+                areEqualDouble(object.getNode().getBoundsInParent().getMinX(), entity.getNode().getBoundsInParent().getMaxX(), 0);
     }
 
     //https://stackoverflow.com/questions/356807/java-double-comparison-epsilon

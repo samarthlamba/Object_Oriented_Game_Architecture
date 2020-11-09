@@ -3,8 +3,7 @@ package ooga.engine.games;
 
 import javafx.scene.Node;
 import ooga.engine.entities.Entity;
-import ooga.engine.entities.Moveable;
-import ooga.engine.obstacles.Collideable;
+import ooga.engine.entities.Movable;
 import ooga.engine.obstacles.Obstacle;
 import ooga.view.GamePlayScreen;
 
@@ -49,7 +48,7 @@ public abstract class Game implements GamePlay {
     public Game(Collection<Obstacle> obstacles, Collection<Entity> entities, double timeElapsed) {
         this.obstacles = obstacles;
         this.entities = entities;
-        handleCollisions = new Collisions(obstacles, entities);
+        handleCollisions = new Collisions();
         for (Entity entity : entities) {
             entity.setTimeElapsedY(timeElapsed);
             entity.setTimeElapsedX(timeElapsed);
@@ -59,7 +58,7 @@ public abstract class Game implements GamePlay {
 
     public abstract boolean hasFinished();
 
-    public Collection<? extends Collideable> getBackground() {
+    public Collection<? extends Node> getBackground() {
         return obstacles;
     }
 
@@ -69,7 +68,7 @@ public abstract class Game implements GamePlay {
         updateEntity();
     }
 
-    public Collection<? extends Moveable> getEntities() {
+    public Collection<? extends Movable> getEntities() {
         updateEntity();
         return entities ;
     }
@@ -122,7 +121,7 @@ public abstract class Game implements GamePlay {
 
     public void obstacleCollision(Entity entity) {
         for (Obstacle obstacle : obstacles) {
-            Node object = obstacle.getNodeObject();
+            Node object = obstacle.getNode();
             collisions(entity, object);
         }
        /* if(!entity.getId().equals("player")){
@@ -169,7 +168,7 @@ public abstract class Game implements GamePlay {
 
     public void collisions(Entity entity, Node object) {
         if (object.getBoundsInParent().intersects(entity.getNode().getBoundsInParent())) {
-            handleCollisions.collisions(entity, object);
+            handleCollisions.collisions(entity, (Collideable) object);
         }
     }
 

@@ -91,11 +91,11 @@ public class MarioGame extends Game {
 
   @Override
   public void collisions(Entity entity, Node object) {
-    if (object.getBoundsInParent().intersects(entity.getNode().getBoundsInParent())) {
+    if (object.getBoundsInParent().intersects(entity.getBoundsInParent())) {
       if (entity.getId() == "enemy") {
         simulateFall(entity, object);
       }
-      handleCollisions.collisions(entity, object);
+      handleCollisions.collisions(entity, (Collideable) object);
     }
 
   }

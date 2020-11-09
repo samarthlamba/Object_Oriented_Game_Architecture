@@ -6,11 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collection;
 
-import ooga.engine.entities.Moveable;
+import javafx.scene.Node;
+import ooga.engine.entities.Movable;
 import ooga.engine.games.Game;
 import ooga.engine.games.MarioGame;
 import ooga.engine.entities.player.Mario;
-import ooga.engine.obstacles.Collideable;
 import ooga.engine.obstacles.Wall;
 import org.junit.jupiter.api.Test;
 
@@ -21,14 +21,14 @@ public class GameFactoryTest {
   public void testFactoryConstructsProperGame() {
     Game gameFromLoader = factory.makeCorrectGame("testFile.csv");
     assertTrue(gameFromLoader instanceof MarioGame);
-    Collection<Moveable> entitiesFromGame = (Collection<Moveable>) gameFromLoader.getEntities();
-    Collection<Collideable> obstaclesFromGame = (Collection<Collideable>) gameFromLoader.getBackground();
+    Collection<Movable> entitiesFromGame = (Collection<Movable>) gameFromLoader.getEntities();
+    Collection<Node> obstaclesFromGame = (Collection<Node>) gameFromLoader.getBackground();
     assertEquals(1,entitiesFromGame.size());
-    for(Moveable each : entitiesFromGame) {
+    for(Movable each : entitiesFromGame) {
       assertTrue(each instanceof Mario);
     }
     assertEquals(3,obstaclesFromGame.size());
-    for(Collideable each : obstaclesFromGame) {
+    for(Node each : obstaclesFromGame) {
       assertTrue(each instanceof Wall);
     }
   }

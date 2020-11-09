@@ -14,10 +14,6 @@ public class MarioShrinker extends Obstacle {
     setId("shrinker");
   }
 
-  @Override
-  public Node getNodeObject() {
-    return null;
-  }
 
   @Override
   public void leftCollideable(Entity entity) {

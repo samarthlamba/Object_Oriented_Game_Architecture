@@ -11,10 +11,6 @@ public class Spike extends Obstacle {
         setId("spike");
     }
 
-    @Override
-    public Node getNodeObject() {
-        return this;
-    }
     public void leftCollideable(Entity entity) {
         entity.setXForce(0);
         entity.setCenterX(getBoundsInParent().getMaxX() + entity.getEntityWidth()/2);

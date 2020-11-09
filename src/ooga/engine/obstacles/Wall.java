@@ -19,9 +19,4 @@ public class Wall extends Obstacle {
     setId(ID);
   }
 
-  @Override
-  public Node getNodeObject(){
-    return this;
-  }
-
 }

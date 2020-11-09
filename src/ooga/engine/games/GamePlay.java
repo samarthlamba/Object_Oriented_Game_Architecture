@@ -2,14 +2,13 @@ package ooga.engine.games;
 
 import java.util.Collection;
 
-import ooga.engine.entities.Entity;
-import ooga.engine.entities.Moveable;
-import ooga.engine.obstacles.Collideable;
+import javafx.scene.Node;
+import ooga.engine.entities.Movable;
 
 public interface GamePlay {
     void updateLevel();
-    Collection<? extends Collideable> getBackground();
-    Collection<? extends Moveable> getEntities();
+    Collection<? extends Node> getBackground();
+    Collection<? extends Movable> getEntities();
     void moveRight();
     void moveLeft();
     void moveUp();

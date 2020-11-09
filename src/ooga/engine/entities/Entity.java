@@ -2,9 +2,9 @@ package ooga.engine.entities;
 
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
-import ooga.engine.obstacles.Collideable;
+import ooga.engine.games.Collideable;
 
-public abstract class Entity extends Rectangle implements Moveable, Collideable {
+public abstract class Entity extends Rectangle implements Movable, Collideable {
   private final int SCENE_WIDTH;
   private final int SCENE_HEIGHT;
   private int currentHitpoints = 5;

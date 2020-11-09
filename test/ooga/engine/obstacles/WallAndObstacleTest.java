@@ -45,7 +45,7 @@ class WallAndObstacleTest {
     @Test
     void getNodeObject() {
         testWall = new Wall(100, 100, 10, 10);
-        testWall.getNodeObject();
+        testWall.getNode();
         Node ans = new Rectangle(10, 10, 100, 100);
         assertEquals(ans.getLayoutBounds(), ans.getLayoutBounds());
 
