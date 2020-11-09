@@ -53,10 +53,6 @@ public class MarioGame extends Game {
   }
 
   @Override
-  public void fireBullets() {}
-
-
-  @Override
   public void moveEnemy(Entity entity) {
     enemyDirection(entity);
     if(entity.getId().equals("enemy")){

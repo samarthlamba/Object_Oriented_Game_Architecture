@@ -22,8 +22,8 @@ public abstract class Game implements GamePlay {
     private static final int BULLET_WIDTH = 10;
     private static final int BULLET_HEIGHT = 3;
     private static final double BULLET_VELOCITY = -30;
-    private Collection<Obstacle> obstacles;
-    private Collection<Entity> entities;
+    Collection<Obstacle> obstacles;
+    Collection<Entity> entities;
     private double dt;
     private double jumpInitialVelocity;
     private double initialVelocityY;
@@ -158,7 +158,7 @@ public abstract class Game implements GamePlay {
         }
     }
 
-    private Entity findMainPlayer() {
+    Entity findMainPlayer() {
         for (Entity entity : entities) {
             if (entity.getId().equals("player")) {
                 return entity;
@@ -180,20 +180,6 @@ public abstract class Game implements GamePlay {
     public void moveUp() {
         Entity entity = findMainPlayer();
         UP(entity);
-    }
-
-    public void fireBullets(){
-        Entity entity = findMainPlayer();
-        double bulletStartX = entity.getCenterX() - entity.getEntityWidth()/2;
-        double bulletStartY = entity.getMaxY() - entity.getEntityHeight()/2;
-        double bulletVelocity = BULLET_VELOCITY;
-        if(entity.getFacing()) {
-            bulletStartX = entity.getCenterX() + entity.getEntityWidth()/2;
-            bulletVelocity *= NEGATIVE_DIRECTION;
-        }
-        Bullet bullet = new Bullet(BULLET_WIDTH, BULLET_HEIGHT, bulletStartX, bulletStartY);
-        bullet.setVelocityX(bulletVelocity);
-        entities.add(bullet);
     }
 
     public void UP(Entity entity) {
