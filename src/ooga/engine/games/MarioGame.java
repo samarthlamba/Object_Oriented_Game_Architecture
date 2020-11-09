@@ -26,6 +26,7 @@ public class MarioGame extends Game {
   public boolean hasFinished(){
     return false;
   }
+
   private void simulateFall(Entity entity, Node object){
     Rectangle simulate = new Rectangle(entity.getNode().getBoundsInParent().getMinX(), entity.getMaxY(), 0.1, 0.1);
     if (simulate.intersects(object.getBoundsInParent())){

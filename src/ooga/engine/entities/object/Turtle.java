@@ -15,9 +15,8 @@ public class Turtle extends Entity {
 
   @Override
   public void topCollideable(Entity entity) {
-    System.out.println(entity.getId());
     if (entity.getId() == "player"){
-      entity.setYForce(-2000); //use up method once moved to player
+      entity.setYForce(-1000); //use up method once moved to player
   }
 }
 

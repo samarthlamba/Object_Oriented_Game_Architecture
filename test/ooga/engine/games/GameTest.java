@@ -127,4 +127,53 @@ class GameTest {
 
     }
 
+    @Test
+    public void enemyMovement(){
+        Game game = factory.makeCorrectGame("testEnemyMovement.csv");
+        Collection<Entity> entities = (Collection<Entity>) game.getEntities();
+        Entity entity = entities.iterator().next();
+        for(int i = 0; i < 300; i++){
+            game.updateLevel();
+            assertTrue(Math.abs(entity.getVelocityX()) == 200);
+            assertTrue(entity.getCenterX() > 20);
+            assertTrue(entity.getCenterX() < 130);
+            assertTrue(game.areEqualDouble(entity.getMaxY(), 200, 1));
+        }
+    }
+
+    @Test
+    public void testEnemyDies(){
+        Game game = factory.makeCorrectGame("testEnemyTopCollision.csv");
+        Collection<Entity> entities = (Collection<Entity>) game.getEntities();
+        Entity player = game.findMainPlayer();
+        Entity enemy = player;
+        for(Entity entity : entities){
+            if(entity.getId().equals("enemy")){
+                enemy = entity;
+            }
+        }
+        for(int i = 0; i < 300; i++){
+            game.updateLevel();
+        }
+
+        assertEquals(enemy.getHitpoints(), 0);
+        assertEquals(player.getHitpoints(), 100);
+    }
+
+    @Test
+    public void testTurtleMarioCollision(){
+        Game game = factory.makeCorrectGame("testTurtleMarioCollision.csv");
+        Collection<Entity> entities = (Collection<Entity>) game.getEntities();
+        Entity player = game.findMainPlayer();
+        double startY = player.getMaxY();
+        double newY = 0;
+        for(int i = 0; i < 300; i++){
+            game.updateLevel();
+            if(player.getMaxY() != startY){
+                newY = player.getMaxY();
+            }
+        }
+        assertTrue(newY < startY);
+    }
+
 }

@@ -85,7 +85,6 @@ public abstract class Game implements GamePlay {
             entity.setTimeElapsedY(entity.getTimeElapsedY() + entity.getTimeElapsedX());
         }
         if (entity.getId().equals("player")) {
-            System.out.println(entity.getHitpoints() + " and" + entity.getStatusAlive());
             entity.setJump(true);
         }
         gravityForce(entity);
@@ -169,7 +168,7 @@ public abstract class Game implements GamePlay {
         }
     }
 
-    Entity findMainPlayer() {
+    public Entity findMainPlayer() {
         for (Entity entity : entities) {
             if (entity.getId().equals("player")) {
                 return entity;
