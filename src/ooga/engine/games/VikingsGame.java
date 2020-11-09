@@ -21,7 +21,8 @@ public class VikingsGame extends Game{
     return false;
   }
 
-  public void firArrow(){
+  @Override
+  public void shoot(){
     Entity entity = super.findMainPlayer();
     double arrowStartX = entity.getCenterX() - entity.getEntityWidth()/2;
     double arrowStartY = entity.getMaxY() - entity.getEntityHeight()/2;

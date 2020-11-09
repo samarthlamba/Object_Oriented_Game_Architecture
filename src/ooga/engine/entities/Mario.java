@@ -16,12 +16,6 @@ public class Mario extends Player {
         return null;
     }
 
-    @Override
-    public void topCollideable(Entity entity) {
-        if (entity.getId() == "enemy") {
-            entity.setHitpoints(entity.getHitpoints() - 1);
-        }
-    }
 
 }
 

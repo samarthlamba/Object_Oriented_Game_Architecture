@@ -2,7 +2,6 @@
 package ooga.engine.games;
 
 import javafx.scene.Node;
-import ooga.engine.entities.Bullet;
 import ooga.engine.entities.Entity;
 import ooga.engine.entities.Moveable;
 import ooga.engine.obstacles.Collideable;
@@ -86,10 +85,12 @@ public abstract class Game implements GamePlay {
                 entity.setTimeElapsedY(entity.getTimeElapsedY() + entity.getTimeElapsedX());
             }
             if (entity.getId().equals("player")) {
+                System.out.println(entity.getHitpoints() + " and" + entity.getStatusAlive());
                 entity.setJump(true);
             }
             gravityForce(entity);
-            collisionForce(entity);
+            obstacleCollision(entity);
+            entityCollision(entity);
             moveEnemy(entity);
             updatePosition(entity);
             // System.out.println("force" + entity.getYForce());
@@ -115,10 +116,21 @@ public abstract class Game implements GamePlay {
 
     }
 
-    public void collisionForce(Entity entity) {
+    public void obstacleCollision(Entity entity) {
         for (Obstacle obstacle : obstacles) {
             Node object = obstacle.getNodeObject();
             collisions(entity, object);
+        }
+       /* if(!entity.getId().equals("player")){
+            collisions(findMainPlayer(), entity);
+        }*/
+    }
+
+    public void entityCollision(Entity entity){
+        for(Entity e : entities){
+            if(entity != e){
+                collisions(entity, e);
+            }
         }
     }
 
@@ -151,7 +163,6 @@ public abstract class Game implements GamePlay {
         }
     }
 
-
     public void collisions(Entity entity, Node object) {
         if (object.getBoundsInParent().intersects(entity.getNode().getBoundsInParent())) {
             handleCollisions.collisions(entity, object);
@@ -181,6 +192,8 @@ public abstract class Game implements GamePlay {
         Entity entity = findMainPlayer();
         UP(entity);
     }
+
+    public void shoot(){}
 
     public void UP(Entity entity) {
         entity.setJump(true);

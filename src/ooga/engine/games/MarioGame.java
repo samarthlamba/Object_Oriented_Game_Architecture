@@ -33,13 +33,17 @@ public class MarioGame extends Game {
       rightOver = true;
     }
   }
-  @Override
+
+ /* @Override
   public void collisionForce(Entity entity) {
     for (Obstacle obstacle : obstacles) {
       Node object = obstacle.getNodeObject();
       collisions(entity, object);
     }
-  }
+    if(!entity.getId().equals("player")){
+      collisions(entity, findMainPlayer());
+    }
+  }*/
 
 
   @Override
@@ -50,6 +54,7 @@ public class MarioGame extends Game {
       }
       handleCollisions.collisions(entity, object);
     }
+
   }
 
   @Override

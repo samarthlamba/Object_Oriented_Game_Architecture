@@ -19,7 +19,10 @@ public class MetroidGame extends Game{
   public boolean hasFinished(){
     return false;
   }
-  public void fireBullets(){
+
+
+  @Override
+  public void shoot(){
     Entity entity = super.findMainPlayer();
     double bulletStartX = entity.getCenterX() - entity.getEntityWidth()/2;
     double bulletStartY = entity.getMaxY() - entity.getEntityHeight()/2;

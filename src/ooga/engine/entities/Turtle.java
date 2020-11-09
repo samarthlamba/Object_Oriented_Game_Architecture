@@ -9,12 +9,14 @@ public class Turtle extends Enemy{
 
   public Turtle(int objectWidth, int objectHeight, double initialX, double initialY) {
     super(objectWidth, objectHeight, initialX, initialY);
+    setId("turtle");
   }
 
   @Override
   public void topCollideable(Entity entity) {
+    System.out.println(entity.getId());
     if (entity.getId() == "player"){
-      entity.setVelocityY(20);
+      entity.setYForce(-2000); //use up method once moved to player
   }
 }
 

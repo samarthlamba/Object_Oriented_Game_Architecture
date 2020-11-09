@@ -4,7 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import ooga.engine.obstacles.Collideable;
 
-public abstract class Entity extends Node implements Moveable, Collideable {
+public abstract class Entity extends Rectangle implements Moveable, Collideable {
   private final int SCENE_WIDTH;
   private final int SCENE_HEIGHT;
   private int currentHitpoints = 5;
@@ -29,6 +29,10 @@ public abstract class Entity extends Node implements Moveable, Collideable {
     nodeObject = new Rectangle(initialX, initialY, objectWidth, objectHeight);
     this.previousX = initialX + objectWidth / 2;
     this.previousY = initialY + objectHeight;
+    setX(initialX);
+    setY(initialY);
+    setWidth(objectWidth);
+    setHeight(objectHeight);
     this.setCenterX(initialX + objectWidth / 2);
     this.setMaxY(initialY + objectHeight);
   }
@@ -68,10 +72,12 @@ public abstract class Entity extends Node implements Moveable, Collideable {
 
   public void setCenterX(double inputX){
       nodeObject.setLayoutX(inputX - nodeObject.getLayoutBounds().getCenterX());
+      setX(inputX - SCENE_WIDTH/2);
   }
 
   public void setMaxY(double inputY){
       nodeObject.setLayoutY(inputY - nodeObject.getLayoutBounds().getMaxY());
+      setY(inputY - SCENE_HEIGHT);
     //nodeObject.setLayoutY(inputY+nodeObject.getLayoutY());
   }
 
@@ -150,7 +156,6 @@ public abstract class Entity extends Node implements Moveable, Collideable {
     public void setTimeElapsedY(double time){
       timeElapsedY = time;
     }
-
 
     public void setTimeElapsedX(double time){
         timeElapsedX = time;

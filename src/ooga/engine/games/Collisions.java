@@ -33,6 +33,7 @@ public class Collisions {
                 if ((boolean) findCollisionSide.invoke(this, entity, object)) {
                     collisionSide.add(side);
                 }
+
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace(); //TODO: handle error better
             }
@@ -48,7 +49,6 @@ public class Collisions {
                 e.printStackTrace(); //TODO: handle error better
             }
         }
-
     }
 
     private String getClassPath(Node object) {
@@ -67,7 +67,6 @@ public class Collisions {
         }
         return false;
     }
-
 
     private boolean rightCollision(Entity entity, Node object) {
         return object.getBoundsInParent().getMinX() < entity.getNode().getBoundsInParent().getMaxX() &&
