@@ -17,4 +17,39 @@ public class SpacePirate extends Enemy{
   public Node getNodeObject() {
     return null;
   }
+
+  public void leftCollideable(Entity entity) {
+    if (entity.getId() == "player") {
+      entity.setXForce(0);
+      entity.setCenterX(getBoundsInParent().getMaxX() + entity.getEntityWidth() / 2);
+      entity.setHitpoints(0);
+    }
+  }
+
+
+  public void rightCollideable(Entity entity) {
+    if (entity.getId() == "player") {
+      entity.setXForce(0);
+      entity.setCenterX(getBoundsInParent().getMinX() - entity.getEntityWidth() / 2);
+      entity.setHitpoints(0);
+    }
+  }
+
+  public void bottomCollideable(Entity entity) {
+    if (entity.getId() == "player") {
+      entity.setVelocityY(0);
+      entity.setHitpoints(0);
+      //entity.setJump(false);
+    }
+  }
+
+  public void topCollideable(Entity entity) {
+    if (entity.getId() == "player") {
+      entity.setMaxY(getBoundsInParent().getMinY());
+      entity.setTimeElapsedY(entity.getTimeElapsedX());
+      entity.setVelocityY(0);
+      entity.setJump(false);
+      entity.setHitpoints(0);
+    }
+  }
 }
