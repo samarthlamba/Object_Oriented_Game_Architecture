@@ -188,5 +188,6 @@ public abstract class Entity extends Rectangle implements Moveable, Collideable 
     public void setFacing(boolean direction){
       facing = direction;
     }
+
     //add id.
 }

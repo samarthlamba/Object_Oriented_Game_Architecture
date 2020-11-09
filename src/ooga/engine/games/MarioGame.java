@@ -1,9 +1,12 @@
 package ooga.engine.games;
 
 import java.util.Collection;
+import java.util.Random;
+
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import ooga.engine.entities.Entity;
+import ooga.engine.entities.object.Coin;
 import ooga.engine.obstacles.Obstacle;
 
 public class MarioGame extends Game {
@@ -11,6 +14,7 @@ public class MarioGame extends Game {
   private Collection<Entity> entities;
   private boolean leftOver = false;
   private boolean rightOver = false;
+  private int coinSize = 50;
 
   public MarioGame(Collection<Obstacle> obstacleCollection, Collection<Entity> entityCollection,
                    double timeElapsed) {
@@ -32,6 +36,41 @@ public class MarioGame extends Game {
     if (simulate.intersects(object.getBoundsInParent())) {
       rightOver = true;
     }
+  }
+
+  @Override
+  protected void updateEntity(){
+      // System.out.println("stepped12324");
+    for (Entity entity : entities) {
+      moveEntity(entity);
+      generateCoins(entity);
+    }
+    removeEntity();
+  }
+
+  private void generateCoins(Entity entity){
+    if(entity.getId().equals("question") && !entity.getStatusAlive()) {
+      Random rand = new Random();
+      int numberCoins = rand.nextInt(10);
+      for (int i = 0; i < numberCoins; i++) {
+        randomCoin(entity);
+      }
+    }
+  }
+
+  private void randomCoin(Entity entity){
+    double initialX = entity.getCenterX() - entity.getEntityWidth()/2;
+    double initialY = entity.getMaxY() - entity.getEntityHeight();
+    Coin coin = new Coin(coinSize, coinSize, initialX, initialY);
+    Random randXForceHigh = new Random();
+    Random randXForceLow = new Random();
+    Random randYForceHigh = new Random();
+    Random randYForceLow = new Random();
+    double xForce = randXForceHigh.nextDouble() * 1000 + randXForceLow.nextDouble() * -1000;
+    double yForce = randYForceHigh.nextDouble() * 100 + randYForceLow.nextDouble() * -100;
+    coin.setXForce(xForce);
+    coin.setY(yForce);
+    entities.add(coin);
   }
 
  /* @Override
@@ -89,6 +128,8 @@ public class MarioGame extends Game {
     leftOver = false;
     rightOver = false;
   }
+
+
 
 }
 

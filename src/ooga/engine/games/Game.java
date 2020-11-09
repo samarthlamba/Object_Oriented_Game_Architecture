@@ -36,6 +36,7 @@ public abstract class Game implements GamePlay {
     private int enemyDirection = -1;
     private Set<String> collisionTypes = Set.of("right", "left", "top", "bottom");
     Collisions handleCollisions;
+    private int totalPoints = 0;
 
 
 //add 'is finished' to confirm if the game has been finished
@@ -52,21 +53,15 @@ public abstract class Game implements GamePlay {
             entity.setTimeElapsedX(timeElapsed);
         }
         this.dt = timeElapsed;
-        jumpInitialVelocity = calculateJumpVelocity();
     }
 
     public abstract boolean hasFinished();
-
-    private double calculateJumpVelocity() {
-
-        return NEGATIVE_DIRECTION * Math.sqrt((jumpMaxHeight * GRAVITY));
-    }
 
     public Collection<? extends Collideable> getBackground() {
         return obstacles;
     }
 
-    @Override
+
     public void updateLevel() {
         // System.out.println("stepped123");
         updateEntity();
@@ -77,33 +72,38 @@ public abstract class Game implements GamePlay {
         return entities ;
     }
 
-    public void updateEntity() {
-
+    protected void updateEntity() {
         // System.out.println("stepped12324");
         for (Entity entity : entities) {
-            if (entity.isJump() && entity.getTimeElapsedY() < .35) {
-                entity.setTimeElapsedY(entity.getTimeElapsedY() + entity.getTimeElapsedX());
-            }
-            if (entity.getId().equals("player")) {
-                System.out.println(entity.getHitpoints() + " and" + entity.getStatusAlive());
-                entity.setJump(true);
-            }
-            gravityForce(entity);
-            obstacleCollision(entity);
-            entityCollision(entity);
-            moveEnemy(entity);
-            updatePosition(entity);
-            // System.out.println("force" + entity.getYForce());
-            entity.setYForce(0);
-            entity.setXForce(0);
-
+            moveEntity(entity);
         }
+        removeEntity();
+    }
 
-        entities.removeIf(e -> e.getStatusAlive() == false);
+    protected void moveEntity(Entity entity) {
+        if (entity.isJump() && entity.getTimeElapsedY() < .35) {
+            entity.setTimeElapsedY(entity.getTimeElapsedY() + entity.getTimeElapsedX());
+        }
+        if (entity.getId().equals("player")) {
+            System.out.println(entity.getHitpoints() + " and" + entity.getStatusAlive());
+            entity.setJump(true);
+        }
+        gravityForce(entity);
+        obstacleCollision(entity);
+        entityCollision(entity);
+        moveEnemy(entity);
+        updatePosition(entity);
+        // System.out.println("force" + entity.getYForce());
+        entity.setYForce(0);
+        entity.setXForce(0);
+    }
+
+    protected void removeEntity() {
+        entities.removeIf(e -> !e.getStatusAlive());
     }
 
 
-    public void moveEnemy(Entity entity) {
+    protected void moveEnemy(Entity entity) {
         if (entity.getId().equals("enemy")) {
             // System.out.println("prev " + entity.getPreviousY() + " now " + entity.getMaxY());
             if (entity.getPreviousY() != entity.getMaxY()) {

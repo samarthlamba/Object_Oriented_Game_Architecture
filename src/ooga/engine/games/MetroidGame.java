@@ -33,4 +33,5 @@ public class MetroidGame extends Game{
     bullet.setVelocityX(bulletVelocity);
     entities.add(bullet);
   }
+
   }
