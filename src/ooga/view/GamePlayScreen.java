@@ -2,6 +2,7 @@ package ooga.view;
 
 import javafx.geometry.Bounds;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -18,6 +19,7 @@ import ooga.engine.obstacles.Obstacle;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -33,44 +35,57 @@ public class GamePlayScreen extends Screen{
     private GamePlay game;
     private Group background;
     private Moveables mainPlayer;
+    private Collection onScreen;
 
     public void setGameScreen(GamePlay givenGame) {
         Pane gamePane = new Pane(); //Todo justify
         background = new Group();
         game = givenGame;
         keys = new ArrayList<>();
-        for (Moveables entity : game.getEntities()) {
-            if (entity.getId().equals("player")) {
-                mainPlayer = entity;
-                double width = entity.getNode().getLayoutBounds().getWidth();
-                double height = entity.getNode().getLayoutBounds().getHeight();
-                mainWidth = width;
-                mainHeight = height;
-                Shape entityShape = (Shape) entity.getNode();
-                entityShape.setFill(Color.BLUE);
-                background.getChildren().add(entityShape);
-            }
-            else {
-                Shape entityNode = (Shape) entity.getNode();
-                entityNode.setFill(Color.GREEN);
-                background.getChildren().add(entityNode);
-            }
-        }
 
-        for (Collideable obstacle : game.getBackground()) {
-            Shape obstacleNode = (Shape) obstacle.getNodeObject();
-            obstacleNode.setFill(Color.BROWN);
-            background.getChildren().add(obstacleNode);
+        onScreen = background.getChildren();
+        for (Moveables entity : game.getEntities()) {
+            if(!onScreen.contains(entity)) {
+                if (entity.getId().equals("player")) {
+                    mainPlayer = entity;
+                    double width = entity.getNode().getLayoutBounds().getWidth();
+                    double height = entity.getNode().getLayoutBounds().getHeight();
+                    mainWidth = width;
+                    mainHeight = height;
+                    Shape entityShape = (Shape) entity.getNode();
+                    entityShape.setFill(Color.BLUE);
+                    background.getChildren().add(entityShape);
+                } else {
+                    Shape entityNode = (Shape) entity.getNode();
+                    entityNode.setFill(Color.GREEN);
+                    background.getChildren().add(entityNode);
+                }
+            }
         }
+        for (Collideable obstacle : game.getBackground()) {
+            if(!onScreen.contains(obstacle)) {
+                Shape obstacleNode = (Shape) obstacle.getNodeObject();
+                obstacleNode.setFill(Color.BROWN);
+                background.getChildren().add(obstacleNode);
+            }
+        }
+        setNodeImages();
         update();
         gamePane.getChildren().add(background);
-//        HeadsUpDisplay hud = new HeadsUpDisplay();
+        HeadsUpDisplay hud = new HeadsUpDisplay();
         BorderPane root = new BorderPane();
-//        root.setTop(hud);
         root.setCenter(gamePane);
-        scene = new Scene(root,SCREEN_WIDTH,SCREEN_HEIGHT);//todo
+
         setKeys();
+
+
+        root.setTop(hud);
+        scene = new Scene(root,SCREEN_WIDTH,SCREEN_HEIGHT);//todo
         bindKeys();
+    }
+
+    private void setNodeImages() {
+
     }
 
     private void setKeys() {
@@ -102,6 +117,32 @@ public class GamePlayScreen extends Screen{
     }
 
     public void update(){
+//        onScreen = background.getChildren();
+//        for (Moveables entity : game.getEntities()) {
+//            if(!onScreen.contains(entity.getNode())) {
+//                if (entity.getId().equals("player")) {
+//                    mainPlayer = entity;
+//                    double width = entity.getNode().getLayoutBounds().getWidth();
+//                    double height = entity.getNode().getLayoutBounds().getHeight();
+//                    mainWidth = width;
+//                    mainHeight = height;
+//                    Shape entityShape = (Shape) entity.getNode();
+//                    entityShape.setFill(Color.BLUE);
+//                    background.getChildren().add(entityShape);
+//                } else {
+//                    Shape entityNode = (Shape) entity.getNode();
+//                    entityNode.setFill(Color.GREEN);
+//                    background.getChildren().add(entityNode);
+//                }
+//            }
+//        }
+//        for (Collideable obstacle : game.getBackground()) {
+//            if(!onScreen.contains(obstacle)) {
+//                Shape obstacleNode = (Shape) obstacle.getNodeObject();
+//                obstacleNode.setFill(Color.BROWN);
+//                background.getChildren().add(obstacleNode);
+//            }
+//        }
         mainX = mainPlayer.getCenterX() - mainWidth/2;
         mainY = mainPlayer.getMaxY() - mainHeight;
         double sceneShiftX = -(mainX - (SCREEN_WIDTH/2 - mainWidth/2));
@@ -113,5 +154,25 @@ public class GamePlayScreen extends Screen{
     @Override
     public Scene getView() {
         return scene;
+    }
+
+    public void spawn(Collection<Entity> entities) {
+        try {
+            background.getChildren().addAll(entities);
+        } catch (IllegalArgumentException e) {
+            for (Entity entity : entities) {
+                if (background.getChildren().contains(entity)) {
+                    background.getChildren().remove(entity);
+                }
+            }
+        }
+    }
+
+    public void remove(Collection<Entity> entities) {
+        for (Entity entity : entities) {
+            if (background.getChildren().contains(entity)) {
+                background.getChildren().remove(entity);
+            }
+        }
     }
 }
