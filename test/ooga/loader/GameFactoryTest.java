@@ -109,4 +109,16 @@ public class GameFactoryTest {
     }
   }
 
+  @Test
+  public void testEveryVikingsLevelLoads() {
+    try {
+      factory.makeCorrectGame("VikingsLevel1");
+      factory.makeCorrectGame("VikingsLevel2");
+      factory.makeCorrectGame("VikingsLevel3");
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail();
+    }
+  }
+
 }
