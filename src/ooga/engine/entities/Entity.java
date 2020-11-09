@@ -19,9 +19,9 @@ public abstract class Entity extends Rectangle implements Moveable, Collideable 
   boolean status_Alive = true;
   private double timeElapsedY = 0;
   private double timeElapsedX = 0;
-  private boolean jump = false;
   private double timeInterval = 0;
   private boolean facing = true;
+  private boolean jump = false;
 
   public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
     this.SCENE_WIDTH = objectWidth;
@@ -83,7 +83,7 @@ public abstract class Entity extends Rectangle implements Moveable, Collideable 
 
   public void setHitpoints(int hitpoints){
       currentHitpoints=hitpoints;
-      if (currentHitpoints < 0){
+      if (currentHitpoints <= 0){
           status_Alive = false;
       }
   }
@@ -125,23 +125,23 @@ public abstract class Entity extends Rectangle implements Moveable, Collideable 
         return SCENE_HEIGHT;
     }
 
-  public double getMaxY(){
+    public double getMaxY(){
       return nodeObject.getBoundsInParent().getMaxY();
   }
 
-  public void setXForce(double force){
+    public void setXForce(double force){
       xForce = force;
   }
 
-  public void setYForce(double force){
+    public void setYForce(double force){
       yForce = force;
   }
 
-  public double getXForce(){
+    public double getXForce(){
       return xForce;
   }
 
-  public double getYForce(){
+    public double getYForce(){
       return yForce;
   }
 
@@ -161,14 +161,6 @@ public abstract class Entity extends Rectangle implements Moveable, Collideable 
         timeElapsedX = time;
     }
 
-    public boolean isJump(){
-      return jump;
-    }
-
-    public void setJump(boolean isJump){
-      jump = isJump;
-    }
-
     public void leftCollideable(Entity entity) {}
 
     public void rightCollideable(Entity entity) {}
@@ -183,6 +175,14 @@ public abstract class Entity extends Rectangle implements Moveable, Collideable 
 
     public boolean getFacing(){
       return facing;
+    }
+
+    public boolean isJump(){
+        return jump;
+    }
+
+    public void setJump(boolean isJump){
+        jump = isJump;
     }
 
     public void setFacing(boolean direction){

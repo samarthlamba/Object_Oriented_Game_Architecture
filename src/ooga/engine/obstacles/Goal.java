@@ -8,8 +8,4 @@ public class Goal extends Obstacle{
         super(obstacleWidth, obstacleHeight, initialX, initialY);
         setId(ID);
     }
-    @Override
-    public Node getNodeObject(){
-        return this;
-    }
 }

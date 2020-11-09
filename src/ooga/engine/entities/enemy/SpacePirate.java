@@ -1,11 +1,12 @@
-package ooga.engine.entities;
+package ooga.engine.entities.enemy;
 
-import javafx.scene.Node;
+import ooga.engine.entities.Entity;
+import ooga.engine.entities.enemy.Enemy;
 
 /**
  * Metroid basic enemy
  */
-public class SpacePirate extends Enemy{
+public class SpacePirate extends Enemy {
   private static final int FULL_HEALTH = 100;
   public SpacePirate(int objectWidth, int objectHeight, double initialX, double initialY) {
     super(objectWidth, objectHeight, initialX, initialY);
@@ -13,10 +14,6 @@ public class SpacePirate extends Enemy{
   }
 
 
-  @Override
-  public Node getNodeObject() {
-    return null;
-  }
 
   public void leftCollideable(Entity entity) {
     if (entity.getId() == "player") {

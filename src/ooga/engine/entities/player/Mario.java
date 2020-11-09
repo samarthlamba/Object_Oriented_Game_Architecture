@@ -1,6 +1,6 @@
-package ooga.engine.entities;
+package ooga.engine.entities.player;
 
-import javafx.scene.Node;
+import ooga.engine.entities.player.Player;
 
 public class Mario extends Player {
 
@@ -9,11 +9,6 @@ public class Mario extends Player {
     public Mario(int objectWidth, int objectHeight, double initialX, double initialY) {
         super(objectWidth, objectHeight, initialX, initialY);
         setHitpoints(FULL_HEALTH);
-    }
-
-    @Override
-    public Node getNodeObject() {
-        return null;
     }
 
 

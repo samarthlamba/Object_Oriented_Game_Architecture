@@ -1,17 +1,17 @@
-package ooga.engine.entities;
+package ooga.engine.entities.weapon;
 
-import javafx.scene.Node;
+import ooga.engine.entities.Entity;
 
-public class Arrow extends Entity{
-    public Arrow(int objectWidth, int objectHeight, double initialX, double initialY) {
+public abstract class Weapon extends Entity{
+    public Weapon(int objectWidth, int objectHeight, double initialX, double initialY) {
         super(objectWidth, objectHeight, initialX, initialY);
-        setId("arrow");
     }
 
     @Override
-    public Node getNodeObject() {
-        return null;
+    public boolean hasGravity(){
+        return false;
     }
+
     @Override
     public void leftCollideable(Entity entity) {
         if (entity.getId() == "player"){
@@ -28,6 +28,13 @@ public class Arrow extends Entity{
 
     @Override
     public void bottomCollideable(Entity entity) {
+        if (entity.getId() == "player"){
+            entity.setHitpoints(0);
+        }
+    }
+
+    @Override
+    public void topCollideable(Entity entity) {
         if (entity.getId() == "player"){
             entity.setHitpoints(0);
         }

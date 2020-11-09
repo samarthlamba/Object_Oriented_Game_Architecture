@@ -8,10 +8,7 @@ import ooga.engine.obstacles.Obstacle;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Collisions {
     private Collection<Obstacle> obstacles;
@@ -57,6 +54,7 @@ public class Collisions {
             className[3] = "Collideable";
         } else {
             className[3] = "Entity";
+            className = Arrays.copyOf(className, className.length - 1);
         }
         return String.join(".", className);
     }

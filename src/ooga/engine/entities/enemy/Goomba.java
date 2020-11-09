@@ -1,8 +1,9 @@
-package ooga.engine.entities;
+package ooga.engine.entities.enemy;
 
-import javafx.scene.Node;
+import ooga.engine.entities.Entity;
+import ooga.engine.entities.enemy.Enemy;
 
-public class Goomba extends Enemy{
+public class Goomba extends Enemy {
     public static final int VELOCITY = 200;
     public static final int GOOMBA_HEALTH = 1;
     public static final int HEALTH_PENALTY = -20;
@@ -12,10 +13,6 @@ public class Goomba extends Enemy{
         this.setHitpoints(GOOMBA_HEALTH);
     }
 
-    @Override
-    public Node getNodeObject() {
-        return null;
-    }
 
     @Override
     public void leftCollideable(Entity entity) {

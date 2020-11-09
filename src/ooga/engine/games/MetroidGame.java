@@ -2,10 +2,8 @@ package ooga.engine.games;
 
 import java.util.Collection;
 
-import ooga.engine.entities.Bullet;
+import ooga.engine.entities.weapon.Bullet;
 import ooga.engine.entities.Entity;
-import ooga.engine.entities.Moveable;
-import ooga.engine.obstacles.Collideable;
 import ooga.engine.obstacles.Obstacle;
 
 public class MetroidGame extends Game{

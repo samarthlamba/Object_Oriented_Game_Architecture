@@ -1,19 +1,15 @@
-package ooga.engine.entities;
+package ooga.engine.entities.enemy;
 
-import javafx.scene.Node;
+import ooga.engine.entities.enemy.Enemy;
 
 /**
  * Lost Vikings Basic Enemy
  */
-public class Goblin extends Enemy{
+public class Goblin extends Enemy {
 
   public Goblin(int objectWidth, int objectHeight, double initialX, double initialY) {
     super(objectWidth, objectHeight, initialX, initialY);
   }
 
 
-  @Override
-  public Node getNodeObject() {
-    return null;
-  }
 }

@@ -1,11 +1,12 @@
-package ooga.engine.entities;
+package ooga.engine.entities.object;
 
-import javafx.scene.Node;
+import ooga.engine.entities.Entity;
+import ooga.engine.entities.enemy.Enemy;
 
 /**
- * Enemy in mario that gives y velocity when you jump on them
+ * gives y velocity when you jump on them
  */
-public class Turtle extends Enemy{
+public class Turtle extends Enemy {
 
   public Turtle(int objectWidth, int objectHeight, double initialX, double initialY) {
     super(objectWidth, objectHeight, initialX, initialY);
@@ -20,8 +21,4 @@ public class Turtle extends Enemy{
   }
 }
 
-  @Override
-  public Node getNodeObject() {
-    return null;
-  }
 }

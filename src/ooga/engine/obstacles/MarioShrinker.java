@@ -33,6 +33,7 @@ public class MarioShrinker extends Obstacle {
   public void bottomCollideable(Entity entity) {
     scalePlayer(entity);
   }
+
   @Override
   public void topCollideable(Entity entity) {
     scalePlayer(entity);

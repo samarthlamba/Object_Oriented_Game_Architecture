@@ -2,7 +2,7 @@ package ooga.engine.games;
 
 import java.util.Collection;
 
-import ooga.engine.entities.Arrow;
+import ooga.engine.entities.weapon.Arrow;
 import ooga.engine.entities.Entity;
 import ooga.engine.obstacles.Obstacle;
 

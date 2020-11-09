@@ -9,7 +9,7 @@ import java.util.Collection;
 import ooga.engine.entities.Moveable;
 import ooga.engine.games.Game;
 import ooga.engine.games.MarioGame;
-import ooga.engine.entities.Mario;
+import ooga.engine.entities.player.Mario;
 import ooga.engine.obstacles.Collideable;
 import ooga.engine.obstacles.Wall;
 import org.junit.jupiter.api.Test;

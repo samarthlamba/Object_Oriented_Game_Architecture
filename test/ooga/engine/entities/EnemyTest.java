@@ -2,6 +2,7 @@ package ooga.engine.entities;
 
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
+import ooga.engine.entities.enemy.Goomba;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
