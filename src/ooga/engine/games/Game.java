@@ -4,7 +4,7 @@ package ooga.engine.games;
 import javafx.scene.Node;
 import ooga.engine.entities.Entity;
 import ooga.engine.entities.Movable;
-import ooga.engine.entities.Bounds;
+import ooga.engine.entities.MovableBounds;
 import ooga.engine.obstacles.Obstacle;
 import ooga.view.GamePlayScreen;
 
@@ -16,17 +16,10 @@ import static java.lang.Math.round;
 public abstract class Game implements GamePlay {
     public static final double GRAVITY = 800;
     public static final double NEGATIVE_DIRECTION = -1;
-    public static final double NO_INITIAL_VELOCITY = 0;
-    public static final double NO_FORCE = 0;
     public static final double MOVE_FORCE = 50000; //TODO change to 10
-    private static final int BULLET_WIDTH = 10;
-    private static final int BULLET_HEIGHT = 3;
-    private static final double BULLET_VELOCITY = -30;
     Collection<Obstacle> obstacles;
     Collection<Movable> entities;
     private double dt;
-    private double jumpInitialVelocity;
-    private double initialVelocityY;
     private double initialVelocityX = 0;
     private boolean jump = false;
     // private int screenHeight;
@@ -69,9 +62,9 @@ public abstract class Game implements GamePlay {
         updateMovable();
     }
 
-    public Collection<? extends Bounds> getEntities() {
+    public Collection<? extends MovableBounds> getEntities() {
         updateMovable();
-        return entities ;
+        return entities;
     }
 
     protected void updateMovable() {

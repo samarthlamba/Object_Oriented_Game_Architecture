@@ -2,6 +2,7 @@ package ooga.engine.games;
 
 import ooga.engine.entities.Entity;
 import ooga.engine.entities.Entity;
+import ooga.engine.entities.Movable;
 import ooga.engine.obstacles.Obstacle;
 import ooga.engine.obstacles.Obstacle;
 
@@ -85,7 +86,7 @@ public class Collisions {
                 areEqualDouble(object.getNode().getBoundsInParent().getMaxY(), entity.getNode().getBoundsInParent().getMinY(), 0);
     }
 
-    private boolean checkCornersX(Entity entity, Collideable object) {
+    private boolean checkCornersX(Movable entity, Collideable object) {
         return areEqualDouble(object.getNode().getBoundsInParent().getMaxX(), entity.getNode().getBoundsInParent().getMinX(), 0) ||
                 areEqualDouble(object.getNode().getBoundsInParent().getMinX(), entity.getNode().getBoundsInParent().getMaxX(), 0);
     }

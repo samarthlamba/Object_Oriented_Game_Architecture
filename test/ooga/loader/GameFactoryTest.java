@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Collection;
 
 import javafx.scene.Node;
-import ooga.engine.entities.Bounds;
+import ooga.engine.entities.MovableBounds;
 import ooga.engine.games.Game;
 import ooga.engine.games.MarioGame;
 import ooga.engine.entities.player.Mario;
@@ -21,10 +21,10 @@ public class GameFactoryTest {
   public void testFactoryConstructsProperGame() {
     Game gameFromLoader = factory.makeCorrectGame("testFile.csv");
     assertTrue(gameFromLoader instanceof MarioGame);
-    Collection<Bounds> entitiesFromGame = (Collection<Bounds>) gameFromLoader.getEntities();
+    Collection<MovableBounds> entitiesFromGame = (Collection<MovableBounds>) gameFromLoader.getEntities();
     Collection<Node> obstaclesFromGame = (Collection<Node>) gameFromLoader.getBackground();
     assertEquals(1,entitiesFromGame.size());
-    for(Bounds each : entitiesFromGame) {
+    for(MovableBounds each : entitiesFromGame) {
       assertTrue(each instanceof Mario);
     }
     assertEquals(3,obstaclesFromGame.size());

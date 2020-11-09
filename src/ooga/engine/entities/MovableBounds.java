@@ -2,7 +2,7 @@ package ooga.engine.entities;
 
 import javafx.scene.Node;
 
- public interface Bounds {
+ public interface MovableBounds {
    Node getNode();
    String getId();
    double getMaxY();
