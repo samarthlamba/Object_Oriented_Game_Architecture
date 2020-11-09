@@ -29,6 +29,7 @@ public abstract class Obstacle extends Rectangle implements Collideable {
     return (Node) this;
   }
 
+
   public void moveXBy(double x){
     relocate(getBoundsInParent().getMinX()+x,getBoundsInParent().getMinY());
     System.out.println(getBoundsInParent());

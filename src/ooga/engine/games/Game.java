@@ -4,6 +4,7 @@ package ooga.engine.games;
 import javafx.scene.Node;
 import ooga.engine.entities.Entity;
 import ooga.engine.entities.Movable;
+import ooga.engine.entities.Bounds;
 import ooga.engine.obstacles.Obstacle;
 import ooga.view.GamePlayScreen;
 
@@ -22,7 +23,7 @@ public abstract class Game implements GamePlay {
     private static final int BULLET_HEIGHT = 3;
     private static final double BULLET_VELOCITY = -30;
     Collection<Obstacle> obstacles;
-    Collection<Entity> entities;
+    Collection<Movable> entities;
     private double dt;
     private double jumpInitialVelocity;
     private double initialVelocityY;
@@ -30,7 +31,7 @@ public abstract class Game implements GamePlay {
     private boolean jump = false;
     // private int screenHeight;
     private double jumpMaxHeight = 10;
-    private double massEntity;
+    private double massMovable;
     private double moveVelocity = 10;
     private boolean objectAtCorner;
     private int enemyDirection = -1;
@@ -45,11 +46,11 @@ public abstract class Game implements GamePlay {
     // check solidity aspect of obstacle by having boolean that is see through
 
 
-    public Game(Collection<Obstacle> obstacles, Collection<Entity> entities, double timeElapsed) {
+    public Game(Collection<Obstacle> obstacles, Collection<Movable> entities, double timeElapsed) {
         this.obstacles = obstacles;
         this.entities = entities;
         handleCollisions = new Collisions();
-        for (Entity entity : entities) {
+        for (Movable entity : entities) {
             entity.setTimeElapsedY(timeElapsed);
             entity.setTimeElapsedX(timeElapsed);
         }
@@ -65,23 +66,23 @@ public abstract class Game implements GamePlay {
 
     public void updateLevel() {
         // System.out.println("stepped123");
-        updateEntity();
+        updateMovable();
     }
 
-    public Collection<? extends Movable> getEntities() {
-        updateEntity();
+    public Collection<? extends Bounds> getEntities() {
+        updateMovable();
         return entities ;
     }
 
-    protected void updateEntity() {
+    protected void updateMovable() {
         // System.out.println("stepped12324");
-        for (Entity entity : entities) {
-            moveEntity(entity);
+        for (Movable entity : entities) {
+            moveMovable(entity);
         }
-        removeEntity();
+        removeMovable();
     }
 
-    protected void moveEntity(Entity entity) {
+    protected void moveMovable(Movable entity) {
         if (entity.isJump() && entity.getTimeElapsedY() < .35) {
             entity.setTimeElapsedY(entity.getTimeElapsedY() + entity.getTimeElapsedX());
         }
@@ -101,12 +102,12 @@ public abstract class Game implements GamePlay {
         }
     }
 
-    protected void removeEntity() {
+    protected void removeMovable() {
         entities.removeIf(e -> !e.getStatusAlive());
     }
 
 
-    protected void moveEnemy(Entity entity) {
+    protected void moveEnemy(Movable entity) {
         if (entity.getId().equals("enemy")) {
             // System.out.println("prev " + entity.getPreviousY() + " now " + entity.getMaxY());
             if (entity.getPreviousY() != entity.getMaxY()) {
@@ -119,40 +120,40 @@ public abstract class Game implements GamePlay {
 
     }
 
-    public void obstacleCollision(Entity entity) {
-        for (Obstacle obstacle : obstacles) {
-            Node object = obstacle.getNode();
-            collisions(entity, object);
+    public void obstacleCollision(Movable entity) {
+        for (Node obstacle : obstacles) {
+            Node object = obstacle;
+            collisions(entity, (Collideable) object);
         }
        /* if(!entity.getId().equals("player")){
             collisions(findMainPlayer(), entity);
         }*/
     }
 
-    public void entityCollision(Entity entity){
-        for(Entity e : entities){
+    public void entityCollision(Movable entity){
+        for(Movable e : entities){
             if(entity != e){
-                collisions(entity, e);
+                collisions(entity, (Collideable) e);
             }
         }
     }
 
 
-    protected boolean checkCornersEntityX(Entity player, Entity entity) {
+    protected boolean checkCornersMovableX(Movable player, Movable entity) {
         return areEqualDouble(entity.getNode().getBoundsInParent().getMaxX(), player.getNode().getBoundsInParent().getMinX(), 1) ||
                 areEqualDouble(entity.getNode().getBoundsInParent().getMinX(), player.getNode().getBoundsInParent().getMaxX(), 1);
     }
 
-    private double newYPosition(Entity entity) {
+    private double newYPosition(Movable entity) {
         double change = entity.getMaxY() + entity.getVelocityY() * entity.getTimeElapsedY() + entity.getYForce() * entity.getTimeElapsedY() * entity.getTimeElapsedY();
         return entity.getMaxY() + entity.getVelocityY() * entity.getTimeElapsedY() + entity.getYForce() * entity.getTimeElapsedY() * entity.getTimeElapsedY();
     }
 
-    private double newXPosition(Entity entity) {
+    private double newXPosition(Movable entity) {
         return entity.getCenterX() + entity.getVelocityX() * entity.getTimeElapsedX() + entity.getXForce() * entity.getTimeElapsedX() * entity.getTimeElapsedX();
     }
 
-    private void updatePosition(Entity entity) {
+    private void updatePosition(Movable entity) {
         entity.setPreviousX(entity.getCenterX());
         double c = entity.getMaxY();
         entity.setPreviousY(entity.getMaxY());
@@ -160,20 +161,20 @@ public abstract class Game implements GamePlay {
         entity.setCenterX(newXPosition(entity));
     }
 
-    private void gravityForce(Entity entity) {
+    private void gravityForce(Movable entity) {
         if(entity.hasGravity()) {
             entity.setYForce(entity.getYForce() + GRAVITY);
         }
     }
 
-    public void collisions(Entity entity, Node object) {
-        if (object.getBoundsInParent().intersects(entity.getNode().getBoundsInParent())) {
-            handleCollisions.collisions(entity, (Collideable) object);
+    public void collisions(Movable entity, Collideable object) {
+        if (object.getNode().getBoundsInParent().intersects(entity.getNode().getBoundsInParent())) {
+            handleCollisions.collisions((Entity) entity, object);
         }
     }
 
-    public Entity findMainPlayer() {
-        for (Entity entity : entities) {
+    public Movable findMainPlayer() {
+        for (Movable entity : entities) {
             if (entity.getId().equals("player")) {
                 return entity;
             }
@@ -182,37 +183,37 @@ public abstract class Game implements GamePlay {
     }
 
     public void moveRight() {
-        Entity entity = findMainPlayer();
+        Movable entity = findMainPlayer();
         RIGHT(entity);
     }
 
     public void moveLeft() {
-        Entity entity = findMainPlayer();
+        Movable entity = findMainPlayer();
         LEFT(entity);
     }
 
     public void moveUp() {
-        Entity entity = findMainPlayer();
+        Movable entity = findMainPlayer();
         UP(entity);
     }
 
     public void shoot(){}
 
-    public void UP(Entity entity) {
+    public void UP(Movable entity) {
         entity.setJump(true);
         entity.setVelocityY(entity.getJumpMax());
         entity.setMaxY(entity.getMaxY() - 2);
     }
 
 
-    public void LEFT(Entity entity) {
+    public void LEFT(Movable entity) {
         entity.setPreviousX(entity.getCenterX());
         entity.setXForce(entity.getXForce() - MOVE_FORCE);
         entity.setFacing(false);
     }
 
 
-    public void RIGHT(Entity entity) {
+    public void RIGHT(Movable entity) {
         entity.setPreviousX(entity.getCenterX());
         entity.setXForce(entity.getXForce() + MOVE_FORCE);
         entity.setFacing(true);

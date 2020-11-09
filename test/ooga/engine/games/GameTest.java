@@ -1,6 +1,7 @@
 package ooga.engine.games;
 
 import ooga.engine.entities.Entity;
+import ooga.engine.entities.Movable;
 import ooga.loader.GameFactory;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -145,7 +146,7 @@ class GameTest {
     public void testEnemyDies(){
         Game game = factory.makeCorrectGame("testEnemyTopCollision.csv");
         Collection<Entity> entities = (Collection<Entity>) game.getEntities();
-        Entity player = game.findMainPlayer();
+        Entity player = (Entity) game.findMainPlayer();
         Entity enemy = player;
         for(Entity entity : entities){
             if(entity.getId().equals("enemy")){
@@ -164,7 +165,7 @@ class GameTest {
     public void testTurtleMarioCollision(){
         Game game = factory.makeCorrectGame("testTurtleMarioCollision.csv");
         Collection<Entity> entities = (Collection<Entity>) game.getEntities();
-        Entity player = game.findMainPlayer();
+        Entity player = (Entity) game.findMainPlayer();
         double startY = player.getMaxY();
         double newY = 0;
         for(int i = 0; i < 300; i++){

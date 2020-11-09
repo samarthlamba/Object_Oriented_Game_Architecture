@@ -2,6 +2,8 @@ package ooga.engine.games;
 
 import java.util.Collection;
 
+import javafx.scene.Node;
+import ooga.engine.entities.Movable;
 import ooga.engine.entities.weapon.Bullet;
 import ooga.engine.entities.Entity;
 import ooga.engine.obstacles.Obstacle;
@@ -14,7 +16,7 @@ public class MetroidGame extends Game{
   private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
 
   public MetroidGame(Collection<Obstacle> obstacles,
-                     Collection<Entity> entities, double timeElapsed) {
+                     Collection<Movable> entities, double timeElapsed) {
     super(obstacles, entities, timeElapsed);
   }
   public boolean hasFinished(){
@@ -24,7 +26,7 @@ public class MetroidGame extends Game{
 
   @Override
   public void shoot(){
-    Entity entity = super.findMainPlayer();
+    Movable entity = super.findMainPlayer();
     double bulletStartX = entity.getCenterX() - entity.getEntityWidth()/2;
     double bulletStartY = entity.getMaxY() - entity.getEntityHeight()/2;
     double bulletVelocity = BULLET_VELOCITY;

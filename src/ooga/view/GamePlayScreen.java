@@ -9,7 +9,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import ooga.engine.entities.Movable;
+import ooga.engine.entities.Bounds;
 import ooga.engine.games.GamePlay;
 
 import java.lang.reflect.Method;
@@ -28,14 +28,14 @@ public class GamePlayScreen extends Screen{
     private List<Object> keys;
     private GamePlay game;
     private Group background;
-    private Movable mainPlayer;
+    private Bounds mainPlayer;
 
     public void setGameScreen(GamePlay givenGame) {
         Pane gamePane = new Pane(); //Todo justify
         background = new Group();
         game = givenGame;
         keys = new ArrayList<>();
-        for (Movable entity : game.getEntities()) {
+        for (Bounds entity : game.getEntities()) {
             if (entity.getId().equals("player")) {
                 mainPlayer = entity;
                 double width = entity.getNode().getLayoutBounds().getWidth();
@@ -106,9 +106,9 @@ public class GamePlayScreen extends Screen{
         background.setTranslateY(sceneShiftY);
     }
 
-    public void spawn(Movable entity){}
+    public void spawn(Bounds entity){}
 
-    public void remove(Movable entity){}
+    public void remove(Bounds entity){}
 
     @Override
     public Scene getView() {

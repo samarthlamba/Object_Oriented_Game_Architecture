@@ -6,19 +6,20 @@ import java.util.Random;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import ooga.engine.entities.Entity;
+import ooga.engine.entities.Movable;
 import ooga.engine.entities.object.Coin;
 import ooga.engine.obstacles.Obstacle;
 import ooga.view.GamePlayScreen;
 
 public class MarioGame extends Game {
   private Collection<Obstacle> obstacles;
-  private Collection<Entity> entities;
+  private Collection<Movable> entities;
   private boolean leftOver = false;
   private boolean rightOver = false;
   private int coinSize = 50;
   private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
 
-  public MarioGame(Collection<Obstacle> obstacleCollection, Collection<Entity> entityCollection,
+  public MarioGame(Collection<Obstacle> obstacleCollection, Collection<Movable> entityCollection,
                    double timeElapsed) {
     super(obstacleCollection, entityCollection, timeElapsed);
     entities = entityCollection;
@@ -29,7 +30,7 @@ public class MarioGame extends Game {
     return false;
   }
 
-  private void simulateFall(Entity entity, Node object){
+  private void simulateFall(Movable entity, Node object){
     Rectangle simulate = new Rectangle(entity.getNode().getBoundsInParent().getMinX(), entity.getMaxY(), 0.1, 0.1);
     if (simulate.intersects(object.getBoundsInParent())){
       leftOver = true;
@@ -42,16 +43,16 @@ public class MarioGame extends Game {
   }
 
   @Override
-  protected void updateEntity(){
+  protected void updateMovable(){
       // System.out.println("stepped12324");
-    for (Entity entity : entities) {
-      moveEntity(entity);
+    for (Movable entity : entities) {
+      moveMovable(entity);
       generateCoins(entity);
     }
-    removeEntity();
+    removeMovable();
   }
 
-  private void generateCoins(Entity entity){
+  private void generateCoins(Movable entity){
     if(entity.getId().equals("question") && !entity.getStatusAlive()) {
       Random rand = new Random();
       int numberCoins = rand.nextInt(10);
@@ -61,7 +62,7 @@ public class MarioGame extends Game {
     }
   }
 
-  private void randomCoin(Entity entity){
+  private void randomCoin(Movable entity){
     double initialX = entity.getCenterX() - entity.getEntityWidth()/2;
     double initialY = entity.getMaxY() - entity.getEntityHeight();
     Coin coin = new Coin(coinSize, coinSize, initialX, initialY);
@@ -78,7 +79,7 @@ public class MarioGame extends Game {
   }
 
  /* @Override
-  public void collisionForce(Entity entity) {
+  public void collisionForce(Movable entity) {
     for (Obstacle obstacle : obstacles) {
       Node object = obstacle.getNodeObject();
       collisions(entity, object);
@@ -90,18 +91,18 @@ public class MarioGame extends Game {
 
 
   @Override
-  public void collisions(Entity entity, Node object) {
-    if (object.getBoundsInParent().intersects(entity.getBoundsInParent())) {
+  public void collisions(Movable entity, Collideable object) {
+    if (object.getNode().getBoundsInParent().intersects(entity.getNode().getBoundsInParent())) {
       if (entity.getId() == "enemy") {
-        simulateFall(entity, object);
+        simulateFall(entity, object.getNode());
       }
-      handleCollisions.collisions(entity, (Collideable) object);
+      handleCollisions.collisions((Entity) entity, (Collideable) object);
     }
 
   }
 
   @Override
-  public void moveEnemy(Entity entity) {
+  public void moveEnemy(Movable entity) {
     enemyDirection(entity);
     if(entity.getId().equals("enemy")){
       // System.out.println("prev " + entity.getPreviousY() + " now " + entity.getMaxY());
@@ -121,7 +122,7 @@ public class MarioGame extends Game {
     }
 
   }
-  private void enemyDirection(Entity entity){
+  private void enemyDirection(Movable entity){
     if(!leftOver && rightOver){
       entity.setVelocityX(Math.abs(entity.getVelocityX())*1);
     }

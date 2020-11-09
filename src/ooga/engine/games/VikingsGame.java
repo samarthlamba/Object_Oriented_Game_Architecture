@@ -2,8 +2,9 @@ package ooga.engine.games;
 
 import java.util.Collection;
 
+import javafx.scene.Node;
 import ooga.engine.entities.weapon.Arrow;
-import ooga.engine.entities.Entity;
+import ooga.engine.entities.Movable;
 import ooga.engine.obstacles.Obstacle;
 import ooga.view.GamePlayScreen;
 
@@ -16,7 +17,7 @@ public class VikingsGame extends Game{
   private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
 
   public VikingsGame(Collection<Obstacle> obstacles,
-                     Collection<Entity> entities, double timeElapsed) {
+                     Collection<Movable> entities, double timeElapsed) {
     super(obstacles, entities, timeElapsed);
   }
 
@@ -26,7 +27,7 @@ public class VikingsGame extends Game{
 
   @Override
   public void shoot(){
-    Entity entity = super.findMainPlayer();
+    Movable entity = super.findMainPlayer();
     double arrowStartX = entity.getCenterX() - entity.getEntityWidth()/2;
     double arrowStartY = entity.getMaxY() - entity.getEntityHeight()/2;
     double arrowVelocity = ARROW_VELOCITY;
