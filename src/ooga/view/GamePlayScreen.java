@@ -28,7 +28,7 @@ public class GamePlayScreen extends Screen{
     private double mainX;
     private double mainWidth;
     private double mainHeight;
-    private ResourceBundle defaultKeyResources = ResourceBundle.getBundle("DefaultKeys");//tODO
+    private ResourceBundle defaultKeyResources = ResourceBundle.getBundle("KeyBindings");//tODO
     private List<Object> keys;
     private GamePlay game;
     private Group background;
@@ -88,7 +88,7 @@ public class GamePlayScreen extends Screen{
             String methodName = defaultKeyResources.getString(code.toString());
             try {
                 Method method = game.getClass().getMethod(methodName);
-                method.invoke(game,null);
+                method.invoke(game);
             } catch (Exception e) {
                 e.printStackTrace();
             }
