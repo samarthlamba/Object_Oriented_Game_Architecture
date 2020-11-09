@@ -88,7 +88,7 @@ public class GamePlayScreen extends Screen{
             String methodName = defaultKeyResources.getString(code.toString());
             try {
                 Method method = game.getClass().getMethod(methodName);
-                method.invoke(game,null);
+                method.invoke(game);
             } catch (Exception e) {
                 e.printStackTrace();
             }
