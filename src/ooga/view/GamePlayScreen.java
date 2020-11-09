@@ -28,7 +28,7 @@ public class GamePlayScreen extends Screen{
     private double mainX;
     private double mainWidth;
     private double mainHeight;
-    private ResourceBundle defaultKeyResources = ResourceBundle.getBundle("DefaultKeys");//tODO
+    private ResourceBundle defaultKeyResources = ResourceBundle.getBundle("KeyBindings");//tODO
     private List<Object> keys;
     private GamePlay game;
     private Group background;
