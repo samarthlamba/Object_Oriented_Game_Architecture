@@ -15,6 +15,7 @@ public class MarioGame extends Game {
     super(obstacleCollection, entityCollection, timeElapsed,bean);
     entities = entityCollection;
     obstacles = obstacleCollection;
+
   }
 
     @Override
