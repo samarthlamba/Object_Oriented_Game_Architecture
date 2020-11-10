@@ -12,30 +12,34 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import ooga.engine.entities.Entity;
 import ooga.engine.entities.MovableBounds;
+import ooga.engine.entities.Movable;
+import ooga.engine.games.Collideable;
 import ooga.engine.games.GamePlay;
+import ooga.engine.obstacles.Unmovable;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class GamePlayScreen extends Screen{
 
     private static final String MAIN_PLAYER_ID = "player"; //TODO resource file
     private static final String OBSTACLE_NAME = "wall";
+    private static final String CHARACTER_IMAGES = "CharacterImages";
+    private static final String DEFAULT = "Default";
+    private static final ImagePattern DEFAULT_IMAGE = new ImagePattern(new Image("/images/defaultObject.png"));
     private Scene scene;
     private double mainY;
     private double mainX;
     private double mainWidth;
     private double mainHeight;
-    private ResourceBundle defaultKeyResources = ResourceBundle.getBundle("DefaultKeys");//tODO
-    private ResourceBundle characterImages = ResourceBundle.getBundle("ooga.view.resources.CharacterImages");//tODO
+//    private ResourceBundle characterImages; //tODO
+    private final ResourceBundle defaultKeyResources = ResourceBundle.getBundle("KeyBindings");
     private List<Object> keys;
     private GamePlay game;
     private Group background;
-    private Moveables mainPlayer;
+    private MovableBounds mainPlayer;
     private Collection onScreen;
     //          private Consumer pauseConsumer;
 //          private Consumer playConsumer;
@@ -53,9 +57,10 @@ public class GamePlayScreen extends Screen{
         background = new Group();
         game = givenGame;
         keys = new ArrayList<>();
-
+        ResourceBundle characterImageResources = getImageResources(givenGame);
+        Map<String,ImagePattern> characterImages = getImages(characterImageResources);
         onScreen = background.getChildren();
-        for (Moveables entity : game.getEntities()) {
+        for (MovableBounds entity : game.getEntities()) {
             Shape view;
             if(!onScreen.contains(entity)) {
                 if (entity.getId().equals(MAIN_PLAYER_ID)) {
@@ -66,20 +71,14 @@ public class GamePlayScreen extends Screen{
                     mainHeight = height;
                 }
                 view = (Shape) entity.getNode();
-                Image image = new Image(characterImages.getString(entity.getId()));
-                view.setFill(new ImagePattern(image));
-                view.setSmooth(true);
-
+                view.setFill(characterImages.getOrDefault(entity.getId(),DEFAULT_IMAGE));
                 background.getChildren().add(view);
             }
         }
-        for (Collideable obstacle : game.getBackground()) {
+        for (Node obstacle : game.getBackground()) {
             if(!onScreen.contains(obstacle)) {
-                Shape view = (Shape) obstacle.getNodeObject();
-                Image image = new Image(characterImages.getString(OBSTACLE_NAME)); //TODO
-                ImagePattern p = new ImagePattern(image);//TODO remove
-                view.setFill(p);
-
+                Shape view = (Shape) obstacle;
+                view.setFill(characterImages.getOrDefault(obstacle.getId(),DEFAULT_IMAGE));
                 background.getChildren().add(view);
             }
         }
@@ -96,6 +95,24 @@ public class GamePlayScreen extends Screen{
         root.setTop(hud);
         scene = new Scene(root,SCREEN_WIDTH,SCREEN_HEIGHT);//todo
         bindKeys();
+    }
+
+    private Map<String, ImagePattern> getImages(ResourceBundle characterImageResources) {
+        Map<String,ImagePattern> map = new HashMap<>();
+        for (String key : characterImageResources.keySet()) {
+            Image image = new Image(characterImageResources.getString(key));
+            map.put(key, new ImagePattern(image));
+        }
+        return map;
+    }
+
+    private ResourceBundle getImageResources(GamePlay givenGame) {
+        try {
+            String gameId = givenGame.getClass().getSimpleName();
+            return ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE +gameId + CHARACTER_IMAGES);
+        } catch (MissingResourceException e) {
+            return ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+DEFAULT+CHARACTER_IMAGES);
+        }
     }
 
     private void setKeys() {
@@ -119,12 +136,6 @@ public class GamePlayScreen extends Screen{
             }
         }
     }
-
-//    private Rectangle addEntityToScene(double xPos, double yPos, double width, double height) {
-//        Rectangle rect = new Rectangle(xPos,yPos,width,height);
-//        rect.setFill(Color.BLUE); //TODO
-//        return rect;
-//    }
 
     public void update(){
         mainX = mainPlayer.getCenterX() - mainWidth/2;
