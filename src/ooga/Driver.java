@@ -59,7 +59,7 @@ public class Driver extends Application {
   }
 
   private void step() {
-    game.updateMoveables();
+    game.updateLevel();
     display.updateDisplay();
   }
 

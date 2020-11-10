@@ -11,8 +11,4 @@ public class Waterfall extends Obstacle {
     super(obstacleWidth, obstacleHeight, initialX, initialY);
   }
 
-  @Override
-  public Node getNodeObject() {
-    return null;
-  }
 }

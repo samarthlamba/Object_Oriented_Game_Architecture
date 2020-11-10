@@ -3,11 +3,13 @@ package ooga.engine.entities;
 import static org.junit.jupiter.api.Assertions.*;
 
 import javafx.scene.shape.Rectangle;
+import ooga.engine.entities.enemy.Goomba;
+import ooga.engine.entities.player.Mario;
 import org.junit.jupiter.api.Test;
 
 class EntityTest {
   Entity testEntity = new Mario(100, 100, 50, 50);
-  Entity testEntityEnemy = new MarioEnemy(100, 100, 50, 50);
+  Entity testEntityEnemy = new Goomba(100, 100, 50, 50);
   @Test
   void getNode() {
 
