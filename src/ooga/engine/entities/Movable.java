@@ -1,7 +1,5 @@
 package ooga.engine.entities;
 
-import javafx.scene.Node;
-
  public interface Movable extends MovableBounds {
 
      boolean getStatusAlive();

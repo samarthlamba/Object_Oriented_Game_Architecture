@@ -3,9 +3,11 @@ package ooga.engine.games;
 import java.util.Collection;
 
 import javafx.scene.Node;
+import ooga.engine.entities.Entity;
 import ooga.engine.entities.weapon.Arrow;
 import ooga.engine.entities.Movable;
 import ooga.engine.obstacles.Obstacle;
+import ooga.engine.obstacles.Unmovable;
 import ooga.view.GamePlayScreen;
 
 public class VikingsGame extends Game{
@@ -16,7 +18,7 @@ public class VikingsGame extends Game{
   private static final double UPWARDS_VELOCITY = -20;
   private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
 
-  public VikingsGame(Collection<Node> obstacles,
+  public VikingsGame(Collection<Unmovable> obstacles,
                      Collection<Movable> entities, double timeElapsed) {
     super(obstacles, entities, timeElapsed);
   }
@@ -26,13 +28,27 @@ public class VikingsGame extends Game{
   }
 
   @Override
-  public void shoot(){
-    Movable entity = super.findMainPlayer();
-    double arrowStartX = entity.getCenterX() - entity.getEntityWidth()/2;
-    double arrowStartY = entity.getMaxY() - entity.getEntityHeight()/2;
+  protected void updateMovable(){
+    // System.out.println("stepped12324");
+    for (Movable entity : entities) {
+      moveMovable(entity);
+      generateArrows(entity);
+    }
+    removeMovable();
+  }
+
+  public void generateArrows(Movable entity){
+    if(entity.getId().equals("enemy")){
+      makeArrow(entity);
+    }
+  }
+
+  private void makeArrow(Movable enemy){
+    double arrowStartX = enemy.getCenterX() - enemy.getEntityWidth()/2;
+    double arrowStartY = enemy.getMaxY() - enemy.getEntityHeight()/2;
     double arrowVelocity = ARROW_VELOCITY;
-    if(entity.getFacing()) {
-      arrowStartX = entity.getCenterX() + entity.getEntityWidth()/2;
+    if(enemy.getFacing()) {
+      arrowStartX = enemy.getCenterX() + enemy.getEntityWidth()/2;
       arrowVelocity *= NEGATIVE_DIRECTION;
     }
     Arrow arrow = new Arrow(ARROW_WIDTH, ARROW_HEIGHT, arrowStartX, arrowStartY);

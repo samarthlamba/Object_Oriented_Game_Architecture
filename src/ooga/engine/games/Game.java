@@ -5,6 +5,8 @@ import javafx.scene.Node;
 import ooga.engine.entities.Entity;
 import ooga.engine.entities.Movable;
 import ooga.engine.entities.MovableBounds;
+import ooga.engine.obstacles.Obstacle;
+import ooga.engine.obstacles.Unmovable;
 import ooga.view.GamePlayScreen;
 
 import java.util.*;
@@ -16,12 +18,11 @@ public abstract class Game implements GamePlay {
     public static final double GRAVITY = 800;
     public static final double NEGATIVE_DIRECTION = -1;
     public static final double MOVE_FORCE = 50000; //TODO change to 10
-    Collection<Node> obstacles;
+    Collection<Unmovable> obstacles;
     Collection<Movable> entities;
     private double dt;
     private double initialVelocityX = 0;
     private boolean jump = false;
-    // private int screenHeight;
     private double jumpMaxHeight = 10;
     private double massMovable;
     private double moveVelocity = 10;
@@ -38,7 +39,7 @@ public abstract class Game implements GamePlay {
     // check solidity aspect of obstacle by having boolean that is see through
 
 
-    public Game(Collection<Node> obstacles, Collection<Movable> entities, double timeElapsed) {
+    public Game(Collection<Unmovable> obstacles, Collection<Movable> entities, double timeElapsed) {
         this.obstacles = obstacles;
         this.entities = entities;
         handleCollisions = new Collisions();
@@ -52,7 +53,11 @@ public abstract class Game implements GamePlay {
     public abstract boolean hasFinished();
 
     public Collection<Node> getBackground() {
-        return obstacles;
+        Collection<Node> nodeObstacles = new ArrayList<>();
+        for(Unmovable obstacle : obstacles){
+            nodeObstacles.add(obstacle.getNode());
+        }
+        return nodeObstacles;
     }
 
 
@@ -113,9 +118,9 @@ public abstract class Game implements GamePlay {
     }
 
     public void obstacleCollision(Movable entity) {
-        for (Node obstacle : obstacles) {
-            Node object = obstacle;
-            collisions(entity, (Collideable) object);
+        for (Unmovable obstacle : obstacles) {
+            Collideable object = obstacle.getCollideable();
+            collisions(entity, object);
         }
        /* if(!entity.getId().equals("player")){
             collisions(findMainPlayer(), entity);

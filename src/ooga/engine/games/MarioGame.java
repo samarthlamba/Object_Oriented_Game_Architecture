@@ -9,6 +9,7 @@ import ooga.engine.entities.Entity;
 import ooga.engine.entities.Movable;
 import ooga.engine.entities.object.Coin;
 import ooga.engine.obstacles.Obstacle;
+import ooga.engine.obstacles.Unmovable;
 import ooga.view.GamePlayScreen;
 
 public class MarioGame extends Game {
@@ -17,7 +18,7 @@ public class MarioGame extends Game {
   private int coinSize = 50;
   private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
 
-  public MarioGame(Collection<Node> obstacleCollection, Collection<Movable> entityCollection,
+  public MarioGame(Collection<Unmovable> obstacleCollection, Collection<Movable> entityCollection,
                    double timeElapsed) {
     super(obstacleCollection, entityCollection, timeElapsed);
     entities = entityCollection;
@@ -94,7 +95,7 @@ public class MarioGame extends Game {
       if (entity.getId() == "enemy") {
         simulateFall(entity, object.getNode());
       }
-      handleCollisions.collisions((Entity) entity, (Collideable) object);
+      handleCollisions.collisions((Entity) entity, object);
     }
 
   }
@@ -108,15 +109,7 @@ public class MarioGame extends Game {
         entity.setMaxY(entity.getPreviousY());
         entity.setCenterX(entity.getPreviousX());
         entity.setVelocityX(entity.getVelocityX()*-1);
-        // double c = entity.getMaxY();
       }
-
-      // double c = entity.getMaxY();
-
-
-      // System.out.println(entity.getVelocityX());
-
-
     }
 
   }

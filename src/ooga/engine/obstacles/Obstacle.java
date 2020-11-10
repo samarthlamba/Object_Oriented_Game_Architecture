@@ -5,7 +5,7 @@ import javafx.scene.shape.Rectangle;
 import ooga.engine.entities.Entity;
 import ooga.engine.games.Collideable;
 
-public abstract class Obstacle extends Rectangle implements Collideable {
+public abstract class Obstacle extends Rectangle implements Collideable, Unmovable {
   private static final double MOVE_FORCE = 1000;
   private static final double NEGATIVE_DIRECTION = -1;
   public static final double GRAVITY = 500;
@@ -14,6 +14,7 @@ public abstract class Obstacle extends Rectangle implements Collideable {
   private double initialX;
   private double initialY;
   private boolean reached;
+
   public Obstacle(int obstacleWidth,int obstacleHeight, double initialX, double initialY) {
     this.initialX = initialX;
     this.initialY= initialY;
@@ -29,6 +30,9 @@ public abstract class Obstacle extends Rectangle implements Collideable {
     return (Node) this;
   }
 
+  public Collideable getCollideable(){
+    return (Collideable) this;
+  }
 
   public void moveXBy(double x){
     relocate(getBoundsInParent().getMinX()+x,getBoundsInParent().getMinY());

@@ -4,7 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import ooga.engine.games.Collideable;
 
-public abstract class Entity extends Rectangle implements MovableBounds, Collideable, Movable {
+public abstract class Entity extends Rectangle implements Collideable, Movable {
   private final int SCENE_WIDTH;
   private final int SCENE_HEIGHT;
   private int currentHitpoints = 5;
