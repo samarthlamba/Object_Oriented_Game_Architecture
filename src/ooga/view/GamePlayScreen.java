@@ -11,6 +11,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Shape;
 import ooga.engine.entities.MovableBounds;
 import ooga.engine.games.GamePlay;
+import ooga.engine.obstacles.Unmovable;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -34,6 +35,7 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
     private Group background;
     private MovableBounds mainPlayer;
     private Collection onScreen;
+    private Map<String, ImagePattern> characterImages;
     //          private Consumer pauseConsumer;
 //          private Consumer playConsumer;
 //          private Consumer restartConsumer;
@@ -48,14 +50,20 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
         keys = new ArrayList<>();
 
     }
+    public GamePlayScreen() {
+        background = new Group();
+        keys = new ArrayList<>();
+    }
 
     public void setGameScreen(GamePlay givenGame) {
+        game = givenGame;//TODO remove
+        game.setDisplay(this);
         Pane gamePane = new Pane(); //Todo justify
         ResourceBundle characterImageResources = getImageResources(givenGame);
-        Map<String,ImagePattern> characterImages = getImages(characterImageResources);
+        characterImages = getImages(characterImageResources);
         onScreen = background.getChildren();
-        addEntities(characterImages);
-        addObstacles(characterImages);
+        addEntities((Collection<MovableBounds>) game.getEntities());
+        addObstacles((Collection<Node>) game.getBackground());
         update();
         gamePane.getChildren().add(background);
 
@@ -71,18 +79,19 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
         bindKeys();
     }
 
-    private void addObstacles(Map<String, ImagePattern> characterImages) {
-        for (Node obstacle : game.getBackground()) {
+    private void addObstacles(Collection<Node> obstacles) {
+        for (Node obstacle : obstacles) {
             if(!onScreen.contains(obstacle)) {
                 Shape view = (Shape) obstacle;
+//                view.setId(obstacle.toString()); //TODO
                 view.setFill(characterImages.getOrDefault(obstacle.getId(),DEFAULT_IMAGE));
                 background.getChildren().add(view);
             }
         }
     }
 
-    private void addEntities(Map<String, ImagePattern> characterImages) {
-        for (MovableBounds entity : game.getEntities()) {
+    private void addEntities(Collection<MovableBounds> entities) {
+        for (MovableBounds entity : entities) {
             Shape view;
             if(!onScreen.contains(entity)) {
                 if (entity.getId().equals(MAIN_PLAYER_ID)) {
@@ -93,6 +102,7 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
                     mainHeight = height;
                 }
                 view = (Shape) entity.getNode();
+//                view.setId(entity.getNode().toString()); //TODO
                 view.setFill(characterImages.getOrDefault(entity.getId(),DEFAULT_IMAGE));
                 background.getChildren().add(view);
             }
@@ -185,17 +195,16 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
 //                }
 //            }
 //        }
-        for (MovableBounds entity : entities) {
-          background.getChildren().add(entity.getNode());
-        }
+        addEntities(entities);
     }
 
     public void remove(Collection<MovableBounds> entities) {
         for (MovableBounds entity : entities) {
-            if (background.getChildren().contains(entity)) {
-                background.getChildren().remove(entity);
-            } else {
-                throw new RuntimeException("Tried to remove entity that doesn't exist");
+            if (background.getChildrenUnmodifiable().contains(entity.getNode())) {
+                background.getChildren().remove(entity.getNode());
+            }
+            else {
+                throw new RuntimeException("Entity not in Scene");
             }
         }
     }
