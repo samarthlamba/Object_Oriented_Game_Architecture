@@ -10,7 +10,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
   private int currentHitpoints = 5;
   private Node nodeObject;
   private double speed = 0;
-  private static final int JUMP_CAPACITY = -240;
+  private static final int JUMP_CAPACITY = -220;
   private double previousX;
   private double previousY;
   private double jumpCapacity = 0;
