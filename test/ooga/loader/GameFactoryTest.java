@@ -1,18 +1,18 @@
 package ooga.loader;
 
+import static javafx.beans.binding.Bindings.when;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Collection;
 
-import ooga.engine.entities.Moveables;
+import javafx.scene.Node;
+import ooga.engine.entities.MovableBounds;
 import ooga.engine.games.Game;
 import ooga.engine.games.MarioGame;
-import ooga.engine.entities.Entity;
-import ooga.engine.entities.Mario;
-import ooga.engine.obstacles.Collideable;
-import ooga.engine.obstacles.Obstacle;
+import ooga.engine.entities.player.Mario;
 import ooga.engine.obstacles.Wall;
 import org.junit.jupiter.api.Test;
 
@@ -21,16 +21,16 @@ public class GameFactoryTest {
 
   @Test
   public void testFactoryConstructsProperGame() {
-    Game gameFromLoader = factory.makeCorrectGame("testFile.csv");
+    Game gameFromLoader = factory.makeCorrectGame("TestFile");
     assertTrue(gameFromLoader instanceof MarioGame);
-    Collection<Moveables> entitiesFromGame = gameFromLoader.getEntities();
-    Collection<Collideable> obstaclesFromGame = gameFromLoader.getBackground();
+    Collection<MovableBounds> entitiesFromGame = (Collection<MovableBounds>) gameFromLoader.getEntities();
+    Collection<Node> obstaclesFromGame = (Collection<Node>) gameFromLoader.getBackground();
     assertEquals(1,entitiesFromGame.size());
-    for(Moveables each : entitiesFromGame) {
+    for(MovableBounds each : entitiesFromGame) {
       assertTrue(each instanceof Mario);
     }
     assertEquals(3,obstaclesFromGame.size());
-    for(Collideable each : obstaclesFromGame) {
+    for(Node each : obstaclesFromGame) {
       assertTrue(each instanceof Wall);
     }
   }
@@ -38,30 +38,84 @@ public class GameFactoryTest {
   @Test
   public void testFactoryThrowsExceptionWithBadSymbol() {
     try{
-      factory.makeCorrectGame("testFileBadSymbols.csv");
+      factory.makeCorrectGame("testFileBadSymbols");
     } catch (Exception e) {
       assertTrue(e instanceof FactoryException);
-      assertEquals("Unable to build game from testFileBadSymbols.csv: Symbol 2 not present in this game",e.getMessage());
+      assertEquals("Unable to build game from testFileBadSymbols: Symbol 2 not present in this game",e.getMessage());
     }
   }
 
   @Test
   public void testFactoryThrowsExceptionIfFileNotFound() {
     try {
-      factory.makeCorrectGame("notAFile.csv");
+      factory.makeCorrectGame("notAFile");
     } catch (Exception e) {
       assertTrue(e instanceof FactoryException);
-      assertEquals("Unable to build game from notAFile.csv: Could not find file with name notAFile.csv",e.getMessage());
+      assertEquals("Unable to build game from notAFile: Could not find file with name notAFile.csv",e.getMessage());
     }
   }
 
   @Test
   public void testFactoryThrowsExceptionOnEmptyFile() {
     try {
-      factory.makeCorrectGame("testEmptyFile.csv");
+      factory.makeCorrectGame("testEmptyFile");
     } catch (Exception e) {
       assertTrue(e instanceof FactoryException);
-      assertEquals("Unable to build game from testEmptyFile.csv: Empty file",e.getMessage());
+      assertEquals("Unable to build game from testEmptyFile: Empty file",e.getMessage());
+    }
+  }
+
+  @Test
+  public void testFactoryUsesDefaultsIfNoPropertiesExistsForLevel() {
+    try {
+      Game game = factory.makeCorrectGame("MarioLevel2");
+    } catch (Exception e) {
+      fail();
+    }
+  }
+
+  @Test
+  public void testMalformedBeanThrowsError() {
+    try {
+      factory.makeCorrectGame("MalformedBean");
+    } catch (Exception e) {
+      assertTrue(e instanceof FactoryException);
+      assertEquals("Unable to build game from MalformedBean: Error making Bean",e.getMessage());
+    }
+  }
+
+  @Test
+  public void testEveryMarioLevelLoads() {
+    try {
+      factory.makeCorrectGame("MarioLevel1");
+      factory.makeCorrectGame("MarioLevel2");
+      factory.makeCorrectGame("MarioLevel3");
+    } catch (Exception e) {
+      fail();
+    }
+
+  }
+
+  @Test
+  public void testEveryMetroidLevelLoads() {
+    try {
+      factory.makeCorrectGame("MetroidLevel1");
+      factory.makeCorrectGame("MetroidLevel2");
+      factory.makeCorrectGame("MetroidLevel3");
+    } catch (Exception e) {
+      fail();
+    }
+  }
+
+  @Test
+  public void testEveryVikingsLevelLoads() {
+    try {
+      factory.makeCorrectGame("VikingsLevel1");
+      factory.makeCorrectGame("VikingsLevel2");
+      factory.makeCorrectGame("VikingsLevel3");
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail();
     }
   }
 

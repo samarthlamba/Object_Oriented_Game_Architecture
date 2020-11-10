@@ -2,9 +2,7 @@ package ooga.engine.obstacles;
 
 
 import javafx.scene.Node;
-import ooga.engine.entities.Moveables;
-
-import java.util.Map;
+import ooga.engine.entities.Entity;
 
 public class Ladder extends Obstacle {
     private double initialX;
@@ -23,17 +21,12 @@ public class Ladder extends Obstacle {
     }
 
     @Override
-    public Node getNodeObject(){
-        return new Ladder(obstacleWidth, obstacleHeight, initialX, initialY);
-    }
+    public void leftCollideable(Entity entity) {}
 
     @Override
-    public void leftCollideable(Moveables entity) {}
+    public void rightCollideable(Entity entity) {}
 
     @Override
-    public void rightCollideable(Moveables entity) {}
-
-    @Override
-    public void bottomCollideable(Moveables entity) {}
+    public void bottomCollideable(Entity entity) {}
 
 }

@@ -29,12 +29,4 @@ public class DriverTest extends DukeApplicationTest {
 
   }
 
-  @Test
-  public void testGameIsUpdated() {
-    Button startButton = (Button) myMenu.getView().getRoot().getChildrenUnmodifiable().get(0);
-    clickOn(startButton);
-    assertTrue(myDriver.getGame() != null);
-    assertTrue(myDriver.getGame() instanceof MarioGame);
-  }
-
 }
