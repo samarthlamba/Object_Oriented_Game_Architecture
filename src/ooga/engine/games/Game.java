@@ -24,6 +24,7 @@ public abstract class Game implements GamePlay {
     private final double gravity;
     private final double moveForce;
     public static final double MOVE_FORCE = 50000; //TODO change to 10
+    private static final int JUMP_CAPACITY = -220;
     Collection<Unmovable> obstacles;
     Collection<Movable> entities;
     private double dt;
@@ -88,7 +89,7 @@ public abstract class Game implements GamePlay {
     }
 
     protected void moveMovable(Movable entity) {
-        if (entity.isJump() && entity.getTimeElapsedY() < .35) {
+        if (entity.getTimeElapsedY() < .35) {
             entity.setTimeElapsedY(entity.getTimeElapsedY() + entity.getTimeElapsedX());
         }
         if (entity.getId().equals("player")) {
@@ -99,7 +100,6 @@ public abstract class Game implements GamePlay {
         entityCollision(entity);
         moveEnemy(entity);
         updatePosition(entity);
-        // System.out.println("force" + entity.getYForce());
         entity.setYForce(0);
         entity.setXForce(0);
         if(!entity.getStatusAlive()){
@@ -206,7 +206,7 @@ public abstract class Game implements GamePlay {
 
     public void UP(Movable entity) {
         entity.setJump(true);
-        entity.setVelocityY(entity.getJumpMax());
+        entity.setVelocityY(JUMP_CAPACITY);
         entity.setMaxY(entity.getMaxY() - 2);
     }
 
