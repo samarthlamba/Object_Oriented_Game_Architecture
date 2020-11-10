@@ -47,16 +47,15 @@ class GameTest {
         Entity entity = entities.iterator().next();
         game.UP(entity);
         double previous = 200;
-        for(int i = 0; i < 16; i++) {
+        for(int i = 0; i < 15; i++) {
             game.updateLevel();
             assertTrue(entity.getMaxY() < previous);
             System.out.println(entity.getMaxY());
             previous = entity.getMaxY();
         }
-        for(int i = 0; i < 17; i++) {
+        for(int i = 0; i < 11; i++) {
             game.updateLevel();
             assertTrue(entity.getMaxY() >= previous);
-            System.out.println(entity.getMaxY());
             previous = entity.getMaxY();
         }
 
