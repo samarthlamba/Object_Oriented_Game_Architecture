@@ -26,6 +26,7 @@ public class MainMenuScreen extends Screen{
         Menu menu = getMenu();
         menu.setAlignment(MENU_POSITION);
         scene = new Scene(menu, SCREEN_WIDTH, SCREEN_HEIGHT);
+        scene.getStylesheets().add("gamebase.css");
     }
 
     private Menu getMenu() {
