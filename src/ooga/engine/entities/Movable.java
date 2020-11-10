@@ -1,7 +1,6 @@
 package ooga.engine.entities;
 
  public interface Movable extends MovableBounds {
-
      boolean getStatusAlive();
 
      double getVelocityX();
