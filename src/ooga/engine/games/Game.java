@@ -5,7 +5,6 @@ import javafx.scene.Node;
 import ooga.engine.entities.Entity;
 import ooga.engine.entities.Movable;
 import ooga.engine.entities.MovableBounds;
-import ooga.engine.obstacles.Obstacle;
 import ooga.view.GamePlayScreen;
 
 import java.util.*;
