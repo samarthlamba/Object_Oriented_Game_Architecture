@@ -5,11 +5,15 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import javafx.scene.input.KeyCode;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -77,14 +81,13 @@ public class KeyBinderTest {
   }
 
   @Test
-  public void testSaveMapSavesChangesCorrectly() {
-    try {
-      myBinder.setBinding(KeyCode.D,"moveUp");
-      myBinder.saveMap();
-      assertEquals("moveUp",bindableBundle.getString("D"));
-    } catch (IOException e) {
-      fail();
-    }
+  public void testSaveMapSavesChangesCorrectly() throws IOException {
+    myBinder.setBinding(KeyCode.D,"moveUp");
+    myBinder.saveMap();
+    File location = new File("src/resources/KeyBindings.properties");
+    Properties p = new Properties();
+    p.load(new FileInputStream(location));
+    assertEquals("moveUp",p.getProperty("D"));
   }
 
   @Test
@@ -95,6 +98,13 @@ public class KeyBinderTest {
     myBinder.setToDefault();
     assertEquals(defaultKeyCodeMethodMap, myBinder.getKeyMethodMap());
     assertEquals(defaultMethodKeyCodeMap, myBinder.getMethodKeyMap());
+  }
+
+  @AfterAll
+  public static void cleanup() throws IOException {
+    KeyBinder binder = new KeyBinder();
+    binder.setToDefault();
+    binder.saveMap();
   }
 
 }
