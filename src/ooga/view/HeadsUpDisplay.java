@@ -23,8 +23,9 @@ import java.util.ResourceBundle;
 public class HeadsUpDisplay extends HBox {
     private static final double STATUS_SPACING = 20.0;
     private static final double LABEL_SPACING = 10.0;
-//    private static final
-    ResourceBundle hudResources = ResourceBundle.getBundle(Screen.DEFAULT_RESOURCE_PACKAGE + "hud");
+    private static final double HUD_ICON_WIDTH = 15;
+    private static final double HUD_ICON_HEIGHT = HUD_ICON_WIDTH;
+    private static final ResourceBundle hudResources = ResourceBundle.getBundle(Screen.DEFAULT_RESOURCE_PACKAGE + "hud");
     private static final String styles =  "mario.css";
 
     //          private Consumer pauseConsumer;
@@ -41,16 +42,12 @@ public class HeadsUpDisplay extends HBox {
     }
 
     private void setUpHud() {
-//        Node livesLabel = new Text("lives");
         ImagePattern livesImage = new ImagePattern(new Image(hudResources.getString("heart")));
-//        ImageView livesLabel = new ImageView(new Image("/images/heart.png"));
-        Shape livesLabel = new Rectangle(15,15);
+        Shape livesLabel = new Rectangle(HUD_ICON_WIDTH,HUD_ICON_HEIGHT);
         livesLabel.setFill(livesImage);
-//        livesLabel.setFill(Color.RED);
         Node lives = new Text(Integer.toString(getLives()));//TODO
-//        pointsLabel = new Text("points");
         ImagePattern pointsImage = new ImagePattern(new Image(hudResources.getString("coin")));
-        Shape pointsLabel = new Rectangle(15,15);
+        Shape pointsLabel = new Rectangle(HUD_ICON_WIDTH,HUD_ICON_HEIGHT);
         pointsLabel.setFill(pointsImage);
 
         Node points = new Text(Integer.toString(getPoints()));
@@ -81,8 +78,8 @@ public class HeadsUpDisplay extends HBox {
 //        buttons.
 
         this.getStylesheets().add(styles);
-        pauseButton.getStyleClass().add("pause");
-        settingsButton.getStyleClass().add("settings");
+        pauseButton.getStyleClass().add(hudResources.getString("pause"));
+        settingsButton.getStyleClass().add(hudResources.getString("settings"));
 //        Image
 
         this.getChildren().addAll(status,buttons);

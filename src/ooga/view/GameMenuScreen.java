@@ -38,7 +38,7 @@ public class GameMenuScreen extends Screen{
         root.getChildren().addAll(imageView,menu);
         scene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-        scene.getStylesheets().addAll("gamebase.css","mariomenu.css");
+        scene.getStylesheets().addAll("gamebase.css");
     }
 
     private Menu getMenu() {

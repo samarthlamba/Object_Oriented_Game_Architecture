@@ -28,6 +28,8 @@ import java.util.ResourceBundle;
 
 public class GamePlayScreen extends Screen{
 
+    private static final String MAIN_PLAYER_ID = "player"; //TODO resource file
+    private static final String OBSTACLE_NAME = "wall";
     private Scene scene;
     private double mainY;
     private double mainX;
@@ -61,30 +63,14 @@ public class GamePlayScreen extends Screen{
         for (Moveables entity : game.getEntities()) {
             Shape view;
             if(!onScreen.contains(entity)) {
-                if (entity.getId().equals("player")) {
+                if (entity.getId().equals(MAIN_PLAYER_ID)) {
                     mainPlayer = entity;
                     double width = entity.getNode().getLayoutBounds().getWidth();
                     double height = entity.getNode().getLayoutBounds().getHeight();
                     mainWidth = width;
                     mainHeight = height;
-                    view = (Shape) entity.getNode();
-//                    Image image = new Image("/ooga/view/resources/images/mario.png");
-//                    view.getStyleClass().add(entity.getId());
-//                    Image image = new Image(characterImages.getString(entity.getId()));
-//                    view.setFill(new ImagePattern(image));
-
-//                    Shape entityShape = (Shape) entity.getNode();
-//                    Node entityShape = entity.getNode();
-//                    entityShape.setFill(Color.BLUE);
-//                    entityShape.getStyleClass().add(entity.getId());
-//                    ImageView entityImage = getEntityImage(entity);
-//                    background.getChildren().add(view);
-                } else {
-//                    Shape entityNode = (Shape) entity.getNode();
-                    view = (Shape) entity.getNode();
-//                    entityNode.setFill(Color.GREEN);
-//                    background.getChildren().add(entityNode);
                 }
+                view = (Shape) entity.getNode();
                 Image image = new Image(characterImages.getString(entity.getId()));
                 view.setFill(new ImagePattern(image));
                 view.setSmooth(true);
@@ -95,16 +81,13 @@ public class GamePlayScreen extends Screen{
         for (Collideable obstacle : game.getBackground()) {
             if(!onScreen.contains(obstacle)) {
                 Shape view = (Shape) obstacle.getNodeObject();
-//                obstacleNode.setFill(Color.BROWN);
-//                background.getChildren().add(obstacleNode);
-                Image image = new Image(characterImages.getString("wall")); //TODO
+                Image image = new Image(characterImages.getString(OBSTACLE_NAME)); //TODO
                 ImagePattern p = new ImagePattern(image);//TODO remove
                 view.setFill(p);
 
                 background.getChildren().add(view);
             }
         }
-        setNodeImages();
         update();
         gamePane.getChildren().add(background);
 
@@ -118,16 +101,6 @@ public class GamePlayScreen extends Screen{
         root.setTop(hud);
         scene = new Scene(root,SCREEN_WIDTH,SCREEN_HEIGHT);//todo
         bindKeys();
-    }
-
-//    private ImageView getEntityImage(Moveables entity) {
-//        Image image = new Image("/ooga/view/resources/images/mario.png");
-//        ImageView imageView = new ImageView(image);
-//        imageView.set
-//    }
-
-    private void setNodeImages() {
-
     }
 
     private void setKeys() {
@@ -152,39 +125,13 @@ public class GamePlayScreen extends Screen{
         }
     }
 
-    private Rectangle addEntityToScene(double xPos, double yPos, double width, double height) {
-        Rectangle rect = new Rectangle(xPos,yPos,width,height);
-        rect.setFill(Color.BLUE); //TODO
-        return rect;
-    }
+//    private Rectangle addEntityToScene(double xPos, double yPos, double width, double height) {
+//        Rectangle rect = new Rectangle(xPos,yPos,width,height);
+//        rect.setFill(Color.BLUE); //TODO
+//        return rect;
+//    }
 
     public void update(){
-//        onScreen = background.getChildren();
-//        for (Moveables entity : game.getEntities()) {
-//            if(!onScreen.contains(entity.getNode())) {
-//                if (entity.getId().equals("player")) {
-//                    mainPlayer = entity;
-//                    double width = entity.getNode().getLayoutBounds().getWidth();
-//                    double height = entity.getNode().getLayoutBounds().getHeight();
-//                    mainWidth = width;
-//                    mainHeight = height;
-//                    Shape entityShape = (Shape) entity.getNode();
-//                    entityShape.setFill(Color.BLUE);
-//                    background.getChildren().add(entityShape);
-//                } else {
-//                    Shape entityNode = (Shape) entity.getNode();
-//                    entityNode.setFill(Color.GREEN);
-//                    background.getChildren().add(entityNode);
-//                }
-//            }
-//        }
-//        for (Collideable obstacle : game.getBackground()) {
-//            if(!onScreen.contains(obstacle)) {
-//                Shape obstacleNode = (Shape) obstacle.getNodeObject();
-//                obstacleNode.setFill(Color.BROWN);
-//                background.getChildren().add(obstacleNode);
-//            }
-//        }
         mainX = mainPlayer.getCenterX() - mainWidth/2;
         mainY = mainPlayer.getMaxY() - mainHeight;
         double sceneShiftX = -(mainX - (SCREEN_WIDTH/2 - mainWidth/2));
