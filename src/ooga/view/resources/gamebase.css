@@ -1,0 +1,12 @@
+.root {
+    -fx-background-color: gray;
+    -fx-font-family: "Courier New","Droid Sans Mono","Monaco";
+}
+
+.button {
+    -fx-text-fill: #000000;
+    -fx-background-color: gold;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 100%;
+}
