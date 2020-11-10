@@ -1,17 +1,16 @@
 package ooga.engine.entities;
 
 import javafx.scene.Node;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Rectangle;
+import ooga.engine.games.Collideable;
 
-public abstract class Entity extends Node implements Moveables {
+public abstract class Entity extends Rectangle implements Collideable, Movable {
   private final int SCENE_WIDTH;
   private final int SCENE_HEIGHT;
   private int currentHitpoints = 5;
   private Node nodeObject;
   private double speed = 0;
-  private static final int JUMP_CAPACITY = -240;
+  private static final int JUMP_CAPACITY = -220;
   private double previousX;
   private double previousY;
   private double jumpCapacity = 0;
@@ -20,8 +19,9 @@ public abstract class Entity extends Node implements Moveables {
   boolean status_Alive = true;
   private double timeElapsedY = 0;
   private double timeElapsedX = 0;
-  private boolean jump = false;
   private double timeInterval = 0;
+  private boolean facing = true;
+  private boolean jump = false;
 
   public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
     this.SCENE_WIDTH = objectWidth;
@@ -29,6 +29,10 @@ public abstract class Entity extends Node implements Moveables {
     nodeObject = new Rectangle(initialX, initialY, objectWidth, objectHeight);
     this.previousX = initialX + objectWidth / 2;
     this.previousY = initialY + objectHeight;
+    setX(initialX);
+    setY(initialY);
+    setWidth(objectWidth);
+    setHeight(objectHeight);
     this.setCenterX(initialX + objectWidth / 2);
     this.setMaxY(initialY + objectHeight);
   }
@@ -68,17 +72,20 @@ public abstract class Entity extends Node implements Moveables {
 
   public void setCenterX(double inputX){
       nodeObject.setLayoutX(inputX - nodeObject.getLayoutBounds().getCenterX());
+      setX(inputX - SCENE_WIDTH/2);
   }
-
-  public abstract void update();
 
   public void setMaxY(double inputY){
       nodeObject.setLayoutY(inputY - nodeObject.getLayoutBounds().getMaxY());
+      setY(inputY - SCENE_HEIGHT);
     //nodeObject.setLayoutY(inputY+nodeObject.getLayoutY());
   }
 
   public void setHitpoints(int hitpoints){
-    currentHitpoints=hitpoints;
+      currentHitpoints=hitpoints;
+      if (currentHitpoints <= 0){
+          status_Alive = false;
+      }
   }
 
   public int getHitpoints(){
@@ -110,7 +117,7 @@ public abstract class Entity extends Node implements Moveables {
       return nodeObject.getBoundsInParent().getCenterX();
   }
 
-  public double getEntityWidth(){
+    public double getEntityWidth(){
       return SCENE_WIDTH;
   }
 
@@ -118,23 +125,23 @@ public abstract class Entity extends Node implements Moveables {
         return SCENE_HEIGHT;
     }
 
-  public double getMaxY(){
+    public double getMaxY(){
       return nodeObject.getBoundsInParent().getMaxY();
   }
 
-  public void setXForce(double force){
+    public void setXForce(double force){
       xForce = force;
   }
 
-  public void setYForce(double force){
+    public void setYForce(double force){
       yForce = force;
   }
 
-  public double getXForce(){
+    public double getXForce(){
       return xForce;
   }
 
-  public double getYForce(){
+    public double getYForce(){
       return yForce;
   }
 
@@ -150,17 +157,37 @@ public abstract class Entity extends Node implements Moveables {
       timeElapsedY = time;
     }
 
-
     public void setTimeElapsedX(double time){
         timeElapsedX = time;
     }
 
+    public void leftCollideable(Entity entity) {}
+
+    public void rightCollideable(Entity entity) {}
+
+    public void bottomCollideable(Entity entity) {}
+
+    public void topCollideable(Entity entity) {}
+
+    public boolean hasGravity(){
+      return true;
+    }
+
+    public boolean getFacing(){
+      return facing;
+    }
+
     public boolean isJump(){
-      return jump;
+        return jump;
     }
 
     public void setJump(boolean isJump){
-      jump = isJump;
+        jump = isJump;
     }
+
+    public void setFacing(boolean direction){
+      facing = direction;
+    }
+
     //add id.
 }

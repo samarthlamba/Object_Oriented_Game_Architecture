@@ -1,7 +1,9 @@
-package ooga.engine.entities;
+package ooga.engine.entities.enemy;
 
 
-public abstract class Enemy extends Entity{
+import ooga.engine.entities.Entity;
+
+public abstract class Enemy extends Entity {
   private final static String ID = "enemy";
 
   public Enemy(int objectWidth, int objectHeight, double initialX, double initialY) {
@@ -9,8 +11,5 @@ public abstract class Enemy extends Entity{
     setId(ID);
   }
 
- /* public int getID(){
-    return this.ID;
-  }*/
 
 }

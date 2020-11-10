@@ -1,24 +1,19 @@
 package ooga.view;
 
-import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import ooga.engine.entities.Entity;
-import ooga.engine.entities.Moveables;
+import ooga.engine.entities.MovableBounds;
 import ooga.engine.games.GamePlay;
-import ooga.engine.obstacles.Collideable;
-import ooga.engine.obstacles.Obstacle;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -118,7 +113,7 @@ public class GamePlayScreen extends Screen{
             String methodName = defaultKeyResources.getString(code.toString());
             try {
                 Method method = game.getClass().getMethod(methodName);
-                method.invoke(game,null);
+                method.invoke(game);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -139,6 +134,10 @@ public class GamePlayScreen extends Screen{
         background.setTranslateX(sceneShiftX);
         background.setTranslateY(sceneShiftY);
     }
+
+    public void spawn(MovableBounds entity){}
+
+    public void remove(MovableBounds entity){}
 
     @Override
     public Scene getView() {

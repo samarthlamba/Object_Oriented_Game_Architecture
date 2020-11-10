@@ -2,11 +2,10 @@ package ooga.engine.obstacles;
 
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
-import ooga.engine.entities.Moveables;
+import ooga.engine.entities.Entity;
+import ooga.engine.games.Collideable;
 
-import java.util.Map;
-
-public abstract class Obstacle extends Rectangle implements Collideable{
+public abstract class Obstacle extends Rectangle implements Collideable, Unmovable {
   private static final double MOVE_FORCE = 1000;
   private static final double NEGATIVE_DIRECTION = -1;
   public static final double GRAVITY = 500;
@@ -15,6 +14,7 @@ public abstract class Obstacle extends Rectangle implements Collideable{
   private double initialX;
   private double initialY;
   private boolean reached;
+
   public Obstacle(int obstacleWidth,int obstacleHeight, double initialX, double initialY) {
     this.initialX = initialX;
     this.initialY= initialY;
@@ -24,6 +24,14 @@ public abstract class Obstacle extends Rectangle implements Collideable{
     setWidth(obstacleWidth);
     setHeight(obstacleHeight);
    // nodeObject = new Rectangle(initialX, initialY, obstacleWidth, obstacleHeight);
+  }
+
+  public Node getNode(){
+    return (Node) this;
+  }
+
+  public Collideable getCollideable(){
+    return (Collideable) this;
   }
 
   public void moveXBy(double x){
@@ -55,23 +63,22 @@ public abstract class Obstacle extends Rectangle implements Collideable{
     moveY = Y;
   }
 
-  public abstract Node getNodeObject();
 
 
-  public void leftCollideable(Moveables entity) {
-    //System.out.println("left");
-    entity.setXForce(entity.getXForce() + MOVE_FORCE);
-    entity.setCenterX(getBoundsInParent().getMaxX() + entity.getEntityWidth() / 2);
+  public void leftCollideable(Entity entity) {
+    entity.setXForce(0);
+    entity.setCenterX(getBoundsInParent().getMaxX() + entity.getEntityWidth()/2);
+    entity.setVelocityX(entity.getVelocityX() * NEGATIVE_DIRECTION);
   }
 
 
-  public void rightCollideable(Moveables entity) {
-   // System.out.println("right");
-    entity.setXForce(entity.getXForce() - MOVE_FORCE);
-    entity.setCenterX(getBoundsInParent().getMinX() - entity.getEntityWidth() / 2);
+  public void rightCollideable(Entity entity) {
+    entity.setXForce(0);
+    entity.setCenterX(getBoundsInParent().getMinX() - entity.getEntityWidth()/2);
+    entity.setVelocityX(entity.getVelocityX() * NEGATIVE_DIRECTION);
   }
 
-  public void bottomCollideable(Moveables entity) {
+  public void bottomCollideable(Entity entity) {
    // System.out.println("bottom");
     //entity.setMaxY(getBoundsInParent().getMaxY() + entity.getEntityHeight());
     entity.setYForce(GRAVITY);
@@ -79,14 +86,11 @@ public abstract class Obstacle extends Rectangle implements Collideable{
     //entity.setJump(false);
   }
 
-  public void topCollideable(Moveables entity) {
+  public void topCollideable(Entity entity) {
     entity.setMaxY(getBoundsInParent().getMinY());
     entity.setYForce(entity.getYForce() + NEGATIVE_DIRECTION * GRAVITY);
-   // System.out.println("top");
-      entity.setTimeElapsedY(entity.getTimeElapsedX());
-     //elapsedTime = dt;
-      entity.setVelocityY(0);
-      entity.setJump(false);
-     // jump = false;
+    entity.setTimeElapsedY(entity.getTimeElapsedX());
+    entity.setVelocityY(0);
+    entity.setJump(false);
   }
 }

@@ -2,13 +2,14 @@ package ooga.engine.entities;
 
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
+import ooga.engine.entities.enemy.Goomba;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class EnemyTest {
 
-  Entity testEntityEnemy = new MarioEnemy(100, 100, 50, 50);
+  Entity testEntityEnemy = new Goomba(100, 100, 50, 50);
 
     @Test
     void getNode() {
@@ -24,7 +25,7 @@ class EnemyTest {
 
     @Test
     void getVelocityX() {
-      assertEquals(0, testEntityEnemy.getVelocityX());
+      assertEquals(200, testEntityEnemy.getVelocityX());
       testEntityEnemy.setVelocityX(27);
       assertEquals(27, testEntityEnemy.getVelocityX());
     }
