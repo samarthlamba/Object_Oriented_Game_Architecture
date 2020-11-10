@@ -7,10 +7,14 @@ import java.util.List;
 
 public class HighScore{
     private String fileName;
-    private static final long serialVersionUID = 1L;
-    private static final long timeWeekAgo = 1000*60*60*24*7;
+    private static final int NUMBER_OF_RECORDS = 5;
+    private static final long TIME_WEEK_AGO = 1000*60*60*24*7;
+    private static final String EXTENSION = ".txt";
+    private static final String INITIALIZED_SCORE = "0,0";
+    private static final int TOTAL_NUMBER_RECORDS = NUMBER_OF_RECORDS*2;
+
     public HighScore(String game){
-        fileName = game + ".txt";
+        fileName = game + EXTENSION;
         checkFileExistence();
     }
 
@@ -21,9 +25,9 @@ public class HighScore{
     }
 
     private void createFile(){
-        String [] initializedHighScore = new String[10];
-        for (int i = 0; i < 10; i++){
-            initializedHighScore[i] = "0,0";
+        String [] initializedHighScore = new String[TOTAL_NUMBER_RECORDS];
+        for (int i = 0; i < TOTAL_NUMBER_RECORDS; i++){
+            initializedHighScore[i] = INITIALIZED_SCORE;
         }
 
         try{
@@ -38,15 +42,15 @@ public class HighScore{
 
     private HighScoreObject[] getSubListGlobal(HighScoreObject[] list, boolean global){
         if(global){
-            return Arrays.copyOfRange(list, 0, 5);
+            return Arrays.copyOfRange(list, 0, NUMBER_OF_RECORDS);
         }
-        return Arrays.copyOfRange(list, 5, list.length);
+        return Arrays.copyOfRange(list, NUMBER_OF_RECORDS, list.length);
     }
 
     private HighScoreObject[] getFileContent() throws IOException {
         File file = new File(fileName);
         BufferedReader br = new BufferedReader(new FileReader(file));
-        HighScoreObject [] highScore = new HighScoreObject[10];
+        HighScoreObject [] highScore = new HighScoreObject[TOTAL_NUMBER_RECORDS];
         String st;
         int pos = 0;
         while(((st = br.readLine()) != null && pos != highScore.length)){
@@ -79,7 +83,7 @@ public class HighScore{
     }
 
     private boolean deprecatedTimes(HighScoreObject current){
-        if(current.getTime() < (System.currentTimeMillis() - (timeWeekAgo))){
+        if(current.getTime() < (System.currentTimeMillis() - (TIME_WEEK_AGO))){
             return true;
         }
         return false;
@@ -87,7 +91,7 @@ public class HighScore{
 
     private HighScoreObject[] updateWeeklyTimes( HighScoreObject [] listOfScores){
         List<HighScoreObject> newListOfWeeklyScores = new ArrayList<>();
-        for(int i = 5; i < listOfScores.length; i ++) {
+        for(int i = NUMBER_OF_RECORDS; i < listOfScores.length; i ++) {
             if (!deprecatedTimes(listOfScores[i])) {
                 newListOfWeeklyScores.add(listOfScores[i]);
             }
@@ -95,8 +99,8 @@ public class HighScore{
         for(int i = 0; i < newListOfWeeklyScores.size(); i++){ //2
             listOfScores[listOfScores.length-newListOfWeeklyScores.size()+i] = newListOfWeeklyScores.get(i);
         }
-        for(int i = 0; i < 5-newListOfWeeklyScores.size(); i++){ //2
-            listOfScores[5+i] = new HighScoreObject(0,0);
+        for(int i = 0; i < NUMBER_OF_RECORDS -newListOfWeeklyScores.size(); i++){ //2
+            listOfScores[NUMBER_OF_RECORDS +i] = new HighScoreObject(0,0);
         }
 
         return listOfScores;
@@ -114,8 +118,8 @@ public class HighScore{
         HighScoreObject current = new HighScoreObject(score);
         HighScoreObject [] listOfScores = getAllScores();
         listOfScores = updateWeeklyTimes(listOfScores);
-        listOfScores = shiftAndAddScore(current, listOfScores, 0, 4);
-        listOfScores = shiftAndAddScore(current, listOfScores, 5, listOfScores.length-1);
+        listOfScores = shiftAndAddScore(current, listOfScores, 0, NUMBER_OF_RECORDS-1);
+        listOfScores = shiftAndAddScore(current, listOfScores, NUMBER_OF_RECORDS, listOfScores.length-1);
         try
         {
             FileWriter writer = new FileWriter(fileName);
