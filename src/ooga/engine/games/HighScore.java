@@ -127,7 +127,9 @@ public class HighScore{
             String [] stringListOfScores = convertHighScoreArrayToString(listOfScores);
             bw.write(String.join("\n", stringListOfScores));
             bw.close();
-        } catch (Exception e) {e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
