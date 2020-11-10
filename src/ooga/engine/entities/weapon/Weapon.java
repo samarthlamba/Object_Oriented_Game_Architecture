@@ -14,7 +14,7 @@ public abstract class Weapon extends Entity{
 
     @Override
     public void leftCollideable(Entity entity) {
-        if (entity.getId() == "player"){
+        if (entity.getId().equals("player")){
             entity.setHitpoints(0);
         }
     }
@@ -28,14 +28,14 @@ public abstract class Weapon extends Entity{
 
     @Override
     public void bottomCollideable(Entity entity) {
-        if (entity.getId() == "player"){
+        if (entity.getId().equals("player")){
             entity.setHitpoints(0);
         }
     }
 
     @Override
     public void topCollideable(Entity entity) {
-        if (entity.getId() == "player"){
+        if (entity.getId().equals("player")){
             entity.setHitpoints(0);
         }
     }
