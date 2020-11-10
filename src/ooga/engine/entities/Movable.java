@@ -3,7 +3,6 @@ package ooga.engine.entities;
 import javafx.scene.Node;
 
  public interface Movable extends MovableBounds {
-     Node getNode();
 
      boolean getStatusAlive();
 
@@ -29,13 +28,9 @@ import javafx.scene.Node;
 
      double getPreviousY();
 
-     double getCenterX();
-
      double getEntityWidth();
 
      double getEntityHeight();
-
-     double getMaxY();
 
      void setXForce(double force);
 
