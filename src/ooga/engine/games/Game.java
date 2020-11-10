@@ -17,7 +17,7 @@ public abstract class Game implements GamePlay {
     public static final double GRAVITY = 800;
     public static final double NEGATIVE_DIRECTION = -1;
     public static final double MOVE_FORCE = 50000; //TODO change to 10
-    Collection<Obstacle> obstacles;
+    Collection<Node> obstacles;
     Collection<Movable> entities;
     private double dt;
     private double initialVelocityX = 0;
@@ -39,7 +39,7 @@ public abstract class Game implements GamePlay {
     // check solidity aspect of obstacle by having boolean that is see through
 
 
-    public Game(Collection<Obstacle> obstacles, Collection<Movable> entities, double timeElapsed) {
+    public Game(Collection<Node> obstacles, Collection<Movable> entities, double timeElapsed) {
         this.obstacles = obstacles;
         this.entities = entities;
         handleCollisions = new Collisions();
@@ -52,7 +52,7 @@ public abstract class Game implements GamePlay {
 
     public abstract boolean hasFinished();
 
-    public Collection<? extends Node> getBackground() {
+    public Collection<Node> getBackground() {
         return obstacles;
     }
 

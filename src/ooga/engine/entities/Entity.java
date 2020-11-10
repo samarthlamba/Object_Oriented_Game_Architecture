@@ -117,7 +117,7 @@ public abstract class Entity extends Rectangle implements MovableBounds, Collide
       return nodeObject.getBoundsInParent().getCenterX();
   }
 
-  public double getEntityWidth(){
+    public double getEntityWidth(){
       return SCENE_WIDTH;
   }
 

@@ -12,14 +12,12 @@ import ooga.engine.obstacles.Obstacle;
 import ooga.view.GamePlayScreen;
 
 public class MarioGame extends Game {
-  private Collection<Obstacle> obstacles;
-  private Collection<Movable> entities;
   private boolean leftOver = false;
   private boolean rightOver = false;
   private int coinSize = 50;
   private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
 
-  public MarioGame(Collection<Obstacle> obstacleCollection, Collection<Movable> entityCollection,
+  public MarioGame(Collection<Node> obstacleCollection, Collection<Movable> entityCollection,
                    double timeElapsed) {
     super(obstacleCollection, entityCollection, timeElapsed);
     entities = entityCollection;

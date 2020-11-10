@@ -16,7 +16,7 @@ public class VikingsGame extends Game{
   private static final double UPWARDS_VELOCITY = -20;
   private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
 
-  public VikingsGame(Collection<Obstacle> obstacles,
+  public VikingsGame(Collection<Node> obstacles,
                      Collection<Movable> entities, double timeElapsed) {
     super(obstacles, entities, timeElapsed);
   }

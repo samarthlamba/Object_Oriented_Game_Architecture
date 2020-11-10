@@ -15,7 +15,7 @@ public class MetroidGame extends Game{
   private static final double BULLET_VELOCITY = -30;
   private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
 
-  public MetroidGame(Collection<Obstacle> obstacles,
+  public MetroidGame(Collection<Node> obstacles,
                      Collection<Movable> entities, double timeElapsed) {
     super(obstacles, entities, timeElapsed);
   }
