@@ -4,25 +4,18 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import ooga.engine.entities.Entity;
 import ooga.engine.entities.MovableBounds;
-import ooga.engine.entities.Movable;
-import ooga.engine.games.Collideable;
 import ooga.engine.games.GamePlay;
-import ooga.engine.obstacles.Unmovable;
 
 import java.lang.reflect.Method;
 import java.util.*;
 
-public class GamePlayScreen extends Screen{
+public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
 
     private static final String MAIN_PLAYER_ID = "player"; //TODO resource file
     private static final String OBSTACLE_NAME = "wall";
@@ -45,21 +38,50 @@ public class GamePlayScreen extends Screen{
 //          private Consumer playConsumer;
 //          private Consumer restartConsumer;
 
-    public GamePlayScreen() {
-//        public GamePlayScreen(Consumer pause, Consumer play, Consumer restart) {
+    public GamePlayScreen(GamePlay givenGame) {
+//        public GamePlayScreen(GamePlay givenGame, Consumer pause, Consumer play, Consumer restart) {
 //          pauseConsumer = pause;
 //          playConsumer = play;
 //          restartConsumer = restart;
+        background = new Group();
+        game = givenGame;
+        keys = new ArrayList<>();
+
     }
 
     public void setGameScreen(GamePlay givenGame) {
         Pane gamePane = new Pane(); //Todo justify
-        background = new Group();
-        game = givenGame;
-        keys = new ArrayList<>();
         ResourceBundle characterImageResources = getImageResources(givenGame);
         Map<String,ImagePattern> characterImages = getImages(characterImageResources);
         onScreen = background.getChildren();
+        addEntities(characterImages);
+        addObstacles(characterImages);
+        update();
+        gamePane.getChildren().add(background);
+
+        HeadsUpDisplay hud = new HeadsUpDisplay();
+//        HeadsUpDisplay hud = new HeadsUpDisplay(pauseConsumer, playConsumer, restartConsumer);
+        BorderPane root = new BorderPane();
+        root.getStylesheets().add("mario.css");//TODO
+        root.setCenter(gamePane);
+
+        setKeys();
+        root.setTop(hud);
+        scene = new Scene(root,SCREEN_WIDTH,SCREEN_HEIGHT);//todo
+        bindKeys();
+    }
+
+    private void addObstacles(Map<String, ImagePattern> characterImages) {
+        for (Node obstacle : game.getBackground()) {
+            if(!onScreen.contains(obstacle)) {
+                Shape view = (Shape) obstacle;
+                view.setFill(characterImages.getOrDefault(obstacle.getId(),DEFAULT_IMAGE));
+                background.getChildren().add(view);
+            }
+        }
+    }
+
+    private void addEntities(Map<String, ImagePattern> characterImages) {
         for (MovableBounds entity : game.getEntities()) {
             Shape view;
             if(!onScreen.contains(entity)) {
@@ -75,27 +97,25 @@ public class GamePlayScreen extends Screen{
                 background.getChildren().add(view);
             }
         }
-        for (Node obstacle : game.getBackground()) {
-            if(!onScreen.contains(obstacle)) {
-                Shape view = (Shape) obstacle;
-                view.setFill(characterImages.getOrDefault(obstacle.getId(),DEFAULT_IMAGE));
-                background.getChildren().add(view);
-            }
-        }
-        update();
-        gamePane.getChildren().add(background);
-
-        HeadsUpDisplay hud = new HeadsUpDisplay();
-//        HeadsUpDisplay hud = new HeadsUpDisplay(pauseConsumer, playConsumer, restartConsumer);
-        BorderPane root = new BorderPane();
-        root.getStylesheets().add("mario.css");//TODO
-        root.setCenter(gamePane);
-
-        setKeys();
-        root.setTop(hud);
-        scene = new Scene(root,SCREEN_WIDTH,SCREEN_HEIGHT);//todo
-        bindKeys();
     }
+
+//    private void method() {
+//        for (MovableBounds entity : game.getEntities()) {
+//            Shape view;
+//            if(!onScreen.contains(entity)) {
+//                if (entity.getId().equals(MAIN_PLAYER_ID)) {
+//                    mainPlayer = entity;
+//                    double width = entity.getNode().getLayoutBounds().getWidth();
+//                    double height = entity.getNode().getLayoutBounds().getHeight();
+//                    mainWidth = width;
+//                    mainHeight = height;
+//                }
+//                view = (Shape) entity.getNode();
+//                view.setFill(characterImages.getOrDefault(entity.getId(),DEFAULT_IMAGE));
+//                background.getChildren().add(view);
+//            }
+//        }
+//    }
 
     private Map<String, ImagePattern> getImages(ResourceBundle characterImageResources) {
         Map<String,ImagePattern> map = new HashMap<>();
@@ -155,22 +175,27 @@ public class GamePlayScreen extends Screen{
         return scene;
     }
 
-    public void spawn(Collection<Entity> entities) {
-        try {
-            background.getChildren().addAll(entities);
-        } catch (IllegalArgumentException e) {
-            for (Entity entity : entities) {
-                if (background.getChildren().contains(entity)) {
-                    background.getChildren().remove(entity);
-                }
-            }
+    public void spawn(Collection<MovableBounds> entities) {
+//        try {
+//            background.getChildren().addAll(entities);
+//        } catch (IllegalArgumentException e) {
+//            for (MovableBounds entity : entities) {
+//                if (background.getChildren().contains(entity)) {
+//                    background.getChildren().remove(entity);
+//                }
+//            }
+//        }
+        for (MovableBounds entity : entities) {
+          background.getChildren().add(entity.getNode());
         }
     }
 
-    public void remove(Collection<Entity> entities) {
-        for (Entity entity : entities) {
+    public void remove(Collection<MovableBounds> entities) {
+        for (MovableBounds entity : entities) {
             if (background.getChildren().contains(entity)) {
                 background.getChildren().remove(entity);
+            } else {
+                throw new RuntimeException("Tried to remove entity that doesn't exist");
             }
         }
     }

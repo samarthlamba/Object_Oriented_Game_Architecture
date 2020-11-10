@@ -33,8 +33,10 @@ private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle(DEFAU
 
     public void setGameDisplay(GamePlay newGame) {
 //        public void setGameDisplay(GamePlay newGame, Consumer pause, Consumer play, Consumer restart) {
-            game = newGame;
-        gameScreen = new GamePlayScreen();
+        game = newGame;
+//        gameScreen = new GamePlayScreen();
+        gameScreen = new GamePlayScreen(game);
+
 //        gameScreen = new GamePlayScreen(pause, play, restart);
         if (game!=null) {
             gameScreen.setGameScreen(game);
