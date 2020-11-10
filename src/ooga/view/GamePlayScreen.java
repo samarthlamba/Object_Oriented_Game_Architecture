@@ -83,7 +83,6 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
         for (Node obstacle : obstacles) {
             if(!onScreen.contains(obstacle)) {
                 Shape view = (Shape) obstacle;
-//                view.setId(obstacle.toString()); //TODO
                 view.setFill(characterImages.getOrDefault(obstacle.getId(),DEFAULT_IMAGE));
                 background.getChildren().add(view);
             }
@@ -102,30 +101,11 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
                     mainHeight = height;
                 }
                 view = (Shape) entity.getNode();
-//                view.setId(entity.getNode().toString()); //TODO
                 view.setFill(characterImages.getOrDefault(entity.getId(),DEFAULT_IMAGE));
                 background.getChildren().add(view);
             }
         }
     }
-
-//    private void method() {
-//        for (MovableBounds entity : game.getEntities()) {
-//            Shape view;
-//            if(!onScreen.contains(entity)) {
-//                if (entity.getId().equals(MAIN_PLAYER_ID)) {
-//                    mainPlayer = entity;
-//                    double width = entity.getNode().getLayoutBounds().getWidth();
-//                    double height = entity.getNode().getLayoutBounds().getHeight();
-//                    mainWidth = width;
-//                    mainHeight = height;
-//                }
-//                view = (Shape) entity.getNode();
-//                view.setFill(characterImages.getOrDefault(entity.getId(),DEFAULT_IMAGE));
-//                background.getChildren().add(view);
-//            }
-//        }
-//    }
 
     private Map<String, ImagePattern> getImages(ResourceBundle characterImageResources) {
         Map<String,ImagePattern> map = new HashMap<>();
@@ -176,25 +156,12 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
         background.setTranslateY(sceneShiftY);
     }
 
-    public void spawn(MovableBounds entity){}
-
-    public void remove(MovableBounds entity){}
-
     @Override
     public Scene getView() {
         return scene;
     }
 
     public void spawn(Collection<MovableBounds> entities) {
-//        try {
-//            background.getChildren().addAll(entities);
-//        } catch (IllegalArgumentException e) {
-//            for (MovableBounds entity : entities) {
-//                if (background.getChildren().contains(entity)) {
-//                    background.getChildren().remove(entity);
-//                }
-//            }
-//        }
         addEntities(entities);
     }
 
