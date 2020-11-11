@@ -2,12 +2,9 @@ package ooga;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import ooga.engine.games.MarioGame;
 import ooga.view.Screen;
-import org.junit.jupiter.api.Test;
-import util.DukeApplicationTest;
+import ooga.util.DukeApplicationTest;
 
 public class DriverTest extends DukeApplicationTest {
   private Driver myDriver;
