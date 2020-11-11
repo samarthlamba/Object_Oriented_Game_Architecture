@@ -81,19 +81,19 @@ public class MarioGame extends Game {
     double initialX = entity.getCenterX();
     double initialY = entity.getMaxY() - 2 * entity.getEntityHeight();
     Coin coin = new Coin(coinSize, coinSize, initialX, initialY);
-    Random randXForce = new Random(seed);
+    Random randXVelocity = new Random(seed);
     Random randDirection = new Random(seed);
-    Random randYForce = new Random(seed);
-    double xForce = randXForce.nextInt(300);
-    double yForce = randYForce.nextInt(100);
+    Random randYVelocity = new Random(seed);
+    double xVelocity = randXVelocity.nextInt(300);
+    double yVelocity = randYVelocity.nextInt(100);
     double direction = randDirection.nextInt(3);
     if(direction == 1){
-      xForce *= NEGATIVE_DIRECTION;
+      xVelocity *= NEGATIVE_DIRECTION;
     }
     coin.setTimeElapsedY(dt);
     coin.setTimeElapsedX(dt);
-    coin.setVelocityX(xForce + 200);
-    coin.setVelocityY(-(yForce + 100));
+    coin.setVelocityX(xVelocity + 200);
+    coin.setVelocityY(-(yVelocity + 100));
     coins.add(coin);
     entitiesToAdd.add(coin);
 //    tempGamePlayScreen.spawn(entitiesToAdd);
