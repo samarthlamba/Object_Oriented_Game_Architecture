@@ -12,6 +12,7 @@ public abstract class Weapon extends Entity{
         return false;
     }
 
+
     @Override
     public void leftCollideable(Entity entity) {
         if (entity.getId() == "player"){

@@ -5,4 +5,10 @@ public class Bullet extends Weapon {
         super(objectWidth, objectHeight, initialX, initialY);
         setId("bullet");
     }
+
+    @Override
+    public boolean hasGravity(){
+        return true;
+    }
+
 }

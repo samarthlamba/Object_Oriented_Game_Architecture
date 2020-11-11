@@ -38,7 +38,7 @@ public class Goomba extends Enemy {
     @Override
     public void topCollideable(Entity entity) {
         if (entity.getId() == "player" && entity.getYForce() > 300) {
-            setHitpoints(0);
+            this.setHitpoints(0);
             entity.setHitpoints(entity.getHitpoints() - HEALTH_PENALTY);
         }
     }

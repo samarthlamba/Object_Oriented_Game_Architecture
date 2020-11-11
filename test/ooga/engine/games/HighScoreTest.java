@@ -86,7 +86,7 @@ class HighScoreTest {
 
             for (int i = 0; i < 5; i++) {
                 assertEquals(scores[i], results[i].getScore());
-                assertTrue(System.currentTimeMillis() > results[i].getTime());
+                assertTrue(System.currentTimeMillis() >= results[i].getTime());
             }
 
         }
@@ -95,9 +95,9 @@ class HighScoreTest {
     @Test
     void checkAddHighScoreDepreicatedTime() {
 
-        PrintWriter prw = new PrintWriter();
-        prw.close();
-        HighScore test = new HighScore("testerHighScore2");
+        //PrintWriter prw = new PrintWriter();
+       // prw.close();
+        //HighScore test = new HighScore("testerHighScore2");
         //test.checkAddHighScore(4);
       //  test.getAllScores();
 
