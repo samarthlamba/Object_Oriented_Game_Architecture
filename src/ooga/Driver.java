@@ -42,11 +42,10 @@ public class Driver extends Application {
   }
 
   private void launchGame(String gameLevel) {
-//      display.test();
     String filePath = LEVEL_FILE_LOCATIONS.getString(gameTitle+","+gameLevel);
-//    System.out.print(filePath);
     game = gameFactory.makeCorrectGame(filePath);
     display.setGameDisplay(game);
+//    display.setGameDisplay(this::pause, this::play, this::restart); TODO
     startTimeline();
   }
 

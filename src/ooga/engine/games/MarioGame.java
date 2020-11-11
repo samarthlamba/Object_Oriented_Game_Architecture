@@ -1,5 +1,6 @@
 package ooga.engine.games;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
@@ -17,7 +18,7 @@ public class MarioGame extends Game {
   private boolean leftOver = false;
   private boolean rightOver = false;
   private int coinSize = 50;
-  private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
+//  private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
 
 
   public MarioGame(Collection<Unmovable> obstacleCollection, Collection<Movable> entityCollection,
@@ -77,7 +78,8 @@ public class MarioGame extends Game {
     coin.setXForce(xForce);
     coin.setYForce(yForce);
     entities.add(coin);
-    tempGamePlayScreen.spawn(coin);
+    entitiesToAdd.add(coin);
+//    tempGamePlayScreen.spawn(entitiesToAdd);
   }
 
  /* @Override
