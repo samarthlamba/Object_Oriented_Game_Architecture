@@ -17,7 +17,7 @@ public class VikingsGame extends Game{
   private static final int ARROW_HEIGHT = 3;
   private static final double ARROW_VELOCITY = -30;
   private static final double UPWARDS_VELOCITY = -20;
-  private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
+//  private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
 
   public VikingsGame(Collection<Unmovable> obstacles,
                      Collection<Movable> entities, double timeElapsed, VikingsBean bean) {
@@ -56,7 +56,8 @@ public class VikingsGame extends Game{
     arrow.setVelocityX(arrowVelocity);
     arrow.setVelocityY(UPWARDS_VELOCITY);
     entities.add(arrow);
-    tempGamePlayScreen.spawn(arrow);
+    entitiesToAdd.add(arrow);
+//    tempGamePlayScreen.spawn(arrow);
   }
 
 

@@ -14,9 +14,9 @@ import java.util.function.Consumer;
 public class Menu extends VBox {
 
     ResourceBundle menuItems;
-    String buttonFunctionPrefix = "";
-    String buttonFunctionSuffix = "";
-    String buttonFunctionClassName = this.toString();
+//    String buttonFunctionPrefix = "";
+//    String buttonFunctionSuffix = "";
+//    String buttonFunctionClassName = this.toString();
     Consumer<String> E;//TODO
 
     public Menu(ResourceBundle menuButtonProperties, Consumer e) {
@@ -28,22 +28,11 @@ public class Menu extends VBox {
         menuItems = menuButtonProperties;
     }
 
-//    public Menu(ResourceBundle menuButtonProperties) { //TODO Remove
-//        for(String property : menuButtonProperties.keySet()) {
-//            Button button = makeNewButton(property, menuButtonProperties);
-//            this.getChildren().add(button);
-//        }
-//        menuItems = menuButtonProperties;
-//    }
-
     private Button makeNewButton(String property, ResourceBundle menuButtonProperties) {
         Button newButton = new Button();
         String label = (String) menuButtonProperties.getObject(property); //TODO (String?)
         newButton.setText(label);
         newButton.setId(property);
-//        newButton.setOnMouseClicked(event -> {
-//            createMethod(buttonFunctionPrefix + label + buttonFunctionSuffix, buttonFunctionClassName);
-//        });
         newButton.setOnMouseClicked(e -> E.accept(property));//label
         return newButton;
     }
@@ -57,16 +46,16 @@ public class Menu extends VBox {
             throw new RuntimeException("method not found");
         }
     }
-
-    public void setButtonFunctionPrefix(String prefix) {
-        buttonFunctionPrefix = prefix;
-    }
-
-    public void setButtonFunctionSuffix(String suffix) {
-        buttonFunctionSuffix = suffix;
-    }
-
-    public void setButtonFunctionClassName(String className) {
-        buttonFunctionClassName = className;
-    }
+//
+//    public void setButtonFunctionPrefix(String prefix) {
+//        buttonFunctionPrefix = prefix;
+//    }
+//
+//    public void setButtonFunctionSuffix(String suffix) {
+//        buttonFunctionSuffix = suffix;
+//    }
+//
+//    public void setButtonFunctionClassName(String className) {
+//        buttonFunctionClassName = className;
+//    }
 }

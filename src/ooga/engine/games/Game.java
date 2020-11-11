@@ -8,9 +8,9 @@ import ooga.engine.games.beans.GameBean;
 import ooga.engine.entities.Entity;
 import ooga.engine.entities.Movable;
 import ooga.engine.entities.MovableBounds;
-import ooga.engine.obstacles.Obstacle;
 import ooga.engine.obstacles.Unmovable;
 import ooga.view.GamePlayScreen;
+import ooga.view.UpdateObjectsOnScreen;
 
 import java.util.*;
 
@@ -38,7 +38,11 @@ public abstract class Game implements GamePlay {
     private Set<String> collisionTypes = Set.of("right", "left", "top", "bottom");
     Collisions handleCollisions;
     private int totalPoints = 0;
-    private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
+//    private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
+    private UpdateObjectsOnScreen tempGamePlayScreen = new GamePlayScreen();
+    protected Collection<MovableBounds> entitiesToAdd = new ArrayList<>();
+
+
 
 
 //add 'is finished' to confirm if the game has been finished
@@ -102,9 +106,15 @@ public abstract class Game implements GamePlay {
         updatePosition(entity);
         entity.setYForce(0);
         entity.setXForce(0);
+        Collection<MovableBounds> entitiesToRemove = new ArrayList<>();
         if(!entity.getStatusAlive()){
-            tempGamePlayScreen.remove(entity);
+            entitiesToRemove.add(entity);
         }
+
+        tempGamePlayScreen.remove(entitiesToRemove);
+        entitiesToRemove.clear();
+        tempGamePlayScreen.spawn(entitiesToAdd);
+        entitiesToAdd.clear();
     }
 
     protected void removeMovable() {
@@ -228,6 +238,10 @@ public abstract class Game implements GamePlay {
     //https://stackoverflow.com/questions/356807/java-double-comparison-epsilon
     public boolean areEqualDouble(double a, double b, int precision) {
         return Math.abs(a - b) <= Math.pow(10, -precision);
+    }
+
+    public void setDisplay(UpdateObjectsOnScreen gamePlayScreen) {
+        tempGamePlayScreen = gamePlayScreen;
     }
 
 }
