@@ -39,7 +39,7 @@ public abstract class Game implements GamePlay {
     Collisions handleCollisions;
     private int totalPoints = 0;
 //    private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
-    private UpdateObjectsOnScreen viewable = new GamePlayScreen();
+    protected UpdateObjectsOnScreen viewable = new GamePlayScreen();
     protected Collection<MovableBounds> entitiesToAdd = new ArrayList<>();
     protected Collection<MovableBounds> entitiesToRemove = new ArrayList<>();
 
@@ -80,7 +80,6 @@ public abstract class Game implements GamePlay {
     }
 
     public Collection<? extends MovableBounds> getEntities() {
-        updateMovable();
         return entities;
     }
 
@@ -89,11 +88,12 @@ public abstract class Game implements GamePlay {
         for (Movable entity : entities) {
             moveMovable(entity);
         }
-        removeMovable();
         viewable.remove(entitiesToRemove);
+        entities.removeAll(entitiesToRemove);
         entitiesToRemove.clear();
         viewable.spawn(entitiesToAdd);
         entitiesToAdd.clear();
+        //removeMovable();
     }
 
     protected void moveMovable(Movable entity) {

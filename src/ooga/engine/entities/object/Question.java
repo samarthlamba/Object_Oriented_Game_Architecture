@@ -11,6 +11,11 @@ public class Question extends Entity {
     }
 
     @Override
+    public boolean hasGravity(){
+        return false;
+    }
+
+    @Override
     public void leftCollideable(Entity entity) {
         if (entity.getId() == "player"){
             setHitpoints(0);
