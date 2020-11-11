@@ -70,8 +70,7 @@ public class MarioGame extends Game {
   private void generateCoins(Movable entity){
     if(entity.getId().equals("question") && !entity.getStatusAlive()) {
       Random rand = new Random();
-      int numberCoins = rand.nextInt(10);
-      System.out.println(numberCoins);
+      int numberCoins = rand.nextInt(10) + 2;
       for (int i = 0; i < numberCoins; i++) {
         randomCoin(entity, i);
       }

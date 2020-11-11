@@ -22,9 +22,6 @@ public class Collisions {
                 if ((boolean) findCollisionSide.invoke(this, entity, object)) {
                     collisionSide.add(side);
                 }
-                if(entity.getId().equals("bullet")){
-                    System.out.println(collisionSide);
-                }
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace(); //TODO: handle error better
             }
