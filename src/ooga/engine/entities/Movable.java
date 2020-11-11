@@ -45,6 +45,8 @@ package ooga.engine.entities;
 
      boolean hasGravity();
 
+     int getHitpoints();
+
      void setJump(boolean isJump);
 
      void setFacing(boolean facing); //TODO: take out once key moved

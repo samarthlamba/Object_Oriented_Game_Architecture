@@ -66,6 +66,7 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
 
 
   public void leftCollideable(Entity entity) {
+    removeWeapon(entity);
     entity.setXForce(0);
     entity.setCenterX(getBoundsInParent().getMaxX() + entity.getEntityWidth()/2);
     entity.setVelocityX(entity.getVelocityX() * NEGATIVE_DIRECTION);
@@ -73,6 +74,7 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
 
 
   public void rightCollideable(Entity entity) {
+    removeWeapon(entity);
     entity.setXForce(0);
     entity.setCenterX(getBoundsInParent().getMinX() - entity.getEntityWidth()/2);
     entity.setVelocityX(entity.getVelocityX() * NEGATIVE_DIRECTION);
@@ -81,16 +83,25 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
   public void bottomCollideable(Entity entity) {
    // System.out.println("bottom");
     //entity.setMaxY(getBoundsInParent().getMaxY() + entity.getEntityHeight());
+    removeWeapon(entity);
     entity.setYForce(GRAVITY);
     entity.setVelocityY(0);
     //entity.setJump(false);
   }
 
   public void topCollideable(Entity entity) {
+    removeWeapon(entity);
     entity.setMaxY(getBoundsInParent().getMinY());
     entity.setYForce(entity.getYForce() + NEGATIVE_DIRECTION * GRAVITY);
     entity.setTimeElapsedY(entity.getTimeElapsedX());
     entity.setVelocityY(0);
     entity.setJump(false);
   }
+
+  private void removeWeapon(Entity entity){
+    if (entity.getId().equals("bullet") || entity.getId().equals("arrow")) {
+       entity.setHitpoints(0);
+    }
+  }
+
 }

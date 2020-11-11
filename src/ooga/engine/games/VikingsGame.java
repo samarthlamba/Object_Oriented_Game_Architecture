@@ -17,11 +17,13 @@ public class VikingsGame extends Game{
   private static final int ARROW_HEIGHT = 3;
   private static final double ARROW_VELOCITY = -30;
   private static final double UPWARDS_VELOCITY = -20;
+  private double dt;
 //  private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
 
   public VikingsGame(Collection<Unmovable> obstacles,
                      Collection<Movable> entities, double timeElapsed, VikingsBean bean) {
     super(obstacles, entities, timeElapsed, bean);
+    dt = timeElapsed;
   }
 
   public boolean hasFinished(){
@@ -54,6 +56,7 @@ public class VikingsGame extends Game{
     }
     Arrow arrow = new Arrow(ARROW_WIDTH, ARROW_HEIGHT, arrowStartX, arrowStartY);
     arrow.setVelocityX(arrowVelocity);
+    arrow.setTimeElapsedX(dt);
     arrow.setVelocityY(UPWARDS_VELOCITY);
     entities.add(arrow);
     entitiesToAdd.add(arrow);

@@ -25,8 +25,8 @@ public abstract class Game implements GamePlay {
     private final double moveForce;
     public static final double MOVE_FORCE = 50000; //TODO change to 10
     private static final int JUMP_CAPACITY = -220;
-    Collection<Unmovable> obstacles;
-    Collection<Movable> entities;
+    protected Collection<Unmovable> obstacles;
+    protected Collection<Movable> entities;
     private double dt;
     private double initialVelocityX = 0;
     private boolean jump = false;
@@ -39,9 +39,9 @@ public abstract class Game implements GamePlay {
     Collisions handleCollisions;
     private int totalPoints = 0;
 //    private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
-    private UpdateObjectsOnScreen tempGamePlayScreen = new GamePlayScreen();
+    private UpdateObjectsOnScreen viewable = new GamePlayScreen();
     protected Collection<MovableBounds> entitiesToAdd = new ArrayList<>();
-
+    protected Collection<MovableBounds> entitiesToRemove = new ArrayList<>();
 
 
 
@@ -90,6 +90,10 @@ public abstract class Game implements GamePlay {
             moveMovable(entity);
         }
         removeMovable();
+        viewable.remove(entitiesToRemove);
+        entitiesToRemove.clear();
+        viewable.spawn(entitiesToAdd);
+        entitiesToAdd.clear();
     }
 
     protected void moveMovable(Movable entity) {
@@ -106,15 +110,9 @@ public abstract class Game implements GamePlay {
         updatePosition(entity);
         entity.setYForce(0);
         entity.setXForce(0);
-        Collection<MovableBounds> entitiesToRemove = new ArrayList<>();
         if(!entity.getStatusAlive()){
             entitiesToRemove.add(entity);
         }
-
-        tempGamePlayScreen.remove(entitiesToRemove);
-        entitiesToRemove.clear();
-        tempGamePlayScreen.spawn(entitiesToAdd);
-        entitiesToAdd.clear();
     }
 
     protected void removeMovable() {
@@ -188,6 +186,7 @@ public abstract class Game implements GamePlay {
         }
     }
 
+
     public Movable findMainPlayer() {
         for (Movable entity : entities) {
             if (entity.getId().equals("player")) {
@@ -241,7 +240,7 @@ public abstract class Game implements GamePlay {
     }
 
     public void setDisplay(UpdateObjectsOnScreen gamePlayScreen) {
-        tempGamePlayScreen = gamePlayScreen;
+        viewable = gamePlayScreen;
     }
 
 }
