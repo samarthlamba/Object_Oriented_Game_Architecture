@@ -29,7 +29,6 @@ public class Coin extends Entity {
   public void rightCollideable(Entity entity) {
     if (entity.getId() == "player"){
       setHitpoints(0);
-      System.out.println(getStatusAlive());
     }
   }
 

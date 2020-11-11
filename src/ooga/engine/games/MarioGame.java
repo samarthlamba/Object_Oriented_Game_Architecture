@@ -71,7 +71,6 @@ public class MarioGame extends Game {
     if(entity.getId().equals("question") && !entity.getStatusAlive()) {
       Random rand = new Random();
       int numberCoins = rand.nextInt(10);
-      System.out.println(numberCoins);
       for (int i = 0; i < numberCoins; i++) {
         randomCoin(entity, i);
       }
