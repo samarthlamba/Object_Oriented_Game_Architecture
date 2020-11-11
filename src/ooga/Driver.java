@@ -1,15 +1,14 @@
 package ooga;
 
+import java.sql.Time;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.engine.games.Game;
 import ooga.engine.games.GamePlay;
 import ooga.loader.GameFactory;
-import ooga.loader.KeyBinder;
 import ooga.view.Display;
 import ooga.view.Screen;
 
@@ -30,7 +29,8 @@ public class Driver extends Application {
 
   @Override
   public void start(Stage initialStage) throws Exception {
-    display = new Display(initialStage);
+    initializeTimeline();
+    display = new Display(initialStage,new TimelineManager(timeline));
     gameFactory = new GameFactory();
     initialStage.show();
     display.setMainMenuScreen(this::launchGameMenu);
@@ -46,15 +46,14 @@ public class Driver extends Application {
     game = gameFactory.makeCorrectGame(filePath);
     display.setGameDisplay(game);
 //    display.setGameDisplay(this::pause, this::play, this::restart); TODO
-    startTimeline();
+    timeline.play();
   }
 
-  private void startTimeline() {
+  private void initializeTimeline() {
       displayFrame = new KeyFrame(Duration.millis(STEP_SPEED), e -> step());
       timeline = new Timeline();
       timeline.setCycleCount(Timeline.INDEFINITE);
       timeline.getKeyFrames().add(displayFrame);
-      timeline.play();
   }
 
   private void step() {
