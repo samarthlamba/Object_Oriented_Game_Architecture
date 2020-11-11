@@ -7,7 +7,6 @@ public class TimelineManager {
 
   public TimelineManager(Timeline t) {
     this.timeline = t;
-    t.play();
   }
 
   public void pause(){
@@ -15,9 +14,9 @@ public class TimelineManager {
   }
 
   public void play() {
-    System.out.println("This method is called");
+    //System.out.println("This method is called");
     timeline.play();
-    System.out.println("it is also finished");
+    //System.out.println("it is also finished");
   }
 
 }
