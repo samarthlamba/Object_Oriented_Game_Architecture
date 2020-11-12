@@ -6,26 +6,13 @@ public abstract class Player extends Entity {
 
   private int speed = 0;
   private final static String ID = "player";
+  private static final int FULL_HEALTH = 3;
 
   public Player(int sceneWidth, int sceneHeight, double initialX, double initialY) {
     super(sceneWidth, sceneHeight, initialX, initialY);
     setId(ID);
+    setHitpoints(FULL_HEALTH);
   }
 
-  /*public int getID(){
-    return this.ID;
-  }*/
-
-/*  public void moveLeft(){
-    setX(getX()-speed);
-  }
-
-  public void moveRight(){
-    setX(getX()+ speed);
-  }
-
-  public void changeSpeed(int speed){
-    this.speed = speed;
-  }*/
 
 }

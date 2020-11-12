@@ -2,6 +2,7 @@ package ooga.engine.obstacles;
 
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
+import ooga.engine.entities.object.Waterfall;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

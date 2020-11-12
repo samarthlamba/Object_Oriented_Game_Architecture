@@ -1,7 +1,6 @@
 package ooga.engine.entities;
 
  public interface Movable extends MovableBounds {
-     boolean getStatusAlive();
 
      double getVelocityX();
 
@@ -50,4 +49,5 @@ package ooga.engine.entities;
      void setJump(boolean isJump);
 
      void setFacing(boolean facing); //TODO: take out once key moved
+
 }

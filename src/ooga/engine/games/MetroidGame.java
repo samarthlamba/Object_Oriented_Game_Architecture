@@ -47,4 +47,11 @@ public class MetroidGame extends Game{
 //      tempGamePlayScreen.spawn(bullet);
     }
 
+  @Override
+  public void setPoints(Movable entity){
+    if(entity.getId().equals("enemy")){
+      totalPoints++;
+    }
+  }
+
   }

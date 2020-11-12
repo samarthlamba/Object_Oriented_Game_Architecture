@@ -102,6 +102,13 @@ public class VikingsGame extends Game{
     playerOrder.add(1, block);
     entitiesToRemove.add(nextPlayer);
     entitiesToAdd.add(block);
+    entities.add(block);
     entities.remove(nextPlayer);
   }
+
+  @Override
+  public void setPoints(Movable entity){
+    totalPoints += dt;
+  }
+
 }

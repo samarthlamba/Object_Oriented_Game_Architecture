@@ -10,23 +10,23 @@ public class Arrow extends Weapon {
 
     @Override
     public void leftCollideable(Entity entity) {
-        entityDeath(entity, "player");
+        healthPenaltyOnObject(entity, "player");
     }
 
 
     @Override
     public void rightCollideable(Entity entity) {
-        entityDeath(entity, "player");
+        healthPenaltyOnObject(entity, "player");
     }
 
     @Override
     public void bottomCollideable(Entity entity) {
-        entityDeath(entity, "player");
+        healthPenaltyOnObject(entity, "player");
     }
 
     @Override
     public void topCollideable(Entity entity) {
-        entityDeath(entity, "player");
+        healthPenaltyOnObject(entity, "player");
     }
 
 }

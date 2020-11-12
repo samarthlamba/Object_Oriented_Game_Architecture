@@ -147,6 +147,12 @@ public class MarioGame extends Game {
     rightOver = false;
   }
 
+  @Override
+  public void setPoints(Movable entity){
+    if(entity.getId().equals("coin")){
+      totalPoints++;
+    }
+  }
 
 
 }

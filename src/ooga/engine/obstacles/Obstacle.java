@@ -8,7 +8,7 @@ import ooga.engine.games.Collideable;
 public abstract class Obstacle extends Rectangle implements Collideable, Unmovable {
   private static final double MOVE_FORCE = 1000;
   private static final double NEGATIVE_DIRECTION = -1;
-  public static final double GRAVITY = 500;
+  public static final double GRAVITY = 800;
   private double moveX = 0;
   private double moveY = 0;
   private double initialX;
@@ -73,7 +73,7 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
    // System.out.println("bottom");
     //entity.setMaxY(getBoundsInParent().getMaxY() + entity.getEntityHeight());
     removeWeapon(entity);
-    entity.setYForce(GRAVITY);
+    //entity.setYForce(GRAVITY);
     entity.setVelocityY(0);
     //entity.setJump(false);
   }

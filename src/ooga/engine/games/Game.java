@@ -36,9 +36,8 @@ public abstract class Game implements GamePlay {
     private boolean objectAtCorner;
     private int enemyDirection = -1;
     private Set<String> collisionTypes = Set.of("right", "left", "top", "bottom");
-    Collisions handleCollisions;
-    private int totalPoints = 0;
-//    private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
+    protected Collisions handleCollisions;
+    protected int totalPoints = 0;
     protected UpdateObjectsOnScreen viewable = new GamePlayScreen();
     protected Collection<MovableBounds> entitiesToAdd = new ArrayList<>();
     protected Collection<MovableBounds> entitiesToRemove = new ArrayList<>();
@@ -80,6 +79,10 @@ public abstract class Game implements GamePlay {
         updateMovable();
     }
 
+    public int getPoints(){
+        return totalPoints;
+    }
+
     public Collection<? extends MovableBounds> getEntities() {
         return entities;
     }
@@ -113,8 +116,11 @@ public abstract class Game implements GamePlay {
         entity.setXForce(0);
         if(!entity.getStatusAlive()){
             entitiesToRemove.add(entity);
+            setPoints(entity);
         }
     }
+
+    public void setPoints(Movable entity){}
 
     protected void removeMovable() {
         entities.removeIf(e -> !e.getStatusAlive());
