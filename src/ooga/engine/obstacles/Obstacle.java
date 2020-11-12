@@ -39,31 +39,11 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
     System.out.println(getBoundsInParent());
   }
 
-  private double getCurrentX(){
-    return  getBoundsInParent().getCenterX();
-  }
-  private double getCurrentY(){
-    return getBoundsInParent().getCenterY();
-  }
-
-  public void update() {
-    //move up and down
-  }
 
   public void moveYBy(double y){
     relocate(getBoundsInParent().getMinX(), getBoundsInParent().getMinY()+y);
     System.out.println(getBoundsInParent());
   }
-
-  public void moveContinouslyXBy(double X){
-    moveX = X;
-  }
-
-  public void moveContinouslyYBy(double Y){
-    moveY = Y;
-  }
-
-
 
   public void leftCollideable(Entity entity) {
     entity.setXForce(0);

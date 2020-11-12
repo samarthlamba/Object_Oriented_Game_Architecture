@@ -9,6 +9,7 @@ public class Waterfall extends Obstacle {
 
   public Waterfall(int obstacleWidth, int obstacleHeight, double initialX, double initialY) {
     super(obstacleWidth, obstacleHeight, initialX, initialY);
+    setId("waterfall");
   }
 
 }
