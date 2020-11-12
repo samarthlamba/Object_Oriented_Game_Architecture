@@ -50,4 +50,8 @@ package ooga.engine.entities;
 
      void setFacing(boolean facing); //TODO: take out once key moved
 
+     void setFinished(boolean finished);
+
+     boolean hasFinished();
+
 }
