@@ -70,7 +70,7 @@ public class VikingsGame extends Game{
 
   private void makeArrow(Movable enemy){
     double arrowStartX = enemy.getCenterX() - enemy.getEntityWidth();
-    double arrowStartY = enemy.getMaxY() - enemy.getEntityHeight();
+    double arrowStartY = enemy.getMaxY() - enemy.getEntityHeight()/2;
     //double arrowVelocity = ARROW_VELOCITY;
     if(enemy.getFacing()) {
       arrowStartX = enemy.getCenterX() + enemy.getEntityWidth()/2;

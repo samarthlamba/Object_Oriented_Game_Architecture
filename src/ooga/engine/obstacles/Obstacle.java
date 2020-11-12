@@ -64,7 +64,6 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
   }
 
 
-
   public void leftCollideable(Entity entity) {
     removeWeapon(entity);
     entity.setXForce(0);
