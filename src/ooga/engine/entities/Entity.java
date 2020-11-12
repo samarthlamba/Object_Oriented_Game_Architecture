@@ -183,6 +183,8 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
 
     public void leftCollideable(Entity entity) {
       //TODO: action reflection of below methods
+        //find left key in properties file
+        //Values can be parsed to get method name, and String id parameter
     }
 
     public void rightCollideable(Entity entity) {
