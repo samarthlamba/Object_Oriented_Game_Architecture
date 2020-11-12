@@ -7,6 +7,7 @@ import ooga.engine.games.Collideable;
 public abstract class Entity extends Rectangle implements Collideable, Movable {
   private final int SCENE_WIDTH;
   private final int SCENE_HEIGHT;
+  public static final int HEALTH_PENALTY = -20;
   private int currentHitpoints = 5;
   private Node nodeObject;
   private double speed = 0;
@@ -83,12 +84,6 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
       }
   }
 
-  protected void dead(Entity entity, boolean deadObject) {
-      if (deadObject) {
-          entity.setHitpoints(0);
-      }
-  }
-
   public int getHitpoints(){
     return currentHitpoints;
   }
@@ -162,14 +157,6 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
         timeElapsedX = time;
     }
 
-    public void leftCollideable(Entity entity) {}
-
-    public void rightCollideable(Entity entity) {}
-
-    public void bottomCollideable(Entity entity) {}
-
-    public void topCollideable(Entity entity) {}
-
     public boolean hasGravity(){
       return true;
     }
@@ -188,6 +175,64 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
 
     public void setFacing(boolean direction){
       facing = direction;
+    }
+
+
+
+//TODO: Use reflection, default no collision
+
+    public void leftCollideable(Entity entity) {
+      //TODO: action reflection of below methods
+    }
+
+    public void rightCollideable(Entity entity) {
+        //TODO: action reflection of below methods
+    }
+
+    public void bottomCollideable(Entity entity) {
+        //TODO: action reflection of below methods
+    }
+
+    public void topCollideable(Entity entity) {
+        //TODO: action reflection of below methods
+    }
+
+
+    protected void entityDeath(Entity entity, String object) {
+        if (entity.getId().equals(object)) {
+            entity.setHitpoints(0);
+        }
+    }
+
+    protected void thisDeath(Entity entity, String object) {
+        if (entity.getId().equals(object)) {
+            this.setHitpoints(0);
+        }
+    }
+
+    protected void wallObstacle(Entity entity, String object){
+        if(entity.getId().equals(object)){
+            entity.setHitpoints(0);
+        }
+    }
+
+    protected void applyY(Entity entity, String object) {
+        if (entity.getId().equals(object)){
+            entity.setYForce(-1000); //use up method once moved to player
+        }
+    }
+
+    protected void playerHealthPenalty(Entity entity, String causeHeathPenalty) {
+        if (entity.getId().equals(causeHeathPenalty)) {
+            entity.setHitpoints(entity.getHitpoints() + HEALTH_PENALTY);
+        }
+    }
+
+    protected void enemyHeathPenalty(Entity entity, String causeHeathPenalty) {
+        if (entity.getId().equals(causeHeathPenalty) && entity.getYForce() > 300) {
+            setHitpoints(0);
+            entity.setHitpoints(entity.getHitpoints() - HEALTH_PENALTY);
+        }
     }
 
     //add id.

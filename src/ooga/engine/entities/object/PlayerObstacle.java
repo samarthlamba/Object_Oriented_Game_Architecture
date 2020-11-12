@@ -2,7 +2,6 @@ package ooga.engine.entities.object;
 
 import ooga.engine.entities.Entity;
 import ooga.engine.obstacles.Obstacle;
-import ooga.engine.obstacles.Wall;
 
 public class PlayerObstacle extends Entity {
     Obstacle obstacle;
@@ -21,25 +20,20 @@ public class PlayerObstacle extends Entity {
     }
 
     public void leftCollideable(Entity entity) {
-        cannotPass(entity);
+        wallObstacle(entity, "arrow");
     }
 
 
     public void rightCollideable(Entity entity) {
-        cannotPass(entity);
+        wallObstacle(entity, "arrow");
     }
 
     public void bottomCollideable(Entity entity) {
-        cannotPass(entity);
+        wallObstacle(entity, "arrow");
     }
 
     public void topCollideable(Entity entity) {
-        cannotPass(entity);
+        wallObstacle(entity, "arrow");
     }
 
-    private void cannotPass(Entity entity){
-        if(!entity.getId().equals("player")){
-            entity.setHitpoints(0);
-        }
-    }
 }

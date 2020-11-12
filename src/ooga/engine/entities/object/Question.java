@@ -17,22 +17,22 @@ public class Question extends Entity {
 
     @Override
     public void leftCollideable(Entity entity) {
-        dead(this, entity.getId().equals("player"));
+        thisDeath(entity, "player");
     }
 
     @Override
     public void rightCollideable(Entity entity) {
-        dead(this, entity.getId().equals("player"));
+        thisDeath(entity, "player");
     }
 
     @Override
     public void bottomCollideable(Entity entity) {
-        dead(this, entity.getId().equals("player"));
+        thisDeath(entity, "player");
     }
 
     @Override
     public void topCollideable(Entity entity) {
-        dead(this, entity.getId().equals("player"));
+        thisDeath(entity, "player");
     }
 
 }

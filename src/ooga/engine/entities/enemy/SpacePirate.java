@@ -16,20 +16,20 @@ public class SpacePirate extends Enemy {
 
 
   public void leftCollideable(Entity entity) {
-    dead(entity, entity.getId().equals("player"));
+    entityDeath(entity, "player");
   }
 
 
   public void rightCollideable(Entity entity) {
-    dead(entity, entity.getId().equals("player"));
+    entityDeath(entity, "player");
   }
 
   public void bottomCollideable(Entity entity) {
-    dead(entity, entity.getId().equals("player"));
+    entityDeath(entity, "player");
   }
 
   public void topCollideable(Entity entity) {
-    dead(entity, entity.getId().equals("player"));
+    entityDeath(entity, "player");
   }
 
 

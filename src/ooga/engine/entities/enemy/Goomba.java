@@ -16,33 +16,26 @@ public class Goomba extends Enemy {
 
     @Override
     public void leftCollideable(Entity entity) {
-        playerHealthPenalty(entity);
+        playerHealthPenalty(entity, "player");
     }
 
     @Override
     public void rightCollideable(Entity entity) {
-        playerHealthPenalty(entity);
+        playerHealthPenalty(entity, "player");
     }
 
     @Override
     public void bottomCollideable(Entity entity) {
-        playerHealthPenalty(entity);
+        playerHealthPenalty(entity, "player");
     }
 
 
     @Override
     public void topCollideable(Entity entity) {
-        if (entity.getId() == "player" && entity.getYForce() > 300) {
-            this.setHitpoints(0);
-            entity.setHitpoints(entity.getHitpoints() - HEALTH_PENALTY);
-        }
+        enemyHeathPenalty(entity, "player");
     }
 
-    private void playerHealthPenalty(Entity entity) {
-        if (entity.getId() == "player") {
-            entity.setHitpoints(entity.getHitpoints() + HEALTH_PENALTY);
-        }
-    }
+
 
 }
 
