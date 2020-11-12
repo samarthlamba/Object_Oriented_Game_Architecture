@@ -211,7 +211,7 @@ public abstract class Game implements GamePlay {
         UP(entity);
     }
 
-    public void shoot(){}
+    public void playerAction(){}
 
     public void UP(Movable entity) {
         entity.setJump(true);

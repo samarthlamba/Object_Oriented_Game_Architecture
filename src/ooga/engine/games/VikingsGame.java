@@ -1,32 +1,41 @@
 package ooga.engine.games;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Random;
+import java.util.*;
 
-import ooga.engine.games.beans.VikingsBean;
-import javafx.scene.Node;
 import ooga.engine.entities.Entity;
+import ooga.engine.entities.object.PlayerObstacle;
+import ooga.engine.games.beans.VikingsBean;
 import ooga.engine.entities.weapon.Arrow;
 import ooga.engine.entities.Movable;
-import ooga.engine.obstacles.Obstacle;
 import ooga.engine.obstacles.Unmovable;
-import ooga.view.GamePlayScreen;
 
 public class VikingsGame extends Game{
 
   private static final int ARROW_WIDTH = 3;
   private static final int ARROW_HEIGHT = 10;
   //private static final double ARROW_VELOCITY = -30;
-  private static final double UPWARDS_VELOCITY = -200;
+  private double xVelocity = -1000;
   private Collection<Movable> arrows = new ArrayList<>();
+  private List<Movable> playerOrder = new ArrayList<>();
   private double dt;
+
 //  private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
 
   public VikingsGame(Collection<Unmovable> obstacles,
                      Collection<Movable> entities, double timeElapsed, VikingsBean bean) {
     super(obstacles, entities, timeElapsed, bean);
     dt = timeElapsed;
+    getPlayerObstacle();
+  }
+
+  private void getPlayerObstacle(){
+    int i = 0;
+    for(Movable entity : entities){
+      if(entity.getId().equals("playerobstacle")){
+        playerOrder.add(i, entity);
+        i++;
+      }
+    }
   }
 
   public boolean hasFinished(){
@@ -65,13 +74,12 @@ public class VikingsGame extends Game{
     //double arrowVelocity = ARROW_VELOCITY;
     if(enemy.getFacing()) {
       arrowStartX = enemy.getCenterX() + enemy.getEntityWidth()/2;
-     // arrowVelocity *= NEGATIVE_DIRECTION;
+      xVelocity *= NEGATIVE_DIRECTION;
     }
     Arrow arrow = new Arrow(ARROW_WIDTH, ARROW_HEIGHT, arrowStartX, arrowStartY);
     //arrow.setVelocityX(arrowVelocity);
-    arrow.setVelocityY(UPWARDS_VELOCITY);
+    arrow.setVelocityX(xVelocity);
     arrow.setTimeElapsedX(dt);
-    arrow.setTimeElapsedY(dt);
     Random rand = new Random();
     double arrowFrequency = rand.nextInt(10);
     if(arrowFrequency == 1) {
@@ -81,5 +89,19 @@ public class VikingsGame extends Game{
 //    tempGamePlayScreen.spawn(arrow);
   }
 
-
+  @Override
+  public void playerAction() {
+    Movable entity = super.findMainPlayer();
+    double startY = entity.getMaxY() - entity.getEntityHeight();
+    double startX = entity.getCenterX() - entity.getEntityWidth()/2;
+    PlayerObstacle block = new PlayerObstacle((int) entity.getEntityWidth(), (int) entity.getEntityHeight(), startX, startY);
+    Movable nextPlayer = playerOrder.get(0);
+    entity.setCenterX(nextPlayer.getCenterX());
+    entity.setMaxY(nextPlayer.getMaxY());
+    playerOrder.remove(0);
+    playerOrder.add(1, block);
+    entitiesToRemove.add(nextPlayer);
+    entitiesToAdd.add(block);
+    entities.remove(nextPlayer);
+  }
 }
