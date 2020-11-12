@@ -13,8 +13,8 @@ import ooga.view.GamePlayScreen;
 
 
 public class MetroidGame extends Game{
-  private static final int BULLET_WIDTH = 10;
-  private static final int BULLET_HEIGHT = 3;
+  private static final int BULLET_WIDTH = 3;
+  private static final int BULLET_HEIGHT = 10;
   private static final double BULLET_VELOCITY = -1000;
   private double dt;
 //  private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();

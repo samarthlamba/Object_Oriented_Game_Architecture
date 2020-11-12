@@ -11,8 +11,8 @@ import ooga.engine.obstacles.Unmovable;
 
 public class VikingsGame extends Game{
 
-  private static final int ARROW_WIDTH = 3;
-  private static final int ARROW_HEIGHT = 10;
+  private static final int ARROW_WIDTH = 15;
+  private static final int ARROW_HEIGHT = 6;
   //private static final double ARROW_VELOCITY = -30;
   private double xVelocity = -1000;
   private Collection<Movable> arrows = new ArrayList<>();
