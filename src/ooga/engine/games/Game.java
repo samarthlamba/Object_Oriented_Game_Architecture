@@ -212,7 +212,6 @@ public abstract class Game implements GamePlay {
         UP(entity);
     }
 
-    public void playerAction(){}
 
     public void UP(Movable entity) {
         entity.setJump(true);
@@ -233,6 +232,8 @@ public abstract class Game implements GamePlay {
         entity.setXForce(entity.getXForce() + MOVE_FORCE);
         entity.setFacing(true);
     }
+
+    public void playerAction(){}
 
 
     //https://stackoverflow.com/questions/356807/java-double-comparison-epsilon
