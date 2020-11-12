@@ -8,9 +8,9 @@ import ooga.engine.games.beans.GameBean;
 import ooga.engine.entities.Entity;
 import ooga.engine.entities.Movable;
 import ooga.engine.entities.MovableBounds;
-import ooga.engine.obstacles.Obstacle;
 import ooga.engine.obstacles.Unmovable;
 import ooga.view.GamePlayScreen;
+import ooga.view.UpdateObjectsOnScreen;
 
 import java.util.*;
 
@@ -24,8 +24,9 @@ public abstract class Game implements GamePlay {
     private final double gravity;
     private final double moveForce;
     public static final double MOVE_FORCE = 50000; //TODO change to 10
-    Collection<Unmovable> obstacles;
-    Collection<Movable> entities;
+    private int jumpMax;
+    protected Collection<Unmovable> obstacles;
+    protected Collection<Movable> entities;
     private double dt;
     private double initialVelocityX = 0;
     private boolean jump = false;
@@ -37,7 +38,11 @@ public abstract class Game implements GamePlay {
     private Set<String> collisionTypes = Set.of("right", "left", "top", "bottom");
     Collisions handleCollisions;
     private int totalPoints = 0;
-    private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
+//    private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
+    protected UpdateObjectsOnScreen viewable = new GamePlayScreen();
+    protected Collection<MovableBounds> entitiesToAdd = new ArrayList<>();
+    protected Collection<MovableBounds> entitiesToRemove = new ArrayList<>();
+
 
 
 //add 'is finished' to confirm if the game has been finished
@@ -50,6 +55,7 @@ public abstract class Game implements GamePlay {
         this.moveForce = bean.getMoveForce();
         this.obstacles = obstacles;
         this.entities = entities;
+        this.jumpMax = bean.getJumpMax();
         handleCollisions = new Collisions();
         for (Movable entity : entities) {
             entity.setTimeElapsedY(timeElapsed);
@@ -75,7 +81,6 @@ public abstract class Game implements GamePlay {
     }
 
     public Collection<? extends MovableBounds> getEntities() {
-        updateMovable();
         return entities;
     }
 
@@ -84,11 +89,16 @@ public abstract class Game implements GamePlay {
         for (Movable entity : entities) {
             moveMovable(entity);
         }
-        removeMovable();
+        viewable.remove(entitiesToRemove);
+        entities.removeAll(entitiesToRemove);
+        entitiesToRemove.clear();
+        viewable.spawn(entitiesToAdd);
+        entitiesToAdd.clear();
+        //removeMovable();
     }
 
     protected void moveMovable(Movable entity) {
-        if (entity.isJump() && entity.getTimeElapsedY() < .35) {
+        if (entity.getTimeElapsedY() < .35) {
             entity.setTimeElapsedY(entity.getTimeElapsedY() + entity.getTimeElapsedX());
         }
         if (entity.getId().equals("player")) {
@@ -99,11 +109,10 @@ public abstract class Game implements GamePlay {
         entityCollision(entity);
         moveEnemy(entity);
         updatePosition(entity);
-        // System.out.println("force" + entity.getYForce());
         entity.setYForce(0);
         entity.setXForce(0);
         if(!entity.getStatusAlive()){
-            tempGamePlayScreen.remove(entity);
+            entitiesToRemove.add(entity);
         }
     }
 
@@ -178,6 +187,7 @@ public abstract class Game implements GamePlay {
         }
     }
 
+
     public Movable findMainPlayer() {
         for (Movable entity : entities) {
             if (entity.getId().equals("player")) {
@@ -202,11 +212,10 @@ public abstract class Game implements GamePlay {
         UP(entity);
     }
 
-    public void shoot(){}
 
     public void UP(Movable entity) {
         entity.setJump(true);
-        entity.setVelocityY(entity.getJumpMax());
+        entity.setVelocityY(jumpMax);
         entity.setMaxY(entity.getMaxY() - 2);
     }
 
@@ -224,10 +233,16 @@ public abstract class Game implements GamePlay {
         entity.setFacing(true);
     }
 
+    public void playerAction(){}
+
 
     //https://stackoverflow.com/questions/356807/java-double-comparison-epsilon
     public boolean areEqualDouble(double a, double b, int precision) {
         return Math.abs(a - b) <= Math.pow(10, -precision);
+    }
+
+    public void setDisplay(UpdateObjectsOnScreen gamePlayScreen) {
+        viewable = gamePlayScreen;
     }
 
 }

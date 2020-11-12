@@ -4,6 +4,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import ooga.TimelineManager;
 import ooga.engine.games.GamePlay;
 
 import java.lang.reflect.Constructor;
@@ -21,9 +22,11 @@ private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle(DEFAU
     private Stage stage;
     private GamePlay game;
     private GamePlayScreen gameScreen;
+    private TimelineManager timelineManager;
 
-    public Display(Stage initialStage) {
+    public Display(Stage initialStage, TimelineManager timelineManager) {
         stage = initialStage;
+        this.timelineManager = timelineManager;
     }
 
     public void setMainMenuScreen(Consumer<String> e) {
@@ -32,8 +35,12 @@ private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle(DEFAU
     }
 
     public void setGameDisplay(GamePlay newGame) {
+//        public void setGameDisplay(GamePlay newGame, Consumer pause, Consumer play, Consumer restart) {
         game = newGame;
-        gameScreen = new GamePlayScreen();
+//        gameScreen = new GamePlayScreen();
+        gameScreen = new GamePlayScreen(game);
+
+//        gameScreen = new GamePlayScreen(pause, play, restart);
         if (game!=null) {
             gameScreen.setGameScreen(game);
         } else {
@@ -42,6 +49,7 @@ private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle(DEFAU
 
         stage.setScene(gameScreen.getView());
     }
+
     public void updateDisplay() {
         gameScreen.update();//TODo
     }

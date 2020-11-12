@@ -11,34 +11,8 @@ public class Spike extends Obstacle {
         setId("spike");
     }
 
-    public void leftCollideable(Entity entity) {
-        entity.setXForce(0);
-        entity.setCenterX(getBoundsInParent().getMaxX() + entity.getEntityWidth()/2);
-        entity.setVelocityX(entity.getVelocityX() * NEGATIVE_DIRECTION);
-        entity.setHitpoints(0);
-    }
-
-
-    public void rightCollideable(Entity entity) {
-        entity.setXForce(0);
-        entity.setCenterX(getBoundsInParent().getMinX() - entity.getEntityWidth()/2);
-        entity.setVelocityX(entity.getVelocityX() * NEGATIVE_DIRECTION);
-        entity.setHitpoints(0);
-    }
-
-    public void bottomCollideable(Entity entity) {
-        entity.setYForce(GRAVITY);
-        entity.setVelocityY(0);
-        entity.setHitpoints(0);
-        //entity.setJump(false);
-    }
 
     public void topCollideable(Entity entity) {
-        entity.setMaxY(getBoundsInParent().getMinY());
-        entity.setYForce(entity.getYForce() + NEGATIVE_DIRECTION * GRAVITY);
-        entity.setTimeElapsedY(entity.getTimeElapsedX());
-        entity.setVelocityY(0);
-        entity.setJump(false);
         entity.setHitpoints(0);
     }
 

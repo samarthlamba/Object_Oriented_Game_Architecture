@@ -22,7 +22,6 @@ public class Collisions {
                 if ((boolean) findCollisionSide.invoke(this, entity, object)) {
                     collisionSide.add(side);
                 }
-
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace(); //TODO: handle error better
             }

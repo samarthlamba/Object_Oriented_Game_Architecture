@@ -7,8 +7,6 @@ package ooga.engine.entities;
 
      double getVelocityY();
 
-     double getJumpMax(); //TODO: take out once key moved
-
      void setVelocityX(double x);
 
      void setVelocityY(double y); //TODO: take out once key moved
@@ -47,7 +45,7 @@ package ooga.engine.entities;
 
      boolean hasGravity();
 
-     boolean isJump();
+     int getHitpoints();
 
      void setJump(boolean isJump);
 

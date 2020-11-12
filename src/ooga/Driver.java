@@ -1,10 +1,9 @@
 package ooga;
 
+import java.sql.Time;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.engine.games.Game;
@@ -22,7 +21,7 @@ public class Driver extends Application {
   private static final ResourceBundle LEVEL_FILE_LOCATIONS = ResourceBundle.getBundle("LevelFileLocations");
   private boolean createTimeline;
   private KeyFrame displayFrame;
-  private Timeline simulate;
+  private Timeline timeline;
   private Game game;
   private Display display;
   private GameFactory gameFactory;
@@ -30,7 +29,8 @@ public class Driver extends Application {
 
   @Override
   public void start(Stage initialStage) throws Exception {
-    display = new Display(initialStage);
+    initializeTimeline();
+    display = new Display(initialStage,new TimelineManager(timeline));
     gameFactory = new GameFactory();
     initialStage.show();
     display.setMainMenuScreen(this::launchGameMenu);
@@ -42,25 +42,31 @@ public class Driver extends Application {
   }
 
   private void launchGame(String gameLevel) {
-//      display.test();
     String filePath = LEVEL_FILE_LOCATIONS.getString(gameTitle+","+gameLevel);
-//    System.out.print(filePath);
     game = gameFactory.makeCorrectGame(filePath);
     display.setGameDisplay(game);
-    startTimeline();
+//    display.setGameDisplay(this::pause, this::play, this::restart); TODO
+    timeline.play();
   }
 
-  private void startTimeline() {
+  private void initializeTimeline() {
       displayFrame = new KeyFrame(Duration.millis(STEP_SPEED), e -> step());
-      simulate = new Timeline();
-      simulate.setCycleCount(Timeline.INDEFINITE);
-      simulate.getKeyFrames().add(displayFrame);
-      simulate.play();
+      timeline = new Timeline();
+      timeline.setCycleCount(Timeline.INDEFINITE);
+      timeline.getKeyFrames().add(displayFrame);
   }
 
   private void step() {
+    if(game.hasFinished()) {
+      victoryScreen();
+    }
     game.updateLevel();
     display.updateDisplay();
+  }
+
+  private void victoryScreen() {
+    timeline.stop();
+    display.setMainMenuScreen(this::launchGameMenu);
   }
 
   public Screen getGameMenu() {
