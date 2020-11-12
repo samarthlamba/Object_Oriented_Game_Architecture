@@ -28,7 +28,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
   private boolean facing = true;
   private boolean jump = false;
   protected List<Entity> connected = new ArrayList<>();
-  private boolean finished = false;
+    private boolean finished = false;
 
   public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
     this.SCENE_WIDTH = objectWidth;
@@ -53,7 +53,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
   }
 
   public boolean hasFinished(){
-      return finished;
+      return false;
   }
 
   public void setFinished(boolean finished){
