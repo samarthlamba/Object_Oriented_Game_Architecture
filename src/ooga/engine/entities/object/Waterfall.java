@@ -18,14 +18,10 @@ public class Waterfall extends Entity {
   }
 
 
-  @Override
-  public boolean hasGravity() {
-    return false;
-  }
-
   public void leftCollideable(Entity entity) {
     entityDeath(entity, "arrow");
     leftObstacle(entity, "player");
+    leftObstacle(entity, "waterfall");
     thisDeath(entity, "playerobstacle");
   }
 
@@ -34,18 +30,21 @@ public class Waterfall extends Entity {
     System.out.println("right" + entity.getId());
     entityDeath(entity, "arrow");
     rightObstacle(entity, "player");
+    rightObstacle(entity, "waterfall");
     thisDeath(entity, "playerobstacle");
   }
 
   public void bottomCollideable(Entity entity) {
     entityDeath(entity, "arrow");
     bottomObstacle(entity, "player");
+    bottomObstacle(entity, "waterfall");
     thisDeath(entity, "playerobstacle");
   }
 
   public void topCollideable(Entity entity) {
     entityDeath(entity, "arrow");
     topObstacle(entity, "player");
+    topObstacle(entity, "waterfall");
     thisDeath(entity, "playerobstacle");
   }
 
