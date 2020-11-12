@@ -24,7 +24,7 @@ public abstract class Game implements GamePlay {
     private final double gravity;
     private final double moveForce;
     public static final double MOVE_FORCE = 50000; //TODO change to 10
-    private static final int JUMP_CAPACITY = -220;
+    private int jumpMax;
     protected Collection<Unmovable> obstacles;
     protected Collection<Movable> entities;
     private double dt;
@@ -55,6 +55,7 @@ public abstract class Game implements GamePlay {
         this.moveForce = bean.getMoveForce();
         this.obstacles = obstacles;
         this.entities = entities;
+        this.jumpMax = bean.getJumpMax();
         handleCollisions = new Collisions();
         for (Movable entity : entities) {
             entity.setTimeElapsedY(timeElapsed);
@@ -215,7 +216,7 @@ public abstract class Game implements GamePlay {
 
     public void UP(Movable entity) {
         entity.setJump(true);
-        entity.setVelocityY(JUMP_CAPACITY);
+        entity.setVelocityY(jumpMax);
         entity.setMaxY(entity.getMaxY() - 2);
     }
 

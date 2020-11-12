@@ -20,30 +20,25 @@ public class Coin extends Entity {
 
   @Override
   public void leftCollideable(Entity entity) {
-    if (entity.getId() == "player"){
-      setHitpoints(0);
-    }
+    dead(entity, entity.getId().equals("player"));
   }
+
 
   @Override
   public void rightCollideable(Entity entity) {
-    if (entity.getId() == "player"){
-      setHitpoints(0);
-    }
+    dead(entity, entity.getId().equals("player"));
   }
 
   @Override
   public void bottomCollideable(Entity entity) {
-    if (entity.getId() == "player"){
-      setHitpoints(0);
-    }
+    dead(entity, entity.getId().equals("player"));
   }
 
   @Override
   public void topCollideable(Entity entity) {
-    if (entity.getId() == "player"){
-      setHitpoints(0);
-    }
+    dead(entity, entity.getId().equals("player"));
   }
 
-}
+  }
+
+

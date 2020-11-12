@@ -83,6 +83,12 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
       }
   }
 
+  protected void dead(Entity entity, boolean deadObject) {
+      if (deadObject) {
+          entity.setHitpoints(0);
+      }
+  }
+
   public int getHitpoints(){
     return currentHitpoints;
   }
