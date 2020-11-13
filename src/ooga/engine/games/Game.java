@@ -63,7 +63,15 @@ public abstract class Game implements GamePlay {
         this.dt = timeElapsed;
     }
 
-    public abstract boolean hasFinished();
+    public boolean hasFinished(){
+        Movable player = findMainPlayer();
+        return player.hasWon();
+    }
+
+    public boolean hasLost() {
+        Movable player = findMainPlayer();
+        return player.getStatusAlive();
+    }
 
     public Collection<Node> getBackground() {
         Collection<Node> nodeObstacles = new ArrayList<>();
