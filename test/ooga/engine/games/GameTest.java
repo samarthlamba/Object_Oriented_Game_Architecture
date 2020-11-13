@@ -3,6 +3,7 @@ package ooga.engine.games;
 import ooga.engine.entities.Entity;
 import ooga.engine.entities.Movable;
 import ooga.loader.GameFactory;
+import ooga.util.DukeApplicationTest;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -10,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collection;
 
-class GameTest {
+class GameTest extends DukeApplicationTest {
     private static final GameFactory factory = new GameFactory();
 
    @Test

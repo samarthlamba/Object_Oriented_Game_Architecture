@@ -53,6 +53,7 @@ public class MarioGame extends Game {
     for (Movable entity : entities) {
       moveMovable(entity);
       generateCoins(entity);
+      checkIfFinished(entity);
     }
     for(Movable coin : coins){
       entities.add(coin);
