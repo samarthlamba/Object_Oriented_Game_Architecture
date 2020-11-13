@@ -62,7 +62,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
   }
 
   public boolean hasLost(){
-      return false;
+      return this.lost;
   }
 
   public void setLost(boolean lost){
@@ -282,8 +282,4 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
             entity.setJump(false);
         }
     }
-
-
-
-    //add id.
 }
