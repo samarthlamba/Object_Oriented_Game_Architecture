@@ -54,7 +54,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
   }
 
   public boolean hasFinished(){
-      return false;
+      return finished;
   }
 
   public void setFinished(boolean finished){
