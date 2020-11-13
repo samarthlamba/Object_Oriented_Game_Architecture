@@ -14,6 +14,8 @@ public class GameController {
   private final GameFactory gameFactory;
   private String currentGameTitle;
   private Consumer<Game> gameSetter;
+  private String pathToCurrentGame;
+  private Game currentGame;
 
   public GameController(Stage stage, Timeline timeline, Consumer<Game> gameSetter) {
     this.stage = stage;
@@ -22,25 +24,24 @@ public class GameController {
     this.gameFactory = new GameFactory();
   }
 
+  public Game getGame() {
+    return currentGame;
+  }
+
   public void setScene(Scene scene) {
     this.stage.setScene(scene);
   }
 
-  public void launchGameMenu(String gameLabel) {
-    currentGameTitle = gameLabel;
-  }
-
   public void launchGame(String filePath) {
-    Game game = gameFactory.makeCorrectGame(filePath);
-    gameSetter.accept(game);
+    pathToCurrentGame = filePath;
+    currentGame = gameFactory.makeCorrectGame(pathToCurrentGame);
+    gameSetter.accept(currentGame);
     timeline.play();
   }
 
 
-  private void restartGame() {
-    game = gameFactory.makeCorrectGame(pathToCurrentGame);
-    display.setGameDisplay(game);
-    timeline.play();
+  public void restartGame() {
+    launchGame(pathToCurrentGame);
   }
 
   public void pauseTimeline() {

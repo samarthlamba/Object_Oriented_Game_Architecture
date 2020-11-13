@@ -19,8 +19,11 @@ public class DriverTest extends DukeApplicationTest {
   public void start(Stage stage) throws Exception {
     myDriver = new Driver();
     myDriver.start(stage);
+    /*
     myMenu = myDriver.getGameMenu();
     // create game's scene with all shapes in their initial positions and show it
+
+     */
     stage.setScene(myMenu.getView());
     stage.show();
 

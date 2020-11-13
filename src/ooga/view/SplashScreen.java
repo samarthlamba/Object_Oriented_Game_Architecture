@@ -5,11 +5,11 @@ import java.util.function.Consumer;
 import javafx.scene.Scene;
 import ooga.TimelineManager;
 
-public class SplashScreen extends Screen{
+public class SplashScreen{
+  /*
   private final String displayKey;
   private final Runnable restart;
   private final Scene myScene;
-
   public SplashScreen (String displayKey, Consumer<String) {
     this.displayKey = displayKey;
     this.restart = restart;
@@ -29,4 +29,6 @@ public class SplashScreen extends Screen{
   public Scene getView() {
     return myScene;
   }
+
+   */
 }
