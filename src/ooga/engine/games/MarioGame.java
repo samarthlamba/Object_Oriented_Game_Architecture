@@ -67,9 +67,13 @@ public class MarioGame extends Game {
   }
 
   private void fallingDeath(){
-    Movable player = findMainPlayer();
-    if(player.getMaxY() > lowestPoint + 600){
-      player.setHitpoints(0);
+    try {
+      Movable player = findMainPlayer();
+      if (player.getMaxY() > lowestPoint + 600) {
+        player.setHitpoints(0);
+      }
+    } catch (Exception e) {
+      System.out.println("No player here boss");
     }
   }
 

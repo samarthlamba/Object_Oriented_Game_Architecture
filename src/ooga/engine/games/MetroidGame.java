@@ -27,7 +27,7 @@ public class MetroidGame extends Game{
 
 
   @Override
-  public boolean hasFinished(){
+  public boolean isWon(){
     for(Movable entity : entities){
       if(entity.getId().equals("enemy")){
         return false;

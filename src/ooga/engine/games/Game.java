@@ -63,15 +63,22 @@ public abstract class Game implements GamePlay {
         this.dt = timeElapsed;
     }
 
-    public boolean hasFinished(){
-        Movable player = findMainPlayer();
-        return player.hasWon();
+    public boolean isWon(){
+        try{
+            Movable player = findMainPlayer();
+            return player.hasWon();
+        } catch (RuntimeException e) {
+            return false;
+        }
     }
 
-    public boolean hasLost() {
-        Movable player = findMainPlayer();
-        System.out.println(player.getStatusAlive());
-        return player.getStatusAlive();
+    public boolean isLost() {
+        try {
+            Movable player = findMainPlayer();
+            return !player.getStatusAlive();
+        } catch(RuntimeException e) {
+            return true;
+        }
     }
 
     public Collection<Node> getBackground() {
@@ -84,7 +91,6 @@ public abstract class Game implements GamePlay {
 
 
     public void updateLevel() {
-        // System.out.println("stepped123");
         updateMovable();
     }
 
