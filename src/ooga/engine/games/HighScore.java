@@ -48,19 +48,27 @@ public class HighScore{
         return Arrays.copyOfRange(list, NUMBER_OF_RECORDS, list.length);
     }
 
-    private HighScoreObject[] getFileContent() throws IOException {
+    private HighScoreObject[] getFileContent() {
         File file = new File(fileName);
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        HighScoreObject [] highScore = new HighScoreObject[TOTAL_NUMBER_RECORDS];
-        String st;
-        int pos = 0;
-        while(((st = br.readLine()) != null && pos != highScore.length)){
-            highScore[pos] = (HighScoreObject.toHighScoreObject(st));
-            pos = pos+1;
+
+        HighScoreObject[] highScore = new HighScoreObject[TOTAL_NUMBER_RECORDS];
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String st;
+            int pos = 0;
+            while (((st = br.readLine()) != null && pos != highScore.length)) {
+                highScore[pos] = (HighScoreObject.toHighScoreObject(st));
+                pos = pos + 1;
+            }
+            return highScore;
+        } catch (Exception e) {
+            for (int i = 0; i < highScore.length; i++){
+                highScore[i] = new HighScoreObject(0,0);
+            }
+            return highScore;
         }
-        return highScore;
     }
-    public HighScoreObject[] getGlobalHighScores() throws IOException {
+    public HighScoreObject[] getGlobalHighScores() {
         checkFileExistence();
 
             HighScoreObject[] list= getFileContent();
@@ -68,14 +76,14 @@ public class HighScore{
     }
 
 
-    public HighScoreObject[] getWeeklyHighScores() throws IOException {
+    public HighScoreObject[] getWeeklyHighScores() {
         checkFileExistence();
 
         HighScoreObject[] list= getFileContent();
         return  getSubListGlobal(list, true);
     }
 
-    public HighScoreObject[] getAllScores() throws IOException {
+    public HighScoreObject[] getAllScores() {
         checkFileExistence();
 
         return getFileContent();
@@ -115,7 +123,7 @@ public class HighScore{
         return answerString;
     }
 
-    public void checkAddHighScore(int score) throws IOException {
+    public void checkAddHighScore(int score) {
         HighScoreObject current = new HighScoreObject(score);
         HighScoreObject [] listOfScores = getAllScores();
         listOfScores = updateWeeklyTimes(listOfScores);

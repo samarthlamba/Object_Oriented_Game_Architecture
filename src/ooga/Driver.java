@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.engine.games.Game;
 import ooga.engine.games.GamePlay;
+import ooga.engine.games.HighScore;
 import ooga.loader.GameFactory;
 import ooga.view.Display;
 import ooga.view.Screen;
@@ -59,6 +60,8 @@ public class Driver extends Application {
   private void step() {
     if(game.hasFinished()) {
       victoryScreen();
+      HighScore highScore = new HighScore(gameTitle);
+      highScore.checkAddHighScore(game.getPoints());
     }
     game.updateLevel();
     display.updateDisplay();
