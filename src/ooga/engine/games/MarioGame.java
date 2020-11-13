@@ -20,7 +20,7 @@ public class MarioGame extends Game {
   private int coinSize = 50;
   private Collection<Movable> coins = new ArrayList<>();
   private double dt;
-  private boolean hasFinished = false;
+  private double lowestPoint = 0;
 //  private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
 
 
@@ -30,11 +30,9 @@ public class MarioGame extends Game {
     entities = entityCollection;
     obstacles = obstacleCollection;
     dt = timeElapsed;
+    findSceneLowestY();
   }
 
-  public boolean hasFinished(){
-    return hasFinished;
-  }
 
   private void simulateFall(Movable entity, Node object){
     Rectangle simulate = new Rectangle(entity.getNode().getBoundsInParent().getMinX(), entity.getMaxY(), 0.1, 0.1);
@@ -60,6 +58,7 @@ public class MarioGame extends Game {
     for(Movable coin : coins){
       entities.add(coin);
     }
+    fallingDeath();
     viewable.remove(entitiesToRemove);
     entities.removeAll(entitiesToRemove);
     entitiesToRemove.clear();
@@ -68,10 +67,20 @@ public class MarioGame extends Game {
     coins.clear();
   }
 
-  private void checkIfFinished(Movable entity){
-      if (entity.hasFinished()){
-        hasFinished = true;
+  private void fallingDeath(){
+    Movable player = findMainPlayer();
+    if(player.getMaxY() > lowestPoint + 600){
+      player.setHitpoints(0);
+    }
+  }
+
+  private void findSceneLowestY(){
+    for(Unmovable obstacle : obstacles){
+      double yPosition = obstacle.getNode().getBoundsInParent().getMaxY();
+      if(yPosition > lowestPoint){
+        lowestPoint = yPosition;
       }
+    }
   }
 
 
@@ -117,6 +126,7 @@ public class MarioGame extends Game {
       collisions(entity, findMainPlayer());
     }
   }*/
+
 
 
   @Override
