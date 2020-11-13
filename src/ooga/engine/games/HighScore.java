@@ -12,9 +12,10 @@ public class HighScore{
     private static final String EXTENSION = ".txt";
     private static final String INITIALIZED_SCORE = "0,0";
     private static final int TOTAL_NUMBER_RECORDS = NUMBER_OF_RECORDS*2;
+    private static final String PATH_TO_RESOURCES = "src/resources/";
 
     public HighScore(String game){
-        fileName = game + EXTENSION;
+        fileName = PATH_TO_RESOURCES + game + EXTENSION;
         checkFileExistence();
     }
 
