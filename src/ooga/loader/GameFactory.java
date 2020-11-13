@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import ooga.engine.games.Game;
-import ooga.engine.games.beans.GameBean;
+import ooga.engine.games.beans.*;
 import ooga.engine.entities.Entity;
 import ooga.engine.obstacles.Obstacle;
 

@@ -72,4 +72,27 @@ class EntityTest {
     assertEquals(100, testEntity.getHitpoints());
   }
 
+  @Test
+  void getEntityHeightTest() {
+    assertEquals(100, testEntity.getEntityHeight());
+  }
+
+
+  @Test
+  void getXForceTest() {
+    testEntity.setXForce(21);
+    assertEquals(21, testEntity.getXForce());
+  }
+
+  @Test
+  void timeElapsedTest() {
+    testEntity.setTimeElapsedY(2);
+    assertEquals(2, testEntity.getTimeElapsedY());
+  }
+  @Test
+  void facingTest() {
+    testEntity.setFacing(false);
+    assertEquals(false, testEntity.getFacing());
+  }
+
 }

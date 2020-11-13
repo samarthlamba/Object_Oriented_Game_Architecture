@@ -30,7 +30,7 @@ public class MetroidGame extends Game{
 
 
   @Override
-    public void shoot(){
+    public void playerAction(){
       Movable entity = super.findMainPlayer();
       double bulletStartX = entity.getCenterX() - entity.getEntityWidth()/2;
       double bulletStartY = entity.getMaxY() - entity.getEntityHeight()/2;
