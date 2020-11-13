@@ -60,6 +60,9 @@ public class Driver extends Application {
     if(game.hasFinished()) {
       victoryScreen();
     }
+    if(game.hasLost()){
+      victoryScreen();
+    }
     game.updateLevel();
     display.updateDisplay();
   }

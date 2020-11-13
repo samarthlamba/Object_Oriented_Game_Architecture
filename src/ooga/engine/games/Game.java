@@ -70,6 +70,7 @@ public abstract class Game implements GamePlay {
 
     public boolean hasLost() {
         Movable player = findMainPlayer();
+        System.out.println(player.getStatusAlive());
         return player.getStatusAlive();
     }
 
