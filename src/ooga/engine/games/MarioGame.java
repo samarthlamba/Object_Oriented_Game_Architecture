@@ -32,7 +32,7 @@ public class MarioGame extends Game {
   }
 
   public boolean hasFinished(){
-    return false;
+    return true;
   }
 
   private void simulateFall(Movable entity, Node object){

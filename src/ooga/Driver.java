@@ -19,35 +19,27 @@ public class Driver extends Application {
 
   private static final int STEP_SPEED = 100;
   private static final ResourceBundle LEVEL_FILE_LOCATIONS = ResourceBundle.getBundle("LevelFileLocations");
-  private boolean createTimeline;
   private KeyFrame displayFrame;
   private Timeline timeline;
   private Game game;
   private Display display;
   private GameFactory gameFactory;
   private String gameTitle;
+  private String pathToCurrentGame;
 
   @Override
   public void start(Stage initialStage) throws Exception {
     initializeTimeline();
-    display = new Display(initialStage,new TimelineManager(timeline));
+    display = new Display(new GameController(initialStage,timeline,this::setGame));
     gameFactory = new GameFactory();
     initialStage.show();
-    display.setMainMenuScreen(this::launchGameMenu);
+    display.setMainMenuScreen();
   }
 
-  private void launchGameMenu(String gameLabel) {
-    gameTitle = gameLabel;
-    display.setGameMenuScreen(gameTitle, this::launchGame);
+  private void setGame(Game game) {
+    this.game = game;
   }
 
-  private void launchGame(String gameLevel) {
-    String filePath = LEVEL_FILE_LOCATIONS.getString(gameTitle+","+gameLevel);
-    game = gameFactory.makeCorrectGame(filePath);
-    display.setGameDisplay(game);
-//    display.setGameDisplay(this::pause, this::play, this::restart); TODO
-    timeline.play();
-  }
 
   private void initializeTimeline() {
       displayFrame = new KeyFrame(Duration.millis(STEP_SPEED), e -> step());
@@ -66,12 +58,9 @@ public class Driver extends Application {
 
   private void victoryScreen() {
     timeline.stop();
-    display.setMainMenuScreen(this::launchGameMenu);
+    display.setSplashScreen("Victory");
   }
 
-  public Screen getGameMenu() {
-    return display.getGameMenu(this::launchGame);
-  }
 
   public GamePlay getGame() {
     return game;

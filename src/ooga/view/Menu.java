@@ -19,7 +19,7 @@ public class Menu extends VBox {
 //    String buttonFunctionClassName = this.toString();
     Consumer<String> E;//TODO
 
-    public Menu(ResourceBundle menuButtonProperties, Consumer e) {
+    public Menu(ResourceBundle menuButtonProperties, Consumer<String> e) {
         E = e;
         for(String property : menuButtonProperties.keySet()) {
             Button button = makeNewButton(property, menuButtonProperties);
