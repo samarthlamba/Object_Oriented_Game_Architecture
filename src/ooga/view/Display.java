@@ -3,7 +3,6 @@ package ooga.view;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import ooga.GameController;
-import ooga.TimelineManager;
 import ooga.engine.games.GamePlay;
 
 import java.lang.reflect.Constructor;
@@ -21,7 +20,6 @@ private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle(DEFAU
 
     private GameController gameController;
     private GamePlayScreen gameScreen;
-    private TimelineManager timelineManager;
     private String gametitle;
 
     public Display(GameController gameController) {
@@ -37,6 +35,11 @@ private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle(DEFAU
         String gameLevelComboChosen = String.format("%s,%s",gametitle,levelChosen);
         String filePath = LEVEL_FILE_LOCATIONS.getString(gameLevelComboChosen);
         gameController.launchGame(filePath);
+        setGameDisplay(gameController.getGame());
+    }
+
+    private void restartGame() {
+        gameController.restartGame();
         setGameDisplay(gameController.getGame());
     }
 
@@ -73,13 +76,12 @@ private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle(DEFAU
         gameController.setScene(gameMenu.getView());
     }
 
-    /*
     public void setSplashScreen(String displayKey) {
-        SplashScreen resultScreen = new SplashScreen(displayKey,gameController);
+        SplashScreen resultScreen = new SplashScreen(displayKey,this::setMainMenuScreen,this::restartGame);
         gameController.setScene(resultScreen.getView());
     }
     
-     */
+
 
     public void test() {
         Group root = new Group();

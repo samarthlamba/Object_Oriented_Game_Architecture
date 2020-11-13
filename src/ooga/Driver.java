@@ -58,8 +58,7 @@ public class Driver extends Application {
 
   private void victoryScreen() {
     timeline.stop();
-    //display.setSplashScreen("Victory");
-    display.setMainMenuScreen();
+    display.setSplashScreen("Victory");
   }
 
 

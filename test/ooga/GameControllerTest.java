@@ -13,16 +13,18 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import ooga.engine.games.Game;
 import ooga.util.DukeApplicationTest;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 import org.junit.jupiter.api.Test;
 
-public class TimelineManagerTest extends DukeApplicationTest{
+public class GameControllerTest extends DukeApplicationTest{
   private Timeline testTimeline;
-  private TimelineManager testManager;
+  private GameController testController;
   private Rectangle testRectangle;
+  private Game myGame;
 
   @Override
   public void start(Stage stage) {
@@ -32,7 +34,7 @@ public class TimelineManagerTest extends DukeApplicationTest{
     stage.show();
     testTimeline = new Timeline();
     testTimeline.setCycleCount(5);
-    testManager = new TimelineManager(testTimeline);
+    testController = new GameController(stage,testTimeline,this::setMyGame);
   }
 
 
@@ -44,7 +46,7 @@ public class TimelineManagerTest extends DukeApplicationTest{
       testRectangle.setX(testRectangle.getX()+10);
     });
     testTimeline.getKeyFrames().add(moveRectangle);
-    testManager.play();
+    testController.playTimeline();
     sleep(550);
     final double finalX = testRectangle.getX();
     final double finalY = testRectangle.getY();
@@ -60,13 +62,16 @@ public class TimelineManagerTest extends DukeApplicationTest{
       testRectangle.setX(testRectangle.getX()+10);
     });
     testTimeline.getKeyFrames().add(moveRectangle);
-    testManager.play();
+    testController.playTimeline();
     sleep(150);
-    testManager.pause();
+    testController.pauseTimeline();
     final double finalX = testRectangle.getX();
     final double finalY = testRectangle.getY();
     assertEquals(initialX+10, finalX);
     assertEquals(initialY, finalY);
   }
 
+  public void setMyGame(Game myGame) {
+    this.myGame = myGame;
+  }
 }
