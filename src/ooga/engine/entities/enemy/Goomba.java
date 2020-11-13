@@ -1,7 +1,6 @@
 package ooga.engine.entities.enemy;
 
 import ooga.engine.entities.Entity;
-import ooga.engine.entities.enemy.Enemy;
 
 public class Goomba extends Enemy {
     public static final int VELOCITY = 200;
@@ -16,33 +15,29 @@ public class Goomba extends Enemy {
 
     @Override
     public void leftCollideable(Entity entity) {
-        playerHealthPenalty(entity);
+        healthPenaltyOnObject(entity, "player");
+        thisDeath(entity, "player");
     }
 
     @Override
     public void rightCollideable(Entity entity) {
-        playerHealthPenalty(entity);
+        healthPenaltyOnObject(entity, "player");
+        thisDeath(entity, "player");
     }
 
     @Override
     public void bottomCollideable(Entity entity) {
-        playerHealthPenalty(entity);
+        healthPenaltyOnObject(entity, "player");
+        thisDeath(entity, "player");
     }
 
 
     @Override
     public void topCollideable(Entity entity) {
-        if (entity.getId() == "player" && entity.getYForce() > 300) {
-            setHitpoints(0);
-            entity.setHitpoints(entity.getHitpoints() - HEALTH_PENALTY);
-        }
+        thisDeath(entity, "player");
     }
 
-    private void playerHealthPenalty(Entity entity) {
-        if (entity.getId() == "player") {
-            entity.setHitpoints(entity.getHitpoints() + HEALTH_PENALTY);
-        }
-    }
+
 
 }
 

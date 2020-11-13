@@ -4,7 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import ooga.engine.games.beans.GameBean;
+import ooga.engine.games.beans.*;
 
 public class GameBeanFactory {
   private static final String BEAN_LOCATION = "ooga.engine.games.beans.%sBean";

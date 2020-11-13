@@ -20,4 +20,6 @@ public interface GamePlay {
     void moveUp();
 
     void setDisplay(UpdateObjectsOnScreen updateObjectsOnScreen);
+
+    int getPoints();
 }

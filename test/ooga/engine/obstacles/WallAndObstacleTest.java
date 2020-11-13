@@ -2,6 +2,7 @@ package ooga.engine.obstacles;
 
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
+import ooga.engine.entities.object.Waterfall;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -49,5 +50,19 @@ class WallAndObstacleTest {
         Node ans = new Rectangle(10, 10, 100, 100);
         assertEquals(ans.getLayoutBounds(), ans.getLayoutBounds());
 
+    }
+
+    @Test
+    void checkIDs(){
+        Goal goal = new Goal(100, 100, 0, 0);
+        assertEquals("goal", goal.getId());
+        Ladder ladder = new Ladder(100, 100, 0, 0);
+        assertEquals("ladder", ladder.getId());
+        MarioShrinker marioShrinker = new MarioShrinker(100, 100, 0, 0);
+        assertEquals("shrinker", marioShrinker.getId());
+        Spike spike = new Spike(100, 100, 0, 0);
+        assertEquals("spike", spike.getId());
+        Waterfall waterfall = new Waterfall(100, 100, 0, 0);
+        assertEquals("waterfall", waterfall.getId());
     }
 }

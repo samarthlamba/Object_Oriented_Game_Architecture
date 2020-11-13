@@ -4,10 +4,16 @@ import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import ooga.engine.games.Collideable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Entity extends Rectangle implements Collideable, Movable {
-  private final int SCENE_WIDTH;
+    private static final double NEGATIVE_DIRECTION = -1;
+    private static final double GRAVITY = 800 ;
+    private final int SCENE_WIDTH;
   private final int SCENE_HEIGHT;
-  private int currentHitpoints = 5;
+  public static final int HEALTH_PENALTY = -1;
+  private int currentHitpoints = 3;
   private Node nodeObject;
   private double speed = 0;
   private double previousX;
@@ -21,6 +27,9 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
   private double timeInterval = 0;
   private boolean facing = true;
   private boolean jump = false;
+  protected List<Entity> connected = new ArrayList<>();
+    private boolean finished = false;
+    private boolean lost = false;
 
   public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
     this.SCENE_WIDTH = objectWidth;
@@ -44,6 +53,22 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
       return this.status_Alive;
   }
 
+  public boolean hasFinished(){
+      return false;
+  }
+
+  public void setFinished(boolean finished){
+      this.finished = finished;
+  }
+
+  public boolean hasLost(){
+      return false;
+  }
+
+  public void setLost(boolean lost){
+        this.lost = lost;
+  }
+
   //public abstract int getID();
 
   public double getVelocityX(){
@@ -54,9 +79,10 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     return jumpCapacity;
   }
 
- /* public double mass(){
-    return 5;
-  }*/
+  public int getHealth(){
+      return getHitpoints();
+  }
+
   public void setVelocityX(double x){
     this.speed = x;
   }
@@ -156,14 +182,6 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
         timeElapsedX = time;
     }
 
-    public void leftCollideable(Entity entity) {}
-
-    public void rightCollideable(Entity entity) {}
-
-    public void bottomCollideable(Entity entity) {}
-
-    public void topCollideable(Entity entity) {}
-
     public boolean hasGravity(){
       return true;
     }
@@ -183,6 +201,89 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     public void setFacing(boolean direction){
       facing = direction;
     }
+
+
+
+
+//TODO: Use reflection, default no collision
+
+    public void leftCollideable(Entity entity) {
+      //TODO: action reflection of below methods
+        // find left key in properties file
+        //Values can be parsed to get method name, and String id parameter
+    }
+
+    public void rightCollideable(Entity entity) {
+        //TODO: action reflection of below methods
+    }
+
+    public void bottomCollideable(Entity entity) {
+        //TODO: action reflection of below methods
+    }
+
+    public void topCollideable(Entity entity) {
+        //TODO: action reflection of below methods
+    }
+
+
+    protected void entityDeath(Entity entity, String object) {
+        if (entity.getId().equals(object)) {
+            entity.setHitpoints(0);
+        }
+    }
+
+    protected void thisDeath(Entity entity, String object) {
+        if (entity.getId().equals(object)) {
+            this.setHitpoints(0);
+        }
+    }
+
+    protected void applyY(Entity entity, String object) {
+        if (entity.getId().equals(object)){
+            entity.setYForce(-1000); //use up method once moved to player
+        }
+    }
+
+    protected void healthPenaltyOnObject(Entity entity, String object) {
+        if (entity.getId().equals(object)) {
+            entity.setHitpoints(entity.getHitpoints() + HEALTH_PENALTY);
+        }
+    }
+
+
+    protected void leftObstacle(Entity entity, String object){
+        if (entity.getId().equals(object)) {
+            entity.setXForce(0);
+            entity.setCenterX(getBoundsInParent().getMaxX() + entity.getEntityWidth() / 2);
+            entity.setVelocityX(entity.getVelocityX() * NEGATIVE_DIRECTION);
+        }
+    }
+
+    protected void rightObstacle(Entity entity, String object){
+        if (entity.getId().equals(object)) {
+            entity.setXForce(0);
+            entity.setCenterX(getBoundsInParent().getMinX() - entity.getEntityWidth() / 2);
+            entity.setVelocityX(entity.getVelocityX() * NEGATIVE_DIRECTION);
+        }
+    }
+
+    protected void bottomObstacle(Entity entity, String object){
+        if (entity.getId().equals(object)) {
+            entity.setVelocityY(0);
+        }
+    }
+
+    protected void topObstacle(Entity entity, String object){
+        if (entity.getId().equals(object)) {
+            entity.setMaxY(getBoundsInParent().getMinY());
+            entity.setYForce(entity.getYForce() + NEGATIVE_DIRECTION * GRAVITY);
+            entity.setTimeElapsedY(entity.getTimeElapsedX());
+            entity.setVelocityY(0);
+            entity.setJump(false);
+        }
+    }
+
+
 
     //add id.
 }

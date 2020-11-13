@@ -24,7 +24,7 @@ public abstract class Game implements GamePlay {
     private final double gravity;
     private final double moveForce;
     public static final double MOVE_FORCE = 50000; //TODO change to 10
-    private static final int JUMP_CAPACITY = -220;
+    private int jumpMax;
     protected Collection<Unmovable> obstacles;
     protected Collection<Movable> entities;
     private double dt;
@@ -36,9 +36,8 @@ public abstract class Game implements GamePlay {
     private boolean objectAtCorner;
     private int enemyDirection = -1;
     private Set<String> collisionTypes = Set.of("right", "left", "top", "bottom");
-    Collisions handleCollisions;
-    private int totalPoints = 0;
-//    private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
+    protected Collisions handleCollisions;
+    protected int totalPoints = 0;
     protected UpdateObjectsOnScreen viewable = new GamePlayScreen();
     protected Collection<MovableBounds> entitiesToAdd = new ArrayList<>();
     protected Collection<MovableBounds> entitiesToRemove = new ArrayList<>();
@@ -55,6 +54,7 @@ public abstract class Game implements GamePlay {
         this.moveForce = bean.getMoveForce();
         this.obstacles = obstacles;
         this.entities = entities;
+        this.jumpMax = bean.getJumpMax();
         handleCollisions = new Collisions();
         for (Movable entity : entities) {
             entity.setTimeElapsedY(timeElapsed);
@@ -77,6 +77,10 @@ public abstract class Game implements GamePlay {
     public void updateLevel() {
         // System.out.println("stepped123");
         updateMovable();
+    }
+
+    public int getPoints(){
+        return totalPoints;
     }
 
     public Collection<? extends MovableBounds> getEntities() {
@@ -112,8 +116,11 @@ public abstract class Game implements GamePlay {
         entity.setXForce(0);
         if(!entity.getStatusAlive()){
             entitiesToRemove.add(entity);
+            setPoints(entity);
         }
     }
+
+    public void setPoints(Movable entity){}
 
     protected void removeMovable() {
         entities.removeIf(e -> !e.getStatusAlive());
@@ -211,11 +218,10 @@ public abstract class Game implements GamePlay {
         UP(entity);
     }
 
-    public void shoot(){}
 
     public void UP(Movable entity) {
         entity.setJump(true);
-        entity.setVelocityY(JUMP_CAPACITY);
+        entity.setVelocityY(jumpMax);
         entity.setMaxY(entity.getMaxY() - 2);
     }
 
@@ -232,6 +238,8 @@ public abstract class Game implements GamePlay {
         entity.setXForce(entity.getXForce() + MOVE_FORCE);
         entity.setFacing(true);
     }
+
+    public void playerAction(){}
 
 
     //https://stackoverflow.com/questions/356807/java-double-comparison-epsilon
