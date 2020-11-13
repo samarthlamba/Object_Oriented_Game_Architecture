@@ -17,5 +17,4 @@ import javafx.scene.Node;
 
    boolean getStatusAlive();
 
-   boolean hasFinished();
 }

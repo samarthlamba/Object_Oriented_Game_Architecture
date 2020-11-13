@@ -27,7 +27,6 @@ public class Waterfall extends Entity {
 
 
   public void rightCollideable(Entity entity) {
-    System.out.println("right" + entity.getId());
     entityDeath(entity, "arrow");
     rightObstacle(entity, "player");
     rightObstacle(entity, "waterfall");
