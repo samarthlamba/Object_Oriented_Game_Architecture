@@ -53,20 +53,12 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
       return this.status_Alive;
   }
 
-  public boolean hasFinished(){
-      return finished;
-  }
-
-  public void setFinished(boolean finished){
-      this.finished = finished;
-  }
-
-  public boolean hasLost(){
+  public boolean hasWon(){
       return false;
   }
 
-  public void setLost(boolean lost){
-        this.lost = lost;
+  public void setWon(boolean finished){
+      this.finished = finished;
   }
 
   //public abstract int getID();

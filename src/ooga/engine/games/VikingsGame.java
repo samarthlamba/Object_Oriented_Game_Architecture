@@ -38,9 +38,6 @@ public class VikingsGame extends Game{
     }
   }
 
-  public boolean hasFinished(){
-    return false;
-  }
 
   @Override
   protected void updateMovable(){

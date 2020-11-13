@@ -24,8 +24,11 @@ public class MetroidGame extends Game{
     super(obstacles, entities, timeElapsed, bean);
     dt = timeElapsed;
   }
+
+
+  @Override
   public boolean hasFinished(){
-    for(Movable entity : entities) {
+    for(Movable entity : entities){
       if(entity.getId().equals("enemy")){
         return false;
       }
