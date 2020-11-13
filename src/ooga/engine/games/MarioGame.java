@@ -20,6 +20,7 @@ public class MarioGame extends Game {
   private int coinSize = 50;
   private Collection<Movable> coins = new ArrayList<>();
   private double dt;
+  private boolean hasFinished = false;
 //  private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
 
 
@@ -32,7 +33,7 @@ public class MarioGame extends Game {
   }
 
   public boolean hasFinished(){
-    return false;
+    return hasFinished;
   }
 
   private void simulateFall(Movable entity, Node object){
@@ -54,6 +55,7 @@ public class MarioGame extends Game {
     for (Movable entity : entities) {
       moveMovable(entity);
       generateCoins(entity);
+      checkIfFinished(entity);
     }
     for(Movable coin : coins){
       entities.add(coin);
@@ -64,6 +66,12 @@ public class MarioGame extends Game {
     viewable.spawn(entitiesToAdd);
     entitiesToAdd.clear();
     coins.clear();
+  }
+
+  private void checkIfFinished(Movable entity){
+      if (entity.hasFinished()){
+        hasFinished = true;
+      }
   }
 
 
