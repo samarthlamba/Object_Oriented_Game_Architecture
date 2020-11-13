@@ -14,9 +14,10 @@ import ooga.engine.games.Game;
 import ooga.engine.games.MarioGame;
 import ooga.engine.entities.player.Mario;
 import ooga.engine.obstacles.Wall;
+import ooga.util.DukeApplicationTest;
 import org.junit.jupiter.api.Test;
 
-public class GameFactoryTest {
+public class GameFactoryTest extends DukeApplicationTest {
   private static final GameFactory factory = new GameFactory();
 
   @Test
