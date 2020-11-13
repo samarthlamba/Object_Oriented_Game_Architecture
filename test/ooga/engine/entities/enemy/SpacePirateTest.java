@@ -13,7 +13,8 @@ class SpacePirateTest {
         Samus samus = new Samus(10, 10, 0, 0);
         SpacePirate pirate = new SpacePirate(10, 10, 0, 0);
         pirate.leftCollideable(samus);
-        assertEquals(0,samus.getHitpoints());
+        samus.getHitpoints();
+        assertEquals(samus.getHitpoints()-1,samus.getHitpoints());
         assertEquals(false, samus.getStatusAlive());
 
     }
@@ -23,7 +24,7 @@ class SpacePirateTest {
         Samus samus = new Samus(10, 10, 0, 0);
         SpacePirate pirate = new SpacePirate(10, 10, 0, 0);
         pirate.rightCollideable(samus);
-        assertEquals(0,samus.getHitpoints());
+        assertEquals(samus.getHitpoints()-1,samus.getHitpoints());
         assertEquals(false, samus.getStatusAlive());
     }
 
@@ -32,7 +33,7 @@ class SpacePirateTest {
         Samus samus = new Samus(10, 10, 0, 0);
         SpacePirate pirate = new SpacePirate(10, 10, 0, 0);
         pirate.bottomCollideable(samus);
-        assertEquals(0,samus.getHitpoints());
+        assertEquals(samus.getHitpoints()-1,samus.getHitpoints());
         assertEquals(false, samus.getStatusAlive());
     }
 
@@ -41,7 +42,7 @@ class SpacePirateTest {
         Samus samus = new Samus(10, 10, 0, 0);
         SpacePirate pirate = new SpacePirate(10, 10, 0, 0);
         pirate.topCollideable(samus);
-        assertEquals(0,samus.getHitpoints());
+        assertEquals(samus.getHitpoints()-1,samus.getHitpoints());
         assertEquals(false, samus.getStatusAlive());
     }
 }
