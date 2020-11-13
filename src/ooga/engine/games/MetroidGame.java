@@ -25,7 +25,12 @@ public class MetroidGame extends Game{
     dt = timeElapsed;
   }
   public boolean hasFinished(){
-    return false;
+    for(Movable entity : entities) {
+      if(entity.getId().equals("enemy")){
+        return false;
+      }
+    }
+    return true;
   }
 
 
