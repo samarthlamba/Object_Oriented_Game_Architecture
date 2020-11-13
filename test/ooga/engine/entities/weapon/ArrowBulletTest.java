@@ -16,7 +16,7 @@ class ArrowBulletTest {
         Bullet bullet = new Bullet(10, 10, 10, 10);
         assertEquals(bullet.getId(), "bullet");
 
-        assertEquals(true, bullet.hasGravity());
+        assertEquals(false, arrow.hasGravity());
 
 
     }
@@ -58,7 +58,7 @@ class ArrowBulletTest {
         arrow.bottomCollideable(samus);
         arrow.topCollideable(samus);
         assertEquals(0,samus.getHitpoints());
-        assertEquals(true, samus.getStatusAlive());
+        assertEquals(false, samus.getStatusAlive());
     }
 
     @Test
