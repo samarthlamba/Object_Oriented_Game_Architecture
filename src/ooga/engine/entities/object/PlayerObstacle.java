@@ -23,24 +23,28 @@ public class PlayerObstacle extends Entity {
     public void leftCollideable(Entity entity) {
         entityDeath(entity, "arrow");
         entityDeath(entity, "waterfall");
+        leftObstacle(entity, "player");
     }
 
     @Override
     public void rightCollideable(Entity entity) {
         entityDeath(entity, "arrow");
         entityDeath(entity, "waterfall");
+        rightObstacle(entity, "player");
     }
 
     @Override
     public void bottomCollideable(Entity entity) {
         entityDeath(entity, "arrow");
         entityDeath(entity, "waterfall");
+        bottomObstacle(entity, "player");
     }
 
     @Override
     public void topCollideable(Entity entity) {
         entityDeath(entity, "arrow");
         entityDeath(entity, "waterfall");
+        topObstacle(entity, "player");
     }
 
 }

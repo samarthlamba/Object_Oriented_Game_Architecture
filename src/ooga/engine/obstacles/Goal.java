@@ -12,22 +12,22 @@ public class Goal extends Obstacle{
 
     @Override
     public void leftCollideable(Entity entity) {
-        entity.setWon(true);
+        wonGame(entity);
     }
 
     @Override
     public void rightCollideable(Entity entity) {
-        entity.setWon(true);
+        wonGame(entity);
     }
 
     @Override
     public void bottomCollideable(Entity entity) {
-        entity.setWon(true);
+        wonGame(entity);
     }
 
     @Override
     public void topCollideable(Entity entity){
-        entity.setWon(true);
+        wonGame(entity);
     }
 
 }

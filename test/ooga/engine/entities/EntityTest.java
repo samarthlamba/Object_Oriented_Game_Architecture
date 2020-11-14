@@ -98,12 +98,12 @@ class EntityTest {
     assertEquals(false, testEntity.getFacing());
   }
 
-  @Test
+ /* @Test
   void hasFinishedTest(){
     assertEquals(false, testEntity.hasFinished());
     testEntity.setFinished(true);
     assertEquals(true, testEntity.hasFinished());
-  }
+  }*/
 
   @Test
   void leftCollideable(){
@@ -137,7 +137,7 @@ class EntityTest {
     assertEquals(false, testEntity.getStatusAlive());
   }
 
-  @Test
+ /* @Test
   void hasFinished() {
     testEntity.setFinished(false);
     assertEquals(false, testEntity.hasFinished());
@@ -152,7 +152,7 @@ class EntityTest {
     assertEquals(false, testEntity.hasLost());
     testEntity.setLost(true);
     assertEquals(true, testEntity.hasLost());
-  }
+  }*/
 
 
   @Test

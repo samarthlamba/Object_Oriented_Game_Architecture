@@ -3,10 +3,16 @@ package ooga.engine.games;
 import java.util.*;
 
 public class GamePropertyFileReader {
-    private final ResourceBundle gameConfigBundle;
+    private ResourceBundle gameConfigBundle;
+    private static final String DEFAULT_BUNDLE = "Default";
 
     public GamePropertyFileReader(String game, String objectName){
-        this.gameConfigBundle = ResourceBundle.getBundle(game+objectName);
+        try {
+            this.gameConfigBundle = ResourceBundle.getBundle(game + objectName);
+        }
+        catch(MissingResourceException m){
+            this.gameConfigBundle = ResourceBundle.getBundle(String.format(DEFAULT_BUNDLE,objectName));
+        }
     }
     public Collection<String> getMethods(String key){
         Collection<String> methods = getContent(key, 0);

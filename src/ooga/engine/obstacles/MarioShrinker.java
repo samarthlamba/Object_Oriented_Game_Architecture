@@ -8,7 +8,6 @@ import ooga.engine.obstacles.Obstacle;
  * Powerup in mario that shrinks mario to half size when hit
  */
 public class MarioShrinker extends Obstacle {
-  private boolean hasShrunk = false;
 
   public MarioShrinker(int obstacleWidth, int obstacleHeight, double initialX, double initialY) {
     super(obstacleWidth, obstacleHeight, initialX, initialY);
@@ -36,16 +35,5 @@ public class MarioShrinker extends Obstacle {
     scalePlayer(entity);
   }
 
-//https://stackoverflow.com/questions/24393636/the-pain-with-the-pane-in-javafx-how-can-you-scale-nodes-with-fixed-top-left-co
-  private void scalePlayer(Entity entity){
-    if(entity.getId().equals("player")){
-      if(!hasShrunk) {
-        entity.getNode().setScaleX(0.5);
-        entity.getNode().setScaleY(0.5);
-        //entity.setMaxY(entity.getScene().getHeight() / 4);
-        hasShrunk = true;
-      }
-    }
-  }
 
 }
