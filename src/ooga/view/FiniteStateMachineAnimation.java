@@ -11,7 +11,7 @@ public class FiniteStateMachineAnimation {
     private Animation jump;
     private Animation move;
     private Animation specialMove;
-    public FiniteStateMachineAnimation(Entity entity, GameBean bean){
+    public FiniteStateMachineAnimation(Entity entity, GameBean bean, State state){
         this.entity = entity;
         this.bean = bean;
         initialize();
