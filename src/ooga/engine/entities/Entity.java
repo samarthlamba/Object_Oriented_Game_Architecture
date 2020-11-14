@@ -30,6 +30,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
   protected List<Entity> connected = new ArrayList<>();
     private boolean finished = false;
     private boolean lost = false;
+    private boolean shrunk = false;
 
   public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
     this.SCENE_WIDTH = objectWidth;
@@ -121,6 +122,8 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     return previousY;
   }
 
+
+
  /* public double getX(){
       return nodeObject.getLayoutX();
   }*/
@@ -180,8 +183,6 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     }
 
 
-
-
 //TODO: Use reflection, default no collision
 
     public void leftCollideable(Entity entity) {
@@ -216,9 +217,9 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     }
 
     protected void applyY(Entity entity, String object) {
-        if (entity.getId().equals(object)){
-            entity.setYForce(-1000); //use up method once moved to player
-        }
+        entity.setJump(true);
+        entity.setVelocityY(-2600);
+        entity.setMaxY(entity.getMaxY() - 2);
     }
 
     protected void healthPenaltyOnObject(Entity entity, String object) {

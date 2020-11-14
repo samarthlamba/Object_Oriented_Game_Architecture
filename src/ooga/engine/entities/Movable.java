@@ -50,4 +50,5 @@ package ooga.engine.entities;
 
      void setHitpoints(int hitpoints);
 
+
 }
