@@ -14,6 +14,8 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
   private double initialX;
   private double initialY;
   private boolean reached;
+  private boolean left = false;
+  private boolean right = false;
 
   public Obstacle(int obstacleWidth,int obstacleHeight, double initialX, double initialY) {
     this.initialX = initialX;
@@ -57,7 +59,8 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
   public void leftCollideable(Entity entity) {
     removeWeapon(entity);
     entity.setXForce(0);
-    entity.setCenterX(getBoundsInParent().getMaxX() + entity.getEntityWidth()/2);
+    entity.setCenterX(entity.getCenterX() + 1);
+   // entity.setCenterX(getBoundsInParent().getMinX() + entity.getEntityWidth()/2);
     entity.setVelocityX(entity.getVelocityX() * NEGATIVE_DIRECTION);
   }
 
@@ -65,7 +68,8 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
   public void rightCollideable(Entity entity) {
     removeWeapon(entity);
     entity.setXForce(0);
-    entity.setCenterX(getBoundsInParent().getMinX() - entity.getEntityWidth()/2);
+    entity.setCenterX(entity.getCenterX() - 1);
+   // entity.setCenterX(getBoundsInParent().getMinX() - entity.getEntityWidth()/2);
     entity.setVelocityX(entity.getVelocityX() * NEGATIVE_DIRECTION);
   }
 

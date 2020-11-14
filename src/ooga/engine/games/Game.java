@@ -231,14 +231,14 @@ public abstract class Game implements GamePlay {
 
     public void LEFT(Movable entity) {
         entity.setPreviousX(entity.getCenterX());
-        entity.setXForce(entity.getXForce() - MOVE_FORCE);
+        entity.setXForce(-MOVE_FORCE);
         entity.setFacing(false);
     }
 
 
     public void RIGHT(Movable entity) {
         entity.setPreviousX(entity.getCenterX());
-        entity.setXForce(entity.getXForce() + MOVE_FORCE);
+        entity.setXForce(MOVE_FORCE);
         entity.setFacing(true);
     }
 
