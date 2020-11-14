@@ -2,8 +2,8 @@ package ooga.engine.games;
 
 import java.util.*;
 
-import ooga.engine.entities.Entity;
 import ooga.engine.entities.object.PlayerObstacle;
+import ooga.engine.entities.player.Player;
 import ooga.engine.games.beans.VikingsBean;
 import ooga.engine.entities.weapon.Arrow;
 import ooga.engine.entities.Movable;
@@ -21,9 +21,9 @@ public class VikingsGame extends Game{
 
 //  private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
 
-  public VikingsGame(Collection<Unmovable> obstacles,
+  public VikingsGame(Player player,Collection<Unmovable> obstacles,
                      Collection<Movable> entities, double timeElapsed, VikingsBean bean) {
-    super(obstacles, entities, timeElapsed, bean);
+    super(player,obstacles, entities, timeElapsed, bean);
     dt = timeElapsed;
     getPlayerObstacle();
   }
@@ -38,9 +38,6 @@ public class VikingsGame extends Game{
     }
   }
 
-  public boolean hasFinished(){
-    return false;
-  }
 
   @Override
   protected void updateMovable(){
@@ -91,7 +88,7 @@ public class VikingsGame extends Game{
 
   @Override
   public void playerAction() {
-    Movable entity = super.findMainPlayer();
+    Movable entity = super.getActivePlayer();
     double startY = entity.getMaxY() - entity.getEntityHeight();
     double startX = entity.getCenterX() - entity.getEntityWidth()/2;
     PlayerObstacle block = new PlayerObstacle((int) entity.getEntityWidth(), (int) entity.getEntityHeight(), startX, startY);

@@ -22,4 +22,8 @@ public interface GamePlay {
     void setDisplay(UpdateObjectsOnScreen updateObjectsOnScreen);
 
     int getPoints();
+
+    boolean isWon();
+
+    boolean isLost();
 }

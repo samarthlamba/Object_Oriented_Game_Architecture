@@ -4,15 +4,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
+import ooga.engine.entities.player.Player;
 import ooga.engine.games.beans.MarioBean;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import ooga.engine.entities.Entity;
 import ooga.engine.entities.Movable;
 import ooga.engine.entities.object.Coin;
-import ooga.engine.obstacles.Obstacle;
 import ooga.engine.obstacles.Unmovable;
-import ooga.view.GamePlayScreen;
 
 public class MarioGame extends Game {
   private boolean leftOver = false;
@@ -20,21 +19,19 @@ public class MarioGame extends Game {
   private int coinSize = 50;
   private Collection<Movable> coins = new ArrayList<>();
   private double dt;
-  private boolean hasFinished = false;
+  private double lowestPoint = 0;
 //  private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
 
 
-  public MarioGame(Collection<Unmovable> obstacleCollection, Collection<Movable> entityCollection,
+  public MarioGame(Player player,Collection<Unmovable> obstacleCollection, Collection<Movable> entityCollection,
                    double timeElapsed, MarioBean bean) {
-    super(obstacleCollection, entityCollection, timeElapsed, bean);
+    super(player,obstacleCollection, entityCollection, timeElapsed, bean);
     entities = entityCollection;
     obstacles = obstacleCollection;
     dt = timeElapsed;
+    findSceneLowestY();
   }
 
-  public boolean hasFinished(){
-    return hasFinished;
-  }
 
   private void simulateFall(Movable entity, Node object){
     Rectangle simulate = new Rectangle(entity.getNode().getBoundsInParent().getMinX(), entity.getMaxY(), 0.1, 0.1);
@@ -55,11 +52,11 @@ public class MarioGame extends Game {
     for (Movable entity : entities) {
       moveMovable(entity);
       generateCoins(entity);
-      checkIfFinished(entity);
     }
     for(Movable coin : coins){
       entities.add(coin);
     }
+    fallingDeath();
     viewable.remove(entitiesToRemove);
     entities.removeAll(entitiesToRemove);
     entitiesToRemove.clear();
@@ -68,10 +65,20 @@ public class MarioGame extends Game {
     coins.clear();
   }
 
-  private void checkIfFinished(Movable entity){
-      if (entity.hasFinished()){
-        hasFinished = true;
+  private void fallingDeath() {
+    Movable player = getActivePlayer();
+    if (player.getMaxY() > lowestPoint + 600) {
+      player.setHitpoints(0);
+    }
+  }
+
+  private void findSceneLowestY(){
+    for(Unmovable obstacle : obstacles){
+      double yPosition = obstacle.getNode().getBoundsInParent().getMaxY();
+      if(yPosition > lowestPoint){
+        lowestPoint = yPosition;
       }
+    }
   }
 
 
@@ -117,6 +124,7 @@ public class MarioGame extends Game {
       collisions(entity, findMainPlayer());
     }
   }*/
+
 
 
   @Override
