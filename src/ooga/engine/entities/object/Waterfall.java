@@ -17,6 +17,10 @@ public class Waterfall extends Entity {
     setId("waterfall");
   }
 
+  @Override
+  public boolean hasGravity(){
+    return false;
+  }
 
   public void leftCollideable(Entity entity) {
     entityDeath(entity, "arrow");

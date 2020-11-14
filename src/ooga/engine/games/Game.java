@@ -3,6 +3,7 @@ package ooga.engine.games;
 
 import javafx.scene.Node;
 
+import ooga.engine.entities.player.Player;
 import ooga.engine.games.beans.GameBean;
 
 import ooga.engine.entities.Entity;
@@ -24,6 +25,7 @@ public abstract class Game implements GamePlay {
     private final double gravity;
     private final double moveForce;
     public static final double MOVE_FORCE = 50000; //TODO change to 10
+    private final Player player;
     private int jumpMax;
     protected Collection<Unmovable> obstacles;
     protected Collection<Movable> entities;
@@ -49,21 +51,28 @@ public abstract class Game implements GamePlay {
     // check solidity aspect of obstacle by having boolean that is see through
 
 
-    public Game(Collection<Unmovable> obstacles, Collection<Movable> entities, double timeElapsed, GameBean bean) {
+    public Game(Player player,Collection<Unmovable> obstacles, Collection<Movable> entities, double timeElapsed, GameBean bean) {
         this.gravity = bean.getGravity();
         this.moveForce = bean.getMoveForce();
         this.obstacles = obstacles;
         this.entities = entities;
         this.jumpMax = bean.getJumpMax();
+        this.player = player;
         handleCollisions = new Collisions();
-        for (Movable entity : entities) {
+      /*  for (Movable entity : entities) {
             entity.setTimeElapsedY(timeElapsed);
             entity.setTimeElapsedX(timeElapsed);
-        }
+        }*/
         this.dt = timeElapsed;
     }
 
-    public abstract boolean hasFinished();
+    public boolean isWon(){
+        return player.hasWon();
+    }
+
+    public boolean isLost() {
+        return !player.getStatusAlive();
+    }
 
     public Collection<Node> getBackground() {
         Collection<Node> nodeObstacles = new ArrayList<>();
@@ -75,7 +84,6 @@ public abstract class Game implements GamePlay {
 
 
     public void updateLevel() {
-        // System.out.println("stepped123");
         updateMovable();
     }
 
@@ -101,11 +109,12 @@ public abstract class Game implements GamePlay {
     }
 
     protected void moveMovable(Movable entity) {
-        if (entity.getTimeElapsedY() < .35) {
+      /*  if (entity.getTimeElapsedY() < .35) {
             entity.setTimeElapsedY(entity.getTimeElapsedY() + entity.getTimeElapsedX());
-        }
-        if (entity.getId().equals("player")) {
-            entity.setJump(true);
+        }*/
+        if (entity.isJump()) {
+            entity.setVelocityY(entity.getVelocityY()+100);
+           // entity.setJump(true);
         }
         gravityForce(entity);
         obstacleCollision(entity);
@@ -165,12 +174,12 @@ public abstract class Game implements GamePlay {
     }
 
     private double newYPosition(Movable entity) {
-        double change = entity.getMaxY() + entity.getVelocityY() * entity.getTimeElapsedY() + entity.getYForce() * entity.getTimeElapsedY() * entity.getTimeElapsedY();
-        return entity.getMaxY() + entity.getVelocityY() * entity.getTimeElapsedY() + entity.getYForce() * entity.getTimeElapsedY() * entity.getTimeElapsedY();
+        double change = entity.getMaxY() + entity.getVelocityY() * dt + entity.getYForce() * dt* dt;
+        return entity.getMaxY() + entity.getVelocityY() * dt + entity.getYForce() * dt * dt;
     }
 
     private double newXPosition(Movable entity) {
-        return entity.getCenterX() + entity.getVelocityX() * entity.getTimeElapsedX() + entity.getXForce() * entity.getTimeElapsedX() * entity.getTimeElapsedX();
+        return entity.getCenterX() + entity.getVelocityX() * dt + entity.getXForce() * dt * dt;
     }
 
     private void updatePosition(Movable entity) {
@@ -194,48 +203,42 @@ public abstract class Game implements GamePlay {
     }
 
 
-    public Movable findMainPlayer() {
-        for (Movable entity : entities) {
-            if (entity.getId().equals("player")) {
-                return entity;
-            }
-        }
-        throw new RuntimeException("No main player found");
+    public Movable getActivePlayer() {
+        return player;
     }
 
     public void moveRight() {
-        Movable entity = findMainPlayer();
-        RIGHT(entity);
+        RIGHT(player);
     }
 
     public void moveLeft() {
-        Movable entity = findMainPlayer();
-        LEFT(entity);
+        LEFT(player);
     }
 
     public void moveUp() {
-        Movable entity = findMainPlayer();
-        UP(entity);
+        UP(player);
     }
 
 
     public void UP(Movable entity) {
-        entity.setJump(true);
-        entity.setVelocityY(jumpMax);
-        entity.setMaxY(entity.getMaxY() - 2);
+        if(!entity.isJump()) {
+            entity.setJump(true);
+            entity.setVelocityY(jumpMax);
+            entity.setMaxY(entity.getMaxY() - 2);
+        }
     }
 
 
     public void LEFT(Movable entity) {
         entity.setPreviousX(entity.getCenterX());
-        entity.setXForce(entity.getXForce() - MOVE_FORCE);
+        entity.setXForce(-MOVE_FORCE);
         entity.setFacing(false);
     }
 
 
     public void RIGHT(Movable entity) {
         entity.setPreviousX(entity.getCenterX());
-        entity.setXForce(entity.getXForce() + MOVE_FORCE);
+        entity.setXForce(MOVE_FORCE);
         entity.setFacing(true);
     }
 

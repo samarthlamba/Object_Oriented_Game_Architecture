@@ -16,12 +16,12 @@ public abstract class Player extends Entity {
   }
 
   @Override
-  public boolean hasFinished(){
+  public boolean hasWon(){
     return finished;
   }
 
   @Override
-  public void setFinished(boolean finished){
+  public void setWon(boolean finished){
     this.finished = finished;
   }
 

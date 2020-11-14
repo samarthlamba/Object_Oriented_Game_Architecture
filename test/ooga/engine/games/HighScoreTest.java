@@ -67,13 +67,14 @@ class HighScoreTest {
             assertEquals(initializedHighScore[i].getScore(), results[i].getScore());
             assertEquals(initializedHighScore[i].getTime(), results[i].getTime());
         }
-    }
 
+    }
+    File myObj2 = new File("src/resources/testerHighScore.txt");
+    Boolean x2 = myObj2.delete();
     @Test
     void checkAddHighScore() throws IOException {
-        File myObj = new File("testerHighScore1.txt");
-        if (myObj.delete()) {
-
+        File myObj = new File("src/resources/testerHighScore1.txt");
+        Boolean x = myObj.delete();
             HighScore test = new HighScore("testerHighScore1");
             int[] scores = new int[]{5, 10, 20, 20, 30};
 
@@ -89,8 +90,8 @@ class HighScoreTest {
                 assertTrue(System.currentTimeMillis() >= results[i].getTime());
             }
 
-        }
     }
+
 
     @Test
     void checkAddHighScoreDepreicatedTime() {

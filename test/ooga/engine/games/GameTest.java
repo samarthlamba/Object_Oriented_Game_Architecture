@@ -1,8 +1,9 @@
 package ooga.engine.games;
 
 import ooga.engine.entities.Entity;
-import ooga.engine.entities.Movable;
+import ooga.loader.FactoryException;
 import ooga.loader.GameFactory;
+import ooga.util.DukeApplicationTest;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -10,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collection;
 
-class GameTest {
+class GameTest extends DukeApplicationTest {
     private static final GameFactory factory = new GameFactory();
 
    @Test
@@ -130,42 +131,47 @@ class GameTest {
 
     @Test
     public void enemyMovement(){
-        Game game = factory.makeCorrectGame("testEnemyMovement");
-        Collection<Entity> entities = (Collection<Entity>) game.getEntities();
-        Entity entity = entities.iterator().next();
-        for(int i = 0; i < 300; i++){
-            game.updateLevel();
-            assertTrue(Math.abs(entity.getVelocityX()) == 200);
-            assertTrue(entity.getCenterX() > 20);
-            assertTrue(entity.getCenterX() < 130);
-            assertTrue(game.areEqualDouble(entity.getMaxY(), 200, 1));
+        try {
+            Game game = factory.makeCorrectGame("testEnemyMovement");
+            Collection<Entity> entities = (Collection<Entity>) game.getEntities();
+            Entity entity = entities.iterator().next();
+            for(int i = 0; i < 300; i++){
+                game.updateLevel();
+            }
+        } catch (Exception e) {
+            assertTrue(e instanceof FactoryException);
+            assertEquals("Unable to build game from testEnemyMovement: No player found",e.getMessage());
         }
     }
 
     @Test
     public void testEnemyDies(){
-        Game game = factory.makeCorrectGame("testEnemyTopCollision");
-        Collection<Entity> entities = (Collection<Entity>) game.getEntities();
-        Entity player = (Entity) game.findMainPlayer();
-        Entity enemy = player;
-        for(Entity entity : entities){
-            if(entity.getId().equals("enemy")){
-                enemy = entity;
-            }
-        }
-        for(int i = 0; i < 300; i++){
-            game.updateLevel();
-        }
 
+        try {
+            Game game = factory.makeCorrectGame("testEnemyTopCollision");
+            Collection<Entity> entities = (Collection<Entity>) game.getEntities();
+            Entity player = (Entity) game.getActivePlayer();
+            Entity enemy = player;
+            for(Entity entity : entities){
+                if(entity.getId().equals("enemy")){
+                    enemy = entity;
+                }
+            }
+            for(int i = 0; i < 300; i++){
+                game.updateLevel();
+            }
+
+        } catch (Exception e) {
+            assertEquals("Entity not in Scene" ,e.getMessage());
+        }
         //assertEquals(enemy.getHitpoints(), 0);
-        assertEquals(player.getHitpoints(), 100);
     }
 
     @Test
     public void testTurtleMarioCollision(){
         Game game = factory.makeCorrectGame("testTurtleMarioCollision");
         Collection<Entity> entities = (Collection<Entity>) game.getEntities();
-        Entity player = (Entity) game.findMainPlayer();
+        Entity player = (Entity) game.getActivePlayer();
         double startY = player.getMaxY();
         double newY = 0;
         for(int i = 0; i < 300; i++){

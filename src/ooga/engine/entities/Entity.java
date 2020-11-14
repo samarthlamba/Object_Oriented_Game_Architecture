@@ -28,8 +28,9 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
   private boolean facing = true;
   private boolean jump = false;
   protected List<Entity> connected = new ArrayList<>();
-    private boolean finished = false;
-    private boolean lost = false;
+  private boolean finished = false;
+  private boolean lost = false;
+  private boolean shrunk = false;
 
   public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
     this.SCENE_WIDTH = objectWidth;
@@ -43,6 +44,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     setHeight(objectHeight);
     this.setCenterX(initialX + objectWidth / 2);
     this.setMaxY(initialY + objectHeight);
+   // currentState = new EntityAction(EntityState.RIGHT);
   }
 
   public Node getNode() {
@@ -53,23 +55,14 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
       return this.status_Alive;
   }
 
-  public boolean hasFinished(){
+  public boolean hasWon(){
       return false;
   }
 
-  public void setFinished(boolean finished){
+  public void setWon(boolean finished){
       this.finished = finished;
   }
 
-  public boolean hasLost(){
-      return this.lost;
-  }
-
-  public void setLost(boolean lost){
-        this.lost = lost;
-  }
-
-  //public abstract int getID();
 
   public double getVelocityX(){
     return speed;
@@ -129,6 +122,8 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     return previousY;
   }
 
+
+
  /* public double getX(){
       return nodeObject.getLayoutX();
   }*/
@@ -166,27 +161,13 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
       return yForce;
   }
 
-    public double getTimeElapsedX() {
-        return timeElapsedX;
-    }
-
-    public double getTimeElapsedY(){
-      return timeElapsedY;
-    }
-
-    public void setTimeElapsedY(double time){
-      timeElapsedY = time;
-    }
-
-    public void setTimeElapsedX(double time){
-        timeElapsedX = time;
-    }
 
     public boolean hasGravity(){
       return true;
     }
 
     public boolean getFacing(){
+
       return facing;
     }
 
@@ -203,11 +184,10 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     }
 
 
-
-
 //TODO: Use reflection, default no collision
 
     public void leftCollideable(Entity entity) {
+      //entity.getClass(); use and get name to figure out which properties file to use
       //TODO: action reflection of below methods
         // find left key in properties file
         //Values can be parsed to get method name, and String id parameter
@@ -239,9 +219,9 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     }
 
     protected void applyY(Entity entity, String object) {
-        if (entity.getId().equals(object)){
-            entity.setYForce(-1000); //use up method once moved to player
-        }
+        entity.setJump(true);
+        entity.setVelocityY(-2600);
+        entity.setMaxY(entity.getMaxY() - 2);
     }
 
     protected void healthPenaltyOnObject(Entity entity, String object) {
@@ -277,7 +257,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
         if (entity.getId().equals(object)) {
             entity.setMaxY(getBoundsInParent().getMinY());
             entity.setYForce(entity.getYForce() + NEGATIVE_DIRECTION * GRAVITY);
-            entity.setTimeElapsedY(entity.getTimeElapsedX());
+           // entity.setTimeElapsedY(entity.getTimeElapsedX());
             entity.setVelocityY(0);
             entity.setJump(false);
         }
