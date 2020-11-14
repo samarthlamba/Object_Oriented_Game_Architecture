@@ -149,7 +149,7 @@ public abstract class Game implements GamePlay {
 
     }
 
-    public void obstacleCollision(Movable entity) {
+    private void obstacleCollision(Movable entity) {
         for (Unmovable obstacle : obstacles) {
             Collideable object = obstacle.getCollideable();
             collisions(entity, object);
@@ -159,7 +159,7 @@ public abstract class Game implements GamePlay {
         }*/
     }
 
-    public void entityCollision(Movable entity){
+    private void entityCollision(Movable entity){
         for(Movable e : entities){
             if(entity != e){
                 collisions(entity, (Collideable) e);
@@ -196,7 +196,7 @@ public abstract class Game implements GamePlay {
         }
     }
 
-    public void collisions(Movable entity, Collideable object) {
+    protected void collisions(Movable entity, Collideable object) {
         if (object.getNode().getBoundsInParent().intersects(entity.getNode().getBoundsInParent())) {
             handleCollisions.collisions((Entity) entity, object);
         }
@@ -246,7 +246,7 @@ public abstract class Game implements GamePlay {
 
 
     //https://stackoverflow.com/questions/356807/java-double-comparison-epsilon
-    public boolean areEqualDouble(double a, double b, int precision) {
+    protected boolean areEqualDouble(double a, double b, int precision) {
         return Math.abs(a - b) <= Math.pow(10, -precision);
     }
 

@@ -262,8 +262,4 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
             entity.setJump(false);
         }
     }
-
-
-
-    //add id.
 }
