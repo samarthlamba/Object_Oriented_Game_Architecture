@@ -28,9 +28,9 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
   private boolean facing = true;
   private boolean jump = false;
   protected List<Entity> connected = new ArrayList<>();
-    private boolean finished = false;
-    private boolean lost = false;
-    private boolean shrunk = false;
+  private boolean finished = false;
+  private boolean lost = false;
+  private boolean shrunk = false;
 
   public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
     this.SCENE_WIDTH = objectWidth;
@@ -44,6 +44,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     setHeight(objectHeight);
     this.setCenterX(initialX + objectWidth / 2);
     this.setMaxY(initialY + objectHeight);
+   // currentState = new EntityAction(EntityState.RIGHT);
   }
 
   public Node getNode() {
@@ -62,7 +63,6 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
       this.finished = finished;
   }
 
-  //public abstract int getID();
 
   public double getVelocityX(){
     return speed;
@@ -167,6 +167,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     }
 
     public boolean getFacing(){
+
       return facing;
     }
 
@@ -186,6 +187,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
 //TODO: Use reflection, default no collision
 
     public void leftCollideable(Entity entity) {
+      //entity.getClass(); use and get name to figure out which properties file to use
       //TODO: action reflection of below methods
         // find left key in properties file
         //Values can be parsed to get method name, and String id parameter
