@@ -114,7 +114,6 @@ public abstract class Game implements GamePlay {
         }*/
         if (entity.getId().equals("player") && entity.isJump()) {
             entity.setVelocityY(entity.getVelocityY()+100);
-            System.out.println(entity.getVelocityY());
            // entity.setJump(true);
         }
         gravityForce(entity);
