@@ -52,6 +52,10 @@ public class MarioGame extends Game {
     for (Movable entity : entities) {
       moveMovable(entity);
       generateCoins(entity);
+      if (entity.getId() == "player") {
+        System.out.println(entity.getNode().getBoundsInParent());
+
+      }
     }
     for(Movable coin : coins){
       entities.add(coin);
