@@ -4,15 +4,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
+import ooga.engine.entities.player.Player;
 import ooga.engine.games.beans.MarioBean;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import ooga.engine.entities.Entity;
 import ooga.engine.entities.Movable;
 import ooga.engine.entities.object.Coin;
-import ooga.engine.obstacles.Obstacle;
 import ooga.engine.obstacles.Unmovable;
-import ooga.view.GamePlayScreen;
 
 public class MarioGame extends Game {
   private boolean leftOver = false;
@@ -24,9 +23,9 @@ public class MarioGame extends Game {
 //  private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
 
 
-  public MarioGame(Collection<Unmovable> obstacleCollection, Collection<Movable> entityCollection,
+  public MarioGame(Player player,Collection<Unmovable> obstacleCollection, Collection<Movable> entityCollection,
                    double timeElapsed, MarioBean bean) {
-    super(obstacleCollection, entityCollection, timeElapsed, bean);
+    super(player,obstacleCollection, entityCollection, timeElapsed, bean);
     entities = entityCollection;
     obstacles = obstacleCollection;
     dt = timeElapsed;
@@ -66,9 +65,9 @@ public class MarioGame extends Game {
     coins.clear();
   }
 
-  private void fallingDeath(){
-    Movable player = findMainPlayer();
-    if(player.getMaxY() > lowestPoint + 600){
+  private void fallingDeath() {
+    Movable player = getActivePlayer();
+    if (player.getMaxY() > lowestPoint + 600) {
       player.setHitpoints(0);
     }
   }
@@ -167,6 +166,7 @@ public class MarioGame extends Game {
   @Override
   public void setPoints(Movable entity){
     if(entity.getId().equals("coin")){
+      System.out.println(totalPoints);
       totalPoints++;
     }
   }

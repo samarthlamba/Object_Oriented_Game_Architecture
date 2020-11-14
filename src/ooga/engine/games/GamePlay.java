@@ -23,7 +23,7 @@ public interface GamePlay {
 
     int getPoints();
 
-    boolean hasFinished();
+    boolean isWon();
 
-    boolean hasLost();
+    boolean isLost();
 }

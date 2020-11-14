@@ -13,13 +13,13 @@ public class MetroidTest extends DukeApplicationTest {
   @Test
   public void testHasFinishedFalseIfEnemiesPresent() {
     Game metroid1 = gameFactory.makeCorrectGame("MetroidLevel1");
-    assertFalse(metroid1.hasFinished());
+    assertFalse(metroid1.isWon());
   }
 
   @Test
   public void testHasFinishedTrueIfNoEnemies() {
     Game noEnemies = gameFactory.makeCorrectGame("testNoEnemies");
-    assertTrue(noEnemies.hasFinished());
+    assertTrue(noEnemies.isWon());
   }
 
 }

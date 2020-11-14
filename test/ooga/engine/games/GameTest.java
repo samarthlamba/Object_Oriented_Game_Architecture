@@ -1,7 +1,6 @@
 package ooga.engine.games;
 
 import ooga.engine.entities.Entity;
-import ooga.engine.entities.Movable;
 import ooga.loader.GameFactory;
 import ooga.util.DukeApplicationTest;
 import org.junit.jupiter.api.Test;
@@ -147,7 +146,7 @@ class GameTest extends DukeApplicationTest {
     public void testEnemyDies(){
         Game game = factory.makeCorrectGame("testEnemyTopCollision");
         Collection<Entity> entities = (Collection<Entity>) game.getEntities();
-        Entity player = (Entity) game.findMainPlayer();
+        Entity player = (Entity) game.getActivePlayer();
         Entity enemy = player;
         for(Entity entity : entities){
             if(entity.getId().equals("enemy")){
@@ -166,7 +165,7 @@ class GameTest extends DukeApplicationTest {
     public void testTurtleMarioCollision(){
         Game game = factory.makeCorrectGame("testTurtleMarioCollision");
         Collection<Entity> entities = (Collection<Entity>) game.getEntities();
-        Entity player = (Entity) game.findMainPlayer();
+        Entity player = (Entity) game.getActivePlayer();
         double startY = player.getMaxY();
         double newY = 0;
         for(int i = 0; i < 300; i++){

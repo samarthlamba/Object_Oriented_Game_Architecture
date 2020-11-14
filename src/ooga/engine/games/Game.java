@@ -3,6 +3,7 @@ package ooga.engine.games;
 
 import javafx.scene.Node;
 
+import ooga.engine.entities.player.Player;
 import ooga.engine.games.beans.GameBean;
 
 import ooga.engine.entities.Entity;
@@ -24,6 +25,7 @@ public abstract class Game implements GamePlay {
     private final double gravity;
     private final double moveForce;
     public static final double MOVE_FORCE = 50000; //TODO change to 10
+    private final Player player;
     private int jumpMax;
     protected Collection<Unmovable> obstacles;
     protected Collection<Movable> entities;
@@ -49,12 +51,13 @@ public abstract class Game implements GamePlay {
     // check solidity aspect of obstacle by having boolean that is see through
 
 
-    public Game(Collection<Unmovable> obstacles, Collection<Movable> entities, double timeElapsed, GameBean bean) {
+    public Game(Player player,Collection<Unmovable> obstacles, Collection<Movable> entities, double timeElapsed, GameBean bean) {
         this.gravity = bean.getGravity();
         this.moveForce = bean.getMoveForce();
         this.obstacles = obstacles;
         this.entities = entities;
         this.jumpMax = bean.getJumpMax();
+        this.player = player;
         handleCollisions = new Collisions();
         for (Movable entity : entities) {
             entity.setTimeElapsedY(timeElapsed);
@@ -63,15 +66,12 @@ public abstract class Game implements GamePlay {
         this.dt = timeElapsed;
     }
 
-    public boolean hasFinished(){
-        Movable player = findMainPlayer();
+    public boolean isWon(){
         return player.hasWon();
     }
 
-    public boolean hasLost() {
-        Movable player = findMainPlayer();
-        System.out.println(player.getStatusAlive());
-        return player.getStatusAlive();
+    public boolean isLost() {
+        return !player.getStatusAlive();
     }
 
     public Collection<Node> getBackground() {
@@ -84,7 +84,6 @@ public abstract class Game implements GamePlay {
 
 
     public void updateLevel() {
-        // System.out.println("stepped123");
         updateMovable();
     }
 
@@ -203,28 +202,20 @@ public abstract class Game implements GamePlay {
     }
 
 
-    public Movable findMainPlayer() {
-        for (Movable entity : entities) {
-            if (entity.getId().equals("player")) {
-                return entity;
-            }
-        }
-        throw new RuntimeException("No main player found");
+    public Movable getActivePlayer() {
+        return player;
     }
 
     public void moveRight() {
-        Movable entity = findMainPlayer();
-        RIGHT(entity);
+        RIGHT(player);
     }
 
     public void moveLeft() {
-        Movable entity = findMainPlayer();
-        LEFT(entity);
+        LEFT(player);
     }
 
     public void moveUp() {
-        Movable entity = findMainPlayer();
-        UP(entity);
+        UP(player);
     }
 
 

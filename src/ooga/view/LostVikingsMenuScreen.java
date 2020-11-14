@@ -10,7 +10,7 @@ public class LostVikingsMenuScreen extends GameMenuScreen{
 
   public LostVikingsMenuScreen(Consumer e) {
     super(e);
-    Media media = new Media(new File("src\\resources\\lostVikingSong.mp3").toURI().toString());
+    Media media = new Media(new File("src/resources/lostVikingSong.mp3").toURI().toString());
     MediaPlayer mediaPlayer = new MediaPlayer(media);
     mediaPlayer.setAutoPlay(true);
   }
