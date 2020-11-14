@@ -43,7 +43,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     setWidth(objectWidth);
     setHeight(objectHeight);
     this.setCenterX(initialX + objectWidth / 2);
-    this.setMaxY(initialY + objectHeight);
+    this.setMaxY(nodeObject.getBoundsInParent().getMaxY());
   }
 
   public Node getNode() {

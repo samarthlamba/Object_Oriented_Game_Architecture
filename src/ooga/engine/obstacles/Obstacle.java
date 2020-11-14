@@ -93,6 +93,10 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
 
     if(entity.getId() == "player") {
       System.out.println("bottom");
+      System.out.println(getBoundsInParent().getMinY());
+      System.out.println(entity.getMaxY());
+      System.out.println(entity.getNode().getBoundsInParent().getMaxY());
+
     }
   }
 
