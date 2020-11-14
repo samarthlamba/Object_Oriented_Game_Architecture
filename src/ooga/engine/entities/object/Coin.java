@@ -21,26 +21,22 @@ public class Coin extends Entity {
   @Override
   public void leftCollideable(Entity entity) {
     thisDeath(entity, "player");
-    entity.setHitpoints(0);
   }
 
 
   @Override
   public void rightCollideable(Entity entity) {
     thisDeath(entity, "player");
-    entity.setHitpoints(0);
   }
 
   @Override
   public void bottomCollideable(Entity entity) {
     thisDeath(entity, "player");
-    entity.setHitpoints(0);
   }
 
   @Override
   public void topCollideable(Entity entity) {
     thisDeath(entity, "player");
-    entity.setHitpoints(0);
   }
 
   }
