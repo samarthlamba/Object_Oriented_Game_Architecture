@@ -100,7 +100,7 @@ public class MarioGame extends Game {
     Random randDirection = new Random(seed);
     Random randYVelocity = new Random(seed);
     double xVelocity = randXVelocity.nextInt(300);
-    double yVelocity = randYVelocity.nextInt(100);
+    double yVelocity = randYVelocity.nextInt(2500);
     double direction = randDirection.nextInt(3);
     if(direction == 1){
       xVelocity *= NEGATIVE_DIRECTION;
@@ -108,7 +108,8 @@ public class MarioGame extends Game {
    // coin.setTimeElapsedY(dt);
     //coin.setTimeElapsedX(dt);
     coin.setVelocityX(xVelocity + 200);
-    coin.setVelocityY(-(yVelocity + 100));
+    coin.setVelocityY(-(yVelocity + 400));
+    coin.setJump(true);
     coins.add(coin);
     entitiesToAdd.add(coin);
 //    tempGamePlayScreen.spawn(entitiesToAdd);

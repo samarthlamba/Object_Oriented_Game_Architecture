@@ -112,7 +112,7 @@ public abstract class Game implements GamePlay {
       /*  if (entity.getTimeElapsedY() < .35) {
             entity.setTimeElapsedY(entity.getTimeElapsedY() + entity.getTimeElapsedX());
         }*/
-        if (entity.getId().equals("player") && entity.isJump()) {
+        if (entity.isJump()) {
             entity.setVelocityY(entity.getVelocityY()+100);
            // entity.setJump(true);
         }
