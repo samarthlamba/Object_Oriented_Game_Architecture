@@ -112,7 +112,7 @@ public abstract class Game implements GamePlay {
       /*  if (entity.getTimeElapsedY() < .35) {
             entity.setTimeElapsedY(entity.getTimeElapsedY() + entity.getTimeElapsedX());
         }*/
-        if (entity.getId().equals("player") && entity.isJump()) {
+        if (entity.isJump()) {
             entity.setVelocityY(entity.getVelocityY()+100);
            // entity.setJump(true);
         }
@@ -231,14 +231,14 @@ public abstract class Game implements GamePlay {
 
     public void LEFT(Movable entity) {
         entity.setPreviousX(entity.getCenterX());
-        entity.setXForce(entity.getXForce() - MOVE_FORCE);
+        entity.setXForce(-MOVE_FORCE);
         entity.setFacing(false);
     }
 
 
     public void RIGHT(Movable entity) {
         entity.setPreviousX(entity.getCenterX());
-        entity.setXForce(entity.getXForce() + MOVE_FORCE);
+        entity.setXForce(MOVE_FORCE);
         entity.setFacing(true);
     }
 
