@@ -158,21 +158,6 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
       return yForce;
   }
 
-    public double getTimeElapsedX() {
-        return timeElapsedX;
-    }
-
-    public double getTimeElapsedY(){
-      return timeElapsedY;
-    }
-
-    public void setTimeElapsedY(double time){
-      timeElapsedY = time;
-    }
-
-    public void setTimeElapsedX(double time){
-        timeElapsedX = time;
-    }
 
     public boolean hasGravity(){
       return true;
@@ -269,7 +254,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
         if (entity.getId().equals(object)) {
             entity.setMaxY(getBoundsInParent().getMinY());
             entity.setYForce(entity.getYForce() + NEGATIVE_DIRECTION * GRAVITY);
-            entity.setTimeElapsedY(entity.getTimeElapsedX());
+           // entity.setTimeElapsedY(entity.getTimeElapsedX());
             entity.setVelocityY(0);
             entity.setJump(false);
         }

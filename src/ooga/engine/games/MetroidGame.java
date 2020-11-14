@@ -46,7 +46,7 @@ public class MetroidGame extends Game{
       }
       Bullet bullet = new Bullet(BULLET_WIDTH, BULLET_HEIGHT, bulletStartX, bulletStartY);
       bullet.setVelocityX(bulletVelocity);
-      bullet.setTimeElapsedX(dt);
+     // bullet.setTimeElapsedX(dt);
       entities.add(bullet);
       entitiesToAdd.add(bullet);
 //      tempGamePlayScreen.spawn(bullet);

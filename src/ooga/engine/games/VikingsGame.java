@@ -76,7 +76,7 @@ public class VikingsGame extends Game{
     Arrow arrow = new Arrow(ARROW_WIDTH, ARROW_HEIGHT, arrowStartX, arrowStartY);
     //arrow.setVelocityX(arrowVelocity);
     arrow.setVelocityX(xVelocity);
-    arrow.setTimeElapsedX(dt);
+    //arrow.setTimeElapsedX(dt);
     Random rand = new Random();
     double arrowFrequency = rand.nextInt(10);
     if(arrowFrequency == 1) {

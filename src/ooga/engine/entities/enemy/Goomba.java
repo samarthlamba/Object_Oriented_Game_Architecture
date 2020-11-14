@@ -14,6 +14,12 @@ public class Goomba extends Enemy {
 
 
     @Override
+    public void topCollideable(Entity entity) {
+        thisDeath(entity, "player");
+    }
+
+
+    @Override
     public void leftCollideable(Entity entity) {
         healthPenaltyOnObject(entity, "player");
         thisDeath(entity, "player");
@@ -31,11 +37,6 @@ public class Goomba extends Enemy {
         thisDeath(entity, "player");
     }
 
-
-    @Override
-    public void topCollideable(Entity entity) {
-        thisDeath(entity, "player");
-    }
 
 
 

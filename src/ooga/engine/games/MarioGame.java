@@ -105,8 +105,8 @@ public class MarioGame extends Game {
     if(direction == 1){
       xVelocity *= NEGATIVE_DIRECTION;
     }
-    coin.setTimeElapsedY(dt);
-    coin.setTimeElapsedX(dt);
+   // coin.setTimeElapsedY(dt);
+    //coin.setTimeElapsedX(dt);
     coin.setVelocityX(xVelocity + 200);
     coin.setVelocityY(-(yVelocity + 100));
     coins.add(coin);

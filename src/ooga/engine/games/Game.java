@@ -59,10 +59,10 @@ public abstract class Game implements GamePlay {
         this.jumpMax = bean.getJumpMax();
         this.player = player;
         handleCollisions = new Collisions();
-        for (Movable entity : entities) {
+      /*  for (Movable entity : entities) {
             entity.setTimeElapsedY(timeElapsed);
             entity.setTimeElapsedX(timeElapsed);
-        }
+        }*/
         this.dt = timeElapsed;
     }
 
@@ -109,11 +109,13 @@ public abstract class Game implements GamePlay {
     }
 
     protected void moveMovable(Movable entity) {
-        if (entity.getTimeElapsedY() < .35) {
+      /*  if (entity.getTimeElapsedY() < .35) {
             entity.setTimeElapsedY(entity.getTimeElapsedY() + entity.getTimeElapsedX());
-        }
-        if (entity.getId().equals("player")) {
-            entity.setJump(true);
+        }*/
+        if (entity.getId().equals("player") && entity.isJump()) {
+            entity.setVelocityY(entity.getVelocityY()+100);
+            System.out.println(entity.getVelocityY());
+           // entity.setJump(true);
         }
         gravityForce(entity);
         obstacleCollision(entity);
@@ -173,12 +175,12 @@ public abstract class Game implements GamePlay {
     }
 
     private double newYPosition(Movable entity) {
-        double change = entity.getMaxY() + entity.getVelocityY() * entity.getTimeElapsedY() + entity.getYForce() * entity.getTimeElapsedY() * entity.getTimeElapsedY();
-        return entity.getMaxY() + entity.getVelocityY() * entity.getTimeElapsedY() + entity.getYForce() * entity.getTimeElapsedY() * entity.getTimeElapsedY();
+        double change = entity.getMaxY() + entity.getVelocityY() * dt + entity.getYForce() * dt* dt;
+        return entity.getMaxY() + entity.getVelocityY() * dt + entity.getYForce() * dt * dt;
     }
 
     private double newXPosition(Movable entity) {
-        return entity.getCenterX() + entity.getVelocityX() * entity.getTimeElapsedX() + entity.getXForce() * entity.getTimeElapsedX() * entity.getTimeElapsedX();
+        return entity.getCenterX() + entity.getVelocityX() * dt + entity.getXForce() * dt * dt;
     }
 
     private void updatePosition(Movable entity) {
@@ -220,9 +222,11 @@ public abstract class Game implements GamePlay {
 
 
     public void UP(Movable entity) {
-        entity.setJump(true);
-        entity.setVelocityY(jumpMax);
-        entity.setMaxY(entity.getMaxY() - 2);
+        if(!entity.isJump()) {
+            entity.setJump(true);
+            entity.setVelocityY(jumpMax);
+            entity.setMaxY(entity.getMaxY() - 2);
+        }
     }
 
 
