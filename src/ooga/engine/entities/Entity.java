@@ -254,9 +254,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     protected void healthPenaltyOnObject(Entity entity, String object) {
 
         if (entity.getId().equals(object)) {
-            System.out.println(entity.getHitpoints());
             entity.setHitpoints(entity.getHitpoints() + HEALTH_PENALTY);
-            System.out.println(entity.getHitpoints());
         }
     }
 
