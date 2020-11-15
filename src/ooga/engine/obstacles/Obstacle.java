@@ -92,7 +92,6 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
         x.invoke(this, entity);
       }
         catch (Exception e) {
-          e.printStackTrace();
           return;
         }
     }
