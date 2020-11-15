@@ -80,6 +80,8 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
     //entity.setYForce(GRAVITY);
     entity.setVelocityY(0);
     //entity.setJump(false);
+
+
   }
 
   public void topCollideable(Entity entity) {
@@ -88,6 +90,7 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
     entity.setYForce(entity.getYForce() + NEGATIVE_DIRECTION * gravity);
     entity.setVelocityY(0);
     entity.setJump(false);
+
   }
 
   private void removeWeapon(Entity entity){

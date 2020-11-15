@@ -167,7 +167,6 @@ public class MarioGame extends Game {
   @Override
   public void setPoints(Movable entity){
     if(entity.getId().equals("coin")){
-      System.out.println(totalPoints);
       totalPoints++;
     }
   }
