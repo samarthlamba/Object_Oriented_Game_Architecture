@@ -12,7 +12,7 @@ import java.util.List;
 
 public abstract class Entity extends Rectangle implements Collideable, Movable {
     private static final double NEGATIVE_DIRECTION = -1;
-    private static final double GRAVITY = 800 ;
+    private static final double GRAVITY = 59900;
     private final int SCENE_WIDTH;
     private final int SCENE_HEIGHT;
     public static final int HEALTH_PENALTY = -1;
@@ -262,7 +262,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     protected void leftObstacle(Entity entity, String object){
         if (entity.getId().equals(object)) {
             entity.setXForce(0);
-            entity.setCenterX(getBoundsInParent().getMaxX() + entity.getEntityWidth() / 2);
+            entity.setCenterX(entity.getCenterX() + 1);
             entity.setVelocityX(entity.getVelocityX() * NEGATIVE_DIRECTION);
         }
     }
@@ -270,7 +270,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     protected void rightObstacle(Entity entity, String object){
         if (entity.getId().equals(object)) {
             entity.setXForce(0);
-            entity.setCenterX(getBoundsInParent().getMinX() - entity.getEntityWidth() / 2);
+            entity.setCenterX(entity.getCenterX() - 1);
             entity.setVelocityX(entity.getVelocityX() * NEGATIVE_DIRECTION);
         }
     }
@@ -285,7 +285,6 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
         if (entity.getId().equals(object)) {
             entity.setMaxY(getBoundsInParent().getMinY());
             entity.setYForce(entity.getYForce() + NEGATIVE_DIRECTION * GRAVITY);
-            // entity.setTimeElapsedY(entity.getTimeElapsedX());
             entity.setVelocityY(0);
             entity.setJump(false);
         }
