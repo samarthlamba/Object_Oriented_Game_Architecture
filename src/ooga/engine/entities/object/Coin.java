@@ -6,6 +6,7 @@ import ooga.engine.games.GamePropertyFileReader;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * Gives mario coin when hit
@@ -25,13 +26,21 @@ public class Coin extends Entity {
 
     @Override
     public void leftCollideable(Entity entity) {
-        GamePropertyFileReader reader = new GamePropertyFileReader("Coin");
-        Collection<String> methods = reader.getMethods("left");
-        for (String k : methods) {
+       invokeMethod(entity, "Coin", "left");
+    }
+
+    private void invokeMethod(Entity entity, String objectName, String collisionName){
+        GamePropertyFileReader reader = new GamePropertyFileReader(objectName);
+        Iterator<String> methods = reader.getMethods(collisionName).iterator();
+        Iterator<String> parameter = reader.getParameters(collisionName).iterator();
+        String s = "player";
+        while (methods.hasNext()&& parameter.hasNext()) {
             try {
-                Method x = this.getClass().getSuperclass().getDeclaredMethod(k, Entity.class, String.class);
+                System.out.println(parameter.next());
+                Method x = this.getClass().getSuperclass().getDeclaredMethod(methods.next(), Entity.class, String.class);
                 x.setAccessible(true);
-                x.invoke(this, entity, "player");
+                x.invoke(this, entity, s);
+                System.out.println(parameter.next());
             } catch (Exception e) {
                 throw new MethodNotFound("Could not find reflected method from property file");
             }
@@ -41,48 +50,20 @@ public class Coin extends Entity {
 
     @Override
     public void rightCollideable(Entity entity) {
-        GamePropertyFileReader reader = new GamePropertyFileReader("Coin");
-        Collection<String> methods = reader.getMethods("right");
-        for (String k : methods) {
-            try {
-                Method x = this.getClass().getSuperclass().getDeclaredMethod(k, Entity.class, String.class);
-                x.setAccessible(true);
-                x.invoke(this, entity, "player");
-            } catch (Exception e) {
-                throw new MethodNotFound("Could not find reflected method from property file");
-            }
-        }
+
+        invokeMethod(entity, "Coin", "right");
     }
 
     @Override
     public void bottomCollideable(Entity entity) {
-        GamePropertyFileReader reader = new GamePropertyFileReader("Coin");
-        Collection<String> methods = reader.getMethods("bottom");
-        for (String k : methods) {
-            try {
-                Method x = this.getClass().getSuperclass().getDeclaredMethod(k, Entity.class, String.class);
-                x.setAccessible(true);
-                x.invoke(this, entity, "player");
-            } catch (Exception e) {
-                throw new MethodNotFound("Could not find reflected method from property file");
-            }
-        }
+
+        invokeMethod(entity, "Coin", "right");
     }
 
     @Override
     public void topCollideable(Entity entity) {
-        GamePropertyFileReader reader = new GamePropertyFileReader("Coin");
-        Collection<String> methods = reader.getMethods("top");
-        Collection<String> parameters = reader.getParameters("top");
-        for (String k : methods) {
-            try {
-                Method x = this.getClass().getSuperclass().getDeclaredMethod(k, Entity.class, String.class);
-                x.setAccessible(true);
-                x.invoke(this, entity, "player");
-            } catch (Exception e) {
-                throw new MethodNotFound("Could not find reflected method from property file");
-            }
-        }
+
+        invokeMethod(entity, "Coin", "right");
     }
 
 }
