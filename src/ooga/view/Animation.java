@@ -32,7 +32,7 @@ public class Animation extends Transition { //fsm backend if seperation    //loo
     }
 
     public void swapDirection(){
-        image.setScaleX(-1);
+        image.setScaleX(-1*image.getScaleX());
     }
 
     @Override
