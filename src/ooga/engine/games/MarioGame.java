@@ -94,7 +94,7 @@ public class MarioGame extends Game {
 
   private void randomCoin(Movable entity, int seed){
     double initialX = entity.getCenterX();
-    double initialY = entity.getMaxY() - 2 * entity.getEntityHeight();
+    double initialY = entity.getMaxY() - 3 * entity.getEntityHeight();
     Coin coin = new Coin(coinSize, coinSize, initialX, initialY);
     Random randXVelocity = new Random(seed);
     Random randDirection = new Random(seed);

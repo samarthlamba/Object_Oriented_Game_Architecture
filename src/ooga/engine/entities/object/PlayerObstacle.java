@@ -19,6 +19,4 @@ public class PlayerObstacle extends Entity {
         this.initialY = initialY;
     }
 
-
-
 }

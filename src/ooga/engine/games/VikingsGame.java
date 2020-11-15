@@ -2,6 +2,7 @@ package ooga.engine.games;
 
 import java.util.*;
 
+import ooga.engine.entities.MovableBounds;
 import ooga.engine.entities.object.PlayerObstacle;
 import ooga.engine.entities.player.Player;
 import ooga.engine.games.beans.VikingsBean;
@@ -18,6 +19,8 @@ public class VikingsGame extends Game{
   private Collection<Movable> arrows = new ArrayList<>();
   private List<Movable> playerOrder = new ArrayList<>();
   private double dt;
+  private Collection<Movable> waterfallOrder = new ArrayList<>();
+  private Collection<Movable> removedWaterfall = new ArrayList<>();
 
 //  private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
 
@@ -37,6 +40,7 @@ public class VikingsGame extends Game{
       }
     }
   }
+
 
 
   @Override
@@ -78,7 +82,7 @@ public class VikingsGame extends Game{
     arrow.setVelocityX(xVelocity);
     //arrow.setTimeElapsedX(dt);
     Random rand = new Random();
-    double arrowFrequency = rand.nextInt(10);
+    double arrowFrequency = rand.nextInt(15);
     if(arrowFrequency == 1) {
       arrows.add(arrow);
       entitiesToAdd.add(arrow);
