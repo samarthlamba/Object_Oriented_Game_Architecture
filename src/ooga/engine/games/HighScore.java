@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class HighScore{
-    private String fileName;
+    private final String fileName;
     private static final int NUMBER_OF_RECORDS = 5;
     private static final long TIME_WEEK_AGO = 1000*60*60*24*7;
     private static final String EXTENSION = ".txt";
@@ -83,10 +83,7 @@ public class HighScore{
     }
 
     private boolean deprecatedTimes(HighScoreObject current){
-        if(current.getTime() < (System.currentTimeMillis() - (TIME_WEEK_AGO))){
-            return true;
-        }
-        return false;
+        return current.getTime() < (System.currentTimeMillis() - (TIME_WEEK_AGO));
     }
 
     private HighScoreObject[] updateWeeklyTimes( HighScoreObject [] listOfScores){

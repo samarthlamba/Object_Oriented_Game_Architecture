@@ -21,7 +21,6 @@ public class FiniteStateMachineAnimation {
   private Animation jump;
   private Animation walk;
   private Animation special;
-  // you may not need this standing animation
   private Animation stand;
   private Boolean currentFacing;
   private Animation currentAnimation;
