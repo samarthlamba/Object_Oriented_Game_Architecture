@@ -17,7 +17,7 @@ public class FiniteStateMachineAnimation {
   private final Map<AnimationState, Integer> xOffsetMap;
   private final Map<AnimationState, Integer> yOffsetMap;
   private final int framesPerRow;
-  private final int framesPercolumn;
+  private final int framesPerColumn;
   private Animation jump;
   private Animation walk;
   private Animation special;
@@ -32,7 +32,7 @@ public class FiniteStateMachineAnimation {
     this.xOffsetMap = animationBrain.getXOffsetMap();
     this.yOffsetMap = animationBrain.getYOffsetMap();
     this.framesPerRow = animationBrain.getFramesPerRow();
-    this.framesPercolumn = animationBrain.getFramesPerColumn();
+    this.framesPerColumn = animationBrain.getFramesPerColumn();
     initialize();
   }
 
@@ -49,22 +49,22 @@ public class FiniteStateMachineAnimation {
     int length = lengthMap.get(state);
     int xOffset = xOffsetMap.get(state);
     int yOffset = yOffsetMap.get(state);
-    return new Animation(spriteSheet,entity.getWidth(),entity.getHeight(),xOffset,yOffset,length,framesPerRow,framesPercolumn);
+    return new Animation(spriteSheet,entity.getWidth(),entity.getHeight(),xOffset,yOffset,length,framesPerRow, framesPerColumn);
   }
   public void update(){
-
+    return;
   }
 
   public Boolean checkIfJumping(){
-
+    return entity.isJump();
   }
 
   public Boolean checkIfMoving(){
-
+    return true;
   }
 
   public Boolean checkIfDoingSpecialMove(){
-
+    return true;
   }
 
 
