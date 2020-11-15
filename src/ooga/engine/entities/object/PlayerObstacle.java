@@ -19,11 +19,4 @@ public class PlayerObstacle extends Entity {
         this.initialY = initialY;
     }
 
-    @Override
-    public boolean hasGravity(){
-        return false;
-    }
-
-
-
 }
