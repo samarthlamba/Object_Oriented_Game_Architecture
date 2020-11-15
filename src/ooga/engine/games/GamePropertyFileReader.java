@@ -20,11 +20,13 @@ public class GamePropertyFileReader {
     }
 
     private Collection<String> getContent(String key, int option) {
+
         Collection<String> methods= new ArrayList<>();
         String options = gameConfigBundle.getString(key);
-        String [] split = options.split(":", 2);
-        String [] methodOptions = split[option].split(",");
-        methods = Arrays.asList(methodOptions);
+        String [] split = options.split(":");
+        for (String val:split){
+            methods.add(val.split(",",2)[option]);
+        }
         return methods;
     }
 
