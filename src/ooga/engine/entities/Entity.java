@@ -216,6 +216,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
         if (entity.getId().equals(object)) {
             this.setHitpoints(0);
         }
+        System.out.println("tedsad123");
     }
 
     protected void applyY(Entity entity, String object) {

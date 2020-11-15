@@ -6,9 +6,9 @@ public class GamePropertyFileReader {
     private ResourceBundle gameConfigBundle;
     private static final String DEFAULT_BUNDLE = "Default";
 
-    public GamePropertyFileReader(String game, String objectName){
+    public GamePropertyFileReader(String objectName){
         try {
-            this.gameConfigBundle = ResourceBundle.getBundle(game + objectName);
+            this.gameConfigBundle = ResourceBundle.getBundle(objectName);
         }
         catch(MissingResourceException m){
             this.gameConfigBundle = ResourceBundle.getBundle(String.format(DEFAULT_BUNDLE,objectName));

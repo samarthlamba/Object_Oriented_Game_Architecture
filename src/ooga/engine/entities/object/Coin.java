@@ -1,6 +1,10 @@
 package ooga.engine.entities.object;
 
 import ooga.engine.entities.Entity;
+import ooga.engine.games.GamePropertyFileReader;
+
+import java.lang.reflect.Method;
+import java.util.Collection;
 
 /**
  * Gives mario coin when hit
@@ -20,7 +24,17 @@ public class Coin extends Entity {
 
   @Override
   public void leftCollideable(Entity entity) {
-    thisDeath(entity, "player");
+    GamePropertyFileReader reader = new GamePropertyFileReader("Coin");
+    Collection<String> methods = reader.getMethods("left");
+    System.out.println("tedsad");
+    for (String k: methods) {
+      try {
+        Method x = this.getClass().getSuperclass().getDeclaredMethod(k);
+      }
+      catch (Exception e){
+        return;
+      }
+    }
   }
 
 
