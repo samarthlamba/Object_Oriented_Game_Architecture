@@ -12,9 +12,5 @@ public class Spike extends Obstacle {
     }
 
 
-    public void topCollideable(Entity entity) {
-        entityDeath(entity);
-    }
-
 
 }

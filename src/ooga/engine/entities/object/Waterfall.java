@@ -22,7 +22,7 @@ public class Waterfall extends Entity {
     return false;
   }
 
-  public void leftCollideable(Entity entity) {
+/*  public void leftCollideable(Entity entity) {
     entityDeath(entity, "arrow");
     leftObstacle(entity, "player");
     leftObstacle(entity, "waterfall");
@@ -49,6 +49,6 @@ public class Waterfall extends Entity {
     topObstacle(entity, "player");
     topObstacle(entity, "waterfall");
     thisDeath(entity, "playerobstacle");
-  }
+  }*/
 
 }

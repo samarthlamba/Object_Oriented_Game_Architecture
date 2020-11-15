@@ -15,25 +15,5 @@ public class MarioShrinker extends Obstacle {
   }
 
 
-  @Override
-  public void leftCollideable(Entity entity) {
-    scalePlayer(entity);
-  }
-
-  @Override
-  public void rightCollideable(Entity entity) {
-    scalePlayer(entity);
-  }
-
-  @Override
-  public void bottomCollideable(Entity entity) {
-    scalePlayer(entity);
-  }
-
-  @Override
-  public void topCollideable(Entity entity) {
-    scalePlayer(entity);
-  }
-
 
 }

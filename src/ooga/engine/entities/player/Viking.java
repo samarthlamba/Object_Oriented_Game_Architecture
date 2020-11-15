@@ -12,7 +12,7 @@ public class Viking extends Player {
     super(sceneWidth, sceneHeight, initialX, initialY);
   }
 
-  @Override
+ /* @Override
   public void leftCollideable(Entity entity) {
     entityDeath(entity, "enemy");
   }
@@ -21,6 +21,6 @@ public class Viking extends Player {
   @Override
   public void rightCollideable(Entity entity) {
     entityDeath(entity, "enemy");
-  }
+  }*/
 
 }

@@ -4,6 +4,10 @@ import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import ooga.engine.entities.Entity;
 import ooga.engine.games.Collideable;
+import ooga.engine.games.GamePropertyFileReader;
+
+import java.lang.reflect.Method;
+import java.util.Iterator;
 
 public abstract class Obstacle extends Rectangle implements Collideable, Unmovable {
   private static final double MOVE_FORCE = 1000;
@@ -58,25 +62,37 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
 
 
   public void leftCollideable(Entity entity) {
-    removeWeapon(entity);
-    leftCollide(entity);
+    invokeMethod(entity, "left");
   }
 
 
   public void rightCollideable(Entity entity) {
-    removeWeapon(entity);
-    rightCollide(entity);
+    invokeMethod(entity, "right");
   }
 
 
   public void bottomCollideable(Entity entity) {
-    removeWeapon(entity);
-    bottomCollide(entity);
+    invokeMethod(entity, "bottom");
   }
 
   public void topCollideable(Entity entity) {
-    removeWeapon(entity);
-    topCollide(entity);
+    invokeMethod(entity, "top");
+  }
+
+
+  protected void invokeMethod(Entity entity, String collisionName){
+    try {
+      GamePropertyFileReader reader = new GamePropertyFileReader(this.getClass().getSimpleName());
+      Iterator methods = reader.getMethods(collisionName).iterator();
+      while (methods != null && methods.hasNext()) {
+        Class current = this.getClass().getSuperclass();
+        Method x = current.getDeclaredMethod((String) methods.next(), Entity.class);
+        x.setAccessible(true);
+        x.invoke(this, entity);
+      }
+    }catch (Exception e) {
+      return;
+    }
   }
 
   private void topCollide(Entity entity) {

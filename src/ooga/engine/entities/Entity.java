@@ -244,9 +244,11 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
 
 
     protected void applyY(Entity entity, String object) {
-        entity.setJump(true);
-        entity.setVelocityY(-2600);
-        entity.setMaxY(entity.getMaxY() - 2);
+        if(entity.getId().equals(object)) {
+            entity.setJump(true);
+            entity.setVelocityY(-2600);
+            entity.setMaxY(entity.getMaxY() - 2);
+        }
     }
 
     protected void healthPenaltyOnObject(Entity entity, String object) {
