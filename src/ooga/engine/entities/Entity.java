@@ -3,8 +3,11 @@ package ooga.engine.entities;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import ooga.engine.games.Collideable;
+import ooga.engine.games.GamePropertyFileReader;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public abstract class Entity extends Rectangle implements Collideable, Movable {
@@ -213,6 +216,23 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     protected void thisDeath(Entity entity, String object) {
         if (entity.getId().equals(object)) {
             this.setHitpoints(0);
+        }
+    }
+    protected void invokeMethod(Entity entity, String objectName, String collisionName){
+        GamePropertyFileReader reader = new GamePropertyFileReader(objectName);
+        Iterator methods = reader.getMethods(collisionName).iterator();
+        Iterator parameter = reader.getParameters(collisionName).iterator();
+
+        while (methods.hasNext() && parameter.hasNext()) {
+            try {
+                Method x = this.getClass().getSuperclass().getDeclaredMethod((String)methods.next(), Entity.class, String.class);
+                x.setAccessible(true);
+                String input = (String) parameter.next();
+                x.invoke(this, entity, input);
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new MethodNotFound("Could not find reflected method from property file");
+            }
         }
     }
 

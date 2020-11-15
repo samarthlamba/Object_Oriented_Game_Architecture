@@ -29,23 +29,7 @@ public class Coin extends Entity {
        invokeMethod(entity, "Coin", "left");
     }
 
-    private void invokeMethod(Entity entity, String objectName, String collisionName){
-        GamePropertyFileReader reader = new GamePropertyFileReader(objectName);
-        Iterator methods = reader.getMethods(collisionName).iterator();
-        Iterator parameter = reader.getParameters(collisionName).iterator();
 
-        while (methods.hasNext() && parameter.hasNext()) {
-            try {
-                Method x = this.getClass().getSuperclass().getDeclaredMethod((String)methods.next(), Entity.class, String.class);
-                x.setAccessible(true);
-                String input = (String) parameter.next();
-                x.invoke(this, entity, input);
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new MethodNotFound("Could not find reflected method from property file");
-            }
-        }
-    }
 
 
     @Override
