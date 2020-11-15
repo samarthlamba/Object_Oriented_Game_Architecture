@@ -208,12 +208,14 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
 
 
     protected void entityDeath(Entity entity, String object) {
+
         if (entity.getId().equals(object)) {
             entity.setHitpoints(0);
         }
     }
 
     protected void thisDeath(Entity entity, String object) {
+
         if (entity.getId().equals(object)) {
             this.setHitpoints(0);
         }
