@@ -4,10 +4,10 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Shape;
 import ooga.engine.entities.MovableBounds;
 import ooga.engine.games.GamePlay;
@@ -22,7 +22,7 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
     private static final String OBSTACLE_NAME = "wall";
     private static final String CHARACTER_IMAGES = "CharacterImages";
     private static final String DEFAULT = "Default";
-    private static final ImagePattern DEFAULT_IMAGE = new ImagePattern(new Image("/images/defaultObject.png"));
+    private static final Image DEFAULT_IMAGE = (new Image("/images/defaultObject.png"));
     private Scene scene;
     private double mainY;
     private double mainX;
@@ -35,7 +35,7 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
     private Group background;
     private MovableBounds mainPlayer;
     private Collection onScreen;
-    private Map<String, ImagePattern> characterImages;
+    private Map<String, Image> characterImages;
     //          private Consumer pauseConsumer;
 //          private Consumer playConsumer;
 //          private Consumer restartConsumer;
@@ -82,8 +82,14 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
     private void addObstacles(Collection<Node> obstacles) {
         for (Node obstacle : obstacles) {
             if(!onScreen.contains(obstacle)) {
-                Shape view = (Shape) obstacle;
-                view.setFill(characterImages.getOrDefault(obstacle.getId(),DEFAULT_IMAGE));
+                Node view = obstacle;
+                ImageView imageView = new ImageView(characterImages.getOrDefault(obstacle.getId(),DEFAULT_IMAGE));
+                view = (Shape) obstacle;
+                double widthScale = view.getBoundsInParent().getWidth()/imageView.getImage().getWidth();
+                double heightScale = view.getBoundsInParent().getHeight()/imageView.getImage().getHeight();
+                imageView.setScaleX(widthScale);
+                imageView.setScaleY(heightScale);
+                System.out.println(widthScale + "  " + heightScale);
                 background.getChildren().add(view);
             }
         }
@@ -100,18 +106,22 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
                     mainWidth = width;
                     mainHeight = height;
                 }
+                ImageView imageView = new ImageView(characterImages.get(entity.getId()));
                 view = (Shape) entity.getNode();
-                view.setFill(characterImages.getOrDefault(entity.getId(),DEFAULT_IMAGE));
-                background.getChildren().add(view);
+                double widthScale = view.getBoundsInParent().getWidth()/imageView.getImage().getWidth();
+                double heightScale = view.getBoundsInParent().getHeight()/imageView.getImage().getHeight();
+                imageView.setScaleX(widthScale);
+                imageView.setScaleY(heightScale);
+                background.getChildren().add(imageView);
             }
         }
     }
 
-    private Map<String, ImagePattern> getImages(ResourceBundle characterImageResources) {
-        Map<String,ImagePattern> map = new HashMap<>();
+    private Map<String, Image> getImages(ResourceBundle characterImageResources) {
+        Map<String,Image> map = new HashMap<>();
         for (String key : characterImageResources.keySet()) {
             Image image = new Image(characterImageResources.getString(key));
-            map.put(key, new ImagePattern(image));
+            map.put(key, (image));
         }
         return map;
     }
