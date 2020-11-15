@@ -81,17 +81,20 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
 
 
   protected void invokeMethod(Entity entity, String collisionName){
-    try {
+
       GamePropertyFileReader reader = new GamePropertyFileReader(this.getClass().getSimpleName());
       Iterator methods = reader.getMethods(collisionName).iterator();
       while (methods != null && methods.hasNext()) {
         Class current = this.getClass().getSuperclass();
+        try {
         Method x = current.getDeclaredMethod((String) methods.next(), Entity.class);
         x.setAccessible(true);
         x.invoke(this, entity);
       }
-    }catch (Exception e) {
-      return;
+        catch (Exception e) {
+          e.printStackTrace();
+          return;
+        }
     }
   }
 
@@ -138,11 +141,13 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
   public void scalePlayer(Entity entity){
     if(entity.getId().equals("player")){
       if(!hasShrunk) {
-        entity.getNode().setScaleX(0.5);
-        entity.getNode().setScaleY(0.5);
+        entity.setHeight(entity.getWidth()*0.5);
+        entity.setWidth(entity.getHeight()*0.5);
         //entity.setMaxY(entity.getScene().getHeight() / 4);
         hasShrunk = true;
       }
+      System.out.println(entity.getBoundsInParent());
+      System.out.println(entity.getMaxY());
     }
   }
 
