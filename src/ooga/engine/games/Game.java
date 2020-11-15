@@ -175,7 +175,7 @@ public abstract class Game implements GamePlay {
 
     private double newYPosition(Movable entity) {
         double change = entity.getMaxY() + entity.getVelocityY() * dt + entity.getYForce() * dt* dt;
-        return entity.getMaxY() + entity.getVelocityY() * dt + entity.getYForce() * dt * dt;
+         return entity.getMaxY() + entity.getVelocityY() * dt + entity.getYForce() * dt * dt;
     }
 
     private double newXPosition(Movable entity) {
