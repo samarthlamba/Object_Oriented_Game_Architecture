@@ -23,6 +23,7 @@ public class FiniteStateMachineAnimation {
   private Animation special;
   // you may not need this standing animation
   private Animation stand;
+  private Boolean currentFacing;
 
   public FiniteStateMachineAnimation(Entity entity, AnimationBrain animationBrain){
     this.entity = entity;
@@ -33,6 +34,7 @@ public class FiniteStateMachineAnimation {
     this.yOffsetMap = animationBrain.getYOffsetMap();
     this.framesPerRow = animationBrain.getFramesPerRow();
     this.framesPerColumn = animationBrain.getFramesPerColumn();
+    this.currentFacing = entity.getFacing();
     initialize();
   }
 
@@ -51,16 +53,30 @@ public class FiniteStateMachineAnimation {
     int yOffset = yOffsetMap.get(state);
     return new Animation(spriteSheet,entity.getWidth(),entity.getHeight(),xOffset,yOffset,length,framesPerRow, framesPerColumn);
   }
+  private void changeAnimationDirection(){
+    this.jump.swapDirection();
+    this.walk.swapDirection();
+    this.special.swapDirection();
+    this.stand.swapDirection();
+  }
   public void update(){
     return;
   }
-
-  public Boolean checkIfJumping(){
+  public void getFacing(){
+    if (entity.getFacing() != currentFacing){
+      currentFacing = entity.getFacing();
+      changeAnimationDirection();
+    }
+  }
+  private Boolean checkIfJumping(){
     return entity.isJump();
   }
 
-  public Boolean checkIfMoving(){
-    return true;
+  private Boolean checkIfMoving(){
+    if(entity.getPreviousY() == entity.getMaxY()){
+
+    }
+    return false;
   }
 
   public Boolean checkIfDoingSpecialMove(){
