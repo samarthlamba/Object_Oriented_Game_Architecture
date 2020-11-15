@@ -94,6 +94,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
   }
 
   public void setPreviousX(double previous){
+      System.out.println(getPreviousX() + "  " + previous);
     previousX = previous;
   }
 

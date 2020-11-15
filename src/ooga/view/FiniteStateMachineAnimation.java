@@ -24,6 +24,7 @@ public class FiniteStateMachineAnimation {
   // you may not need this standing animation
   private Animation stand;
   private Boolean currentFacing;
+  private Animation currentAnimation;
 
   public FiniteStateMachineAnimation(Entity entity, AnimationBrain animationBrain){
     this.entity = entity;
@@ -44,6 +45,7 @@ public class FiniteStateMachineAnimation {
     this.walk = getAnimationForState(WALK);
     this.special = getAnimationForState(SPECIAL);
     this.stand = getAnimationForState(STAND);
+    currentAnimation = this.stand;
 
   }
 
@@ -60,7 +62,16 @@ public class FiniteStateMachineAnimation {
     this.stand.swapDirection();
   }
   public void update(){
-    return;
+    getFacing();
+    if(checkIfJumping()){
+      this.currentAnimation = this.jump;
+    }
+    else if (checkIfMoving()){
+      this.currentAnimation = this.stand;
+    }
+    else if (this.checkIfDoingSpecialMove()){
+      this.currentAnimation = this.special;
+    }
   }
   public void getFacing(){
     if (entity.getFacing() != currentFacing){
@@ -72,15 +83,19 @@ public class FiniteStateMachineAnimation {
     return entity.isJump();
   }
 
-  private Boolean checkIfMoving(){
-    if(entity.getPreviousY() == entity.getMaxY()){
+  public Animation getCurrentAnimation(){
+    return this.currentAnimation;
+  }
 
+  private Boolean checkIfMoving(){
+    if(entity.getPreviousY() == entity.getMaxY() && entity.getPreviousX() != entity.getCenterX()){
+      return true;
     }
     return false;
   }
 
-  public Boolean checkIfDoingSpecialMove(){
-    return true;
+  private Boolean checkIfDoingSpecialMove(){
+    return false;
   }
 
 
