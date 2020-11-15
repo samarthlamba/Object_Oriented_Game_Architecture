@@ -29,28 +29,90 @@ public class Coin extends Entity {
     System.out.println("tedsad");
     for (String k: methods) {
       try {
-        Method x = this.getClass().getSuperclass().getDeclaredMethod(k);
+        Method x = this.getClass().getSuperclass().getDeclaredMethod(k, Entity.class, String.class);
+        x.setAccessible(true);
+        System.out.println(x.toString());
+        x.invoke(this, entity, "player");
       }
-      catch (Exception e){
+      catch (Exception e){        System.out.println(e);
+
+        System.out.println("afasdasdasdzasdfbgds");
         return;
       }
+    }
+    if(this.getHitpoints() == 0){
+
+      System.out.println("tedsad123");
     }
   }
 
 
   @Override
   public void rightCollideable(Entity entity) {
-    thisDeath(entity, "player");
+    GamePropertyFileReader reader = new GamePropertyFileReader("Coin");
+    Collection<String> methods = reader.getMethods("right");
+    System.out.println("tedsad");
+    for (String k: methods) {
+      try {
+        Method x = this.getClass().getSuperclass().getDeclaredMethod(k, Entity.class, String.class);
+        System.out.println(x.toString());
+        x.setAccessible(true);
+        x.invoke(this, entity, "player");
+        System.out.println("helloooo");
+      }
+      catch (Exception e){     e.printStackTrace();
+        return;
+      }
+    }
+    if(this.getHitpoints() == 0){
+
+      System.out.println("tedsad123");
+    }
   }
 
   @Override
   public void bottomCollideable(Entity entity) {
-    thisDeath(entity, "player");
+    GamePropertyFileReader reader = new GamePropertyFileReader("Coin");
+    Collection<String> methods = reader.getMethods("bottom");
+    System.out.println("tedsad");
+    for (String k: methods) {
+      try {
+        Method x = this.getClass().getSuperclass().getDeclaredMethod(k, Entity.class, String.class);
+        System.out.println(x.toString());
+        x.setAccessible(true);
+        x.invoke(this, entity, "player");
+      }
+      catch (Exception e){
+        return;
+      }
+    }
+    if(this.getHitpoints() == 0){
+
+      System.out.println("tedsad123");
+    }
   }
 
   @Override
   public void topCollideable(Entity entity) {
-    thisDeath(entity, "player");
+    GamePropertyFileReader reader = new GamePropertyFileReader("Coin");
+    Collection<String> methods = reader.getMethods("top");
+    Collection<String> parameters = reader.getParameters("top");
+    System.out.println("tedsad");
+    for (String k: methods) {
+      try {
+        Method x = this.getClass().getSuperclass().getDeclaredMethod(k, Entity.class, String.class);
+        System.out.println(x.toString());
+        x.setAccessible(true);
+        x.invoke(this, entity, "player");
+      }
+      catch (Exception e){
+        return;
+      }
+    }
+    if(this.getHitpoints() == 0){
+
+      System.out.println("tedsad123");
+    }
   }
 
   }
