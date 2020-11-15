@@ -103,7 +103,7 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
 
   }
 
-  private void removeWeapon(Entity entity){
+  protected void removeWeapon(Entity entity){
     if (entity.getId().equals("bullet") || entity.getId().equals("arrow")) {
        entity.setHitpoints(0);
     }
