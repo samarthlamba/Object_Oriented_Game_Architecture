@@ -227,7 +227,11 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
 
         while (methods.hasNext() && parameter.hasNext()) {
             try {
-                Method x = this.getClass().getSuperclass().getDeclaredMethod((String)methods.next(), Entity.class, String.class);
+                Class current = this.getClass().getSuperclass();
+                while(current != Entity.class){
+                    current = current.getSuperclass();
+                }
+                Method x = current.getDeclaredMethod((String)methods.next(), Entity.class, String.class);
                 x.setAccessible(true);
                 String input = (String) parameter.next();
                 x.invoke(this, entity, input);
@@ -245,8 +249,11 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     }
 
     protected void healthPenaltyOnObject(Entity entity, String object) {
+
         if (entity.getId().equals(object)) {
+            System.out.println(entity.getHitpoints());
             entity.setHitpoints(entity.getHitpoints() + HEALTH_PENALTY);
+            System.out.println(entity.getHitpoints());
         }
     }
 

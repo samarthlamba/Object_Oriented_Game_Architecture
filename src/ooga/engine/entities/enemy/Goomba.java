@@ -6,6 +6,7 @@ public class Goomba extends Enemy {
     public static final int VELOCITY = 200;
     public static final int GOOMBA_HEALTH = 1;
     public static final int HEALTH_PENALTY = -20;
+    private static final String OBJECT_NAME = "Goomba";
     public Goomba(int objectWidth, int objectHeight, double initialX, double initialY) {
         super(objectWidth, objectHeight, initialX, initialY);
         this.setVelocityX(VELOCITY);
@@ -14,30 +15,30 @@ public class Goomba extends Enemy {
 
 
     @Override
-    public void topCollideable(Entity entity) {
-        thisDeath(entity, "player");
-    }
-
-
-    @Override
     public void leftCollideable(Entity entity) {
-        healthPenaltyOnObject(entity, "player");
-        thisDeath(entity, "player");
+        invokeMethod(entity, OBJECT_NAME, "left");
     }
+
+
+
 
     @Override
     public void rightCollideable(Entity entity) {
-        healthPenaltyOnObject(entity, "player");
-        thisDeath(entity, "player");
+
+        invokeMethod(entity, OBJECT_NAME, "right");
     }
 
     @Override
     public void bottomCollideable(Entity entity) {
-        healthPenaltyOnObject(entity, "player");
-        thisDeath(entity, "player");
+
+        invokeMethod(entity, OBJECT_NAME, "bottom");
     }
 
+    @Override
+    public void topCollideable(Entity entity) {
 
+        invokeMethod(entity, OBJECT_NAME, "top");
+    }
 
 
 }

@@ -11,7 +11,7 @@ public class GamePropertyFileReader {
             this.gameConfigBundle = ResourceBundle.getBundle(objectName);
         }
         catch(MissingResourceException m){
-            this.gameConfigBundle = ResourceBundle.getBundle(String.format(DEFAULT_BUNDLE,objectName));
+            this.gameConfigBundle = ResourceBundle.getBundle(String.format(DEFAULT_BUNDLE+objectName));
         }
     }
     public Collection<String> getMethods(String key){

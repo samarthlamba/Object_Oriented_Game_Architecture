@@ -15,7 +15,7 @@ public class Coin extends Entity {
 
     public static final int COIN_HEALTH = 1;
     public static final int COIN_SIZE = 50;
-
+    private static final String OBJECT_NAME = "Coin";
     public Coin(int objectWidth, int objectHeight, double initialX, double initialY) {
         super(objectWidth, objectHeight, initialX, initialY);
         this.setHitpoints(COIN_HEALTH);
@@ -26,7 +26,7 @@ public class Coin extends Entity {
 
     @Override
     public void leftCollideable(Entity entity) {
-       invokeMethod(entity, "Coin", "left");
+       invokeMethod(entity, OBJECT_NAME, "left");
     }
 
 
@@ -35,19 +35,19 @@ public class Coin extends Entity {
     @Override
     public void rightCollideable(Entity entity) {
 
-        invokeMethod(entity, "Coin", "right");
+        invokeMethod(entity, OBJECT_NAME, "right");
     }
 
     @Override
     public void bottomCollideable(Entity entity) {
 
-        invokeMethod(entity, "Coin", "right");
+        invokeMethod(entity, OBJECT_NAME, "bottom");
     }
 
     @Override
     public void topCollideable(Entity entity) {
 
-        invokeMethod(entity, "Coin", "right");
+        invokeMethod(entity, OBJECT_NAME, "top");
     }
 
 }
