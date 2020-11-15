@@ -14,26 +14,6 @@ public class SpacePirate extends Enemy {
 
 
 
-  public void leftCollideable(Entity entity) {
-    healthPenaltyOnObject(entity, "player");
-    thisDeath(entity, "player");
-  }
-
-
-  public void rightCollideable(Entity entity) {
-    healthPenaltyOnObject(entity, "player");
-    thisDeath(entity, "player");
-  }
-
-  public void bottomCollideable(Entity entity) {
-    healthPenaltyOnObject(entity, "player");
-    thisDeath(entity, "player");
-  }
-
-  public void topCollideable(Entity entity) {
-    healthPenaltyOnObject(entity, "player");
-    thisDeath(entity, "player");
-  }
 
 
 }

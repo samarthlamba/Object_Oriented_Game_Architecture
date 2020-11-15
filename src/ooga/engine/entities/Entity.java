@@ -191,19 +191,19 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     public void leftCollideable(Entity entity) {
         //TODO: action reflection of below methods
         // find left key in properties file
-        //Values can be parsed to get method name, and String id parameter
+        invokeMethod(entity, "left");
     }
 
     public void rightCollideable(Entity entity) {
-        //TODO: action reflection of below methods
+        invokeMethod(entity, "right");
     }
 
     public void bottomCollideable(Entity entity) {
-        //TODO: action reflection of below methods
+        invokeMethod(entity, "bottom");
     }
 
     public void topCollideable(Entity entity) {
-        //TODO: action reflection of below methods
+        invokeMethod(entity, "top");
     }
 
 
@@ -220,27 +220,28 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
             this.setHitpoints(0);
         }
     }
-    protected void invokeMethod(Entity entity, String objectName, String collisionName){
-        GamePropertyFileReader reader = new GamePropertyFileReader(objectName);
-        Iterator methods = reader.getMethods(collisionName).iterator();
-        Iterator parameter = reader.getParameters(collisionName).iterator();
+    protected void invokeMethod(Entity entity, String collisionName){
+        try {
+            GamePropertyFileReader reader = new GamePropertyFileReader(this.getClass().getSimpleName());
+            Iterator methods = reader.getMethods(collisionName).iterator();
+            Iterator parameter = reader.getParameters(collisionName).iterator();
 
-        while (methods.hasNext() && parameter.hasNext()) {
-            try {
+            while (methods != null && methods.hasNext() && parameter.hasNext()) {
+
                 Class current = this.getClass().getSuperclass();
-                while(current != Entity.class){
+                while (current != Entity.class) {
                     current = current.getSuperclass();
                 }
-                Method x = current.getDeclaredMethod((String)methods.next(), Entity.class, String.class);
+                Method x = current.getDeclaredMethod((String) methods.next(), Entity.class, String.class);
                 x.setAccessible(true);
                 String input = (String) parameter.next();
                 x.invoke(this, entity, input);
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new MethodNotFound("Could not find reflected method from property file");
+            }
+        }catch (Exception e) {
+                return;
             }
         }
-    }
+
 
     protected void applyY(Entity entity, String object) {
         entity.setJump(true);

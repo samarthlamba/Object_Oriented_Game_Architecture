@@ -15,24 +15,5 @@ public class Question extends Entity {
         return false;
     }
 
-    @Override
-    public void leftCollideable(Entity entity) {
-        thisDeath(entity, "player");
-    }
-
-    @Override
-    public void rightCollideable(Entity entity) {
-        thisDeath(entity, "player");
-    }
-
-    @Override
-    public void bottomCollideable(Entity entity) {
-        thisDeath(entity, "player");
-    }
-
-    @Override
-    public void topCollideable(Entity entity) {
-        thisDeath(entity, "player");
-    }
 
 }

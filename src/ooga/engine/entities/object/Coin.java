@@ -24,31 +24,7 @@ public class Coin extends Entity {
         setId("coin");
     }
 
-    @Override
-    public void leftCollideable(Entity entity) {
-       invokeMethod(entity, OBJECT_NAME, "left");
-    }
 
-
-
-
-    @Override
-    public void rightCollideable(Entity entity) {
-
-        invokeMethod(entity, OBJECT_NAME, "right");
-    }
-
-    @Override
-    public void bottomCollideable(Entity entity) {
-
-        invokeMethod(entity, OBJECT_NAME, "bottom");
-    }
-
-    @Override
-    public void topCollideable(Entity entity) {
-
-        invokeMethod(entity, OBJECT_NAME, "top");
-    }
 
 }
 
