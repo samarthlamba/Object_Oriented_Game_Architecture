@@ -27,20 +27,14 @@ public class Coin extends Entity {
     public void leftCollideable(Entity entity) {
         GamePropertyFileReader reader = new GamePropertyFileReader("Coin");
         Collection<String> methods = reader.getMethods("left");
-        System.out.println("tedsad");
         for (String k : methods) {
             try {
                 Method x = this.getClass().getSuperclass().getDeclaredMethod(k, Entity.class, String.class);
                 x.setAccessible(true);
-                System.out.println(x.toString());
                 x.invoke(this, entity, "player");
             } catch (Exception e) {
                 throw new MethodNotFound("Could not find reflected method from property file");
             }
-        }
-        if (this.getHitpoints() == 0) {
-
-            System.out.println("tedsad123");
         }
     }
 
@@ -49,21 +43,14 @@ public class Coin extends Entity {
     public void rightCollideable(Entity entity) {
         GamePropertyFileReader reader = new GamePropertyFileReader("Coin");
         Collection<String> methods = reader.getMethods("right");
-        System.out.println("tedsad");
         for (String k : methods) {
             try {
                 Method x = this.getClass().getSuperclass().getDeclaredMethod(k, Entity.class, String.class);
-                System.out.println(x.toString());
                 x.setAccessible(true);
                 x.invoke(this, entity, "player");
-                System.out.println("helloooo");
             } catch (Exception e) {
                 throw new MethodNotFound("Could not find reflected method from property file");
             }
-        }
-        if (this.getHitpoints() == 0) {
-
-            System.out.println("tedsad123");
         }
     }
 
@@ -71,20 +58,14 @@ public class Coin extends Entity {
     public void bottomCollideable(Entity entity) {
         GamePropertyFileReader reader = new GamePropertyFileReader("Coin");
         Collection<String> methods = reader.getMethods("bottom");
-        System.out.println("tedsad");
         for (String k : methods) {
             try {
                 Method x = this.getClass().getSuperclass().getDeclaredMethod(k, Entity.class, String.class);
-                System.out.println(x.toString());
                 x.setAccessible(true);
                 x.invoke(this, entity, "player");
             } catch (Exception e) {
                 throw new MethodNotFound("Could not find reflected method from property file");
             }
-        }
-        if (this.getHitpoints() == 0) {
-
-            System.out.println("tedsad123");
         }
     }
 
@@ -93,20 +74,14 @@ public class Coin extends Entity {
         GamePropertyFileReader reader = new GamePropertyFileReader("Coin");
         Collection<String> methods = reader.getMethods("top");
         Collection<String> parameters = reader.getParameters("top");
-        System.out.println("tedsad");
         for (String k : methods) {
             try {
                 Method x = this.getClass().getSuperclass().getDeclaredMethod(k, Entity.class, String.class);
-                System.out.println(x.toString());
                 x.setAccessible(true);
                 x.invoke(this, entity, "player");
             } catch (Exception e) {
                 throw new MethodNotFound("Could not find reflected method from property file");
             }
-        }
-        if (this.getHitpoints() == 0) {
-
-            System.out.println("tedsad123");
         }
     }
 
