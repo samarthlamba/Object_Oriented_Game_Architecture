@@ -14,7 +14,6 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
   private final int SCENE_HEIGHT;
   public static final int HEALTH_PENALTY = -1;
   private int currentHitpoints = 3;
-  private Node nodeObject;
   private double speed = 0;
   private double previousX;
   private double previousY;
@@ -35,7 +34,6 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
   public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
     this.SCENE_WIDTH = objectWidth;
     this.SCENE_HEIGHT = objectHeight;
-    nodeObject = new Rectangle(initialX, initialY, objectWidth, objectHeight);
     this.previousX = initialX + objectWidth / 2;
     this.previousY = initialY + objectHeight;
     setX(initialX);
@@ -43,11 +41,10 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     setWidth(objectWidth);
     setHeight(objectHeight);
     this.setCenterX(initialX + objectWidth / 2);
-    this.setMaxY(nodeObject.getBoundsInParent().getMaxY());
   }
 
   public Node getNode() {
-    return nodeObject;
+    return this;
   }
 
   public boolean getStatusAlive(){
@@ -85,14 +82,16 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
   }
 
   public void setCenterX(double inputX){
-      nodeObject.setLayoutX(inputX - nodeObject.getLayoutBounds().getCenterX());
       setX(inputX - SCENE_WIDTH/2);
   }
 
   public void setMaxY(double inputY){
-      nodeObject.setLayoutY(inputY - nodeObject.getLayoutBounds().getMaxY());
       setY(inputY - SCENE_HEIGHT);
     //nodeObject.setLayoutY(inputY+nodeObject.getLayoutY());
+  }
+
+  public void settingMaxY(double inputY){
+      this.setY(inputY - this.getHeight()*getScaleX());
   }
 
   public void setHitpoints(int hitpoints){
@@ -130,7 +129,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
 
   public double getCenterX(){
     //  return nodeObject.getLayoutY();
-      return nodeObject.getBoundsInParent().getCenterX();
+      return this.getBoundsInParent().getCenterX();
   }
 
     public double getEntityWidth(){
@@ -142,7 +141,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     }
 
     public double getMaxY(){
-      return nodeObject.getBoundsInParent().getMaxY();
+      return this.getBoundsInParent().getMaxY();
   }
 
     public void setXForce(double force){

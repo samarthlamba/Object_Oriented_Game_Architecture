@@ -86,18 +86,19 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
 
   public void topCollideable(Entity entity) {
     removeWeapon(entity);
-    entity.setMaxY(getBoundsInParent().getMinY());
+    if (entity.getId() == "player") {
+
+      System.out.println(entity.getYForce());
+
+    }
+    entity.settingMaxY(getBoundsInParent().getMinY());
+
     entity.setYForce(entity.getYForce() + NEGATIVE_DIRECTION * gravity);
+
+
     entity.setVelocityY(0);
     entity.setJump(false);
 
-    if(entity.getId() == "player") {
-      System.out.println("bottom");
-      System.out.println(getBoundsInParent().getMinY());
-      System.out.println(entity.getMaxY());
-      System.out.println(entity.getNode().getBoundsInParent().getMaxY());
-
-    }
   }
 
   private void removeWeapon(Entity entity){
