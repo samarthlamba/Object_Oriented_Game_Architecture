@@ -12,10 +12,4 @@ public class Turtle extends Entity {
     setId("turtle");
   }
 
-  @Override
-  public void topCollideable(Entity entity) {
-    applyY(entity, "player");
-  }
-
-
 }

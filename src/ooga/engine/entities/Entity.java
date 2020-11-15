@@ -3,8 +3,11 @@ package ooga.engine.entities;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import ooga.engine.games.Collideable;
+import ooga.engine.games.GamePropertyFileReader;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public abstract class Entity extends Rectangle implements Collideable, Movable {
@@ -188,41 +191,68 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     public void leftCollideable(Entity entity) {
         //TODO: action reflection of below methods
         // find left key in properties file
-        //Values can be parsed to get method name, and String id parameter
+        invokeMethod(entity, "left");
     }
 
     public void rightCollideable(Entity entity) {
-        //TODO: action reflection of below methods
+        invokeMethod(entity, "right");
     }
 
     public void bottomCollideable(Entity entity) {
-        //TODO: action reflection of below methods
+        invokeMethod(entity, "bottom");
     }
 
     public void topCollideable(Entity entity) {
-        //TODO: action reflection of below methods
+        invokeMethod(entity, "top");
     }
 
 
     protected void entityDeath(Entity entity, String object) {
+
         if (entity.getId().equals(object)) {
             entity.setHitpoints(0);
         }
     }
 
     protected void thisDeath(Entity entity, String object) {
+
         if (entity.getId().equals(object)) {
             this.setHitpoints(0);
         }
     }
+    protected void invokeMethod(Entity entity, String collisionName){
+        try {
+            GamePropertyFileReader reader = new GamePropertyFileReader(this.getClass().getSimpleName());
+            Iterator methods = reader.getMethods(collisionName).iterator();
+            Iterator parameter = reader.getParameters(collisionName).iterator();
+
+            while (methods != null && methods.hasNext() && parameter.hasNext()) {
+
+                Class current = this.getClass().getSuperclass();
+                while (current != Entity.class) {
+                    current = current.getSuperclass();
+                }
+                Method x = current.getDeclaredMethod((String) methods.next(), Entity.class, String.class);
+                x.setAccessible(true);
+                String input = (String) parameter.next();
+                x.invoke(this, entity, input);
+            }
+        }catch (Exception e) {
+                return;
+            }
+        }
+
 
     protected void applyY(Entity entity, String object) {
-        entity.setJump(true);
-        entity.setVelocityY(-2600);
-        entity.setMaxY(entity.getMaxY() - 2);
+        if(entity.getId().equals(object)) {
+            entity.setJump(true);
+            entity.setVelocityY(-2600);
+            entity.setMaxY(entity.getMaxY() - 2);
+        }
     }
 
     protected void healthPenaltyOnObject(Entity entity, String object) {
+
         if (entity.getId().equals(object)) {
             entity.setHitpoints(entity.getHitpoints() + HEALTH_PENALTY);
         }

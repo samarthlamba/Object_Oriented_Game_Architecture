@@ -5,11 +5,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import javafx.scene.shape.Rectangle;
 import ooga.engine.entities.enemy.Goomba;
 import ooga.engine.entities.player.Mario;
+import ooga.engine.entities.player.Player;
+import ooga.engine.entities.player.Viking;
 import org.junit.jupiter.api.Test;
 
 class EntityTest {
   Entity testEntity = new Mario(100, 100, 50, 50);
   Entity testEntityEnemy = new Goomba(100, 100, 50, 50);
+  Entity vikingEntity = new Viking(100, 100, 10, 10);
   @Test
   void getNode() {
 
@@ -93,6 +96,69 @@ class EntityTest {
   void facingTest() {
     testEntity.setFacing(false);
     assertEquals(false, testEntity.getFacing());
+  }
+
+ /* @Test
+  void hasFinishedTest(){
+    assertEquals(false, testEntity.hasFinished());
+    testEntity.setFinished(true);
+    assertEquals(true, testEntity.hasFinished());
+  }*/
+
+  @Test
+  void leftCollideable(){
+    testEntityEnemy = new Goomba(100, 100, 50, 50);
+    assertEquals(true, testEntityEnemy.status_Alive);
+    vikingEntity.leftCollideable(testEntityEnemy);
+    assertEquals(false, testEntityEnemy.status_Alive);
+
+  }
+
+  @Test
+  void rightCollideable(){
+    testEntityEnemy = new Goomba(100, 100, 50, 50);
+    assertEquals(true, testEntityEnemy.status_Alive);
+    vikingEntity.rightCollideable(testEntityEnemy);
+    assertEquals(false, testEntityEnemy.status_Alive);
+
+  }
+
+  @Test
+  void testGetNode() {
+    testEntity = new Mario(100, 100, 50, 50);
+    Rectangle compare = new Rectangle(50, 50, 100, 100);
+    assertEquals(compare.getBoundsInParent(),testEntity.getNode().getBoundsInParent());
+  }
+
+  @Test
+  void getStatusAlive() {
+    assertEquals(true, testEntity.getStatusAlive());
+    testEntity.setHitpoints(0);
+    assertEquals(false, testEntity.getStatusAlive());
+  }
+
+ /* @Test
+  void hasFinished() {
+    testEntity.setFinished(false);
+    assertEquals(false, testEntity.hasFinished());
+    testEntity.setFinished(true);
+    assertEquals(true, testEntity.hasFinished());
+  }
+
+
+  @Test
+  void hasLost() {
+    testEntity.setLost(false);
+    assertEquals(false, testEntity.hasLost());
+    testEntity.setLost(true);
+    assertEquals(true, testEntity.hasLost());
+  }*/
+
+
+  @Test
+  void getHealth() {
+    testEntity.setHitpoints(21);
+    assertEquals(21, testEntity.getHealth());
   }
 
 }

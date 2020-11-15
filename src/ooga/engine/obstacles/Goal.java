@@ -10,24 +10,5 @@ public class Goal extends Obstacle{
         setId(ID);
     }
 
-    @Override
-    public void leftCollideable(Entity entity) {
-        entity.setWon(true);
-    }
-
-    @Override
-    public void rightCollideable(Entity entity) {
-        entity.setWon(true);
-    }
-
-    @Override
-    public void bottomCollideable(Entity entity) {
-        entity.setWon(true);
-    }
-
-    @Override
-    public void topCollideable(Entity entity){
-        entity.setWon(true);
-    }
 
 }

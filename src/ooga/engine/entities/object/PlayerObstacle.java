@@ -19,28 +19,6 @@ public class PlayerObstacle extends Entity {
         this.initialY = initialY;
     }
 
-    @Override
-    public void leftCollideable(Entity entity) {
-        entityDeath(entity, "arrow");
-        entityDeath(entity, "waterfall");
-    }
 
-    @Override
-    public void rightCollideable(Entity entity) {
-        entityDeath(entity, "arrow");
-        entityDeath(entity, "waterfall");
-    }
-
-    @Override
-    public void bottomCollideable(Entity entity) {
-        entityDeath(entity, "arrow");
-        entityDeath(entity, "waterfall");
-    }
-
-    @Override
-    public void topCollideable(Entity entity) {
-        entityDeath(entity, "arrow");
-        entityDeath(entity, "waterfall");
-    }
 
 }
