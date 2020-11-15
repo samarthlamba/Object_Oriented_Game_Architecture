@@ -31,17 +31,17 @@ public class Coin extends Entity {
 
     private void invokeMethod(Entity entity, String objectName, String collisionName){
         GamePropertyFileReader reader = new GamePropertyFileReader(objectName);
-        Iterator<String> methods = reader.getMethods(collisionName).iterator();
-        Iterator<String> parameter = reader.getParameters(collisionName).iterator();
-        String s = "player";
-        while (methods.hasNext()&& parameter.hasNext()) {
+        Iterator methods = reader.getMethods(collisionName).iterator();
+        Iterator parameter = reader.getParameters(collisionName).iterator();
+
+        while (methods.hasNext() && parameter.hasNext()) {
             try {
-                System.out.println(parameter.next());
-                Method x = this.getClass().getSuperclass().getDeclaredMethod(methods.next(), Entity.class, String.class);
+                Method x = this.getClass().getSuperclass().getDeclaredMethod((String)methods.next(), Entity.class, String.class);
                 x.setAccessible(true);
-                x.invoke(this, entity, s);
-                System.out.println(parameter.next());
+                String input = (String) parameter.next();
+                x.invoke(this, entity, input);
             } catch (Exception e) {
+                e.printStackTrace();
                 throw new MethodNotFound("Could not find reflected method from property file");
             }
         }
