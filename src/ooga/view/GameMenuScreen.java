@@ -22,7 +22,7 @@ public class GameMenuScreen extends Screen{
     ResourceBundle gameMenuButtonProperties = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "gamemenubuttons_" + language);;
     Consumer<String> E;
 
-    public GameMenuScreen(Consumer e){
+    public GameMenuScreen(Consumer<String> e){
         E = e; //TODO
         VBox root = new VBox();
         Menu menu = getMenu();
