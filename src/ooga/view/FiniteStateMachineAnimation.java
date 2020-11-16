@@ -73,13 +73,13 @@ public class FiniteStateMachineAnimation {
       currentAnimation.play();
       System.out.println("jump");
     }
-    else if (checkIfMoving() && currentAnimation != walk){
+    else if (checkIfMoving()){
       currentAnimation = this.walk;
       currentAnimation.setCycleCount(Animation.INDEFINITE);
       currentAnimation.play();
       System.out.println("move");
     }
-    else if (this.checkIfDoingSpecialMove() && currentAnimation!= special){
+    else if (this.checkIfDoingSpecialMove()){
       currentAnimation = this.special;
       currentAnimation.setCycleCount(Animation.INDEFINITE);
       currentAnimation.play();

@@ -71,9 +71,6 @@ public class Animation extends Transition { //fsm backend if seperation    //loo
             image.setViewport(new Rectangle2D(x, y, width, height));
             lastIndex = index;
         }
-
-
-
     }
     public ImageView getImage(){
 

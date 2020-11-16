@@ -114,7 +114,7 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
                     AnimationBrain x = new AnimationBrain("Mario");
                     fsm = new FiniteStateMachineAnimation((Entity)entity, x);
                     fsmImage = fsm.getCurrentAnimation().getImage();
-                    background.getChildren().add(fsm.getCurrentAnimation().getImage());
+                    background.getChildren().add(fsmImage);
                 }
                 view = (Shape) entity.getNode();
                 double width = view.getBoundsInParent().getWidth();
@@ -176,7 +176,6 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
         background.getChildren().remove(fsmImage);
         fsmImage = fsm.getCurrentAnimation().getImage();
         background.getChildren().add(fsmImage);
-        System.out.println("yooo" + fsmImage.getViewport());
     }
 
     @Override
