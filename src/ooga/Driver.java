@@ -29,7 +29,7 @@ public class Driver extends Application {
     display.setMainMenuScreen();
   }
 
-  private void setGame(Game game) {
+  protected void setGame(Game game) {
     this.game = game;
   }
 
@@ -59,11 +59,6 @@ public class Driver extends Application {
   private void victoryScreen() {
     timeline.stop();
     display.setSplashScreen("Victory");
-  }
-
-
-  public GamePlay getGame() {
-    return game;
   }
 }
 
