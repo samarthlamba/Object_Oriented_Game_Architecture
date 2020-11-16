@@ -58,7 +58,7 @@ public class FiniteStateMachineAnimation {
     int length = lengthMap.get(state);
     int xOffset = xOffsetMap.get(state);
     int yOffset = yOffsetMap.get(state);
-    return new Animation(spriteSheet,entity.getWidth()+300,entity.getHeight()+300,xOffset,yOffset,length,framesPerRow, framesPerColumn);
+    return new Animation(spriteSheet,entity.getWidth()+50,entity.getHeight()+50,xOffset,yOffset,length,framesPerRow, framesPerColumn);
   }
   private void changeAnimationDirection(){
     this.jump.swapDirection();

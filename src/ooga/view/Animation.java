@@ -1,15 +1,11 @@
 package ooga.view;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 import javafx.animation.Interpolator;
 import javafx.animation.Transition;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.transform.Scale;
-import javafx.scene.transform.Transform;
 import javafx.util.Duration;
 
 import static java.lang.Math.abs;
@@ -21,24 +17,24 @@ public class Animation extends Transition { //fsm backend if seperation    //loo
     private ImageView currentImage;
     private final double width;
     private final double height;
-    private final double xOffset;
-    private final double yOffset;
-    private final int framePerRow;
+    private final double xWhiteSpaceConstant;
+    private final double yWhiteSpaceConstant;
+    private final int postionOfFirstAnimation;
+    private final int framesPerRow;
     private final int length;
-    private final int offsetBetweenPics;
     private int lastIndex = -1;
     private int index;
     private double currentScale;
-    public Animation(Image image,Double width, Double height, double xOffset, double yOffset, int length, int framePerRow, int offsetBetweenPics){
+    public Animation(Image image,Double spriteWidth, Double spriteHeight, double xWhiteSpaceConstant, double yWhiteSpaceConstant, int lengthOfAnimation, int positionOfFirstAnimation, int framesPerRow){
         duration = new Duration(1000);
         this.image = new ImageView(image);
-        this.width = width;
-        this.height = height;
-        this.xOffset = xOffset;
-        this.yOffset = yOffset;
-        this.framePerRow = framePerRow;
-        this.length = length;
-        this.offsetBetweenPics = offsetBetweenPics;
+        this.width = spriteWidth;
+        this.height = spriteHeight;
+        this.xWhiteSpaceConstant = xWhiteSpaceConstant;
+        this.yWhiteSpaceConstant = yWhiteSpaceConstant;
+        this.framesPerRow = framesPerRow;
+        this.postionOfFirstAnimation = positionOfFirstAnimation;
+        this.length = lengthOfAnimation;
         this.setCycleDuration(duration);
         setInterpolator(Interpolator.LINEAR);
 
@@ -94,19 +90,15 @@ public class Animation extends Transition { //fsm backend if seperation    //loo
     }
     @Override
     protected void interpolate(double frac) {
-     //   System.out.println("width " + length);
-        final int index = Math.min((int) Math.floor(frac * length), length - 1);
+        int index = Math.min((int) Math.floor(frac * length), length - 1)+postionOfFirstAnimation;
         if (index != lastIndex) {
-            final double x = (index % framePerRow) * width  + xOffset+offsetBetweenPics;
-            final double y = (index / framePerRow) * height + yOffset;
+            final double x = (index % framesPerRow) * width  + xWhiteSpaceConstant;
+            final double y = (index / framesPerRow) * height + yWhiteSpaceConstant;
             image.setViewport(new Rectangle2D(x, y, width, height));
             lastIndex = index;
         }
     }
     public ImageView getImage(){
-
-       // System.out.println("getimage: " + image.getViewport());
-
         return image;
 
     }
