@@ -69,7 +69,7 @@ public class VikingsGame extends Game{
       double waterfallYPosition = waterfall.peek().getMaxY();
       double currentEntityYPosition = currentEntity.getMaxY() - currentEntity.getEntityHeight();
       double waterfallXPosition = waterfall.peek().getCenterX() + currentEntity.getEntityWidth()/2;
-      double currentEntityXPosition = currentEntity.getCenterX() - currentEntity.getEntityHeight()/2;
+      double currentEntityXPosition = currentEntity.getCenterX() - currentEntity.getEntityWidth()/2;
       checkConnected(currentEntity, waterfall, waterfallYPosition, currentEntityYPosition, waterfallXPosition, currentEntityXPosition);
     }
   }
@@ -78,7 +78,9 @@ public class VikingsGame extends Game{
     if((areEqualDouble(currentEntityYPosition, waterfallYPosition,0) &&
             areEqualDouble(waterfall.peek().getCenterX(), currentEntity.getCenterX(), 0))||
             (areEqualDouble(currentEntityXPosition, waterfallXPosition,0) &&
-            areEqualDouble(waterfall.peek().getMaxY(), currentEntity.getMaxY(),0))){
+            areEqualDouble(waterfall.peek().getMaxY(), currentEntity.getMaxY(),0)) ||
+            (areEqualDouble(currentEntityXPosition + currentEntity.getEntityWidth(), waterfallXPosition - currentEntity.getEntityWidth(),0) &&
+                    areEqualDouble(waterfall.peek().getMaxY(), currentEntity.getMaxY(),0))){
       addWaterfallToStack(currentEntity, waterfall);
     }
   }
@@ -139,7 +141,6 @@ public class VikingsGame extends Game{
     viewable.remove(entitiesToRemove);
     entities.removeAll(entitiesToRemove);
     entitiesToRemove.clear();
-    System.out.println(entitiesToAdd);
     viewable.spawn(entitiesToAdd);
     entitiesToAdd.clear();
     arrows.clear();
