@@ -14,6 +14,7 @@ public class SplashScreen extends Screen{
     this.displayKey = displayKey;
     this.restart = restartGame;
     this.setMainMenu = setMainMenu;
+    //instead of just the menu, you could add the menu at the bottom only.
     this.myScene = new Scene(makeMenu(),SCREEN_WIDTH,SCREEN_HEIGHT);
   }
 

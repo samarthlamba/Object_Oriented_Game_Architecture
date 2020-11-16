@@ -33,7 +33,7 @@ public class Menu extends VBox {
         String label = (String) menuButtonProperties.getObject(property); //TODO (String?)
         newButton.setText(label);
         newButton.setId(property);
-        newButton.setOnMouseClicked(e -> E.accept(property));//label
+        newButton.setOnAction(e -> E.accept(property));//label
         return newButton;
     }
 

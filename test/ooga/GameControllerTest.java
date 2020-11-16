@@ -138,6 +138,13 @@ public class GameControllerTest extends DukeApplicationTest{
     assertEquals(randomScene,myStage.getScene());
   }
 
+  @Test
+  public void testGetGameNameReturnsCorrectName() {
+    testController.launchGame("TestFile");
+    assertEquals("TestFile",testController.getGameName());
+  }
+
+
   public void setMyGame(Game myGame) {
     this.myGame = myGame;
   }
