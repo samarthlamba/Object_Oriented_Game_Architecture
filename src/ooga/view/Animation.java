@@ -26,8 +26,8 @@ public class Animation extends Transition { //fsm backend if seperation    //loo
     public Animation(Image image,Double width, Double height, double xOffset, double yOffset, double length, double framePerRow, double framePerCol){
         duration = new Duration(1000);
         this.image = new ImageView(image);
-        this.width = width/3;
-        this.height = height/3;
+        this.width = width;
+        this.height = height;
         this.xOffset = xOffset;
         this.yOffset = yOffset;
         this.framePerRow = framePerRow;

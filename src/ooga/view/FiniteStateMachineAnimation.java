@@ -61,20 +61,33 @@ public class FiniteStateMachineAnimation {
     this.stand.swapDirection();
   }
   public void update(){
-    currentAnimation.setX(entity.getX());
-    currentAnimation.setY(entity.getY());
+    currentAnimation.getImage().setX(entity.getCenterX());
+    currentAnimation.getImage().setY(entity.getMaxY());
     getFacing();
     if(checkIfJumping() && currentAnimation != jump){
       this.currentAnimation = this.jump;
-      currentAnimation.playFromStart();
+      currentAnimation.setCycleCount(Animation.INDEFINITE);
+      currentAnimation.play();
+      System.out.println("jump");
+      System.out.println(currentAnimation.getImage().getViewport());
     }
-    else if (checkIfMoving() && currentAnimation != stand){
-      this.currentAnimation = this.stand;
-      currentAnimation.playFromStart();
+    else if (checkIfMoving() && currentAnimation != walk){
+      currentAnimation = this.walk;
+      currentAnimation.setCycleCount(Animation.INDEFINITE);
+      currentAnimation.play();
+      System.out.println("move");
     }
     else if (this.checkIfDoingSpecialMove() && currentAnimation!= special){
-      this.currentAnimation = this.special;
-      currentAnimation.playFromStart();
+      currentAnimation = this.special;
+      currentAnimation.setCycleCount(Animation.INDEFINITE);
+      currentAnimation.play();
+      System.out.println("special");
+    }
+    else{
+      currentAnimation = this.stand;
+      currentAnimation.setCycleCount(Animation.INDEFINITE);
+      currentAnimation.play();
+      System.out.println("stand");
     }
   }
   public void getFacing(){

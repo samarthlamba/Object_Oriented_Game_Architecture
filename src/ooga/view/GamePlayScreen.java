@@ -118,7 +118,7 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
                     rec = new Rectangle(20, 20, 20, 20);
                     rec.setFill(Color.BLUE);
                     background.getChildren().add(rec);
-                    background.getChildren().add(fsmImage);
+                    background.getChildren().add(fsm.getCurrentAnimation().getImage());
                 }
                 view = (Shape) entity.getNode();
                 double width = view.getBoundsInParent().getWidth();
@@ -177,11 +177,11 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
         background.setTranslateX(sceneShiftX);
         background.setTranslateY(sceneShiftY);
         fsm.update();
-        fsmImage = fsm.getCurrentAnimation().getImage();
         fsmImage.setX(mainPlayer.getCenterX());
+        fsmImage.setY(mainPlayer.getMaxY());
         rec.setX(mainPlayer.getCenterX());
         rec.setY(mainPlayer.getMaxY());
-       System.out.println(fsmImage.getX());
+        System.out.println(fsmImage.getViewport());
     }
 
     @Override
