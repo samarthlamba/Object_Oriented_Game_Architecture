@@ -123,6 +123,10 @@ public abstract class Game implements GamePlay {
         updatePosition(entity);
         entity.setYForce(0);
         entity.setXForce(0);
+        removeEntity(entity);
+    }
+
+    protected void removeEntity(Movable entity) {
         if(!entity.getStatusAlive()){
             entitiesToRemove.add(entity);
             setPoints(entity);
