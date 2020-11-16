@@ -83,7 +83,6 @@ public abstract class Game implements GamePlay {
     }
 
     protected void updateMovable() {
-        // System.out.println("stepped12324");
         for (Movable entity : entities) {
             moveMovable(entity);
         }
@@ -92,7 +91,6 @@ public abstract class Game implements GamePlay {
         entitiesToRemove.clear();
         viewable.spawn(entitiesToAdd);
         entitiesToAdd.clear();
-        //removeMovable();
     }
 
     protected void moveMovable(Movable entity) {
@@ -155,10 +153,10 @@ public abstract class Game implements GamePlay {
     }
 
 
-    protected boolean checkCornersMovableX(Movable player, Movable entity) {
+  /*  protected boolean checkCornersMovableX(Movable player, Movable entity) {
         return areEqualDouble(entity.getNode().getBoundsInParent().getMaxX(), player.getNode().getBoundsInParent().getMinX(), 1) ||
                 areEqualDouble(entity.getNode().getBoundsInParent().getMinX(), player.getNode().getBoundsInParent().getMaxX(), 1);
-    }
+    }*/
 
     private double newYPosition(Movable entity) {
          return entity.getMaxY() + entity.getVelocityY() * dt + entity.getYForce() * dt * dt;

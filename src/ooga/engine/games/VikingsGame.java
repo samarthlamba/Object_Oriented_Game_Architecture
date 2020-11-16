@@ -175,7 +175,7 @@ public class VikingsGame extends Game{
     }
   }
 
-  public void generateArrows(Movable entity){
+  private void generateArrows(Movable entity){
     if(entity.getId().equals("enemy")){
       makeArrow(entity);
     }
