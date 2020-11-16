@@ -87,7 +87,7 @@ public class DriverTest extends DukeApplicationTest {
     Scene gameScene = myStage.getScene();
 
     javafxRun(() -> level1.fire());
-    sleep(1000);
+    sleep(100);
 
     Scene victoryScene = myStage.getScene();
     assertNotEquals(victoryScene,gameScene);
@@ -119,7 +119,7 @@ public class DriverTest extends DukeApplicationTest {
     Scene gameScene = myStage.getScene();
 
     javafxRun(() -> level1.fire());
-    sleep(1000);
+    sleep(100);
 
     Scene defeatScene = myStage.getScene();
     assertNotEquals(defeatScene,gameScene);
