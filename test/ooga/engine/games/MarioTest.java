@@ -5,13 +5,13 @@ import ooga.loader.FactoryException;
 import ooga.loader.GameFactory;
 import ooga.util.DukeApplicationTest;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 import java.util.Collection;
 
-class GameTest extends DukeApplicationTest {
+import static org.junit.jupiter.api.Assertions.*;
+
+class MarioTest extends DukeApplicationTest {
     private static final GameFactory factory = new GameFactory();
 
    @Test
@@ -76,12 +76,14 @@ class GameTest extends DukeApplicationTest {
         Entity entity = entities.iterator().next();
         assertEquals(initialPosition, entity.getCenterX());
         System.out.println(entity.getCenterX());
-        for(int i = 0; i < 100; i++){
+        for(int i = 0; i < 1; i++){
             game.LEFT(entity);
+        }
+        for(int i = 0; i < 200; i++){
             game.updateLevel();
         }
-
-        assertTrue(game.areEqualDouble(75, entity.getCenterX(), 1));
+        System.out.println(entity.getCenterX());
+        assertTrue(game.areEqualDouble(75, entity.getCenterX(), 0));
     }
 
     @Test
@@ -91,12 +93,13 @@ class GameTest extends DukeApplicationTest {
         double initialPosition = 75;
         Entity entity = entities.iterator().next();
         assertEquals(initialPosition, entity.getCenterX());
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 1; i++){
             game.RIGHT(entity);
-            game.updateLevel();
-            System.out.println(entity.getCenterX());
         }
-        assertTrue(game.areEqualDouble(75, entity.getCenterX(), 1));
+        for(int i = 0; i < 100; i++){
+            game.updateLevel();
+        }
+        assertTrue(game.areEqualDouble(75, entity.getCenterX(), 0));
     }
 
     @Test
@@ -106,11 +109,13 @@ class GameTest extends DukeApplicationTest {
         double initialPosition = 75;
         Entity entity = entities.iterator().next();
         assertEquals(initialPosition, entity.getCenterX());
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 1; i++){
             game.RIGHT(entity);
+        }
+        for(int i = 0; i < 100; i++){
             game.updateLevel();
         }
-        assertTrue(game.areEqualDouble(75, entity.getCenterX(), 1));
+        assertTrue(game.areEqualDouble(75, entity.getCenterX(), 0));
     }
 
     @Test
@@ -181,6 +186,63 @@ class GameTest extends DukeApplicationTest {
             }
         }
         assertTrue(newY < startY);
+    }
+
+    @Test
+    public void testQuestionBoxCollision(){
+        Game game = factory.makeCorrectGame("testMarioQuestionBox");
+        Collection<Entity> entities = (Collection<Entity>) game.getEntities();
+        boolean questionBox = false;
+        Entity player = (Entity) game.getActivePlayer();
+        for(Entity entity : entities){
+            if(entity.getId().equals("question")){
+                questionBox = true;
+            }
+        }
+        assertTrue(questionBox);
+        questionBox = false;
+        try {
+            for (int i = 0; i < 5; i++) {
+                game.RIGHT(player);
+                game.updateLevel();
+            }
+        }
+        catch(Exception e){
+            assertEquals("Entity not in Scene" ,e.getMessage());
+            entities = (Collection<Entity>) game.getEntities();
+            for(Entity entity : entities){
+                if(entity.getId().equals("question")){
+                    questionBox = true;
+                }
+            }
+        }
+        assertFalse(questionBox);
+    }
+
+    @Test
+    public void testCoinGeneration(){
+        Game game = factory.makeCorrectGame("testMarioQuestionBox");
+        Collection<Entity> entities = (Collection<Entity>) game.getEntities();
+        boolean coinGenerated = false;
+        for(Entity entity : entities){
+            if(entity.getId().equals("question")){
+                entity.setHitpoints(0);
+            }
+        }
+        try {
+            game.updateLevel();
+        }
+        catch(Exception e){
+            assertEquals("Entity not in Scene" ,e.getMessage());
+            entities = (Collection<Entity>) game.getEntities();
+            for(Entity entity : entities){
+                if(entity.getId().equals("coin")){
+                    coinGenerated = true;
+                }
+            }
+        }
+        assertTrue(coinGenerated);
+
     }
 
 }

@@ -25,15 +25,9 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     private double xForce = 0;
     private double yForce = 0;
     boolean status_Alive = true;
-    private double timeElapsedY = 0;
-    private double timeElapsedX = 0;
-    private double timeInterval = 0;
     private boolean facing = true;
     private boolean jump = false;
-    protected List<Entity> connected = new ArrayList<>();
     private boolean finished = false;
-    private boolean lost = false;
-    private boolean shrunk = false;
 
     public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
         this.SCENE_WIDTH = objectWidth;
@@ -65,8 +59,6 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
         this.finished = finished;
     }
 
-    //public abstract int getID();
-
     public double getVelocityX(){
         return speed;
     }
@@ -95,7 +87,6 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     public void setMaxY(double inputY){
         nodeObject.setLayoutY(inputY - nodeObject.getLayoutBounds().getMaxY());
         this.setY(inputY - this.getHeight());
-        //nodeObject.setLayoutY(inputY+nodeObject.getLayoutY());
     }
 
     public void setHitpoints(int hitpoints){
@@ -125,14 +116,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
         return previousY;
     }
 
-
-
- /* public double getX(){
-      return nodeObject.getLayoutX();
-  }*/
-
     public double getCenterX(){
-        //  return nodeObject.getLayoutY();
         return nodeObject.getBoundsInParent().getCenterX();
     }
 
@@ -185,12 +169,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
         facing = direction;
     }
 
-
-//TODO: Use reflection, default no collision
-
     public void leftCollideable(Entity entity) {
-        //TODO: action reflection of below methods
-        // find left key in properties file
         invokeMethod(entity, "left");
     }
 
@@ -213,12 +192,6 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
         }
     }
 
-    protected void thisDeath(Entity entity, String object) {
-
-        if (entity.getId().equals(object)) {
-            this.setHitpoints(0);
-        }
-    }
     protected void invokeMethod(Entity entity, String collisionName){
         try {
             GamePropertyFileReader reader = new GamePropertyFileReader(this.getClass().getSimpleName());
@@ -236,11 +209,15 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
                 String input = (String) parameter.next();
                 x.invoke(this, entity, input);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
                 return;
             }
         }
-
+    protected void thisDeath(Entity entity, String object) {
+        if (entity.getId().equals(object)) {
+            this.setHitpoints(0);
+        }
+    }
 
     protected void applyY(Entity entity, String object) {
         if(entity.getId().equals(object) && entity.getYForce() != 0) {
@@ -251,7 +228,6 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     }
 
     protected void healthPenaltyOnObject(Entity entity, String object) {
-
         if (entity.getId().equals(object)) {
             entity.setHitpoints(entity.getHitpoints() + HEALTH_PENALTY);
         }
@@ -289,7 +265,4 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
         }
     }
 
-
-
-    //add id.
 }
