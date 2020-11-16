@@ -13,7 +13,6 @@ public class VikingsGame extends Game{
 
   private static final int ARROW_WIDTH = 20;
   private static final int ARROW_HEIGHT = 10;
-  //private static final double ARROW_VELOCITY = -30;
   private double xVelocity = -1000;
   private Collection<Movable> arrows = new ArrayList<>();
   private List<Movable> playerOrder = new ArrayList<>();
@@ -227,8 +226,6 @@ public class VikingsGame extends Game{
       firstStep = false;
     }
     totalPoints = (int) System.currentTimeMillis() - startTime;
-    System.out.println(totalPoints);
-
   }
 
 }

@@ -115,17 +115,6 @@ public class MarioGame extends Game {
 //    tempGamePlayScreen.spawn(entitiesToAdd);
   }
 
- /* @Override
-  public void collisionForce(Movable entity) {
-    for (Obstacle obstacle : obstacles) {
-      Node object = obstacle.getNodeObject();
-      collisions(entity, object);
-    }
-    if(!entity.getId().equals("player")){
-      collisions(entity, findMainPlayer());
-    }
-  }*/
-
 
 
   @Override
