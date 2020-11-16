@@ -1,19 +1,17 @@
 package ooga.engine.entities.object;
 
 import ooga.engine.entities.Entity;
-import ooga.engine.obstacles.Obstacle;
 
-public class PlayerObstacle extends Entity {
-
-    public PlayerObstacle(int objectWidth, int objectHeight, double initialX, double initialY) {
+public class WaterSource extends Entity {
+    public WaterSource(int objectWidth, int objectHeight, double initialX, double initialY) {
         super(objectWidth, objectHeight, initialX, initialY);
-        setId("playerobstacle");
+        setId("watersource");
     }
-
 
     @Override
     public boolean hasGravity(){
         return false;
     }
+
 
 }
