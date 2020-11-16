@@ -6,9 +6,11 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import ooga.engine.entities.Entity;
 import ooga.engine.entities.MovableBounds;
@@ -16,8 +18,10 @@ import ooga.engine.games.GamePlay;
 import ooga.engine.obstacles.Unmovable;
 import ooga.loader.AnimationBrain;
 
+import java.awt.*;
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.List;
 
 public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
 
@@ -32,6 +36,8 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
     private double mainWidth;
     private double mainHeight;
     private FiniteStateMachineAnimation fsm;
+    private ImageView fsmImage;
+    private Rectangle rec;
 //    private ResourceBundle characterImages; //tODO
     private final ResourceBundle defaultKeyResources = ResourceBundle.getBundle("KeyBindings");
     private List<Object> keys;
@@ -107,7 +113,12 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
                 if(entity.getId().equals(MAIN_PLAYER_ID)){
                     AnimationBrain x = new AnimationBrain("Mario");
                     fsm = new FiniteStateMachineAnimation((Entity)entity, x);
-                    background.getChildren().add(fsm.getCurrentAnimation().getImage());
+                    fsmImage = fsm.getCurrentAnimation().getImage();
+                    System.out.println(((Entity) entity).getY() + "    " + ((Entity) entity).getX());
+                    rec = new Rectangle(20, 20, 20, 20);
+                    rec.setFill(Color.BLUE);
+                    background.getChildren().add(rec);
+                    background.getChildren().add(fsmImage);
                 }
                 view = (Shape) entity.getNode();
                 double width = view.getBoundsInParent().getWidth();
@@ -166,6 +177,11 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
         background.setTranslateX(sceneShiftX);
         background.setTranslateY(sceneShiftY);
         fsm.update();
+        fsmImage = fsm.getCurrentAnimation().getImage();
+        fsmImage.setX(mainPlayer.getCenterX());
+        rec.setX(mainPlayer.getCenterX());
+        rec.setY(mainPlayer.getMaxY());
+       System.out.println(fsmImage.getX());
     }
 
     @Override

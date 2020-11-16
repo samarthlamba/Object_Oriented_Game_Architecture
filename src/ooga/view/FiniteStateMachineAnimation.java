@@ -61,15 +61,20 @@ public class FiniteStateMachineAnimation {
     this.stand.swapDirection();
   }
   public void update(){
+    currentAnimation.setX(entity.getX());
+    currentAnimation.setY(entity.getY());
     getFacing();
-    if(checkIfJumping()){
+    if(checkIfJumping() && currentAnimation != jump){
       this.currentAnimation = this.jump;
+      currentAnimation.playFromStart();
     }
-    else if (checkIfMoving()){
+    else if (checkIfMoving() && currentAnimation != stand){
       this.currentAnimation = this.stand;
+      currentAnimation.playFromStart();
     }
-    else if (this.checkIfDoingSpecialMove()){
+    else if (this.checkIfDoingSpecialMove() && currentAnimation!= special){
       this.currentAnimation = this.special;
+      currentAnimation.playFromStart();
     }
   }
   public void getFacing(){
