@@ -18,12 +18,12 @@ public class Animation extends Transition { //fsm backend if seperation    //loo
     private final double height;
     private final double xOffset;
     private final double yOffset;
-    private final double framePerRow;
-    private final double length;
-    private final double framePerCol;
-    private int lastIndex;
+    private final int framePerRow;
+    private final int length;
+    private final int framePerCol;
+    private int lastIndex = -1;
     private int index;
-    public Animation(Image image,Double width, Double height, double xOffset, double yOffset, double length, double framePerRow, double framePerCol){
+    public Animation(Image image,Double width, Double height, double xOffset, double yOffset, int length, int framePerRow, int framePerCol){
         duration = new Duration(1000);
         this.image = new ImageView(image);
         this.width = width;
@@ -35,6 +35,7 @@ public class Animation extends Transition { //fsm backend if seperation    //loo
         this.framePerCol = framePerCol;
         this.setCycleDuration(duration);
         setInterpolator(Interpolator.LINEAR);
+
 
 
     }
@@ -52,14 +53,13 @@ public class Animation extends Transition { //fsm backend if seperation    //loo
 
     @Override
     protected void interpolate(double frac) {
-  //System.out.println("width " + width);
-        final int index = Math.min((int) Math.floor(frac * (int)2), (int)2 - 1);
+     //   System.out.println("width " + length);
+        final int index = Math.min((int) Math.floor(frac * length), length - 1);
         if (index != lastIndex) {
-            final int x = (index % (int)framePerCol) * (int)width  + (int)xOffset;
-            final int y = (index / (int)framePerCol) * (int)height + (int)yOffset;
+            final double x = (index % framePerRow) * (int)width  + (int)xOffset;
+            final double y = (index / framePerRow) * (int)height + (int)yOffset;
             image.setViewport(new Rectangle2D(x, y, width, height));
             lastIndex = index;
-
         }
 
 
@@ -67,7 +67,7 @@ public class Animation extends Transition { //fsm backend if seperation    //loo
     }
     public ImageView getImage(){
 
-        System.out.println("getimage: " + image.getViewport());
+       // System.out.println("getimage: " + image.getViewport());
 
         return image;
 

@@ -177,8 +177,9 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
         background.setTranslateX(sceneShiftX);
         background.setTranslateY(sceneShiftY);
         fsm.update();
-        fsmImage.setX(mainPlayer.getCenterX());
-        fsmImage.setY(mainPlayer.getMaxY());
+        background.getChildren().remove(fsmImage);
+        fsmImage = fsm.getCurrentAnimation().getImage();
+        background.getChildren().add(fsmImage);
         rec.setX(mainPlayer.getCenterX());
         rec.setY(mainPlayer.getMaxY());
         System.out.println("yooo" + fsmImage.getViewport());

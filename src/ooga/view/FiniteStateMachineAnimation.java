@@ -65,7 +65,7 @@ public class FiniteStateMachineAnimation {
     currentAnimation.getImage().setX(entity.getCenterX());
     currentAnimation.getImage().setY(entity.getMaxY());
     getFacing();
-    if(checkIfJumping() && currentAnimation != jump){
+    if(checkIfJumping()){
       this.currentAnimation = this.jump;
       currentAnimation.setCycleCount(Animation.INDEFINITE);
       currentAnimation.play();
@@ -105,7 +105,7 @@ public class FiniteStateMachineAnimation {
   }
 
   private Boolean checkIfMoving(){
-    if(entity.getPreviousY() == entity.getMaxY() && entity.getPreviousX() != entity.getCenterX()){
+    if((int)entity.getPreviousY() == (int)entity.getMaxY() && (int)entity.getPreviousX() != (int)entity.getCenterX()){
       return true;
     }
     return false;
