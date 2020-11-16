@@ -21,13 +21,17 @@ public class AnimationBrain {
   private int framesPerColumn;
 
   public AnimationBrain(String entityName) {
-    entityBundle = ResourceBundle.getBundle(String.format(BUNDLE_LOCATION,entityName));
-    findImage();
-    findFramesPerRow();
-    findFramerPerColumn();
-    buildXOffsetMap();
-    buildYOffsetMap();
-    buildLengthMap();
+    try {
+      entityBundle = ResourceBundle.getBundle(String.format(BUNDLE_LOCATION, entityName));
+      findImage();
+      findFramesPerRow();
+      findFramerPerColumn();
+      buildXOffsetMap();
+      buildYOffsetMap();
+      buildLengthMap();
+    } catch (Exception e) {
+      throw new FactoryException(String.format("Cannot build AnimationBrain for entity %s",entityName),e);
+    }
   }
 
   private void findFramerPerColumn() {

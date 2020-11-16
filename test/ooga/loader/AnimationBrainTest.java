@@ -3,6 +3,7 @@ package ooga.loader;
 import static ooga.view.AnimationState.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Map;
 import ooga.util.DukeApplicationTest;
@@ -61,6 +62,16 @@ public class AnimationBrainTest extends DukeApplicationTest {
   public void testFramesPerColumnCorrect() {
     int framesPerColumn = mario.getFramesPerColumn();
     assertEquals(2,framesPerColumn);
+  }
+
+  @Test
+  public void testExceptionIsThrownOnBadEntityName() {
+    try{
+      new AnimationBrain("Luigi");
+    } catch (Exception e) {
+      assertTrue(e instanceof FactoryException);
+      assertEquals("Cannot build AnimationBrain for entity Luigi",e.getMessage());
+    }
   }
 
 }

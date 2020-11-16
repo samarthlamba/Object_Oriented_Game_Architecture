@@ -67,19 +67,19 @@ public class FiniteStateMachineAnimation {
   public void update(){
     moveAndScale();
     getFacing();
-    if(checkIfJumping()){
+    if(isJumping()){
       this.currentAnimation = this.jump;
       currentAnimation.setCycleCount(Animation.INDEFINITE);
       currentAnimation.play();
       System.out.println("jump");
     }
-    else if (checkIfMoving()){
+    else if (isMoving()){
       currentAnimation = this.walk;
       currentAnimation.setCycleCount(Animation.INDEFINITE);
       currentAnimation.play();
       System.out.println("move");
     }
-    else if (this.checkIfDoingSpecialMove()){
+    else if (isSpecial()){
       currentAnimation = this.special;
       currentAnimation.setCycleCount(Animation.INDEFINITE);
       currentAnimation.play();
@@ -106,7 +106,7 @@ public class FiniteStateMachineAnimation {
     currentAnimation.setScaleX(entity.getWidth()/initialWidth);
     currentAnimation.setScaleY(entity.getHeight()/initialHeight);
   }
-  private Boolean checkIfJumping(){
+  private Boolean isJumping(){
     return entity.isJump();
   }
 
@@ -114,14 +114,14 @@ public class FiniteStateMachineAnimation {
     return this.currentAnimation;
   }
 
-  private Boolean checkIfMoving(){
+  private Boolean isMoving(){
     if((int)entity.getPreviousY() == (int)entity.getMaxY() && (int)entity.getPreviousX() != (int)entity.getCenterX()){
       return true;
     }
     return false;
   }
 
-  private Boolean checkIfDoingSpecialMove(){
+  private Boolean isSpecial(){
     return false;
   }
 

@@ -10,7 +10,7 @@ import javafx.util.Duration;
 import static java.lang.Math.abs;
 
 //https://netopyr.com/2012/03/09/creating-a-sprite-animation-with-javafx/
-public class Animation extends Transition { //fsm backend if seperation    //look at unity
+public class Animation extends Transition { //fsm backend if seperation    //look at unity // dont look at unity for the love of god
     private final Duration duration;
     private final ImageView image;
     private ImageView currentImage;
