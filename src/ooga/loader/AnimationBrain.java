@@ -20,6 +20,7 @@ public class AnimationBrain {
   private int framesPerRow;
   private int heightActual;
   private int widthActual;
+  private Map<AnimationState,Integer> durationMap;
 
   public AnimationBrain(String entityName) {
     try {
@@ -32,6 +33,7 @@ public class AnimationBrain {
       findFramesPerRow();
       findActualHeight();
       findActualWidth();
+      buildDurationMap();
     } catch (Exception e) {
       throw new FactoryException(String.format("Cannot build AnimationBrain for entity %s",entityName),e);
     }
@@ -62,6 +64,9 @@ public class AnimationBrain {
     lengthMap = buildMapForAttribute("Length");
   }
 
+  private void buildDurationMap() {
+    durationMap = buildMapForAttribute("Duration");
+  }
 
   private void buildPositionOfFirstAnimation() {
     PositionOfFirstAnimationMap = buildMapForAttribute("PositionOfFirstAnimation");
@@ -91,6 +96,10 @@ public class AnimationBrain {
 
   public int getHeightActual(){
     return this.heightActual;
+  }
+
+  public Map<AnimationState, Integer> getDurationMap(){
+    return Map.copyOf(durationMap);
   }
 
   public int getWidthActual(){

@@ -27,8 +27,8 @@ public class Animation extends Transition { //fsm backend if seperation    //loo
     private double currentScale;
     private final int actualWidth;
     private final int actualHeight;
-    public Animation(Image image,Double spriteWidth, Double spriteHeight, double xWhiteSpaceConstant, double yWhiteSpaceConstant, int lengthOfAnimation, int positionOfFirstAnimation, int framesPerRow, int actualSprintWidth, int actualSprintHeight){
-        duration = new Duration(1000);
+    public Animation(Image image,Double spriteWidth, Double spriteHeight, double xWhiteSpaceConstant, double yWhiteSpaceConstant, int lengthOfAnimation, int positionOfFirstAnimation, int framesPerRow, int actualSprintWidth, int actualSprintHeight, int duration){
+        this.duration = new Duration(duration);
         this.image = new ImageView(image);
         this.width = spriteWidth;
         this.height = spriteHeight;
@@ -39,7 +39,7 @@ public class Animation extends Transition { //fsm backend if seperation    //loo
         this.framesPerRow = framesPerRow;
         this.postionOfFirstAnimation = positionOfFirstAnimation;
         this.length = lengthOfAnimation;
-        this.setCycleDuration(duration);
+        this.setCycleDuration(this.duration);
         setInterpolator(Interpolator.LINEAR);
 
 

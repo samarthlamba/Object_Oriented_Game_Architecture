@@ -15,6 +15,7 @@ public class FiniteStateMachineAnimation {
   private final Image spriteSheet;
   private final Map<AnimationState, Integer> lengthMap;
   private final Map<AnimationState, Integer> positionOfFirstAnimationMap;
+  private final Map<AnimationState, Integer> durationMap;
   private final int framesPerRow;
   private final int framesPerColumn;
   private Animation jump;
@@ -37,6 +38,7 @@ public class FiniteStateMachineAnimation {
     this.framesPerRow = animationBrain.getFramesPerRow();
     this.framesPerColumn = animationBrain.getyWhiteSpaceConstant();
     this.currentFacing = entity.getFacing();
+    this.durationMap = animationBrain.getDurationMap();
     initialize();
   }
 
@@ -53,7 +55,8 @@ public class FiniteStateMachineAnimation {
   private Animation getAnimationForState(AnimationState state) {
     int length = lengthMap.get(state);
     int pos = positionOfFirstAnimationMap.get(state);
-    return new Animation(spriteSheet,entity.getWidth(),entity.getHeight(),animationBrain.getxWhiteSpaceConstant(),animationBrain.getyWhiteSpaceConstant(),length,pos, animationBrain.getFramesPerRow(), animationBrain.getWidthActual(), animationBrain.getHeightActual());
+    int duration = durationMap.get(state);
+    return new Animation(spriteSheet,entity.getWidth(),entity.getHeight(),animationBrain.getxWhiteSpaceConstant(),animationBrain.getyWhiteSpaceConstant(),length,pos, animationBrain.getFramesPerRow(), animationBrain.getWidthActual(), animationBrain.getHeightActual(),duration);
   }
   private void changeAnimationDirection(){
     this.jump.swapDirection();
