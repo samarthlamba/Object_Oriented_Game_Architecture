@@ -22,6 +22,8 @@ public class VikingsGame extends Game{
   private List<Stack<Movable>> removedWaterfall = new ArrayList<>();
   private List<Movable> addWater = new ArrayList<>();
   private boolean waterCollision = false;
+  private boolean firstStep = true;
+  int startTime = 0;
 
 //  private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
 
@@ -128,6 +130,7 @@ public class VikingsGame extends Game{
   protected void updateMovable(){
     waterCollision = false;
     for (Movable entity : entities) {
+      setPoints(entity);
       moveMovable(entity);
       if(entity.getId().equals("enemy")){
         generateArrows(entity);
@@ -219,7 +222,13 @@ public class VikingsGame extends Game{
 
   @Override
   public void setPoints(Movable entity){
-    totalPoints += dt;
+    if(firstStep) {
+      startTime = (int) System.currentTimeMillis();
+      firstStep = false;
+    }
+    totalPoints = (int) System.currentTimeMillis() - startTime;
+    System.out.println(totalPoints);
+
   }
 
 }

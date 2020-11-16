@@ -133,7 +133,7 @@ public abstract class Game implements GamePlay {
         }
     }
 
-    public void setPoints(Movable entity){}
+    public abstract void setPoints(Movable entity);
 
     protected void removeMovable() {
         entities.removeIf(e -> !e.getStatusAlive());
