@@ -52,29 +52,24 @@ public class Animation extends Transition { //fsm backend if seperation    //loo
 
     @Override
     protected void interpolate(double frac) {
-//        System.out.println("width " + width);
-//        System.out.println("height " + height);
-//
-//        System.out.println("xOffset " + xOffset);
-//
-//        System.out.println("yOffset " + yOffset);
-//
-//        System.out.println("length " + length);
-//        System.out.println("dimension: " + image.getImage().getHeight() + "   " + image.getImage().getWidth());
+  //System.out.println("width " + width);
+        final int index = Math.min((int) Math.floor(frac * (int)2), (int)2 - 1);
+        if (index != lastIndex) {
+            final int x = (index % (int)framePerCol) * (int)width  + (int)xOffset;
+            final int y = (index / (int)framePerCol) * (int)height + (int)yOffset;
+            image.setViewport(new Rectangle2D(x, y, width, height));
+            lastIndex = index;
 
-        final int index = Math.min((int)Math.floor(frac * length), (int)length - 1);
-
-        final double x = (index % framePerRow) * width  + xOffset;
-        final double y = (index / framePerRow) * height + yOffset;
-      //  System.out.println(abs(x) + "   " + y);
-        image.setViewport(new Rectangle2D(abs(x), abs(y), width, height));
-        //System.out.println("interpolate viewport: " + new Rectangle2D(abs(x), abs(y), width, height));
-        // System.out.println("rectangle: " + new Rectangle2D(abs(x), abs(y), width, height));
+        }
 
 
 
     }
     public ImageView getImage(){
+
+        System.out.println("getimage: " + image.getViewport());
+
         return image;
+
     }
 }

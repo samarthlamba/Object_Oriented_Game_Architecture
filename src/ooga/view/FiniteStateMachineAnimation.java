@@ -61,6 +61,7 @@ public class FiniteStateMachineAnimation {
     this.stand.swapDirection();
   }
   public void update(){
+
     currentAnimation.getImage().setX(entity.getCenterX());
     currentAnimation.getImage().setY(entity.getMaxY());
     getFacing();
@@ -69,7 +70,6 @@ public class FiniteStateMachineAnimation {
       currentAnimation.setCycleCount(Animation.INDEFINITE);
       currentAnimation.play();
       System.out.println("jump");
-      System.out.println(currentAnimation.getImage().getViewport());
     }
     else if (checkIfMoving() && currentAnimation != walk){
       currentAnimation = this.walk;

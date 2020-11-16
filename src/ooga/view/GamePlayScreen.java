@@ -181,7 +181,7 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
         fsmImage.setY(mainPlayer.getMaxY());
         rec.setX(mainPlayer.getCenterX());
         rec.setY(mainPlayer.getMaxY());
-        System.out.println(fsmImage.getViewport());
+        System.out.println("yooo" + fsmImage.getViewport());
     }
 
     @Override
