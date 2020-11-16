@@ -114,10 +114,6 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
                     AnimationBrain x = new AnimationBrain("Mario");
                     fsm = new FiniteStateMachineAnimation((Entity)entity, x);
                     fsmImage = fsm.getCurrentAnimation().getImage();
-                    System.out.println(((Entity) entity).getY() + "    " + ((Entity) entity).getX());
-                    rec = new Rectangle(20, 20, 20, 20);
-                    rec.setFill(Color.BLUE);
-                    background.getChildren().add(rec);
                     background.getChildren().add(fsm.getCurrentAnimation().getImage());
                 }
                 view = (Shape) entity.getNode();
@@ -180,8 +176,6 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
         background.getChildren().remove(fsmImage);
         fsmImage = fsm.getCurrentAnimation().getImage();
         background.getChildren().add(fsmImage);
-        rec.setX(mainPlayer.getCenterX());
-        rec.setY(mainPlayer.getMaxY());
         System.out.println("yooo" + fsmImage.getViewport());
     }
 

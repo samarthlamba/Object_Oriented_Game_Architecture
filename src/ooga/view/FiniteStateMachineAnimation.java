@@ -24,9 +24,13 @@ public class FiniteStateMachineAnimation {
   private Animation stand;
   private Boolean currentFacing;
   private Animation currentAnimation;
+  private final double initialHeight;
+  private final double initialWidth;
 
   public FiniteStateMachineAnimation(Entity entity, AnimationBrain animationBrain){
     this.entity = entity;
+    initialHeight = entity.getHeight();
+    initialWidth = entity.getWidth();
     this.animationBrain = animationBrain;
     this.spriteSheet=  animationBrain.getImage();
     this.lengthMap = animationBrain.getLengthMap();
@@ -52,7 +56,7 @@ public class FiniteStateMachineAnimation {
     int length = lengthMap.get(state);
     int xOffset = xOffsetMap.get(state);
     int yOffset = yOffsetMap.get(state);
-    return new Animation(spriteSheet,entity.getWidth(),entity.getHeight(),xOffset,yOffset,length,framesPerRow, framesPerColumn);
+    return new Animation(spriteSheet,entity.getWidth()+50,entity.getHeight()+50,xOffset,yOffset,length,framesPerRow, framesPerColumn);
   }
   private void changeAnimationDirection(){
     this.jump.swapDirection();
@@ -61,9 +65,7 @@ public class FiniteStateMachineAnimation {
     this.stand.swapDirection();
   }
   public void update(){
-
-    currentAnimation.getImage().setX(entity.getCenterX());
-    currentAnimation.getImage().setY(entity.getMaxY());
+    moveAndScale();
     getFacing();
     if(checkIfJumping()){
       this.currentAnimation = this.jump;
@@ -95,6 +97,14 @@ public class FiniteStateMachineAnimation {
       currentFacing = entity.getFacing();
       changeAnimationDirection();
     }
+  }
+
+  private void moveAndScale(){
+
+    currentAnimation.getImage().setX(entity.getCenterX()-entity.getWidth());
+    currentAnimation.getImage().setY(entity.getMaxY()-entity.getHeight());
+    currentAnimation.setScaleX(entity.getWidth()/initialWidth);
+    currentAnimation.setScaleY(entity.getHeight()/initialHeight);
   }
   private Boolean checkIfJumping(){
     return entity.isJump();

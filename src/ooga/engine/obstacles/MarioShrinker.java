@@ -37,15 +37,16 @@ public class MarioShrinker extends Obstacle {
   }
 
 //https://stackoverflow.com/questions/24393636/the-pain-with-the-pane-in-javafx-how-can-you-scale-nodes-with-fixed-top-left-co
-  private void scalePlayer(Entity entity){
-    if(entity.getId()== "player"){
-      if(!hasShrunk) {
-        entity.getNode().setScaleX(0.5);
-        entity.getNode().setScaleY(0.5);
-        //entity.setMaxY(entity.getScene().getHeight() / 4);
-        hasShrunk = true;
-      }
+public void scalePlayer(Entity entity){
+  if(entity.getId().equals("player")){
+    if(!hasShrunk) {
+      entity.setHeight(entity.getWidth()*0.5);
+      entity.setWidth(entity.getHeight()*0.5);
+      //entity.setMaxY(entity.getScene().getHeight() / 4);
+      hasShrunk = true;
     }
+    System.out.println(entity.getBoundsInParent());
+    System.out.println(entity.getMaxY());
   }
-
+}
 }

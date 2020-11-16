@@ -20,10 +20,10 @@ public class Animation extends Transition { //fsm backend if seperation    //loo
     private final double yOffset;
     private final int framePerRow;
     private final int length;
-    private final int framePerCol;
+    private final int offsetBetweenPics;
     private int lastIndex = -1;
     private int index;
-    public Animation(Image image,Double width, Double height, double xOffset, double yOffset, int length, int framePerRow, int framePerCol){
+    public Animation(Image image,Double width, Double height, double xOffset, double yOffset, int length, int framePerRow, int offsetBetweenPics){
         duration = new Duration(1000);
         this.image = new ImageView(image);
         this.width = width;
@@ -32,7 +32,7 @@ public class Animation extends Transition { //fsm backend if seperation    //loo
         this.yOffset = yOffset;
         this.framePerRow = framePerRow;
         this.length = length;
-        this.framePerCol = framePerCol;
+        this.offsetBetweenPics = offsetBetweenPics;
         this.setCycleDuration(duration);
         setInterpolator(Interpolator.LINEAR);
 
@@ -51,13 +51,23 @@ public class Animation extends Transition { //fsm backend if seperation    //loo
         image.setScaleX(image.getScaleX()*-1);
     }
 
+    public void setScaleX(double value) {
+        if (abs(image.getScaleX()) != value) {
+            image.setScaleX(image.getScaleX() * value);
+        }
+    }
+    public void setScaleY(double value) {
+        if (abs(image.getScaleY()) != value) {
+            image.setScaleY(image.getScaleY() * value);
+        }
+    }
     @Override
     protected void interpolate(double frac) {
      //   System.out.println("width " + length);
         final int index = Math.min((int) Math.floor(frac * length), length - 1);
         if (index != lastIndex) {
-            final double x = (index % framePerRow) * (int)width  + (int)xOffset;
-            final double y = (index / framePerRow) * (int)height + (int)yOffset;
+            final double x = (index % framePerRow) * width  + xOffset+offsetBetweenPics;
+            final double y = (index / framePerRow) * height + yOffset;
             image.setViewport(new Rectangle2D(x, y, width, height));
             lastIndex = index;
         }
