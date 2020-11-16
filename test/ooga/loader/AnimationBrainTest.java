@@ -29,26 +29,17 @@ public class AnimationBrainTest extends DukeApplicationTest {
     Map<AnimationState,Integer> lengthMap = mario.getLengthMap();
     assertEquals(1,lengthMap.get(STAND));
     assertEquals(1,lengthMap.get(SPECIAL));
-    assertEquals(8,lengthMap.get(JUMP));
-    assertEquals(4,lengthMap.get(WALK));
+    assertEquals(6,lengthMap.get(JUMP));
+    assertEquals(3,lengthMap.get(WALK));
   }
 
   @Test
-  public void testXOffsetsCorrect() {
-    Map<AnimationState,Integer> xMap = mario.getXOffsetMap();
-    assertEquals(0,xMap.get(STAND));
-    assertEquals(0,xMap.get(SPECIAL));
-    assertEquals(4,xMap.get(JUMP));
-    assertEquals(1,xMap.get(WALK));
-  }
-
-  @Test
-  public void testYOffsetsCorrect() {
-    Map<AnimationState,Integer> yMap = mario.getYOffsetMap();
-    assertEquals(0,yMap.get(STAND));
-    assertEquals(0,yMap.get(SPECIAL));
-    assertEquals(0,yMap.get(JUMP));
-    assertEquals(0,yMap.get(WALK));
+  public void testPositionOfFirstAnimationMap() {
+    Map<AnimationState,Integer> yMap = mario.getPositionOfFirstAnimationMap();
+    assertEquals(1,yMap.get(STAND));
+    assertEquals(1,yMap.get(SPECIAL));
+    assertEquals(7,yMap.get(JUMP));
+    assertEquals(2,yMap.get(WALK));
   }
 
   @Test
@@ -59,9 +50,15 @@ public class AnimationBrainTest extends DukeApplicationTest {
   }
 
   @Test
-  public void testFramesPerColumnCorrect() {
-    int framesPerColumn = mario.getFramesPerColumn();
-    assertEquals(2,framesPerColumn);
+  public void testGetyWhiteSpaceConstant() {
+    int framesPerColumn = mario.getyWhiteSpaceConstant();
+    assertEquals(28,framesPerColumn);
+  }
+
+  @Test
+  public void testGetxWhiteSpaceConstant() {
+    int framesPerColumn = mario.getxWhiteSpaceConstant();
+    assertEquals(30,framesPerColumn);
   }
 
   @Test

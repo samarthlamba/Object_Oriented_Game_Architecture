@@ -4,8 +4,6 @@ import static ooga.view.AnimationState.*;
 
 import java.util.Map;
 import javafx.scene.image.Image;
-import javafx.scene.transform.Scale;
-import javafx.scene.transform.Transform;
 import ooga.engine.entities.Entity;
 import ooga.loader.AnimationBrain;
 
@@ -16,8 +14,7 @@ public class FiniteStateMachineAnimation {
   private final AnimationBrain animationBrain;
   private final Image spriteSheet;
   private final Map<AnimationState, Integer> lengthMap;
-  private final Map<AnimationState, Integer> xOffsetMap;
-  private final Map<AnimationState, Integer> yOffsetMap;
+  private final Map<AnimationState, Integer> positionOfFirstAnimationMap;
   private final int framesPerRow;
   private final int framesPerColumn;
   private Animation jump;
@@ -36,10 +33,9 @@ public class FiniteStateMachineAnimation {
     this.animationBrain = animationBrain;
     this.spriteSheet=  animationBrain.getImage();
     this.lengthMap = animationBrain.getLengthMap();
-    this.xOffsetMap = animationBrain.getXOffsetMap();
-    this.yOffsetMap = animationBrain.getYOffsetMap();
+    this.positionOfFirstAnimationMap = animationBrain.getPositionOfFirstAnimationMap();
     this.framesPerRow = animationBrain.getFramesPerRow();
-    this.framesPerColumn = animationBrain.getFramesPerColumn();
+    this.framesPerColumn = animationBrain.getyWhiteSpaceConstant();
     this.currentFacing = entity.getFacing();
     initialize();
   }
@@ -56,9 +52,8 @@ public class FiniteStateMachineAnimation {
 
   private Animation getAnimationForState(AnimationState state) {
     int length = lengthMap.get(state);
-    int xOffset = xOffsetMap.get(state);
-    int yOffset = yOffsetMap.get(state);
-    return new Animation(spriteSheet,entity.getWidth()+50,entity.getHeight()+50,xOffset,yOffset,length,framesPerRow, framesPerColumn);
+    int pos = positionOfFirstAnimationMap.get(state);
+    return new Animation(spriteSheet,entity.getWidth()+50,entity.getHeight()+50,animationBrain.getxWhiteSpaceConstant(),animationBrain.getyWhiteSpaceConstant(),length,pos, animationBrain.getFramesPerRow());
   }
   private void changeAnimationDirection(){
     this.jump.swapDirection();
