@@ -89,8 +89,11 @@ public class Animation extends Transition { //fsm backend if seperation    //loo
     protected void interpolate(double frac) {
         int index = Math.min((int) Math.floor(frac * length), length - 1)+postionOfFirstAnimation-1; //the first part was a part of interpolate and the +positionOfFirstAnimation offsets things
         if (index != lastIndex) {
-            final double x = (index % framesPerRow) * actualWidth  + xWhiteSpaceConstant*((index % framesPerRow)+1); //current position in row * width of image + amount of white space to leave * the current position*2
+            double x = (index % framesPerRow) * actualWidth  + xWhiteSpaceConstant*((index % framesPerRow)+1); //current position in row * width of image + amount of white space to leave * the current position*2
             final double y = (index / framesPerRow) * actualHeight + yWhiteSpaceConstant*(index / framesPerRow);
+          //  if(index!= 0){
+            //    x = x+3;
+           // }
             image.setViewport(new Rectangle2D(x, y, actualWidth, actualHeight));
             lastIndex = index;
         }
