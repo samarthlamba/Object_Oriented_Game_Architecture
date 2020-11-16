@@ -10,7 +10,7 @@ public class MetroidMenuScreen  extends GameMenuScreen{
 
   public MetroidMenuScreen(Consumer e) {
     super(e);
-    Media media = new Media(new File("src\\resources\\metroidSong.mp3").toURI().toString());
+    Media media = new Media(new File("src/resources/metroidSong.mp3").toURI().toString());
     MediaPlayer mediaPlayer = new MediaPlayer(media);
     mediaPlayer.setAutoPlay(true);
   }

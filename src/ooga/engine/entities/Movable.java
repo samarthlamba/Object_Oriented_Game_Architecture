@@ -34,24 +34,21 @@ package ooga.engine.entities;
 
      double getYForce();
 
-     double getTimeElapsedX();
-
-     double getTimeElapsedY();
-
-     void setTimeElapsedY(double time);
-
-     void setTimeElapsedX(double time);
-
      boolean hasGravity();
 
      int getHitpoints();
 
      void setJump(boolean isJump);
 
+     boolean isJump();
+
      void setFacing(boolean facing); //TODO: take out once key moved
 
-     void setFinished(boolean finished);
+     boolean getStatusAlive();
 
-     boolean hasFinished();
+     boolean hasWon();
+
+     void setHitpoints(int hitpoints);
+
 
 }

@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.util.Collection;
 
 import javafx.scene.Node;
+import ooga.engine.entities.Movable;
 import ooga.engine.entities.MovableBounds;
 import ooga.engine.games.Game;
 import ooga.engine.games.MarioGame;
@@ -24,10 +25,13 @@ public class GameFactoryTest extends DukeApplicationTest {
     assertTrue(gameFromLoader instanceof MarioGame);
     Collection<MovableBounds> entitiesFromGame = (Collection<MovableBounds>) gameFromLoader.getEntities();
     Collection<Node> obstaclesFromGame = (Collection<Node>) gameFromLoader.getBackground();
+    Movable player = gameFromLoader.getActivePlayer();
     assertEquals(1,entitiesFromGame.size());
     for(MovableBounds each : entitiesFromGame) {
       assertTrue(each instanceof Mario);
     }
+    assertTrue(player instanceof Mario);
+    assertTrue(entitiesFromGame.contains(player));
     assertEquals(3,obstaclesFromGame.size());
     for(Node each : obstaclesFromGame) {
       assertTrue(each instanceof Wall);
@@ -61,6 +65,17 @@ public class GameFactoryTest extends DukeApplicationTest {
     } catch (Exception e) {
       assertTrue(e instanceof FactoryException);
       assertEquals("Unable to build game from testEmptyFile: Empty file",e.getMessage());
+    }
+  }
+
+
+  @Test
+  public void testFactoryThrowsExceptionIfNoPlayer() {
+    try {
+      factory.makeCorrectGame("testNoPlayer");
+    } catch (Exception e) {
+      assertTrue(e instanceof FactoryException);
+      assertEquals("Unable to build game from testNoPlayer: No player found",e.getMessage());
     }
   }
 

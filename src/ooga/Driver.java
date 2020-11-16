@@ -1,6 +1,5 @@
 package ooga;
 
-import java.sql.Time;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -8,6 +7,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.engine.games.Game;
 import ooga.engine.games.GamePlay;
+import ooga.engine.games.HighScore;
 import ooga.loader.GameFactory;
 import ooga.view.Display;
 import ooga.view.Screen;
@@ -49,11 +49,18 @@ public class Driver extends Application {
   }
 
   private void step() {
-    if(game.hasFinished()) {
+    if(game.isLost()){
+      victoryScreen();
+      HighScore highScore = new HighScore(gameTitle);
+      highScore.checkAddHighScore(game.getPoints());
+    }
+    if(game.isWon()) {
       victoryScreen();
     }
-    game.updateLevel();
-    display.updateDisplay();
+    else{
+      game.updateLevel();
+      display.updateDisplay();
+    }
   }
 
   private void victoryScreen() {
