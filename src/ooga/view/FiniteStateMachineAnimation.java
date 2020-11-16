@@ -4,6 +4,8 @@ import static ooga.view.AnimationState.*;
 
 import java.util.Map;
 import javafx.scene.image.Image;
+import javafx.scene.transform.Scale;
+import javafx.scene.transform.Transform;
 import ooga.engine.entities.Entity;
 import ooga.loader.AnimationBrain;
 
@@ -56,7 +58,7 @@ public class FiniteStateMachineAnimation {
     int length = lengthMap.get(state);
     int xOffset = xOffsetMap.get(state);
     int yOffset = yOffsetMap.get(state);
-    return new Animation(spriteSheet,entity.getWidth()+50,entity.getHeight()+50,xOffset,yOffset,length,framesPerRow, framesPerColumn);
+    return new Animation(spriteSheet,entity.getWidth()+300,entity.getHeight()+300,xOffset,yOffset,length,framesPerRow, framesPerColumn);
   }
   private void changeAnimationDirection(){
     this.jump.swapDirection();
@@ -101,10 +103,18 @@ public class FiniteStateMachineAnimation {
 
   private void moveAndScale(){
 
-    currentAnimation.getImage().setX(entity.getCenterX()-entity.getWidth());
+    currentAnimation.getImage().setX(entity.getCenterX()-entity.getWidth()/2);
     currentAnimation.getImage().setY(entity.getMaxY()-entity.getHeight());
+
+    double xRatio = entity.getWidth()/initialWidth;
+    double yRatio = entity.getHeight()/initialHeight;
+    currentAnimation.scale(xRatio,yRatio);
+
+    /*
     currentAnimation.setScaleX(entity.getWidth()/initialWidth);
     currentAnimation.setScaleY(entity.getHeight()/initialHeight);
+
+     */
   }
   private Boolean isJumping(){
     return entity.isJump();

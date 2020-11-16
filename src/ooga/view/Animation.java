@@ -1,10 +1,15 @@
 package ooga.view;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 import javafx.animation.Interpolator;
 import javafx.animation.Transition;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.transform.Scale;
+import javafx.scene.transform.Transform;
 import javafx.util.Duration;
 
 import static java.lang.Math.abs;
@@ -12,7 +17,7 @@ import static java.lang.Math.abs;
 //https://netopyr.com/2012/03/09/creating-a-sprite-animation-with-javafx/
 public class Animation extends Transition { //fsm backend if seperation    //look at unity // dont look at unity for the love of god
     private final Duration duration;
-    private final ImageView image;
+    private ImageView image;
     private ImageView currentImage;
     private final double width;
     private final double height;
@@ -23,6 +28,7 @@ public class Animation extends Transition { //fsm backend if seperation    //loo
     private final int offsetBetweenPics;
     private int lastIndex = -1;
     private int index;
+    private double currentScale;
     public Animation(Image image,Double width, Double height, double xOffset, double yOffset, int length, int framePerRow, int offsetBetweenPics){
         duration = new Duration(1000);
         this.image = new ImageView(image);
@@ -50,6 +56,31 @@ public class Animation extends Transition { //fsm backend if seperation    //loo
     public void swapDirection(){
         image.setScaleX(image.getScaleX()*-1);
     }
+
+    public void scale(double xValue, double yValue) {
+        Scale scale = new Scale();
+        System.out.println(xValue);
+        if (abs(currentScale) != xValue) {
+            scale.setX(xValue);
+            scale.setY(yValue);
+            /*
+            scale.setPivotX(image.getX());
+            scale.setPivotY(image.getY());
+            
+             */
+            image.getTransforms().add(scale);
+            currentScale = xValue;
+        }
+    }
+
+    /*
+    private boolean isScaled() {
+        List<Scale> scales = image.getTransforms().stream().filter(t -> t.getClass().equals(Scale.class)).map(transform -> (Scale) transform).collect(
+            Collectors.toList());
+        List<Scale> halfScaled = scales.stream()
+    }
+
+     */
 
     public void setScaleX(double value) {
         if (abs(image.getScaleX()) != value) {
