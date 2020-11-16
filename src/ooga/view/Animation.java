@@ -28,7 +28,7 @@ public class Animation extends Transition { //fsm backend if seperation    //loo
     private final int actualWidth;
     private final int actualHeight;
     public Animation(Image image,Double spriteWidth, Double spriteHeight, double xWhiteSpaceConstant, double yWhiteSpaceConstant, int lengthOfAnimation, int positionOfFirstAnimation, int framesPerRow, int actualSprintWidth, int actualSprintHeight){
-        duration = new Duration(1000);
+        duration = new Duration(100);
         this.image = new ImageView(image);
         this.width = spriteWidth;
         this.height = spriteHeight;
@@ -91,9 +91,9 @@ public class Animation extends Transition { //fsm backend if seperation    //loo
         if (index != lastIndex) {
             double x = (index % framesPerRow) * actualWidth  + xWhiteSpaceConstant*((index % framesPerRow)+1); //current position in row * width of image + amount of white space to leave * the current position*2
             final double y = (index / framesPerRow) * actualHeight + yWhiteSpaceConstant*(index / framesPerRow);
-          //  if(index!= 0){
-            //    x = x+3;
-           // }
+          if(index!= 0){
+              x = x+2;
+           }
             image.setViewport(new Rectangle2D(x, y, actualWidth, actualHeight));
             lastIndex = index;
         }

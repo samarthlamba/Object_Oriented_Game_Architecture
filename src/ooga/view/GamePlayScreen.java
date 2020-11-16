@@ -115,10 +115,9 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
                     fsm = new FiniteStateMachineAnimation((Entity)entity, x);
                     fsmImage = fsm.getCurrentAnimation().getImage();
                     background.getChildren().add(fsmImage);
-                    return;
+                    continue;
                 }
                 view = (Shape) entity.getNode();
-                double width = view.getBoundsInParent().getWidth();
 
                 view.setFill(characterImages.getOrDefault(entity.getId(),DEFAULT_IMAGE));
                 background.getChildren().add(view);
