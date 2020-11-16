@@ -1,10 +1,8 @@
 package ooga.view;
 
+import java.lang.reflect.Method;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
 import javafx.scene.Scene;
-import ooga.GameController;
-import ooga.TimelineManager;
 
 public class SplashScreen extends Screen{
   private final String displayKey;
@@ -16,25 +14,32 @@ public class SplashScreen extends Screen{
     this.displayKey = displayKey;
     this.restart = restartGame;
     this.setMainMenu = setMainMenu;
-    myScene = new Scene(makeBMenu(),SCREEN_WIDTH,SCREEN_HEIGHT);
+    this.myScene = new Scene(makeMenu(),SCREEN_WIDTH,SCREEN_HEIGHT);
   }
 
-  private void doCorrectThing(String buttonName) {
-    System.out.println(buttonName);
-    if(buttonName.equals("Restart")) {
-      restart.run();
-    }
-    if(buttonName.equals("MainMenu")) {
+  private void invokeCorrectMethod(String buttonName) {
+    try{
+      Method correctMethod = this.getClass().getDeclaredMethod(buttonName);
+      correctMethod.invoke(this);
+    } catch (Exception e) {
       setMainMenu.run();
     }
   }
-
-  private Menu makeBMenu() {
-    Menu myMenu = new Menu(ResourceBundle.getBundle("SplashButtons"),this::doCorrectThing);
+  private Menu makeMenu() {
+    Menu myMenu = new Menu(ResourceBundle.getBundle("SplashButtons"),this::invokeCorrectMethod);
     return myMenu;
   }
 
+  private void mainMenu() {
+    setMainMenu.run();
+  }
+
+  private void restart() {
+    restart.run();
+  }
+
   @Override
+  //HERE ROSHNI MAKES GIFS USING DISPLAYKEY TO SELECT CORRECT ONE
   public Scene getView() {
     return myScene;
   }

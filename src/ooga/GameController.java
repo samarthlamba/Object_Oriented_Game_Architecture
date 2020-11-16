@@ -39,7 +39,6 @@ public class GameController {
     timeline.play();
   }
 
-
   public void restartGame() {
     launchGame(pathToCurrentGame);
   }
