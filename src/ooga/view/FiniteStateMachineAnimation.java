@@ -53,7 +53,7 @@ public class FiniteStateMachineAnimation {
   private Animation getAnimationForState(AnimationState state) {
     int length = lengthMap.get(state);
     int pos = positionOfFirstAnimationMap.get(state);
-    return new Animation(spriteSheet,entity.getWidth()+50,entity.getHeight()+50,animationBrain.getxWhiteSpaceConstant(),animationBrain.getyWhiteSpaceConstant(),length,pos, animationBrain.getFramesPerRow());
+    return new Animation(spriteSheet,entity.getWidth(),entity.getHeight(),animationBrain.getxWhiteSpaceConstant(),animationBrain.getyWhiteSpaceConstant(),length,pos, animationBrain.getFramesPerRow(), animationBrain.getWidthActual(), animationBrain.getHeightActual());
   }
   private void changeAnimationDirection(){
     this.jump.swapDirection();
@@ -103,7 +103,7 @@ public class FiniteStateMachineAnimation {
 
     double xRatio = entity.getWidth()/initialWidth;
     double yRatio = entity.getHeight()/initialHeight;
-    currentAnimation.scale(xRatio,yRatio);
+    currentAnimation.scale(entity.getWidth(),entity.getHeight());
 
     /*
     currentAnimation.setScaleX(entity.getWidth()/initialWidth);

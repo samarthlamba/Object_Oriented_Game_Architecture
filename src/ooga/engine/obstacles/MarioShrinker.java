@@ -40,13 +40,13 @@ public class MarioShrinker extends Obstacle {
 public void scalePlayer(Entity entity){
   if(entity.getId().equals("player")){
     if(!hasShrunk) {
+      System.out.println("hasShrunk " + entity.getBoundsInParent());
       entity.setHeight(entity.getWidth()*0.5);
       entity.setWidth(entity.getHeight()*0.5);
+      System.out.println("hasShrunk " + entity.getBoundsInParent());
       //entity.setMaxY(entity.getScene().getHeight() / 4);
       hasShrunk = true;
     }
-    System.out.println(entity.getBoundsInParent());
-    System.out.println(entity.getMaxY());
   }
 }
 }

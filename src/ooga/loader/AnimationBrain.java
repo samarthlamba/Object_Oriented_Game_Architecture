@@ -18,6 +18,8 @@ public class AnimationBrain {
   private int xWhiteSpaceConstant;
   private int yWhiteSpaceConstant;
   private int framesPerRow;
+  private int heightActual;
+  private int widthActual;
 
   public AnimationBrain(String entityName) {
     try {
@@ -28,11 +30,18 @@ public class AnimationBrain {
       buildPositionOfFirstAnimation();
       buildLengthMap();
       findFramesPerRow();
+      findActualHeight();
+      findActualWidth();
     } catch (Exception e) {
       throw new FactoryException(String.format("Cannot build AnimationBrain for entity %s",entityName),e);
     }
   }
-
+  private void findActualHeight(){
+    this.heightActual = lookupIntInBundle("height");
+  }
+  private void findActualWidth(){
+    this.widthActual = lookupIntInBundle("width");
+  }
   private void findxWhiteSpaceConstant() {
     xWhiteSpaceConstant = lookupIntInBundle("xWhiteSpaceConstant");
   }
@@ -78,6 +87,14 @@ public class AnimationBrain {
 
   public Image getImage() {
     return spriteSheet;
+  }
+
+  public int getHeightActual(){
+    return this.heightActual;
+  }
+
+  public int getWidthActual(){
+    return this.widthActual;
   }
 
   public int getxWhiteSpaceConstant() {

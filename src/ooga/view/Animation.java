@@ -15,8 +15,8 @@ public class Animation extends Transition { //fsm backend if seperation    //loo
     private final Duration duration;
     private ImageView image;
     private ImageView currentImage;
-    private final double width;
-    private final double height;
+    private double width;
+    private double height;
     private final double xWhiteSpaceConstant;
     private final double yWhiteSpaceConstant;
     private final int postionOfFirstAnimation;
@@ -25,11 +25,15 @@ public class Animation extends Transition { //fsm backend if seperation    //loo
     private int lastIndex = -1;
     private int index;
     private double currentScale;
-    public Animation(Image image,Double spriteWidth, Double spriteHeight, double xWhiteSpaceConstant, double yWhiteSpaceConstant, int lengthOfAnimation, int positionOfFirstAnimation, int framesPerRow){
+    private final int actualWidth;
+    private final int actualHeight;
+    public Animation(Image image,Double spriteWidth, Double spriteHeight, double xWhiteSpaceConstant, double yWhiteSpaceConstant, int lengthOfAnimation, int positionOfFirstAnimation, int framesPerRow, int actualSprintWidth, int actualSprintHeight){
         duration = new Duration(1000);
         this.image = new ImageView(image);
         this.width = spriteWidth;
         this.height = spriteHeight;
+        this.actualWidth = actualSprintWidth;
+        this.actualHeight = actualSprintHeight;
         this.xWhiteSpaceConstant = xWhiteSpaceConstant;
         this.yWhiteSpaceConstant = yWhiteSpaceConstant;
         this.framesPerRow = framesPerRow;
@@ -37,6 +41,7 @@ public class Animation extends Transition { //fsm backend if seperation    //loo
         this.length = lengthOfAnimation;
         this.setCycleDuration(duration);
         setInterpolator(Interpolator.LINEAR);
+
 
 
 
@@ -54,19 +59,11 @@ public class Animation extends Transition { //fsm backend if seperation    //loo
     }
 
     public void scale(double xValue, double yValue) {
-        Scale scale = new Scale();
-        System.out.println(xValue);
-        if (abs(currentScale) != xValue) {
-            scale.setX(xValue);
-            scale.setY(yValue);
-            /*
-            scale.setPivotX(image.getX());
-            scale.setPivotY(image.getY());
-            
-             */
-            image.getTransforms().add(scale);
-            currentScale = xValue;
-        }
+
+        image.setFitWidth(xValue);
+        image.setFitHeight(yValue);
+        this.width = xValue;
+        this.height = yValue;
     }
 
     /*
@@ -90,13 +87,16 @@ public class Animation extends Transition { //fsm backend if seperation    //loo
     }
     @Override
     protected void interpolate(double frac) {
-        int index = Math.min((int) Math.floor(frac * length), length - 1)+postionOfFirstAnimation; //the first part was a part of interpolate and the +positionOfFirstAnimation offsets things
+        int index = Math.min((int) Math.floor(frac * length), length - 1)+postionOfFirstAnimation-1; //the first part was a part of interpolate and the +positionOfFirstAnimation offsets things
         if (index != lastIndex) {
-            final double x = (index % framesPerRow) * width  + xWhiteSpaceConstant*(index % framesPerRow)*2; //current position in row * width of image + amount of white space to leave * the current position*2
-            final double y = (index / framesPerRow) * height + yWhiteSpaceConstant*index*2;
-            image.setViewport(new Rectangle2D(x, y, width, height));
+            final double x = (index % framesPerRow) * actualWidth  + xWhiteSpaceConstant*((index % framesPerRow)+1); //current position in row * width of image + amount of white space to leave * the current position*2
+            final double y = (index / framesPerRow) * actualHeight + yWhiteSpaceConstant*(index / framesPerRow);
+            image.setViewport(new Rectangle2D(x, y, actualWidth, actualHeight));
             lastIndex = index;
         }
+        image.setFitWidth(width);
+        image.setFitHeight(height);
+     //   System.out.println(image.getViewport());
     }
     public ImageView getImage(){
         return image;
