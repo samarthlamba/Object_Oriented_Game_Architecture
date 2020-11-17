@@ -1,18 +1,14 @@
-package ooga.view;
+package ooga.view.screens;
 
 import java.util.function.Consumer;
 
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.paint.Color;
+import ooga.view.Menu;
 
-import java.lang.reflect.Method;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
 
-public class MainMenuScreen extends Screen{
+public class MainMenuScreen extends Screen {
 
     Pos MENU_POSITION = Pos.CENTER;
     Consumer<String> gameSelectorConsumer;

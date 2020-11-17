@@ -1,13 +1,14 @@
-package ooga.view;
+package ooga.view.screens;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import ooga.Main;
+import ooga.view.screens.GameMenuScreen;
 
 import java.io.File;
 import java.util.function.Consumer;
 
-public class SuperMarioBrosMenuScreen extends GameMenuScreen{
+public class SuperMarioBrosMenuScreen extends GameMenuScreen {
 
     public SuperMarioBrosMenuScreen(Consumer e) {
         super(e);

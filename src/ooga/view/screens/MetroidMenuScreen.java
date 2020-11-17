@@ -1,12 +1,13 @@
-package ooga.view;
+package ooga.view.screens;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import ooga.view.screens.GameMenuScreen;
 
 import java.io.File;
 import java.util.function.Consumer;
 
-public class MetroidMenuScreen  extends GameMenuScreen{
+public class MetroidMenuScreen  extends GameMenuScreen {
 
   public MetroidMenuScreen(Consumer e) {
     super(e);

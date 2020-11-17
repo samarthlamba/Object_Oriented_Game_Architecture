@@ -1,4 +1,4 @@
-package ooga.view;
+package ooga.view.screens;
 
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -9,9 +9,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Shape;
+import ooga.GameController;
 import ooga.engine.entities.MovableBounds;
 import ooga.engine.games.GamePlay;
-import ooga.engine.obstacles.Unmovable;
+import ooga.view.HeadsUpDisplay;
+import ooga.view.UpdateObjectsOnScreen;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -36,11 +38,12 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
     private MovableBounds mainPlayer;
     private Collection onScreen;
     private Map<String, ImagePattern> characterImages;
+    private GameController gameController;
     //          private Consumer pauseConsumer;
 //          private Consumer playConsumer;
 //          private Consumer restartConsumer;
 
-    public GamePlayScreen(GamePlay givenGame) {
+    public GamePlayScreen(GamePlay givenGame, GameController control) {
 //        public GamePlayScreen(GamePlay givenGame, Consumer pause, Consumer play, Consumer restart) {
 //          pauseConsumer = pause;
 //          playConsumer = play;
@@ -48,6 +51,7 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
         background = new Group();
         game = givenGame;
         keys = new ArrayList<>();
+        gameController = control;
 
     }
     public GamePlayScreen() {
@@ -78,6 +82,11 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
         scene = new Scene(root,SCREEN_WIDTH,SCREEN_HEIGHT);//todo
         bindKeys();
     }
+
+//    public void restartGame() {
+//        gameController.restartGame();
+////        setGameDisplay(gameController.getGame());
+//    }
 
     private void addObstacles(Collection<Node> obstacles) {
         for (Node obstacle : obstacles) {

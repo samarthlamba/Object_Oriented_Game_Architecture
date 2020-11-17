@@ -1,17 +1,17 @@
-package ooga.view;
+package ooga.view.screens;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import ooga.view.Menu;
 
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
-public class GameMenuScreen extends Screen{
+public class GameMenuScreen extends Screen {
 
     private static final double IMAGE_WIDTH = 400.0;
     private static final double IMAGE_HEIGHT = 400.0;

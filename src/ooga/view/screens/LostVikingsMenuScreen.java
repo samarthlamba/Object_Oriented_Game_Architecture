@@ -1,12 +1,13 @@
-package ooga.view;
+package ooga.view.screens;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import ooga.view.screens.GameMenuScreen;
 
 import java.io.File;
 import java.util.function.Consumer;
 
-public class LostVikingsMenuScreen extends GameMenuScreen{
+public class LostVikingsMenuScreen extends GameMenuScreen {
 
   public LostVikingsMenuScreen(Consumer e) {
     super(e);

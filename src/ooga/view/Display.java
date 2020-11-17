@@ -4,23 +4,22 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import ooga.GameController;
 import ooga.engine.games.GamePlay;
+import ooga.view.screens.*;
 
 import java.lang.reflect.Constructor;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
-import static ooga.view.Screen.DEFAULT_RESOURCE_PACKAGE;
-
 
 public class Display {//implements Viewer{
 
-private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "mainmenubuttons_eng");;
+private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle("ooga.view.resources.mainmenubuttons_eng");//TODO
     private static final ResourceBundle LEVEL_FILE_LOCATIONS = ResourceBundle.getBundle("LevelFileLocations");
 
 
     private GameController gameController;
     private GamePlayScreen gameScreen;
-    private String gametitle;
+    private String gameTitle;
 
     public Display(GameController gameController) {
         this.gameController = gameController;
@@ -32,7 +31,7 @@ private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle(DEFAU
     }
 
     private void launchGame(String levelChosen) {
-        String gameLevelComboChosen = String.format("%s,%s",gametitle,levelChosen);
+        String gameLevelComboChosen = String.format("%s,%s", gameTitle,levelChosen);
         String filePath = LEVEL_FILE_LOCATIONS.getString(gameLevelComboChosen);
         gameController.launchGame(filePath);
         setGameDisplay(gameController.getGame());
@@ -45,8 +44,8 @@ private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle(DEFAU
 
     public void setGameDisplay(GamePlay newGame) {
 //        public void setGameDisplay(GamePlay newGame, Consumer pause, Consumer play, Consumer restart) {
-//        gameScreen = new GamePlayScreen();
-        gameScreen = new GamePlayScreen(newGame);
+//        gameScreen = new GamePlayScreen(newGame);
+        gameScreen = new GamePlayScreen(newGame, gameController);
 
 //        gameScreen = new GamePlayScreen(pause, play, restart);
         if (newGame !=null) {
@@ -63,7 +62,7 @@ private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle(DEFAU
     }
 
     public void setGameMenuScreen (String gameLabel) { //TODO
-        this.gametitle = gameLabel;
+        this.gameTitle = gameLabel;
         Screen gameMenu;
         String gameClassName = GAME_LABELS.getString(gameLabel);
         try {
@@ -78,10 +77,10 @@ private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle(DEFAU
 
     public void setSplashScreen(String displayKey) {
         SplashScreen resultScreen = new SplashScreen(displayKey,this::setMainMenuScreen,this::restartGame);
+//        SplashScreen resultScreen = new SplashScreen(displayKey,this::setMainMenuScreen,gameScreen.restartGame());
+
         gameController.setScene(resultScreen.getView());
     }
-    
-
 
     public void test() {
         Group root = new Group();
