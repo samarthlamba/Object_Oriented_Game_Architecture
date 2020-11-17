@@ -86,6 +86,7 @@ public class FiniteStateMachineAnimation {
       System.out.println("special");
     }
     else{
+      jump.stop();
       currentAnimation = this.stand;
       currentAnimation.setCycleCount(Animation.INDEFINITE);
       currentAnimation.play();
