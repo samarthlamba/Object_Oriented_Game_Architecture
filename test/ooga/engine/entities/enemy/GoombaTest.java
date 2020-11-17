@@ -13,7 +13,9 @@ class GoombaTest {
         Goomba test = new Goomba(50,50,0,0);
         Mario player = new Mario(50, 50, 0, 0);
         int initialHitpoints = player.getHitpoints();
-        test.leftCollideable(player);
+        for(int i = 0; i < 10; i++) {
+            test.leftCollideable(player);
+        }
         assertNotEquals(initialHitpoints, player.getHitpoints());
     }
 
@@ -22,7 +24,9 @@ class GoombaTest {
         Goomba test = new Goomba(50,50,0,0);
         Mario player = new Mario(50, 50, 0, 0);
         int initialHitpoints = player.getHitpoints();
-        test.rightCollideable(player);
+        for(int i = 0; i < 10; i++) {
+            test.rightCollideable(player);
+        }
         assertNotEquals(initialHitpoints, player.getHitpoints());
     }
 
@@ -31,17 +35,9 @@ class GoombaTest {
         Goomba test = new Goomba(50,50,0,0);
         Mario player = new Mario(50, 50, 0, 0);
         int initialHitpoints = player.getHitpoints();
-        test.bottomCollideable(player);
+        for(int i = 0; i < 10; i++) {
+            test.bottomCollideable(player);
+        }
         assertNotEquals(initialHitpoints, player.getHitpoints());
-    }
-
-    @Test
-    void topCollideable() {
-        Goomba test = new Goomba(50,50,0,0);
-        Mario player = new Mario(50, 50, 0, 0);
-        int initialHitpoints = test.getHitpoints();
-        player.setYForce(400);
-        test.topCollideable(player);
-        assertEquals(0, test.getHitpoints());
     }
 }

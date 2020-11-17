@@ -59,4 +59,6 @@ package ooga.engine.entities;
      boolean isSource();
 
      boolean doesShoot();
+
+     boolean doesGenerateCoins();
 }
