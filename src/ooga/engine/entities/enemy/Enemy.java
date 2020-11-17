@@ -1,6 +1,5 @@
 package ooga.engine.entities.enemy;
 
-
 import ooga.engine.entities.Entity;
 
 public abstract class Enemy extends Entity {

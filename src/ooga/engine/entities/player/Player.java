@@ -4,7 +4,6 @@ import ooga.engine.entities.Entity;
 
 public abstract class Player extends Entity {
 
-  private int speed = 0;
   private final static String ID = "player";
   private static final int FULL_HEALTH = 3;
   private boolean finished = false;

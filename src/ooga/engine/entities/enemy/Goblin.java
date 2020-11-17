@@ -1,7 +1,5 @@
 package ooga.engine.entities.enemy;
 
-import ooga.engine.entities.enemy.Enemy;
-
 /**
  * Lost Vikings Basic Enemy
  */

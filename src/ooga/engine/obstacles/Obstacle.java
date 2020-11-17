@@ -5,14 +5,11 @@ import javafx.scene.shape.Rectangle;
 import ooga.engine.entities.Entity;
 import ooga.engine.games.Collideable;
 import ooga.engine.games.GamePropertyFileReader;
-
 import java.lang.reflect.Method;
 import java.util.Iterator;
 
 public abstract class Obstacle extends Rectangle implements Collideable, Unmovable {
-  private static final double MOVE_FORCE = 1000;
   private static final double NEGATIVE_DIRECTION = -1;
-  //public double gravity = 59900;
   private double normalForce = 0;
   private double moveX = 0;
   private double moveY = 0;
@@ -31,7 +28,6 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
     setY(initialY);
     setWidth(obstacleWidth);
     setHeight(obstacleHeight);
-   // nodeObject = new Rectangle(initialX, initialY, obstacleWidth, obstacleHeight);
   }
 
   public Node getNode(){
@@ -124,7 +120,6 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
   private void rightCollide(Entity entity) {
     entity.setXForce(0);
     entity.setCenterX(entity.getCenterX() - 1);
-    // entity.setCenterX(getBoundsInParent().getMinX() - entity.getEntityWidth()/2);
     entity.setVelocityX(entity.getVelocityX() * NEGATIVE_DIRECTION);
   }
 
@@ -146,7 +141,6 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
       if(!hasShrunk) {
         entity.setHeight(entity.getWidth()*0.7);
         entity.setWidth(entity.getHeight()*0.7);
-        //entity.setMaxY(entity.getScene().getHeight() / 4);
         hasShrunk = true;
       }
     }

@@ -1,7 +1,5 @@
 package ooga.engine.entities.enemy;
 
-import ooga.engine.entities.Entity;
-
 /**
  * Metroid basic enemy
  */

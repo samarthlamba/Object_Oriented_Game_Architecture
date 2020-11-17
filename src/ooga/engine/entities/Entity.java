@@ -4,17 +4,19 @@ import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import ooga.engine.games.Collideable;
 import ooga.engine.games.GamePropertyFileReader;
-
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 public abstract class Entity extends Rectangle implements Collideable, Movable {
     private static final double NEGATIVE_DIRECTION = -1;
-    private final int SCENE_WIDTH;
-    private final int SCENE_HEIGHT;
     public static final int HEALTH_PENALTY = -1;
+    public static final int COLLISION_OFFSET = 1;
+    public static final int JUMP_INITIAL_OFFSET = 2;
+    public static final int APPLY_Y_VELOCITY = -2600;
+    public static final int SPINNING_VELOCITY = 700;
+    public static final int PENALTY_BUFFER = 5;
+    private final int entityWidth;
+    private final int entityHeight;
     private int currentHitpoints = 3;
     private Node nodeObject;
     private double speed = 0;
@@ -36,8 +38,8 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     private boolean shoots = false;
 
     public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
-        this.SCENE_WIDTH = objectWidth;
-        this.SCENE_HEIGHT = objectHeight;
+        this.entityWidth = objectWidth;
+        this.entityHeight = objectHeight;
         nodeObject = new Rectangle(initialX, initialY, objectWidth, objectHeight);
         this.previousX = initialX + objectWidth / 2;
         this.previousY = initialY + objectHeight;
@@ -87,7 +89,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
 
     public void setCenterX(double inputX){
         nodeObject.setLayoutX(inputX - nodeObject.getLayoutBounds().getCenterX());
-        setX(inputX - SCENE_WIDTH/2);
+        setX(inputX - entityWidth /2);
     }
 
     public void setMaxY(double inputY){
@@ -127,11 +129,11 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     }
 
     public double getEntityWidth(){
-        return SCENE_WIDTH;
+        return entityWidth;
     }
 
     public double getEntityHeight(){
-        return SCENE_HEIGHT;
+        return entityHeight;
     }
 
     public double getMaxY(){
@@ -236,12 +238,6 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     }
 
 
-    protected void entityDeath(Entity entity, String object) {
-        if (entity.getId().equals(object)) {
-            entity.setHitpoints(0);
-        }
-    }
-
     protected void invokeMethod(Entity entity, String collisionName){
         try {
             GamePropertyFileReader reader = new GamePropertyFileReader(this.getClass().getSimpleName());
@@ -264,6 +260,12 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
             }
         }
 
+    protected void entityDeath(Entity entity, String object) {
+        if (entity.getId().equals(object)) {
+            entity.setHitpoints(0);
+        }
+    }
+
     protected void thisDeath(Entity entity, String object) {
         if (entity.getId().equals(object)) {
             this.setHitpoints(0);
@@ -273,21 +275,21 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     protected void applyY(Entity entity, String object) {
         if(entity.getId().equals(object)) {
             entity.setJump(true);
-            entity.setVelocityY(-2600);
-            entity.setMaxY(entity.getMaxY() - 2);
+            entity.setVelocityY(APPLY_Y_VELOCITY);
+            entity.setMaxY(entity.getMaxY() - JUMP_INITIAL_OFFSET);
         }
     }
 
     protected void spinning(Entity entity, String object){
         if(entity.getId().equals(object)){
             setSpinning(true);
-            setHorizontalMovement(true, 700);
+            setHorizontalMovement(true, SPINNING_VELOCITY);
         }
     }
 
     protected void healthPenaltyOnObject(Entity entity, String object) {
         healthPenaltyDelay++;
-        if (entity.getId().equals(object) && healthPenaltyDelay > 5) {
+        if (entity.getId().equals(object) && healthPenaltyDelay > PENALTY_BUFFER) {
             healthPenaltyDelay = 0;
             entity.setHitpoints(entity.getHitpoints() + HEALTH_PENALTY);
             System.out.println(entity.getHitpoints());
@@ -304,7 +306,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     protected void leftObstacle(Entity entity, String object){
         if (entity.getId().equals(object)) {
             entity.setXForce(0);
-            entity.setCenterX(entity.getCenterX() + 1);
+            entity.setCenterX(entity.getCenterX() + COLLISION_OFFSET);
             entity.setVelocityX(entity.getVelocityX() * NEGATIVE_DIRECTION);
         }
     }
@@ -312,7 +314,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     protected void rightObstacle(Entity entity, String object){
         if (entity.getId().equals(object)) {
             entity.setXForce(0);
-            entity.setCenterX(entity.getCenterX() - 1);
+            entity.setCenterX(entity.getCenterX() - COLLISION_OFFSET);
             entity.setVelocityX(entity.getVelocityX() * NEGATIVE_DIRECTION);
         }
     }
