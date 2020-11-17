@@ -10,6 +10,7 @@ import ooga.engine.obstacles.Unmovable;
 
 
 public class MetroidGame extends Game{
+  private final static String POINT = "enemy";
   private final int bulletWidth;
   private final int bulletHeight;
   private final double bulletVelocity;
@@ -54,7 +55,7 @@ public class MetroidGame extends Game{
 
   @Override
   public void setPoints(Movable entity){
-    if(entity.getId().equals("enemy")){
+    if(entity.getId().equals(POINT)){
       totalPoints++;
     }
   }

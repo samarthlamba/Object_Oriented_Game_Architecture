@@ -10,7 +10,7 @@ import ooga.engine.entities.Movable;
 import ooga.engine.obstacles.Unmovable;
 
 public class VikingsGame extends Game{
-
+  private final static int PRECISION = 0;
   private final int arrowWidth;
   private final int arrowHeight;
   private double arrowVelocityX;
@@ -78,12 +78,12 @@ public class VikingsGame extends Game{
   }
 
   private void checkConnected(Movable currentEntity, Stack<Movable> waterfall, double waterfallYPosition, double currentEntityYPosition, double waterfallXPosition, double currentEntityXPosition) {
-    if((areEqualDouble(currentEntityYPosition, waterfallYPosition,0) &&
-            areEqualDouble(waterfall.peek().getCenterX(), currentEntity.getCenterX(), 0))||
-            (areEqualDouble(currentEntityXPosition, waterfallXPosition,0) &&
-            areEqualDouble(waterfall.peek().getMaxY(), currentEntity.getMaxY(),0)) ||
-            (areEqualDouble(currentEntityXPosition + currentEntity.getEntityWidth(), waterfallXPosition - currentEntity.getEntityWidth(),0) &&
-                    areEqualDouble(waterfall.peek().getMaxY(), currentEntity.getMaxY(),0))){
+    if((areEqualDouble(currentEntityYPosition, waterfallYPosition,PRECISION) &&
+            areEqualDouble(waterfall.peek().getCenterX(), currentEntity.getCenterX(), PRECISION))||
+            (areEqualDouble(currentEntityXPosition, waterfallXPosition,PRECISION) &&
+            areEqualDouble(waterfall.peek().getMaxY(), currentEntity.getMaxY(),PRECISION)) ||
+            (areEqualDouble(currentEntityXPosition + currentEntity.getEntityWidth(), waterfallXPosition - currentEntity.getEntityWidth(),PRECISION) &&
+                    areEqualDouble(waterfall.peek().getMaxY(), currentEntity.getMaxY(),PRECISION))){
       addWaterfallToStack(currentEntity, waterfall);
     }
   }

@@ -12,6 +12,7 @@ import java.util.*;
 
 public class Collisions {
     private Set<String> collisionTypes = Set.of("right", "left", "top", "bottom");
+    private static final int PRECISION = 0;
 
     public void collisions(Entity entity, Collideable object) {
         List<String> collisionSide = new ArrayList<>();
@@ -64,13 +65,13 @@ public class Collisions {
     }
 
     private boolean checkCornersY(Entity entity, Collideable object) {
-        return areEqualDouble(object.getNode().getBoundsInParent().getMinY(), entity.getNode().getBoundsInParent().getMaxY(), 0) ||
-                areEqualDouble(object.getNode().getBoundsInParent().getMaxY(), entity.getNode().getBoundsInParent().getMinY(), 0);
+        return areEqualDouble(object.getNode().getBoundsInParent().getMinY(), entity.getNode().getBoundsInParent().getMaxY(), PRECISION) ||
+                areEqualDouble(object.getNode().getBoundsInParent().getMaxY(), entity.getNode().getBoundsInParent().getMinY(), PRECISION);
     }
 
     private boolean checkCornersX(Movable entity, Collideable object) {
-        return areEqualDouble(object.getNode().getBoundsInParent().getMaxX(), entity.getNode().getBoundsInParent().getMinX(), 0) ||
-                areEqualDouble(object.getNode().getBoundsInParent().getMinX(), entity.getNode().getBoundsInParent().getMaxX(), 0);
+        return areEqualDouble(object.getNode().getBoundsInParent().getMaxX(), entity.getNode().getBoundsInParent().getMinX(), PRECISION) ||
+                areEqualDouble(object.getNode().getBoundsInParent().getMinX(), entity.getNode().getBoundsInParent().getMaxX(), PRECISION);
     }
 
     //https://stackoverflow.com/questions/356807/java-double-comparison-epsilon

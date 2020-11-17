@@ -16,6 +16,7 @@ import ooga.engine.obstacles.Unmovable;
 public class MarioGame extends Game {
   private final static int KILL_PLAYER = 0;
   private final static int COIN_APPEAR_OFFSET = 3;
+  private final static String POINTS = "coin";
   private final double simulateFallOffset;
   private final int coinDirectionNumerator;
   private final int coinDirectionDenominator;
@@ -170,7 +171,7 @@ public class MarioGame extends Game {
 
   @Override
   public void setPoints(Movable entity){
-    if(entity.getId().equals("coin")){
+    if(entity.getId().equals(POINTS)){
       totalPoints++;
     }
   }
