@@ -182,14 +182,6 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
         this.specialAction = specialAction;
     }
 
-    public boolean isSpinning(){
-        return spinning;
-    }
-
-    public void setSpinning(boolean spinning){
-        this.spinning = spinning;
-    }
-
     public void setNormalForce(double gravity){
         this.normalForce = gravity;
     }
@@ -300,7 +292,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
 
     protected void spinning(Entity entity, String object){
         if(entity.getId().equals(object)){
-            setSpinning(true);
+            setSpecialAction(true);
             setHorizontalMovement(true, SPINNING_VELOCITY);
         }
     }
