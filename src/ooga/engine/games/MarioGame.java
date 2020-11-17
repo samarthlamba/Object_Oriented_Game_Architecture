@@ -42,7 +42,7 @@ public class MarioGame extends Game {
     this.coinSize = bean.getCoinSize();
     this.randomCoinMax = bean.getRandomCoinMax();
     this.randomCoinMin = bean.getRandomCoinMin();
-    this.marioFallDeathOffset = bean.getMarioFallDeathOffSet();
+    this.marioFallDeathOffset = bean.getMarioFallDeathOffset();
     this.simulateFallOffset = bean.getSimulateFallOffset();
     this.coinDirectionNumerator = bean.getCoinDirectionNumerator();
     this.coinDirectionDenominator = bean.getCoinDirectionDenominator();
