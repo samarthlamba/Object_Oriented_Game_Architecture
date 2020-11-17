@@ -15,5 +15,37 @@ public class MarioShrinker extends Obstacle {
   }
 
 
+  @Override
+  public void leftCollideable(Entity entity) {
+    scalePlayer(entity);
+  }
 
+  @Override
+  public void rightCollideable(Entity entity) {
+    scalePlayer(entity);
+  }
+
+  @Override
+  public void bottomCollideable(Entity entity) {
+    scalePlayer(entity);
+  }
+
+  @Override
+  public void topCollideable(Entity entity) {
+    scalePlayer(entity);
+  }
+
+//https://stackoverflow.com/questions/24393636/the-pain-with-the-pane-in-javafx-how-can-you-scale-nodes-with-fixed-top-left-co
+public void scalePlayer(Entity entity){
+  if(entity.getId().equals("player")){
+    if(!hasShrunk) {
+      System.out.println("hasShrunk " + entity.getBoundsInParent());
+      entity.setHeight(entity.getWidth()*0.5);
+      entity.setWidth(entity.getHeight()*0.5);
+      System.out.println("hasShrunk " + entity.getBoundsInParent());
+      //entity.setMaxY(entity.getScene().getHeight() / 4);
+      hasShrunk = true;
+    }
+  }
+}
 }
