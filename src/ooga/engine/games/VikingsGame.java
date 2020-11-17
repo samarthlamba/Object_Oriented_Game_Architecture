@@ -204,6 +204,8 @@ public class VikingsGame extends Game{
   @Override
   public void playerAction() {
     Movable entity = super.getActivePlayer();
+    specialActionDelayFlag = 0;
+    entity.setSpecialAction(true);
     double startY = entity.getMaxY() - entity.getEntityHeight();
     double startX = entity.getCenterX() - entity.getEntityWidth()/2;
     PlayerObstacle block = new PlayerObstacle((int) entity.getEntityWidth(), (int) entity.getEntityHeight(), startX, startY);
