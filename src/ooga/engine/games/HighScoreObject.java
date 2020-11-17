@@ -28,7 +28,12 @@ public class HighScoreObject implements Serializable{
         if(this.score > obj.getScore()){
             return true;
         }
-        else return this.score == obj.getScore() && this.time > obj.getTime();
+        else if(this.score  == obj.getScore() && this.time > obj.getTime()){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     @Override
     public String toString(){

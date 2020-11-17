@@ -1,0 +1,248 @@
+package ooga.engine.games;
+
+import ooga.engine.entities.Entity;
+import ooga.loader.FactoryException;
+import ooga.loader.GameFactory;
+import ooga.util.DukeApplicationTest;
+import org.junit.jupiter.api.Test;
+
+
+import java.util.Collection;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class MarioTest extends DukeApplicationTest {
+    private static final GameFactory factory = new GameFactory();
+
+   @Test
+   public void rightMovementTest() {
+       Game game = factory.makeCorrectGame("testMovement");
+       Collection<Entity> entities = (Collection<Entity>) game.getEntities();
+       double initialPosition = 75;
+       Entity entity = entities.iterator().next();
+       assertEquals(initialPosition, entity.getCenterX());
+       game.RIGHT(entity);
+       game.updateLevel();
+       System.out.println(entity.getCenterX());
+       assertTrue(game.areEqualDouble(88.88, entity.getCenterX(), 2));
+   }
+
+    @Test
+    public void leftMovementTest() {
+
+        Game game = factory.makeCorrectGame("testMovement");
+        Collection<Entity> entities = (Collection<Entity>) game.getEntities();
+        double initialPosition = 75;
+        Entity entity = entities.iterator().next();
+        assertEquals(initialPosition, entity.getCenterX());
+        game.LEFT(entity);
+        game.updateLevel();
+        System.out.println(entity.getCenterX());
+        assertTrue(game.areEqualDouble(61.1, entity.getCenterX(), 1));
+    }
+
+    @Test
+    public void jumpTest(){
+        Game game = factory.makeCorrectGame("testMovement");
+        Collection<Entity> entities = (Collection<Entity>) game.getEntities();
+        Entity entity = entities.iterator().next();
+        game.UP(entity);
+        double previous = 200;
+        for(int i = 0; i < 15; i++) {
+            game.updateLevel();
+            assertTrue(entity.getMaxY() < previous);
+            System.out.println(entity.getMaxY());
+            previous = entity.getMaxY();
+        }
+        for(int i = 0; i < 11; i++) {
+            game.updateLevel();
+            assertTrue(entity.getMaxY() >= previous);
+            previous = entity.getMaxY();
+        }
+
+        for(int i = 0; i < 10; i++){
+            game.updateLevel();
+            System.out.println(entity.getMaxY());
+        }
+
+        assertTrue(game.areEqualDouble(entity.getMaxY(), 200, 1));
+    }
+
+    @Test
+    public void leftCollisionTest() {
+        Game game = factory.makeCorrectGame("testNoMovement");
+        Collection<Entity> entities = (Collection<Entity>) game.getEntities();
+        double initialPosition = 75;
+        Entity entity = entities.iterator().next();
+        assertEquals(initialPosition, entity.getCenterX());
+        System.out.println(entity.getCenterX());
+        for(int i = 0; i < 1; i++){
+            game.LEFT(entity);
+        }
+        for(int i = 0; i < 200; i++){
+            game.updateLevel();
+        }
+        System.out.println(entity.getCenterX());
+        assertTrue(game.areEqualDouble(75, entity.getCenterX(), 0));
+    }
+
+    @Test
+    public void rightCollisionTest() {
+        Game game = factory.makeCorrectGame("testNoMovement");
+        Collection<Entity> entities = (Collection<Entity>) game.getEntities();
+        double initialPosition = 75;
+        Entity entity = entities.iterator().next();
+        assertEquals(initialPosition, entity.getCenterX());
+        for(int i = 0; i < 1; i++){
+            game.RIGHT(entity);
+        }
+        for(int i = 0; i < 100; i++){
+            game.updateLevel();
+        }
+        assertTrue(game.areEqualDouble(75, entity.getCenterX(), 0));
+    }
+
+    @Test
+    public void rightWallCollisionTest() {
+        Game game = factory.makeCorrectGame("noRightMovement");
+        Collection<Entity> entities = (Collection<Entity>) game.getEntities();
+        double initialPosition = 75;
+        Entity entity = entities.iterator().next();
+        assertEquals(initialPosition, entity.getCenterX());
+        for(int i = 0; i < 1; i++){
+            game.RIGHT(entity);
+        }
+        for(int i = 0; i < 100; i++){
+            game.updateLevel();
+        }
+        assertTrue(game.areEqualDouble(75, entity.getCenterX(), 0));
+    }
+
+    @Test
+    public void bottomCollisionTest(){
+        Game game = factory.makeCorrectGame("testCeilingMovement");
+        Collection<Entity> entities = (Collection<Entity>) game.getEntities();
+        double initialPosition = 75;
+        Entity entity = entities.iterator().next();
+        assertEquals(initialPosition, entity.getCenterX());
+        game.UP(entity);
+        for(int i = 0; i < 300; i++){
+            game.updateLevel();
+            System.out.println(entity.getMaxY());
+        }
+        assertTrue(game.areEqualDouble(75, entity.getCenterX(), 1));
+
+    }
+
+    @Test
+    public void enemyMovement(){
+        try {
+            Game game = factory.makeCorrectGame("testEnemyMovement");
+            Collection<Entity> entities = (Collection<Entity>) game.getEntities();
+            Entity entity = entities.iterator().next();
+            for(int i = 0; i < 300; i++){
+                game.updateLevel();
+            }
+        } catch (Exception e) {
+            assertTrue(e instanceof FactoryException);
+            assertEquals("Unable to build game from testEnemyMovement: No player found",e.getMessage());
+        }
+    }
+
+    @Test
+    public void testEnemyDies(){
+
+        try {
+            Game game = factory.makeCorrectGame("testEnemyTopCollision");
+            Collection<Entity> entities = (Collection<Entity>) game.getEntities();
+            Entity player = (Entity) game.getActivePlayer();
+            Entity enemy = player;
+            for(Entity entity : entities){
+                if(entity.getId().equals("enemy")){
+                    enemy = entity;
+                }
+            }
+            for(int i = 0; i < 300; i++){
+                game.updateLevel();
+            }
+
+        } catch (Exception e) {
+            assertEquals("Entity not in Scene" ,e.getMessage());
+        }
+        //assertEquals(enemy.getHitpoints(), 0);
+    }
+
+    @Test
+    public void testTurtleMarioCollision(){
+        Game game = factory.makeCorrectGame("testTurtleMarioCollision");
+        Collection<Entity> entities = (Collection<Entity>) game.getEntities();
+        Entity player = (Entity) game.getActivePlayer();
+        double startY = player.getMaxY();
+        double newY = 0;
+        for(int i = 0; i < 300; i++){
+            game.updateLevel();
+            if(player.getMaxY() != startY){
+                newY = player.getMaxY();
+            }
+        }
+        assertTrue(newY < startY);
+    }
+
+    @Test
+    public void testQuestionBoxCollision(){
+        Game game = factory.makeCorrectGame("testMarioQuestionBox");
+        Collection<Entity> entities = (Collection<Entity>) game.getEntities();
+        boolean questionBox = false;
+        Entity player = (Entity) game.getActivePlayer();
+        for(Entity entity : entities){
+            if(entity.getId().equals("question")){
+                questionBox = true;
+            }
+        }
+        assertTrue(questionBox);
+        questionBox = false;
+        try {
+            for (int i = 0; i < 5; i++) {
+                game.RIGHT(player);
+                game.updateLevel();
+            }
+        }
+        catch(Exception e){
+            assertEquals("Entity not in Scene" ,e.getMessage());
+            entities = (Collection<Entity>) game.getEntities();
+            for(Entity entity : entities){
+                if(entity.getId().equals("question")){
+                    questionBox = true;
+                }
+            }
+        }
+        assertFalse(questionBox);
+    }
+
+    @Test
+    public void testCoinGeneration(){
+        Game game = factory.makeCorrectGame("testMarioQuestionBox");
+        Collection<Entity> entities = (Collection<Entity>) game.getEntities();
+        boolean coinGenerated = false;
+        for(Entity entity : entities){
+            if(entity.getId().equals("question")){
+                entity.setHitpoints(0);
+            }
+        }
+        try {
+            game.updateLevel();
+        }
+        catch(Exception e){
+            assertEquals("Entity not in Scene" ,e.getMessage());
+            entities = (Collection<Entity>) game.getEntities();
+            for(Entity entity : entities){
+                if(entity.getId().equals("coin")){
+                    coinGenerated = true;
+                }
+            }
+        }
+        assertTrue(coinGenerated);
+
+    }
+
+}

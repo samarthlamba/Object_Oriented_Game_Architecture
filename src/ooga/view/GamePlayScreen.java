@@ -4,24 +4,17 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.paint.Color;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import ooga.engine.entities.Entity;
 import ooga.engine.entities.MovableBounds;
 import ooga.engine.games.GamePlay;
 import ooga.engine.obstacles.Unmovable;
-import ooga.loader.AnimationBrain;
 
-import java.awt.*;
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.List;
 
 public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
 
@@ -35,9 +28,6 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
     private double mainX;
     private double mainWidth;
     private double mainHeight;
-    private FiniteStateMachineAnimation fsm;
-    private ImageView fsmImage;
-    private Rectangle rec;
 //    private ResourceBundle characterImages; //tODO
     private final ResourceBundle defaultKeyResources = ResourceBundle.getBundle("KeyBindings");
     private List<Object> keys;
@@ -110,16 +100,7 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
                     mainWidth = width;
                     mainHeight = height;
                 }
-                if(entity.getId().equals(MAIN_PLAYER_ID)){
-                    System.out.println("gameeee :" + game.getClass().getSimpleName());
-                    AnimationBrain x = new AnimationBrain( game.getClass().getSimpleName());
-                    fsm = new FiniteStateMachineAnimation((Entity)entity, x);
-                    fsmImage = fsm.getCurrentAnimation().getImage();
-                    background.getChildren().add(fsmImage);
-                    continue;
-                }
                 view = (Shape) entity.getNode();
-
                 view.setFill(characterImages.getOrDefault(entity.getId(),DEFAULT_IMAGE));
                 background.getChildren().add(view);
             }
@@ -161,7 +142,7 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
                 Method method = game.getClass().getMethod(methodName);
                 method.invoke(game);
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println("No player here boss");
             }
         }
     }
@@ -173,10 +154,6 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
         double sceneShiftY = -(mainY - (SCREEN_HEIGHT/2 - mainHeight));
         background.setTranslateX(sceneShiftX);
         background.setTranslateY(sceneShiftY);
-        fsm.update();
-        background.getChildren().remove(fsmImage);
-        fsmImage = fsm.getCurrentAnimation().getImage();
-        background.getChildren().add(fsmImage);
     }
 
     @Override
