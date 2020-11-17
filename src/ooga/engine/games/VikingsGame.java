@@ -68,23 +68,27 @@ public class VikingsGame extends Game{
 
   private void findPercolationBlocks(Movable currentEntity, Stack<Movable> percolation) {
     if(currentEntity.isPercolate()){
-      double blockYPosition = percolation.peek().getMaxY();
-      double newBlockYPosition = currentEntity.getMaxY() - currentEntity.getEntityHeight();
-      double blockXPosition = percolation.peek().getCenterX() + currentEntity.getEntityWidth()/2;
-      double newBlockXPosition = currentEntity.getCenterX() - currentEntity.getEntityWidth()/2;
-      checkConnected(currentEntity, percolation, blockYPosition, newBlockYPosition, blockXPosition, newBlockXPosition);
+      double yPosition = percolation.peek().getMaxY();
+      double nextYPosition = currentEntity.getMaxY() - currentEntity.getEntityHeight();
+      double xPosition = percolation.peek().getCenterX() + currentEntity.getEntityWidth()/2;
+      double nextXPosition = currentEntity.getCenterX() - currentEntity.getEntityWidth()/2;
+      checkConnected(currentEntity, percolation, yPosition, nextYPosition, xPosition, nextXPosition);
     }
   }
 
-  private void checkConnected(Movable currentEntity, Stack<Movable> percolation, double blockYPosition, double newBlockYPosition, double blockXPosition, double newBlockXPosition) {
-    if((areEqualDouble(newBlockYPosition, blockYPosition,PRECISION) &&
-            areEqualDouble(percolation.peek().getCenterX(), currentEntity.getCenterX(), PRECISION))||
-            (areEqualDouble(newBlockXPosition, blockXPosition,PRECISION) &&
-            areEqualDouble(percolation.peek().getMaxY(), currentEntity.getMaxY(),PRECISION)) ||
-            (areEqualDouble(newBlockXPosition + currentEntity.getEntityWidth(), blockXPosition - currentEntity.getEntityWidth(),PRECISION) &&
-                    areEqualDouble(percolation.peek().getMaxY(), currentEntity.getMaxY(),PRECISION))){
+  private void checkConnected(Movable currentEntity, Stack<Movable> percolation, double yPosition, double nextYPosition, double xPosition, double nextXPosition) {
+    double leftXPosition = xPosition - currentEntity.getEntityWidth();
+    double rightXPosition = nextXPosition + currentEntity.getEntityWidth();
+    if(connected(yPosition, nextYPosition, percolation.peek().getCenterX(), currentEntity.getCenterX()) ||
+            (connected(xPosition, nextXPosition, percolation.peek().getMaxY(), currentEntity.getMaxY())) ||
+            (connected(leftXPosition, rightXPosition, percolation.peek().getMaxY(), currentEntity.getMaxY()))){
       addPercolationBlockToStack(currentEntity, percolation);
     }
+  }
+
+  private boolean connected(double yPosition, double nextYPosition, double xPosition, double nextXPosition) {
+    return areEqualDouble(nextYPosition, yPosition, PRECISION) &&
+            areEqualDouble(xPosition, nextXPosition, PRECISION);
   }
 
   private void addPercolationBlockToStack(Movable currentEntity, Stack<Movable> percolation) {
