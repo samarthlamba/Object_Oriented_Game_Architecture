@@ -1,7 +1,5 @@
 package ooga.engine.obstacles;
 
-import ooga.engine.entities.Entity;
-
 public class Floor extends Obstacle{
     
     private final static String ID = "floor";

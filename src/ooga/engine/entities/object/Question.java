@@ -7,6 +7,7 @@ public class Question extends Entity {
     public Question(int objectWidth, int objectHeight, double initialX, double initialY) {
         super(objectWidth, objectHeight, initialX, initialY);
         this.setMaxY(initialY);
+        setGenerateCoins(true);
         setId(ID);
     }
 

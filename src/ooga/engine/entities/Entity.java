@@ -36,6 +36,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     private boolean percolate = false;
     private boolean source = false;
     private boolean shoots = false;
+    private boolean makesCoins = false;
 
     public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
         this.entityWidth = objectWidth;
@@ -221,6 +222,14 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
         return source;
     }
 
+    public boolean doesGenerateCoins(){
+        return makesCoins;
+    }
+
+    public void setGenerateCoins(boolean makesCoins){
+        this.makesCoins = makesCoins;
+    }
+
     public void leftCollideable(Entity entity) {
         invokeMethod(entity, "left");
     }
@@ -296,9 +305,10 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
         }
     }
 
-    protected void onlyTopDeath(Entity entity, String object){
+    protected void topDeathMakeCoins(Entity entity, String object){
         if (entity.getId().equals(object) && entity.getVelocityY() > 0) {
             this.setHitpoints(0);
+            setGenerateCoins(true);
         }
     }
 
