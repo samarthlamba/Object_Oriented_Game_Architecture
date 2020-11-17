@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
+import java.util.stream.Collectors;
 import ooga.engine.entities.player.Player;
 import ooga.engine.games.beans.MarioBean;
 import javafx.scene.Node;

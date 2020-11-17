@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import ooga.GameController;
+import ooga.GameEndStatus;
 import ooga.engine.games.Game;
 import ooga.util.DukeApplicationTest;
 import org.junit.jupiter.api.Test;
@@ -39,13 +40,13 @@ public class SplashScreenTest extends DukeApplicationTest {
   @Test
   public void testSetSplashScreenChangesScene() {
     Scene initialScene = myStage.getScene();
-    javafxRun(() -> myDisplay.setSplashScreen("anything"));
+    javafxRun(() -> myDisplay.setSplashScreen(GameEndStatus.LOSS));
     assertNotEquals(initialScene,myStage.getScene());
   }
 
   @Test
   public void testSplashScreenContainsCorrectButtons() {
-    javafxRun(() -> myDisplay.setSplashScreen("anything"));
+    javafxRun(() -> myDisplay.setSplashScreen(GameEndStatus.LOSS));
     Scene splashScene = myStage.getScene();
     Button mainMenu = (Button) splashScene.lookup("#mainMenu");
     assertNotNull(mainMenu);
@@ -57,7 +58,7 @@ public class SplashScreenTest extends DukeApplicationTest {
 
   @Test
   public void testMainMenuButtonReturnsToMainMenu() {
-    javafxRun(() -> myDisplay.setSplashScreen("anything"));
+    javafxRun(() -> myDisplay.setSplashScreen(GameEndStatus.LOSS));
     Scene splashScene = myStage.getScene();
     Button mainMenu = (Button) splashScene.lookup("#mainMenu");
 
@@ -81,7 +82,7 @@ public class SplashScreenTest extends DukeApplicationTest {
     testController.getGame().updateLevel();
     assertTrue(mario.getY() > initialYPosition);
 
-    javafxRun(() -> myDisplay.setSplashScreen("anything"));
+    javafxRun(() -> myDisplay.setSplashScreen(GameEndStatus.LOSS));
     Scene splashScene = myStage.getScene();
     Button restart = (Button) splashScene.lookup("#restart");
     assertNotNull(restart);
@@ -90,7 +91,6 @@ public class SplashScreenTest extends DukeApplicationTest {
     Rectangle newMario = (Rectangle) myGame.getActivePlayer().getNode();
     assertEquals(initialYPosition,newMario.getY());
   }
-
 
   private void setMyGame(Game game){
     myGame = game;

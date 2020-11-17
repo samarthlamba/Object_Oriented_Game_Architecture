@@ -3,6 +3,7 @@ package ooga.view;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import ooga.GameController;
+import ooga.GameEndStatus;
 import ooga.engine.games.GamePlay;
 
 import java.lang.reflect.Constructor;
@@ -76,7 +77,7 @@ private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle(DEFAU
         gameController.setScene(gameMenu.getView());
     }
 
-    public void setSplashScreen(String displayKey) {
+    public void setSplashScreen(GameEndStatus displayKey) {
         SplashScreen resultScreen = new SplashScreen(displayKey,this::setMainMenuScreen,this::restartGame);
         gameController.setScene(resultScreen.getView());
     }

@@ -1,10 +1,10 @@
 package ooga.engine.games;
 
-import com.sun.source.tree.AssertTree;
+import javafx.stage.Stage;
 import ooga.engine.entities.Entity;
 import ooga.loader.GameFactory;
 import ooga.util.DukeApplicationTest;
-import org.apache.commons.lang3.ObjectUtils;
+import ooga.view.GamePlayScreen;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
@@ -12,8 +12,14 @@ import java.util.Collection;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class VikingsTest extends DukeApplicationTest {
+    private GamePlayScreen testScreen;
 
     private final GameFactory gameFactory = new GameFactory();
+
+    @Override
+    public void start(Stage stage) {
+        testScreen = new GamePlayScreen();
+    }
 
     @Test
     public void testPlayerSpecialAction(){
@@ -83,18 +89,15 @@ public class VikingsTest extends DukeApplicationTest {
     @Test
     public void testWaterfallPercolate(){
         Game game = gameFactory.makeCorrectGame("testVikingsWaterfall");
+        testScreen.setGameScreen(game);
         Collection<Entity> entities = (Collection<Entity>) game.getEntities();
         Entity player = entities.iterator().next();
         player.setCenterX(150);
         player.setMaxY(50);
         game.updateLevel();
-        try {
-            game.playerAction();
-            game.updateLevel();
-        }
-        catch (Exception e) {
-            assertEquals("Entity not in Scene" ,e.getMessage());
-        }
+        game.playerAction();
+        game.updateLevel();
+        //nothing is actually being tested here? I removed the try catch
 
     }
 
