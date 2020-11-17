@@ -50,4 +50,18 @@ class WallAndObstacleTest {
         assertEquals(ans.getLayoutBounds(), ans.getLayoutBounds());
 
     }
+
+    @Test
+    void checkIDs(){
+        Goal goal = new Goal(100, 100, 0, 0);
+        assertEquals("goal", goal.getId());
+        Ladder ladder = new Ladder(100, 100, 0, 0);
+        assertEquals("ladder", ladder.getId());
+        MarioShrinker marioShrinker = new MarioShrinker(100, 100, 0, 0);
+        assertEquals("shrinker", marioShrinker.getId());
+        Spike spike = new Spike(100, 100, 0, 0);
+        assertEquals("spike", spike.getId());
+        Waterfall waterfall = new Waterfall(100, 100, 0, 0);
+        assertEquals("waterfall", waterfall.getId());
+    }
 }

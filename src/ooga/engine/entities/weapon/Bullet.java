@@ -10,29 +10,22 @@ public class Bullet extends Weapon {
 
     @Override
     public void leftCollideable(Entity entity) {
-        if (entity.getId().equals("enemy")){
-            entity.setHitpoints(0);
-        }
+        dead(entity, entity.getId().equals("enemy"));
     }
 
     @Override
     public void rightCollideable(Entity entity) {
-        if (entity.getId().equals("enemy")){
-            entity.setHitpoints(0);
-        }
+        dead(entity, entity.getId().equals("enemy"));
     }
 
     @Override
     public void bottomCollideable(Entity entity) {
-        if (entity.getId().equals("enemy")){
-            entity.setHitpoints(0);
-        }
+        dead(entity, entity.getId().equals("enemy"));
     }
 
     @Override
     public void topCollideable(Entity entity) {
-        if (entity.getId().equals("enemy")){
-            entity.setHitpoints(0);
-        }
+        dead(entity, entity.getId().equals("enemy"));
     }
+
 }

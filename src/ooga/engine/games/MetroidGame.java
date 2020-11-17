@@ -15,13 +15,14 @@ import ooga.view.GamePlayScreen;
 public class MetroidGame extends Game{
   private static final int BULLET_WIDTH = 10;
   private static final int BULLET_HEIGHT = 3;
-  private static final double BULLET_VELOCITY = -30;
+  private static final double BULLET_VELOCITY = -1000;
+  private double dt;
 //  private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
 
   public MetroidGame(Collection<Unmovable> obstacles,
                      Collection<Movable> entities, double timeElapsed, MetroidBean bean) {
     super(obstacles, entities, timeElapsed, bean);
-
+    dt = timeElapsed;
   }
   public boolean hasFinished(){
     return false;
@@ -29,7 +30,7 @@ public class MetroidGame extends Game{
 
 
   @Override
-    public void shoot(){
+    public void playerAction(){
       Movable entity = super.findMainPlayer();
       double bulletStartX = entity.getCenterX() - entity.getEntityWidth()/2;
       double bulletStartY = entity.getMaxY() - entity.getEntityHeight()/2;
@@ -40,6 +41,7 @@ public class MetroidGame extends Game{
       }
       Bullet bullet = new Bullet(BULLET_WIDTH, BULLET_HEIGHT, bulletStartX, bulletStartY);
       bullet.setVelocityX(bulletVelocity);
+      bullet.setTimeElapsedX(dt);
       entities.add(bullet);
       entitiesToAdd.add(bullet);
 //      tempGamePlayScreen.spawn(bullet);

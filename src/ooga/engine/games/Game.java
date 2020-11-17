@@ -24,8 +24,9 @@ public abstract class Game implements GamePlay {
     private final double gravity;
     private final double moveForce;
     public static final double MOVE_FORCE = 50000; //TODO change to 10
-    Collection<Unmovable> obstacles;
-    Collection<Movable> entities;
+    private int jumpMax;
+    protected Collection<Unmovable> obstacles;
+    protected Collection<Movable> entities;
     private double dt;
     private double initialVelocityX = 0;
     private boolean jump = false;
@@ -38,9 +39,9 @@ public abstract class Game implements GamePlay {
     Collisions handleCollisions;
     private int totalPoints = 0;
 //    private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
-    private UpdateObjectsOnScreen tempGamePlayScreen = new GamePlayScreen();
+    protected UpdateObjectsOnScreen viewable = new GamePlayScreen();
     protected Collection<MovableBounds> entitiesToAdd = new ArrayList<>();
-
+    protected Collection<MovableBounds> entitiesToRemove = new ArrayList<>();
 
 
 
@@ -54,6 +55,7 @@ public abstract class Game implements GamePlay {
         this.moveForce = bean.getMoveForce();
         this.obstacles = obstacles;
         this.entities = entities;
+        this.jumpMax = bean.getJumpMax();
         handleCollisions = new Collisions();
         for (Movable entity : entities) {
             entity.setTimeElapsedY(timeElapsed);
@@ -79,7 +81,6 @@ public abstract class Game implements GamePlay {
     }
 
     public Collection<? extends MovableBounds> getEntities() {
-        updateMovable();
         return entities;
     }
 
@@ -88,11 +89,16 @@ public abstract class Game implements GamePlay {
         for (Movable entity : entities) {
             moveMovable(entity);
         }
-        removeMovable();
+        viewable.remove(entitiesToRemove);
+        entities.removeAll(entitiesToRemove);
+        entitiesToRemove.clear();
+        viewable.spawn(entitiesToAdd);
+        entitiesToAdd.clear();
+        //removeMovable();
     }
 
     protected void moveMovable(Movable entity) {
-        if (entity.isJump() && entity.getTimeElapsedY() < .35) {
+        if (entity.getTimeElapsedY() < .35) {
             entity.setTimeElapsedY(entity.getTimeElapsedY() + entity.getTimeElapsedX());
         }
         if (entity.getId().equals("player")) {
@@ -103,18 +109,11 @@ public abstract class Game implements GamePlay {
         entityCollision(entity);
         moveEnemy(entity);
         updatePosition(entity);
-        // System.out.println("force" + entity.getYForce());
         entity.setYForce(0);
         entity.setXForce(0);
-        Collection<MovableBounds> entitiesToRemove = new ArrayList<>();
         if(!entity.getStatusAlive()){
             entitiesToRemove.add(entity);
         }
-
-        tempGamePlayScreen.remove(entitiesToRemove);
-        entitiesToRemove.clear();
-        tempGamePlayScreen.spawn(entitiesToAdd);
-        entitiesToAdd.clear();
     }
 
     protected void removeMovable() {
@@ -188,6 +187,7 @@ public abstract class Game implements GamePlay {
         }
     }
 
+
     public Movable findMainPlayer() {
         for (Movable entity : entities) {
             if (entity.getId().equals("player")) {
@@ -212,11 +212,10 @@ public abstract class Game implements GamePlay {
         UP(entity);
     }
 
-    public void shoot(){}
 
     public void UP(Movable entity) {
         entity.setJump(true);
-        entity.setVelocityY(entity.getJumpMax());
+        entity.setVelocityY(jumpMax);
         entity.setMaxY(entity.getMaxY() - 2);
     }
 
@@ -234,6 +233,8 @@ public abstract class Game implements GamePlay {
         entity.setFacing(true);
     }
 
+    public void playerAction(){}
+
 
     //https://stackoverflow.com/questions/356807/java-double-comparison-epsilon
     public boolean areEqualDouble(double a, double b, int precision) {
@@ -241,7 +242,7 @@ public abstract class Game implements GamePlay {
     }
 
     public void setDisplay(UpdateObjectsOnScreen gamePlayScreen) {
-        tempGamePlayScreen = gamePlayScreen;
+        viewable = gamePlayScreen;
     }
 
 }
