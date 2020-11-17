@@ -111,7 +111,7 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
                     mainHeight = height;
                 }
                 if(entity.getId().equals(MAIN_PLAYER_ID)){
-                    AnimationBrain x = new AnimationBrain("Mario");
+                    AnimationBrain x = new AnimationBrain("Samus");
                     fsm = new FiniteStateMachineAnimation((Entity)entity, x);
                     fsmImage = fsm.getCurrentAnimation().getImage();
                     background.getChildren().add(fsmImage);
