@@ -38,12 +38,7 @@ public abstract class Game implements GamePlay {
     protected UpdateObjectsOnScreen viewable = new GamePlayScreen();
     protected Collection<MovableBounds> entitiesToAdd = new ArrayList<>();
     protected Collection<MovableBounds> entitiesToRemove = new ArrayList<>();
-
-
-
-//add 'is finished' to confirm if the game has been finished
-
-    // check solidity aspect of obstacle by having boolean that is see through
+    protected int specialActionDelayFlag = 0;
 
 
     public Game(Player player,Collection<Unmovable> obstacles, Collection<Movable> entities, double timeElapsed, GameBean bean) {
@@ -110,6 +105,11 @@ public abstract class Game implements GamePlay {
         if (entity.isJump()) {
             entity.setVelocityY(entity.getVelocityY() + JUMP_VELOCITY_INCREMENT);
         }
+
+        if(specialActionDelayFlag > 100){
+            entity.setSpecialAction(false);
+        }
+        specialActionDelayFlag++;
         gravityForce(entity);
         obstacleCollision(entity);
         entityCollision(entity);
@@ -129,18 +129,12 @@ public abstract class Game implements GamePlay {
 
     public abstract void setPoints(Movable entity);
 
-  /*  protected void removeMovable() {
-        entities.removeIf(e -> !e.getStatusAlive());
-    }*/
-
-
     protected void moveEnemy(Movable entity) {
         if (entity.getId().equals("enemy")) {
             if (entity.getPreviousY() != entity.getMaxY()) {
                 entity.setMaxY(entity.getPreviousY());
                 entity.setCenterX(entity.getPreviousX());
                 entity.setVelocityX(entity.getVelocityX() * NEGATIVE_DIRECTION);
-                // double c = entity.getMaxY();
             }
         }
 
@@ -151,9 +145,6 @@ public abstract class Game implements GamePlay {
             Collideable object = obstacle.getCollideable();
             collisions(entity, object);
         }
-       /* if(!entity.getId().equals("player")){
-            collisions(findMainPlayer(), entity);
-        }*/
     }
 
     private void entityCollision(Movable entity){
@@ -163,12 +154,6 @@ public abstract class Game implements GamePlay {
             }
         }
     }
-
-
-  /*  protected boolean checkCornersMovableX(Movable player, Movable entity) {
-        return areEqualDouble(entity.getNode().getBoundsInParent().getMaxX(), player.getNode().getBoundsInParent().getMinX(), 1) ||
-                areEqualDouble(entity.getNode().getBoundsInParent().getMinX(), player.getNode().getBoundsInParent().getMaxX(), 1);
-    }*/
 
     private double newYPosition(Movable entity) {
          return entity.getMaxY() + entity.getVelocityY() * dt + entity.getYForce() * dt * dt;

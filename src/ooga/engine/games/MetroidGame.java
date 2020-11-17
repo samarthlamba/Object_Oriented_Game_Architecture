@@ -40,8 +40,10 @@ public class MetroidGame extends Game{
   @Override
     public void playerAction(){
       Movable entity = super.getActivePlayer();
+      specialActionDelayFlag = 0;
+      entity.setSpecialAction(true);
       double bulletStartX = entity.getCenterX() - entity.getEntityWidth()/2;
-      double bulletStartY = entity.getMaxY() - entity.getEntityHeight()/2;
+      double bulletStartY = entity.getMaxY() - 3 * entity.getEntityHeight() / 4;
       double bulletVelocity = this.bulletVelocity;
       if(entity.getFacing()) {
         bulletStartX = entity.getCenterX() + entity.getEntityWidth()/2;
