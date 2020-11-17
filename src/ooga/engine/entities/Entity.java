@@ -31,6 +31,9 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     private boolean moving = false;
     private boolean spinning = false;
     private int healthPenaltyDelay = 0;
+    private boolean percolate = false;
+    private boolean source = false;
+    private boolean shoots = false;
 
     public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
         this.SCENE_WIDTH = objectWidth;
@@ -190,6 +193,30 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
 
     public boolean getHorizontalMovement(){
         return moving;
+    }
+
+    public void setShoots(boolean shoots){
+        this.shoots = shoots;
+    }
+
+    public boolean doesShoot(){
+        return shoots;
+    }
+
+    public boolean isPercolate(){
+        return percolate;
+    }
+
+    public void setPercolate(boolean percolate){
+        this.percolate = percolate;
+    }
+
+    public void setSource(boolean source){
+        this.source = source;
+    }
+
+    public boolean isSource(){
+        return source;
     }
 
     public void leftCollideable(Entity entity) {
