@@ -1,6 +1,8 @@
 package ooga.view;
 
+import javafx.geometry.Rectangle2D;
 import ooga.loader.AnimationBrain;
+import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -45,9 +47,14 @@ AnimationBrain animationBrain = new AnimationBrain("MarioGame");
 
     @Test
     void interpolate() {
+        Rectangle2D before = animation.getImage().getViewport();
+        animation.interpolate(0.18);
+        assertNotEquals(before, animation.getImage().getViewport());
+
     }
 
     @Test
     void getImage() {
+        assertEquals(30, animation.getImage().getFitWidth());
     }
 }
