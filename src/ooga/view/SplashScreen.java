@@ -2,11 +2,20 @@ package ooga.view;
 
 import java.lang.reflect.Method;
 import java.util.ResourceBundle;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 
 public class SplashScreen extends Screen{
   private final String displayKey;
-  private final Scene myScene;
+ // private final Scene myScene;
   private final Runnable restart;
   private final Runnable setMainMenu;
 
@@ -15,7 +24,7 @@ public class SplashScreen extends Screen{
     this.restart = restartGame;
     this.setMainMenu = setMainMenu;
     //instead of just the menu, you could add the menu at the bottom only.
-    this.myScene = new Scene(makeMenu(),SCREEN_WIDTH,SCREEN_HEIGHT);
+    //this.myScene = new Scene(makeMenu(),SCREEN_WIDTH,SCREEN_HEIGHT);
   }
 
   private void invokeCorrectMethod(String buttonName) {
@@ -40,8 +49,25 @@ public class SplashScreen extends Screen{
   }
 
   @Override
-  //HERE ROSHNI MAKES GIFS USING DISPLAYKEY TO SELECT CORRECT ONE
   public Scene getView() {
-    return myScene;
+    BorderPane root = new BorderPane();
+    ImageView gif = getGif();
+    Timeline timeline = new Timeline(
+            new KeyFrame(Duration.ZERO, e -> {
+              gif.setFitWidth(SCREEN_WIDTH);
+              gif.setFitHeight(SCREEN_HEIGHT);
+              gif.setPreserveRatio(false);
+              root.getChildren().add(gif);
+              root.setTop(makeMenu());
+            }),
+            new KeyFrame(Duration.seconds(2), e -> {}));
+
+    timeline.play();
+    return new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
+  }
+
+  private ImageView getGif(){
+    String gifPath = "/images/" + displayKey + "Screen.gif";
+    return new ImageView(gifPath);
   }
 }

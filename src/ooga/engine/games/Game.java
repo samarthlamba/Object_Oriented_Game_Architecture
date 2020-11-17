@@ -22,6 +22,11 @@ public abstract class Game implements GamePlay {
     //public static final double GRAVITY = 800;
     //We could probably change these to ENUMS
     public static final double NEGATIVE_DIRECTION = -1;
+    public static final double NORMAL_FORCE_OFFSET = 100;
+    public static final double JUMP_VELOCITY_INCREMENT = 100;
+    public static final double JUMP_INITIAL_OFFSET = 2;
+    public static final double ZERO_FORCE = 0;
+    public static final double POWER = 10;
     private final double gravity;
     private final double moveForce;
     private final Player player;
@@ -51,6 +56,7 @@ public abstract class Game implements GamePlay {
         this.player = player;
         handleCollisions = new Collisions();
         this.dt = timeElapsed;
+        normalForce(entities, obstacles);
     }
 
     public boolean isWon(){
@@ -69,6 +75,14 @@ public abstract class Game implements GamePlay {
         return nodeObstacles;
     }
 
+    private void normalForce(Collection<Movable> entities, Collection<Unmovable> obstacles){
+        for(Movable entity : entities){
+            entity.setNormalForce(gravity - NORMAL_FORCE_OFFSET);
+        }
+        for(Unmovable obstacle : obstacles){
+            obstacle.setNormalForce(gravity - NORMAL_FORCE_OFFSET);
+        }
+    }
 
     public void updateLevel() {
         updateMovable();
@@ -95,15 +109,15 @@ public abstract class Game implements GamePlay {
 
     protected void moveMovable(Movable entity) {
         if (entity.isJump()) {
-            entity.setVelocityY(entity.getVelocityY()+100);
+            entity.setVelocityY(entity.getVelocityY() + JUMP_VELOCITY_INCREMENT);
         }
         gravityForce(entity);
         obstacleCollision(entity);
         entityCollision(entity);
         moveEnemy(entity);
         updatePosition(entity);
-        entity.setYForce(0);
-        entity.setXForce(0);
+        entity.setYForce(ZERO_FORCE);
+        entity.setXForce(ZERO_FORCE);
         removeEntity(entity);
     }
 
@@ -127,7 +141,7 @@ public abstract class Game implements GamePlay {
             if (entity.getPreviousY() != entity.getMaxY()) {
                 entity.setMaxY(entity.getPreviousY());
                 entity.setCenterX(entity.getPreviousX());
-                entity.setVelocityX(entity.getVelocityX() * -1);
+                entity.setVelocityX(entity.getVelocityX() * NEGATIVE_DIRECTION);
                 // double c = entity.getMaxY();
             }
         }
@@ -208,14 +222,14 @@ public abstract class Game implements GamePlay {
         if(!entity.isJump()) {
             entity.setJump(true);
             entity.setVelocityY(jumpMax);
-            entity.setMaxY(entity.getMaxY() - 2);
+            entity.setMaxY(entity.getMaxY() - JUMP_INITIAL_OFFSET);
         }
     }
 
 
     public void LEFT(Movable entity) {
         entity.setPreviousX(entity.getCenterX());
-        entity.setXForce(-moveForce);
+        entity.setXForce(NEGATIVE_DIRECTION * moveForce);
         entity.setFacing(false);
     }
 
@@ -228,10 +242,9 @@ public abstract class Game implements GamePlay {
 
     public void playerAction(){}
 
-
     //https://stackoverflow.com/questions/356807/java-double-comparison-epsilon
     protected boolean areEqualDouble(double a, double b, int precision) {
-        return Math.abs(a - b) <= Math.pow(10, -precision);
+        return Math.abs(a - b) <= Math.pow(POWER, -precision);
     }
 
     public void setDisplay(UpdateObjectsOnScreen gamePlayScreen) {

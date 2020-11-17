@@ -12,7 +12,8 @@ import java.util.Iterator;
 public abstract class Obstacle extends Rectangle implements Collideable, Unmovable {
   private static final double MOVE_FORCE = 1000;
   private static final double NEGATIVE_DIRECTION = -1;
-  public double gravity = 59900;
+  //public double gravity = 59900;
+  private double normalForce = 0;
   private double moveX = 0;
   private double moveY = 0;
   private double initialX;
@@ -60,6 +61,9 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
     moveY = Y;
   }
 
+  public void setNormalForce(double gravity){
+    this.normalForce = gravity;
+  }
 
   public void leftCollideable(Entity entity) {
     invokeMethod(entity, "left");
@@ -99,7 +103,7 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
 
   private void topCollide(Entity entity) {
     entity.setMaxY(getBoundsInParent().getMinY());
-    entity.setYForce(entity.getYForce() + NEGATIVE_DIRECTION * gravity);
+    entity.setYForce(entity.getYForce() + NEGATIVE_DIRECTION * normalForce);
     entity.setVelocityY(0);
     entity.setJump(false);
 
@@ -140,13 +144,11 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
   public void scalePlayer(Entity entity){
     if(entity.getId().equals("player")){
       if(!hasShrunk) {
-        entity.setHeight(entity.getWidth()*0.5);
-        entity.setWidth(entity.getHeight()*0.5);
+        entity.setHeight(entity.getWidth()*0.7);
+        entity.setWidth(entity.getHeight()*0.7);
         //entity.setMaxY(entity.getScene().getHeight() / 4);
         hasShrunk = true;
       }
-      System.out.println(entity.getBoundsInParent());
-      System.out.println(entity.getMaxY());
     }
   }
 
