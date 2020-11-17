@@ -15,4 +15,6 @@ import javafx.scene.Node;
 
    int getHealth();
 
-}
+   boolean getSpecialAction();
+
+ }

@@ -40,13 +40,11 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
 
   public void moveXBy(double x){
     relocate(getBoundsInParent().getMinX()+x,getBoundsInParent().getMinY());
-    System.out.println(getBoundsInParent());
   }
 
 
   public void moveYBy(double y){
     relocate(getBoundsInParent().getMinX(), getBoundsInParent().getMinY()+y);
-    System.out.println(getBoundsInParent());
   }
 
   public void moveContinouslyXBy(double X){

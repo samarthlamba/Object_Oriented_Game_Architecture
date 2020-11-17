@@ -37,6 +37,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     private boolean source = false;
     private boolean shoots = false;
     private boolean makesCoins = false;
+    private boolean specialAction = false;
 
     public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
         this.entityWidth = objectWidth;
@@ -173,6 +174,14 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
         jump = isJump;
     }
 
+    public boolean getSpecialAction(){
+        return specialAction;
+    }
+
+    public void setSpecialAction(boolean specialAction){
+        this.specialAction = specialAction;
+    }
+
     public boolean isSpinning(){
         return spinning;
     }
@@ -265,9 +274,9 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
                 x.invoke(this, entity, input);
             }
         } catch (Exception e) {
-                return;
-            }
+            return;
         }
+    }
 
     protected void entityDeath(Entity entity, String object) {
         if (entity.getId().equals(object)) {
