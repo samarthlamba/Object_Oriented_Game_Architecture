@@ -6,4 +6,5 @@ import ooga.engine.games.Collideable;
 public interface Unmovable {
     Node getNode();
     Collideable getCollideable();
+    void setNormalForce(double gravity);
 }

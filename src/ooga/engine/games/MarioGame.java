@@ -14,13 +14,24 @@ import ooga.engine.entities.object.Coin;
 import ooga.engine.obstacles.Unmovable;
 
 public class MarioGame extends Game {
+  private final static int KILL_PLAYER = 0;
+  private final static int COIN_APPEAR_OFFSET = 3;
+  private final double simulateFallOffset;
+  private final int coinDirectionNumerator;
+  private final int coinDirectionDenominator;
+  private final int randCoinVelocityXMax;
+  private final int randCoinVelocityXMin;
+  private final int randCoinVelocityYMax;
+  private final int randCoinVelocityYMin;
   private boolean leftOver = false;
   private boolean rightOver = false;
-  private int coinSize = 50;
+  private final int coinSize;
+  private final int randomCoinMax;
+  private final int randomCoinMin;
+  private final int marioFallDeathOffset;
   private Collection<Movable> coins = new ArrayList<>();
   private double dt;
   private double lowestPoint = 0;
-//  private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
 
 
   public MarioGame(Player player,Collection<Unmovable> obstacleCollection, Collection<Movable> entityCollection,
@@ -28,18 +39,29 @@ public class MarioGame extends Game {
     super(player,obstacleCollection, entityCollection, timeElapsed, bean);
     entities = entityCollection;
     obstacles = obstacleCollection;
+    this.coinSize = bean.getCoinSize();
+    this.randomCoinMax = bean.getRandomCoinMax();
+    this.randomCoinMin = bean.getRandomCoinMin();
+    this.marioFallDeathOffset = bean.getMarioFallDeathOffSet();
+    this.simulateFallOffset = bean.getSimulateFallOffset();
+    this.coinDirectionNumerator = bean.getCoinDirectionNumerator();
+    this.coinDirectionDenominator = bean.getCoinDirectionDenominator();
+    this.randCoinVelocityXMax = bean.getRandCoinVelocityXMax();
+    this.randCoinVelocityXMin = bean.getRandCoinVelocityXMin();
+    this.randCoinVelocityYMax = bean.getRandCoinVelocityYMax();
+    this.randCoinVelocityYMin = bean.getRandCoinVelocityYMin();
     dt = timeElapsed;
     findSceneLowestY();
   }
 
 
   private void simulateFall(Movable entity, Node object){
-    Rectangle simulate = new Rectangle(entity.getNode().getBoundsInParent().getMinX(), entity.getMaxY(), 0.1, 0.1);
+    Rectangle simulate = new Rectangle(entity.getNode().getBoundsInParent().getMinX(), entity.getMaxY(), simulateFallOffset, simulateFallOffset);
     if (simulate.intersects(object.getBoundsInParent())){
       leftOver = true;
 
     }
-    simulate = new Rectangle(entity.getNode().getBoundsInParent().getMaxX(), entity.getMaxY(),0.1, 0.1);
+    simulate = new Rectangle(entity.getNode().getBoundsInParent().getMaxX(), entity.getMaxY(), simulateFallOffset, simulateFallOffset);
     if (simulate.intersects(object.getBoundsInParent())) {
       rightOver = true;
     }
@@ -47,8 +69,6 @@ public class MarioGame extends Game {
 
   @Override
   protected void updateMovable(){
-      // System.out.println("stepped12324");
-   // removeMovable();
     for (Movable entity : entities) {
       moveMovable(entity);
       generateCoins(entity);
@@ -67,8 +87,8 @@ public class MarioGame extends Game {
 
   private void fallingDeath() {
     Movable player = getActivePlayer();
-    if (player.getMaxY() > lowestPoint + 600) {
-      player.setHitpoints(0);
+    if (player.getMaxY() > lowestPoint + marioFallDeathOffset) {
+      player.setHitpoints(KILL_PLAYER);
     }
   }
 
@@ -85,7 +105,7 @@ public class MarioGame extends Game {
   private void generateCoins(Movable entity){
     if(entity.getId().equals("question") && !entity.getStatusAlive()) {
       Random rand = new Random();
-      int numberCoins = rand.nextInt(10) + 2;
+      int numberCoins = rand.nextInt(randomCoinMax - randomCoinMin) + randomCoinMin;
       for (int i = 0; i < numberCoins; i++) {
         randomCoin(entity, i);
       }
@@ -94,25 +114,22 @@ public class MarioGame extends Game {
 
   private void randomCoin(Movable entity, int seed){
     double initialX = entity.getCenterX();
-    double initialY = entity.getMaxY() - 3 * entity.getEntityHeight();
+    double initialY = entity.getMaxY() - COIN_APPEAR_OFFSET * entity.getEntityHeight();
     Coin coin = new Coin(coinSize, coinSize, initialX, initialY);
     Random randXVelocity = new Random(seed);
     Random randDirection = new Random(seed);
     Random randYVelocity = new Random(seed);
-    double xVelocity = randXVelocity.nextInt(300);
-    double yVelocity = randYVelocity.nextInt(2500);
-    double direction = randDirection.nextInt(3);
-    if(direction == 1){
+    double xVelocity = randXVelocity.nextInt(randCoinVelocityXMax - randCoinVelocityXMin);
+    double yVelocity = randYVelocity.nextInt(randCoinVelocityYMax - randCoinVelocityYMin);
+    double direction = randDirection.nextInt(coinDirectionDenominator);
+    if(direction == coinDirectionNumerator){
       xVelocity *= NEGATIVE_DIRECTION;
     }
-   // coin.setTimeElapsedY(dt);
-    //coin.setTimeElapsedX(dt);
-    coin.setVelocityX(xVelocity + 200);
-    coin.setVelocityY(-(yVelocity + 400));
+    coin.setVelocityX(xVelocity + randCoinVelocityXMin);
+    coin.setVelocityY(-(yVelocity + randCoinVelocityYMin));
     coin.setJump(true);
     coins.add(coin);
     entitiesToAdd.add(coin);
-//    tempGamePlayScreen.spawn(entitiesToAdd);
   }
 
 
@@ -132,23 +149,21 @@ public class MarioGame extends Game {
   public void moveEnemy(Movable entity) {
     enemyDirection(entity);
     if(entity.getId().equals("enemy")){
-      // System.out.println("prev " + entity.getPreviousY() + " now " + entity.getMaxY());
       if(entity.getPreviousY() != entity.getMaxY()){
         entity.setMaxY(entity.getPreviousY());
         entity.setCenterX(entity.getPreviousX());
-        entity.setVelocityX(entity.getVelocityX()*-1);
+        entity.setVelocityX(entity.getVelocityX() * NEGATIVE_DIRECTION);
       }
     }
 
   }
   private void enemyDirection(Movable entity){
     if(!leftOver && rightOver){
-      entity.setVelocityX(Math.abs(entity.getVelocityX())*1);
+      entity.setVelocityX(Math.abs(entity.getVelocityX()));
     }
     if(!rightOver && leftOver){
-      entity.setVelocityX(Math.abs(entity.getVelocityX())*-1);
+      entity.setVelocityX(Math.abs(entity.getVelocityX()) * NEGATIVE_DIRECTION);
     }
-    //System.out.println("status " + leftOver + "     " +  rightOver);
     leftOver = false;
     rightOver = false;
   }

@@ -10,15 +10,17 @@ import ooga.engine.obstacles.Unmovable;
 
 
 public class MetroidGame extends Game{
-  private static final int BULLET_WIDTH = 3;
-  private static final int BULLET_HEIGHT = 10;
-  private static final double BULLET_VELOCITY = -1000;
+  private final int bulletWidth;
+  private final int bulletHeight;
+  private final double bulletVelocity;
   private double dt;
-//  private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
 
   public MetroidGame(Player player,Collection<Unmovable> obstacles,
                      Collection<Movable> entities, double timeElapsed, MetroidBean bean) {
     super(player, obstacles, entities, timeElapsed, bean);
+    this.bulletWidth = bean.getBulletWidth();
+    this.bulletHeight = bean.getBulletHeight();
+    this.bulletVelocity = bean.getBulletVelocityX();
     dt = timeElapsed;
   }
 
@@ -39,17 +41,15 @@ public class MetroidGame extends Game{
       Movable entity = super.getActivePlayer();
       double bulletStartX = entity.getCenterX() - entity.getEntityWidth()/2;
       double bulletStartY = entity.getMaxY() - entity.getEntityHeight()/2;
-      double bulletVelocity = BULLET_VELOCITY;
+      double bulletVelocity = this.bulletVelocity;
       if(entity.getFacing()) {
         bulletStartX = entity.getCenterX() + entity.getEntityWidth()/2;
         bulletVelocity *= NEGATIVE_DIRECTION;
       }
-      Bullet bullet = new Bullet(BULLET_WIDTH, BULLET_HEIGHT, bulletStartX, bulletStartY);
+      Bullet bullet = new Bullet(bulletWidth, bulletHeight, bulletStartX, bulletStartY);
       bullet.setVelocityX(bulletVelocity);
-     // bullet.setTimeElapsedX(dt);
       entities.add(bullet);
       entitiesToAdd.add(bullet);
-//      tempGamePlayScreen.spawn(bullet);
     }
 
   @Override

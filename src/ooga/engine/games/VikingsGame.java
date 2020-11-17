@@ -11,9 +11,9 @@ import ooga.engine.obstacles.Unmovable;
 
 public class VikingsGame extends Game{
 
-  private static final int ARROW_WIDTH = 20;
-  private static final int ARROW_HEIGHT = 10;
-  private double xVelocity = -1000;
+  private final int arrowWidth;
+  private final int arrowHeight;
+  private double arrowVelocityX;
   private Collection<Movable> arrows = new ArrayList<>();
   private List<Movable> playerOrder = new ArrayList<>();
   private double dt;
@@ -24,11 +24,13 @@ public class VikingsGame extends Game{
   private boolean firstStep = true;
   int startTime = 0;
 
-//  private GamePlayScreen tempGamePlayScreen = new GamePlayScreen();
 
   public VikingsGame(Player player,Collection<Unmovable> obstacles,
                      Collection<Movable> entities, double timeElapsed, VikingsBean bean) {
     super(player,obstacles, entities, timeElapsed, bean);
+    this.arrowWidth = bean.getArrowWidth();
+    this.arrowHeight = bean.getArrowHeight();
+    this.arrowVelocityX = bean.getArrowVelocityX();
     dt = timeElapsed;
     getPlayerObstacle();
     findWaterfallOrder();
@@ -184,22 +186,18 @@ public class VikingsGame extends Game{
   private void makeArrow(Movable enemy){
     double arrowStartX = enemy.getCenterX() - enemy.getEntityWidth();
     double arrowStartY = enemy.getMaxY() - enemy.getEntityHeight()/2;
-    //double arrowVelocity = ARROW_VELOCITY;
     if(enemy.getFacing()) {
       arrowStartX = enemy.getCenterX() + enemy.getEntityWidth()/2;
-      xVelocity *= NEGATIVE_DIRECTION;
+      arrowVelocityX *= NEGATIVE_DIRECTION;
     }
-    Arrow arrow = new Arrow(ARROW_WIDTH, ARROW_HEIGHT, arrowStartX, arrowStartY);
-    //arrow.setVelocityX(arrowVelocity);
-    arrow.setVelocityX(xVelocity);
-    //arrow.setTimeElapsedX(dt);
+    Arrow arrow = new Arrow(arrowWidth, arrowHeight, arrowStartX, arrowStartY);
+    arrow.setVelocityX(arrowVelocityX);
     Random rand = new Random();
     double arrowFrequency = rand.nextInt(15);
     if(arrowFrequency == 1) {
       arrows.add(arrow);
       entitiesToAdd.add(arrow);
     }
-//    tempGamePlayScreen.spawn(arrow);
   }
 
   @Override
