@@ -296,12 +296,17 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
         }
     }
 
-    protected void healthPenaltyOnObject(Entity entity, String object) {
+    protected void healthPenaltyWithDelay(Entity entity, String object) {
         healthPenaltyDelay++;
         if (entity.getId().equals(object) && healthPenaltyDelay > PENALTY_BUFFER) {
             healthPenaltyDelay = 0;
             entity.setHitpoints(entity.getHitpoints() + HEALTH_PENALTY);
-            System.out.println(entity.getHitpoints());
+        }
+    }
+
+    protected void healthPenaltyOnObject(Entity entity, String object) {
+        if (entity.getId().equals(object)) {
+            entity.setHitpoints(entity.getHitpoints() + HEALTH_PENALTY);
         }
     }
 

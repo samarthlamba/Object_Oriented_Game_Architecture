@@ -91,15 +91,35 @@ public class VikingsTest extends DukeApplicationTest {
         Game game = gameFactory.makeCorrectGame("testVikingsWaterfall");
         testScreen.setGameScreen(game);
         Collection<Entity> entities = (Collection<Entity>) game.getEntities();
-        Entity player = entities.iterator().next();
-        player.setCenterX(150);
-        player.setMaxY(50);
+        Entity player = (Entity) game.getActivePlayer();
+        boolean intersection = false;
+        for(Entity entity : entities) {
+            if (entity.getId().equals("waterfall")) {
+                player.setCenterX(entity.getCenterX());
+                player.setMaxY(entity.getMaxY());
+            }
+        }
+
+        for(Entity entity : entities){
+            if(entity.getId().equals("waterfall")){
+                if(player.getBoundsInParent().intersects(entity.getBoundsInParent())){
+                    intersection = true;
+                }
+            }
+        }
         game.updateLevel();
         game.playerAction();
         game.updateLevel();
-        //nothing is actually being tested here? I removed the try catch
-
+        assertTrue(intersection);
     }
 
+    @Test
+    public void testTimeScore() {
+        Game game = gameFactory.makeCorrectGame("testVikingsWaterfall");
+        for(int i = 0; i < 1000; i++){
+            game.updateLevel();
+        }
+        assertTrue(game.getPoints() != 0);
+    }
 
 }

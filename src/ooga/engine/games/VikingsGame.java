@@ -118,7 +118,6 @@ public class VikingsGame extends Game{
   }
 
 
-
   private void removePercolationBlock(Stack<Movable> percolation, Movable entity, int index){
     int entityPosition = percolation.search(entity);
     int stackPosition = 1;
@@ -170,8 +169,7 @@ public class VikingsGame extends Game{
           Movable block = percolation.pop();
           percolations.get(i).add(block);
           entitiesToAdd.add(block);
-          addPercolationBlock.add(block);
-        }
+          addPercolationBlock.add(block); }
         i++;
       }
     }
