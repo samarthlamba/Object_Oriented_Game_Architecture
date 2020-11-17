@@ -13,12 +13,10 @@ import java.util.Iterator;
  */
 public class Coin extends Entity {
 
-    public static final int COIN_HEALTH = 1;
-    private static final String OBJECT_NAME = "Coin";
+    private static final String ID = "coin";
     public Coin(int objectWidth, int objectHeight, double initialX, double initialY) {
         super(objectWidth, objectHeight, initialX, initialY);
-        this.setHitpoints(COIN_HEALTH);
-        setId("coin");
+        setId(ID);
     }
 
 

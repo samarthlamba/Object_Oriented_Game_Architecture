@@ -30,6 +30,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     private double normalForce = 0;
     private boolean moving = false;
     private boolean spinning = false;
+    private int healthPenaltyDelay = 0;
 
     public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
         this.SCENE_WIDTH = objectWidth;
@@ -235,6 +236,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
                 return;
             }
         }
+
     protected void thisDeath(Entity entity, String object) {
         if (entity.getId().equals(object)) {
             this.setHitpoints(0);
@@ -257,8 +259,17 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     }
 
     protected void healthPenaltyOnObject(Entity entity, String object) {
-        if (entity.getId().equals(object)) {
+        healthPenaltyDelay++;
+        if (entity.getId().equals(object) && healthPenaltyDelay > 5) {
+            healthPenaltyDelay = 0;
             entity.setHitpoints(entity.getHitpoints() + HEALTH_PENALTY);
+            System.out.println(entity.getHitpoints());
+        }
+    }
+
+    protected void onlyTopDeath(Entity entity, String object){
+        if (entity.getId().equals(object) && entity.getVelocityY() > 0) {
+            this.setHitpoints(0);
         }
     }
 
