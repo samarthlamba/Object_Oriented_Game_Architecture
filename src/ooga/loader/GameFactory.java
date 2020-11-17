@@ -8,10 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
-import ooga.engine.entities.player.Player;
 import ooga.engine.games.Game;
 import ooga.engine.games.beans.*;
 import ooga.engine.entities.Entity;
@@ -39,30 +37,16 @@ public class GameFactory {
       gameName = levelData.get(0)[0];
       gameBundle = ResourceBundle.getBundle(
           String.format(gameConfigBundle.getString("gameBundleName"),gameName));
-      Player player = findPlayer(levelData);
       Collection<Obstacle> obstacles = getObjectsForGameOfType(levelData, Obstacle.class);
       Collection<Entity> entities = getObjectsForGameOfType(levelData, Entity.class);
-      entities.add(player);
       GameBean gameBean = beanMaker.makeGameBean(gameName,fileLocation);
       Class c = Class.forName(gameBundle.getString("Game"));
-      Constructor constr = c.getDeclaredConstructor(Player.class, Collection.class, Collection.class, double.class,gameBean.getClass());
-      return (Game) constr.newInstance(player,obstacles, entities,1/frameRate,gameBean);
+      Constructor constr = c.getDeclaredConstructor(Collection.class, Collection.class, double.class,gameBean.getClass());
+      return (Game) constr.newInstance(obstacles, entities,1/frameRate,gameBean);
     } catch (Exception e) {
       throw new FactoryException(String.format("Unable to build game from %s: %s",fileLocation,e.getMessage()),e);
     }
   }
-
-  private Player findPlayer(List<String[]> levelData) {
-    Collection<Player> playerSet = getObjectsForGameOfType(levelData,Player.class);
-    Optional<Player> potentialFirstPlayer = playerSet.stream().findFirst();
-    if(potentialFirstPlayer.isEmpty()) {
-      throw new FactoryException("No player found");
-    }
-    else{
-      return potentialFirstPlayer.get();
-    }
-  }
-
   private <T> Collection<T> getObjectsForGameOfType(List<String[]> levelData,Class<T> objectToParse) {
     String[] classStrings = gameBundle.getString(objectToParse.getName()).split(",");
     Collection<T> objectsInData = new ArrayList<>();

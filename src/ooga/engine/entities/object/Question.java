@@ -15,5 +15,24 @@ public class Question extends Entity {
         return false;
     }
 
+    @Override
+    public void leftCollideable(Entity entity) {
+        dead(this, entity.getId().equals("player"));
+    }
+
+    @Override
+    public void rightCollideable(Entity entity) {
+        dead(this, entity.getId().equals("player"));
+    }
+
+    @Override
+    public void bottomCollideable(Entity entity) {
+        dead(this, entity.getId().equals("player"));
+    }
+
+    @Override
+    public void topCollideable(Entity entity) {
+        dead(this, entity.getId().equals("player"));
+    }
 
 }

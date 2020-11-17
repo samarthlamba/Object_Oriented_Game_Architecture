@@ -12,5 +12,8 @@ public class Spike extends Obstacle {
     }
 
 
+    public void topCollideable(Entity entity) {
+        entity.setHitpoints(0);
+    }
 
 }

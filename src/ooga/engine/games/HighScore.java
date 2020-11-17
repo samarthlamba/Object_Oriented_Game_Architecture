@@ -12,10 +12,9 @@ public class HighScore{
     private static final String EXTENSION = ".txt";
     private static final String INITIALIZED_SCORE = "0,0";
     private static final int TOTAL_NUMBER_RECORDS = NUMBER_OF_RECORDS*2;
-    private static final String PATH_TO_RESOURCES = "src/resources/";
 
     public HighScore(String game){
-        fileName = PATH_TO_RESOURCES + game + EXTENSION;
+        fileName = game + EXTENSION;
         checkFileExistence();
     }
 
@@ -48,27 +47,19 @@ public class HighScore{
         return Arrays.copyOfRange(list, NUMBER_OF_RECORDS, list.length);
     }
 
-    private HighScoreObject[] getFileContent() {
+    private HighScoreObject[] getFileContent() throws IOException {
         File file = new File(fileName);
-
-        HighScoreObject[] highScore = new HighScoreObject[TOTAL_NUMBER_RECORDS];
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            String st;
-            int pos = 0;
-            while (((st = br.readLine()) != null && pos != highScore.length)) {
-                highScore[pos] = (HighScoreObject.toHighScoreObject(st));
-                pos = pos + 1;
-            }
-            return highScore;
-        } catch (Exception e) {
-            for (int i = 0; i < highScore.length; i++){
-                highScore[i] = new HighScoreObject(0,0);
-            }
-            return highScore;
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        HighScoreObject [] highScore = new HighScoreObject[TOTAL_NUMBER_RECORDS];
+        String st;
+        int pos = 0;
+        while(((st = br.readLine()) != null && pos != highScore.length)){
+            highScore[pos] = (HighScoreObject.toHighScoreObject(st));
+            pos = pos+1;
         }
+        return highScore;
     }
-    public HighScoreObject[] getGlobalHighScores() {
+    public HighScoreObject[] getGlobalHighScores() throws IOException {
         checkFileExistence();
 
             HighScoreObject[] list= getFileContent();
@@ -76,14 +67,14 @@ public class HighScore{
     }
 
 
-    public HighScoreObject[] getWeeklyHighScores() {
+    public HighScoreObject[] getWeeklyHighScores() throws IOException {
         checkFileExistence();
 
         HighScoreObject[] list= getFileContent();
         return  getSubListGlobal(list, true);
     }
 
-    public HighScoreObject[] getAllScores() {
+    public HighScoreObject[] getAllScores() throws IOException {
         checkFileExistence();
 
         return getFileContent();
@@ -120,7 +111,7 @@ public class HighScore{
         return answerString;
     }
 
-    public void checkAddHighScore(int score) {
+    public void checkAddHighScore(int score) throws IOException {
         HighScoreObject current = new HighScoreObject(score);
         HighScoreObject [] listOfScores = getAllScores();
         listOfScores = updateWeeklyTimes(listOfScores);

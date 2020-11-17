@@ -20,5 +20,13 @@ public class Ladder extends Obstacle {
         setId(ID);
     }
 
+    @Override
+    public void leftCollideable(Entity entity) {}
+
+    @Override
+    public void rightCollideable(Entity entity) {}
+
+    @Override
+    public void bottomCollideable(Entity entity) {}
 
 }

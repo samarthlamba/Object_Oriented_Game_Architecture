@@ -19,7 +19,7 @@ public class Menu extends VBox {
 //    String buttonFunctionClassName = this.toString();
     Consumer<String> E;//TODO
 
-    public Menu(ResourceBundle menuButtonProperties, Consumer<String> e) {
+    public Menu(ResourceBundle menuButtonProperties, Consumer e) {
         E = e;
         for(String property : menuButtonProperties.keySet()) {
             Button button = makeNewButton(property, menuButtonProperties);
@@ -33,7 +33,7 @@ public class Menu extends VBox {
         String label = (String) menuButtonProperties.getObject(property); //TODO (String?)
         newButton.setText(label);
         newButton.setId(property);
-        newButton.setOnAction(e -> E.accept(property));//label
+        newButton.setOnMouseClicked(e -> E.accept(property));//label
         return newButton;
     }
 

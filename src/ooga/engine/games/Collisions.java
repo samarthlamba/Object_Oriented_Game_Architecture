@@ -29,7 +29,8 @@ public class Collisions {
 
         for (String side : collisionSide) {
             try {
-                Class collision = Class.forName("ooga.engine.games.Collideable");
+                String classPathName = getClassPath(object);
+                Class collision = Class.forName(classPathName);
                 Method actionOnCollision = collision.getDeclaredMethod(side + "Collideable", Entity.class);
                 actionOnCollision.invoke(object, entity);
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e) {
@@ -38,6 +39,22 @@ public class Collisions {
         }
     }
 
+    private String getClassPath(Collideable object) {
+        String[] className = object.getClass().getName().split("\\.");
+        className[2] = "games";
+        className[3] = "Collideable";
+        if(className.length > 4) {
+            className = Arrays.copyOf(className, className.length - 1);
+        }
+        return String.join(".", className);
+    }
+
+    protected boolean entityCollision(Entity player, Entity e) {
+        if (e.getId().equals("enemy")) {
+            return player.getNode().getBoundsInParent().intersects(e.getNode().getBoundsInParent());
+        }
+        return false;
+    }
 
     private boolean rightCollision(Entity entity, Collideable object) {
         return object.getNode().getBoundsInParent().getMinX() < entity.getNode().getBoundsInParent().getMaxX() &&
