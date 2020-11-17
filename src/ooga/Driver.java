@@ -6,7 +6,6 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.engine.games.Game;
-import ooga.engine.games.GamePlay;
 import ooga.engine.games.HighScore;
 import ooga.view.Display;
 
@@ -43,12 +42,12 @@ public class Driver extends Application {
 
   private void step() {
     if(game.isLost()){
-      victoryScreen();
+      splashScreen(GameEndStatus.LOSS);
       HighScore highScore = new HighScore(gameController.getGameName());
       highScore.checkAddHighScore(game.getPoints());
     }
     if(game.isWon()) {
-      victoryScreen();
+      splashScreen(GameEndStatus.VICTORY);
     }
     else{
       game.updateLevel();
@@ -56,9 +55,9 @@ public class Driver extends Application {
     }
   }
 
-  private void victoryScreen() {
+  private void splashScreen(GameEndStatus status) {
     timeline.stop();
-    display.setSplashScreen("Victory");
+    display.setSplashScreen(status);
   }
 }
 

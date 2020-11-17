@@ -167,12 +167,7 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
 
     public void remove(Collection<MovableBounds> entities) {
         for (MovableBounds entity : entities) {
-            if (background.getChildrenUnmodifiable().contains(entity.getNode())) {
-                background.getChildren().remove(entity.getNode());
-            }
-            else {
-                throw new RuntimeException("Entity not in Scene");
-            }
+            background.getChildren().remove(entity.getNode());
         }
     }
 }

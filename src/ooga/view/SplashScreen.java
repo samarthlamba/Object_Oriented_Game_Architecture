@@ -2,29 +2,24 @@ package ooga.view;
 
 import java.lang.reflect.Method;
 import java.util.ResourceBundle;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+import ooga.GameEndStatus;
 
 public class SplashScreen extends Screen{
   private final String displayKey;
- // private final Scene myScene;
   private final Runnable restart;
   private final Runnable setMainMenu;
 
-  public SplashScreen (String displayKey,Runnable setMainMenu, Runnable restartGame) {
-    this.displayKey = displayKey;
+  public SplashScreen (GameEndStatus displayKey,Runnable setMainMenu, Runnable restartGame) {
+    this.displayKey = displayKey.toString();
     this.restart = restartGame;
     this.setMainMenu = setMainMenu;
-    //instead of just the menu, you could add the menu at the bottom only.
-    //this.myScene = new Scene(makeMenu(),SCREEN_WIDTH,SCREEN_HEIGHT);
   }
 
   private void invokeCorrectMethod(String buttonName) {
@@ -37,6 +32,7 @@ public class SplashScreen extends Screen{
   }
   private Menu makeMenu() {
     Menu myMenu = new Menu(ResourceBundle.getBundle("SplashButtons"),this::invokeCorrectMethod);
+    myMenu.setAlignment(Pos.CENTER);
     return myMenu;
   }
 
@@ -51,19 +47,21 @@ public class SplashScreen extends Screen{
   @Override
   public Scene getView() {
     BorderPane root = new BorderPane();
-    ImageView gif = getGif();
+      ImageView gif = getGif();
     Timeline timeline = new Timeline(
-            new KeyFrame(Duration.ZERO, e -> {
-              gif.setFitWidth(SCREEN_WIDTH);
-              gif.setFitHeight(SCREEN_HEIGHT);
-              gif.setPreserveRatio(false);
-              root.getChildren().add(gif);
-              root.setTop(makeMenu());
-            }),
-            new KeyFrame(Duration.seconds(2), e -> {}));
-
+        new KeyFrame(Duration.ZERO, e -> {
+          gif.setFitWidth(SCREEN_WIDTH);
+          gif.setFitHeight(SCREEN_HEIGHT);
+          gif.setPreserveRatio(false);
+          root.getChildren().add(gif);
+          root.setTop(makeMenu());
+        }),
+        new KeyFrame(Duration.seconds(2), e -> {
+        }));
     timeline.play();
-    return new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
+    Scene currentScene = new Scene(root,SCREEN_WIDTH,SCREEN_HEIGHT);
+    currentScene.getStylesheets().addAll("gamebase.css");
+    return currentScene;
   }
 
   private ImageView getGif(){
