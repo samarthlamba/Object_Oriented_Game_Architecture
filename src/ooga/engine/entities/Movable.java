@@ -1,7 +1,6 @@
 package ooga.engine.entities;
 
  public interface Movable extends MovableBounds {
-     boolean getStatusAlive();
 
      double getVelocityX();
 
@@ -35,19 +34,21 @@ package ooga.engine.entities;
 
      double getYForce();
 
-     double getTimeElapsedX();
-
-     double getTimeElapsedY();
-
-     void setTimeElapsedY(double time);
-
-     void setTimeElapsedX(double time);
-
      boolean hasGravity();
 
      int getHitpoints();
 
      void setJump(boolean isJump);
 
+     boolean isJump();
+
      void setFacing(boolean facing); //TODO: take out once key moved
+
+     boolean getStatusAlive();
+
+     boolean hasWon();
+
+     void setHitpoints(int hitpoints);
+
+
 }

@@ -1,6 +1,7 @@
 package ooga.engine.obstacles;
 
 import javafx.scene.Node;
+import ooga.engine.entities.Entity;
 
 public class Goal extends Obstacle{
     private static final String ID= "goal";
@@ -8,5 +9,6 @@ public class Goal extends Obstacle{
         super(obstacleWidth, obstacleHeight, initialX, initialY);
         setId(ID);
     }
+
 
 }

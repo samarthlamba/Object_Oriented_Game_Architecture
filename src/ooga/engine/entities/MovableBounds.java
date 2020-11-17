@@ -12,4 +12,7 @@ import javafx.scene.Node;
    double getCenterX();
 
    boolean getFacing();
+
+   int getHealth();
+
 }
