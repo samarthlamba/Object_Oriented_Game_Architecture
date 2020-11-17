@@ -28,6 +28,8 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     private boolean jump = false;
     private boolean finished = false;
     private double normalForce = 0;
+    private boolean moving = false;
+    private boolean spinning = false;
 
     public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
         this.SCENE_WIDTH = objectWidth;
@@ -164,12 +166,29 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
         jump = isJump;
     }
 
+    public boolean isSpinning(){
+        return spinning;
+    }
+
+    public void setSpinning(boolean spinning){
+        this.spinning = spinning;
+    }
+
     public void setNormalForce(double gravity){
         this.normalForce = gravity;
     }
 
     public void setFacing(boolean direction){
         facing = direction;
+    }
+
+    public void setHorizontalMovement(boolean moving, double velocity){
+        this.moving = moving;
+        setVelocityX(velocity);
+    }
+
+    public boolean getHorizontalMovement(){
+        return moving;
     }
 
     public void leftCollideable(Entity entity) {
@@ -223,10 +242,17 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     }
 
     protected void applyY(Entity entity, String object) {
-        if(entity.getId().equals(object) && entity.getYForce() != 0) {
+        if(entity.getId().equals(object)) {
             entity.setJump(true);
             entity.setVelocityY(-2600);
             entity.setMaxY(entity.getMaxY() - 2);
+        }
+    }
+
+    protected void spinning(Entity entity, String object){
+        if(entity.getId().equals(object)){
+            setSpinning(true);
+            setHorizontalMovement(true, 700);
         }
     }
 
@@ -267,5 +293,6 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
             entity.setJump(false);
         }
     }
+
 
 }

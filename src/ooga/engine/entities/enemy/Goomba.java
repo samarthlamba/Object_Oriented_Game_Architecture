@@ -9,10 +9,9 @@ public class Goomba extends Enemy {
     private static final String OBJECT_NAME = "Goomba";
     public Goomba(int objectWidth, int objectHeight, double initialX, double initialY) {
         super(objectWidth, objectHeight, initialX, initialY);
-        this.setVelocityX(VELOCITY);
+        setHorizontalMovement(true, VELOCITY);
         this.setHitpoints(GOOMBA_HEALTH);
     }
-
 
 
 

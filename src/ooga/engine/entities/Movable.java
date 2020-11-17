@@ -51,4 +51,6 @@ package ooga.engine.entities;
      void setHitpoints(int hitpoints);
 
      void setNormalForce(double gravity);
+
+     boolean getHorizontalMovement();
 }
