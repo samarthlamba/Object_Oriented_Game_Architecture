@@ -1,13 +1,13 @@
 package ooga.engine.entities.object;
 
 import ooga.engine.entities.Entity;
-import ooga.engine.obstacles.Obstacle;
 
 public class PlayerObstacle extends Entity {
 
+    private static final String ID = "playerobstacle";
     public PlayerObstacle(int objectWidth, int objectHeight, double initialX, double initialY) {
         super(objectWidth, objectHeight, initialX, initialY);
-        setId("playerobstacle");
+        setId(ID);
     }
 
 

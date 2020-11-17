@@ -1,20 +1,16 @@
 package ooga.engine.entities.object;
 
-import javafx.scene.Node;
 import ooga.engine.entities.Entity;
-import ooga.engine.obstacles.Obstacle;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Vikings obstacle that is collideable from top only and whose "flow" is blocked by non-active viking
  */
 public class Waterfall extends Entity {
-
+  private static final String ID = "waterfall";
   public Waterfall(int obstacleWidth, int obstacleHeight, double initialX, double initialY) {
     super(obstacleWidth, obstacleHeight, initialX, initialY);
-    setId("waterfall");
+    setId(ID);
+    setPercolate(true);
   }
 
   @Override

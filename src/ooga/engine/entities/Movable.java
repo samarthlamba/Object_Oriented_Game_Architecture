@@ -51,4 +51,12 @@ package ooga.engine.entities;
      void setHitpoints(int hitpoints);
 
      void setNormalForce(double gravity);
+
+     boolean getHorizontalMovement();
+
+     boolean isPercolate();
+
+     boolean isSource();
+
+     boolean doesShoot();
 }

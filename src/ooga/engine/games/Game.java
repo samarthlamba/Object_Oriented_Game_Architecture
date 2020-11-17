@@ -20,8 +20,6 @@ import static java.lang.Math.abs;
 import static java.lang.Math.round;
 
 public abstract class Game implements GamePlay {
-    //public static final double GRAVITY = 800;
-    //We could probably change these to ENUMS
     public static final double NEGATIVE_DIRECTION = -1;
     public static final double NORMAL_FORCE_OFFSET = 100;
     public static final double JUMP_VELOCITY_INCREMENT = 100;

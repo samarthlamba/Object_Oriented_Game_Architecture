@@ -1,8 +1,5 @@
 package ooga.engine.entities.player;
 
-import ooga.engine.entities.Entity;
-import ooga.engine.entities.player.Player;
-
 /**
  * Lost Vikings Implementation of player
  */

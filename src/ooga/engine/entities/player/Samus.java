@@ -1,7 +1,5 @@
 package ooga.engine.entities.player;
 
-import ooga.engine.entities.player.Player;
-
 /**
  * Metroid implementation of Player
  */
