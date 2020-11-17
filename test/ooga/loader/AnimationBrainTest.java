@@ -16,7 +16,7 @@ public class AnimationBrainTest extends DukeApplicationTest {
 
   @BeforeEach
   public void setup() {
-    mario = new AnimationBrain("Mario");
+    mario = new AnimationBrain("MarioGame");
   }
 
   @Test
@@ -29,7 +29,7 @@ public class AnimationBrainTest extends DukeApplicationTest {
     Map<AnimationState,Integer> lengthMap = mario.getLengthMap();
     assertEquals(1,lengthMap.get(STAND));
     assertEquals(1,lengthMap.get(SPECIAL));
-    assertEquals(6,lengthMap.get(JUMP));
+    assertEquals(8,lengthMap.get(JUMP));
     assertEquals(3,lengthMap.get(WALK));
   }
 
@@ -38,7 +38,7 @@ public class AnimationBrainTest extends DukeApplicationTest {
     Map<AnimationState,Integer> yMap = mario.getPositionOfFirstAnimationMap();
     assertEquals(1,yMap.get(STAND));
     assertEquals(1,yMap.get(SPECIAL));
-    assertEquals(7,yMap.get(JUMP));
+    assertEquals(5,yMap.get(JUMP));
     assertEquals(2,yMap.get(WALK));
   }
 
@@ -52,13 +52,13 @@ public class AnimationBrainTest extends DukeApplicationTest {
   @Test
   public void testGetyWhiteSpaceConstant() {
     int framesPerColumn = mario.getyWhiteSpaceConstant();
-    assertEquals(28,framesPerColumn);
+    assertEquals(15,framesPerColumn);
   }
 
   @Test
   public void testGetxWhiteSpaceConstant() {
     int framesPerColumn = mario.getxWhiteSpaceConstant();
-    assertEquals(30,framesPerColumn);
+    assertEquals(17,framesPerColumn);
   }
 
   @Test
