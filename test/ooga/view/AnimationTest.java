@@ -42,13 +42,6 @@ AnimationBrain animationBrain = new AnimationBrain("MarioGame");
         assertEquals(30, animation.getImage().getFitWidth());
     }
 
-    @Test
-    void setScaleX() {
-    }
-
-    @Test
-    void setScaleY() {
-    }
 
     @Test
     void interpolate() {

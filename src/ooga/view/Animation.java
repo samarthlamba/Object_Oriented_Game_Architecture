@@ -74,16 +74,7 @@ public class Animation extends Transition { //fsm backend if seperation    //loo
 
      */
 
-    public void setScaleX(double value) {
-        if (abs(image.getScaleX()) != value) {
-            image.setScaleX(image.getScaleX() * value);
-        }
-    }
-    public void setScaleY(double value) {
-        if (abs(image.getScaleY()) != value) {
-            image.setScaleY(image.getScaleY() * value);
-        }
-    }
+
     @Override
     protected void interpolate(double frac) {
         int index = Math.min((int) Math.floor(frac * length), length - 1)+postionOfFirstAnimation-1; //the first part was a part of interpolate and the +positionOfFirstAnimation offsets things
