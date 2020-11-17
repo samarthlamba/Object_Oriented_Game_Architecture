@@ -136,7 +136,6 @@ public abstract class Game implements GamePlay {
 
     protected void moveEnemy(Movable entity) {
         if (entity.getId().equals("enemy")) {
-            // System.out.println("prev " + entity.getPreviousY() + " now " + entity.getMaxY());
             if (entity.getPreviousY() != entity.getMaxY()) {
                 entity.setMaxY(entity.getPreviousY());
                 entity.setCenterX(entity.getPreviousX());
