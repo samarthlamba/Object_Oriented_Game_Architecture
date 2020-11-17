@@ -10,9 +10,6 @@ public class Wall extends Obstacle {
   private int obstacleWidth;
   private int obstacleHeight;
   private final static String ID = "wall";
-  private static final double MOVE_FORCE = 1000;
-  private static final double NEGATIVE_DIRECTION = -1;
-  public static final double GRAVITY = 59900;
 
   public Wall(int obstacleWidth, int obstacleHeight, double initialX, double initialY) {
     super(obstacleWidth, obstacleHeight, initialX, initialY);
@@ -22,4 +19,5 @@ public class Wall extends Obstacle {
     this.obstacleWidth = obstacleWidth;
     setId(ID);
   }
+
 }

@@ -161,7 +161,7 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
                 Method method = game.getClass().getMethod(methodName);
                 method.invoke(game);
             } catch (Exception e) {
-                System.out.println("No player here boss");
+                e.printStackTrace();
             }
         }
     }
