@@ -42,7 +42,6 @@ public class RandomGameGenerator {
    * @return A List<String[]> where each element can be converted into a Game object.
    */
   public List<String[]> buildLevelData() {
-    int numberPlayers = Integer.parseInt(randomBundle.getString("numberPlayers"));
     int chunkX = Integer.parseInt(gameConfigBundle.getString("chunkSizeX"));
     int chunkY = Integer.parseInt(gameConfigBundle.getString("chunkSizeY"));
     String[] title = new String[1];
