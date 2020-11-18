@@ -15,11 +15,10 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     public static final int APPLY_Y_VELOCITY = -2600;
     public static final int SPINNING_VELOCITY = 700;
     public static final int DELAY_BUFFER = 4;
-    public static final int DEATH_BUFFER = 0;
     private final int entityWidth;
     private final int entityHeight;
     private int currentHitpoints = 3;
-    private Node nodeObject;
+    private final Node nodeObject;
     private double speed = 0;
     private double previousX;
     private double previousY;
@@ -29,10 +28,8 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     boolean status_Alive = true;
     private boolean facing = true;
     private boolean jump = false;
-    private boolean finished = false;
     private double normalForce = 0;
     private boolean moving = false;
-    private boolean spinning = false;
     private int delay = 0;
     private boolean percolate = false;
     private boolean source = false;
@@ -67,7 +64,6 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     }
 
     public void setWon(boolean finished){
-        this.finished = finished;
     }
 
     public double getVelocityX(){
@@ -255,7 +251,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
             Iterator methods = reader.getMethods(collisionName).iterator();
             Iterator parameter = reader.getParameters(collisionName).iterator();
 
-            while (methods != null && methods.hasNext() && parameter.hasNext()) {
+            while (methods.hasNext() && parameter.hasNext()) {
 
                 Class current = this.getClass().getSuperclass();
                 while (current != Entity.class) {
@@ -319,7 +315,6 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
         if (entity.getId().equals(object)) {
             entity.setHitpoints(entity.getHitpoints() + HEALTH_PENALTY);
         }
-
     }
 
     protected void topDeathMakeCoins(Entity entity, String object){

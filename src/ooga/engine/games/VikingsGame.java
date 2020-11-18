@@ -2,7 +2,6 @@ package ooga.engine.games;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Stack;
@@ -19,12 +18,11 @@ public class VikingsGame extends Game{
   private final int arrowWidth;
   private final int arrowHeight;
   private double arrowVelocityX;
-  private Collection<Movable> arrows = new ArrayList<>();
-  private List<Movable> playerOrder = new ArrayList<>();
-  private double dt;
-  private List<Stack<Movable>> percolations = new ArrayList<>();
-  private List<Stack<Movable>> removedPercolationBlock = new ArrayList<>();
-  private List<Movable> addPercolationBlock = new ArrayList<>();
+  private final Collection<Movable> arrows = new ArrayList<>();
+  private final List<Movable> playerOrder = new ArrayList<>();
+  private final List<Stack<Movable>> percolations = new ArrayList<>();
+  private final List<Stack<Movable>> removedPercolationBlock = new ArrayList<>();
+  private final List<Movable> addPercolationBlock = new ArrayList<>();
   private boolean obstacleCollision = false;
   private boolean firstStep = true;
   private int startTime = 0;
@@ -36,7 +34,6 @@ public class VikingsGame extends Game{
     this.arrowWidth = bean.getArrowWidth();
     this.arrowHeight = bean.getArrowHeight();
     this.arrowVelocityX = bean.getArrowVelocityX();
-    dt = timeElapsed;
     getPlayerObstacle();
     findPercolationBlockOrder();
   }
@@ -60,10 +57,8 @@ public class VikingsGame extends Game{
         percolations.add(percolation);
       }
     }
-    Iterator<Movable> entitiesCollection = entities.iterator();
-    while(entitiesCollection != null && entitiesCollection.hasNext()){
-      Movable currentEntity = entitiesCollection.next();
-      for(Stack<Movable> percolation : percolations){
+    for (Movable currentEntity : entities) {
+      for (Stack<Movable> percolation : percolations) {
         findPercolationBlocks(currentEntity, percolation);
       }
     }
@@ -83,8 +78,8 @@ public class VikingsGame extends Game{
     double leftXPosition = xPosition - currentEntity.getEntityWidth();
     double rightXPosition = nextXPosition + currentEntity.getEntityWidth();
     if(connected(yPosition, nextYPosition, percolation.peek().getCenterX(), currentEntity.getCenterX()) ||
-            (connected(xPosition, nextXPosition, percolation.peek().getMaxY(), currentEntity.getMaxY())) ||
-            (connected(leftXPosition, rightXPosition, percolation.peek().getMaxY(), currentEntity.getMaxY()))){
+            (connected(percolation.peek().getMaxY(), currentEntity.getMaxY(), xPosition, nextXPosition)) ||
+            (connected(percolation.peek().getMaxY(), currentEntity.getMaxY(), leftXPosition, rightXPosition))){
       addPercolationBlockToStack(currentEntity, percolation);
     }
   }
@@ -175,9 +170,7 @@ public class VikingsGame extends Game{
         i++;
       }
     }
-    for(Movable water : addPercolationBlock){
-      entities.add(water);
-    }
+    entities.addAll(addPercolationBlock);
   }
 
   private void generateArrows(Movable entity){

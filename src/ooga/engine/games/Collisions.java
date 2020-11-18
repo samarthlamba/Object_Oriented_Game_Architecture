@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 public class Collisions {
-    private Set<String> collisionTypes = Set.of("right", "left", "top", "bottom");
+    private final Set<String> collisionTypes = Set.of("right", "left", "top", "bottom");
     private static final int PRECISION = 0;
 
     public void collisions(Entity entity, Collideable object) {
@@ -20,7 +20,7 @@ public class Collisions {
                     collisionSide.add(side);
                 }
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace(); //TODO: handle error better
+                throw new MethodNotFound("Error in collision reflection " + e);
             }
         }
 
@@ -30,7 +30,7 @@ public class Collisions {
                 Method actionOnCollision = collision.getDeclaredMethod(side + "Collideable", Entity.class);
                 actionOnCollision.invoke(object, entity);
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e) {
-                e.printStackTrace(); //TODO: handle error better
+                throw new MethodNotFound("Error in collision action reflection " + e);
             }
         }
     }
