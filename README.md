@@ -8,11 +8,11 @@ Names: Sam Lamba, Matt Bownman, Roshni Penmatcha, Joe Heflin
 
 ### Timeline
 
-Start Date: 
+Start Date: October 24th
 
-Finish Date: 
+Finish Date: November 24th
 
-Hours Spent:
+Hours Spent: 
 
 ### Primary Roles
 
@@ -38,7 +38,7 @@ Interesting data files:
 
 Known Bugs:
 
-Extra credit:
+Extra credit: We have animation for the main player and capability to add animations for all player with minimal code changes. We just need to define the sprite sheet properties and create the animation creator for the entity we care about in Game Play Screen. 
 
 
 ### Impressions
