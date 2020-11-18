@@ -15,13 +15,13 @@ import static ooga.view.Screen.DEFAULT_RESOURCE_PACKAGE;
 
 public class Display {//implements Viewer{
 
-private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "mainmenubuttons_eng");;
-    private static final ResourceBundle LEVEL_FILE_LOCATIONS = ResourceBundle.getBundle("LevelFileLocations");
+    private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "mainmenubuttons_eng");
+    private static final String PATH_TO_GAME_MENUS = "ooga.view.%sMenuScreen";
 
 
     private GameController gameController;
     private GamePlayScreen gameScreen;
-    private String gametitle;
+    private String gameTitle;
 
     public Display(GameController gameController) {
         this.gameController = gameController;
@@ -33,14 +33,19 @@ private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle(DEFAU
     }
 
     private void launchGame(String levelChosen) {
-        String gameLevelComboChosen = String.format("%s,%s",gametitle,levelChosen);
-        String filePath = LEVEL_FILE_LOCATIONS.getString(gameLevelComboChosen);
-        gameController.launchGame(filePath);
+        String gameLevelComboChosen = String.format("%s%s", gameTitle,levelChosen);
+        gameController.launchGame(gameLevelComboChosen);
         setGameDisplay(gameController.getGame());
     }
 
     private void restartGame() {
         gameController.restartGame();
+        setGameDisplay(gameController.getGame());
+    }
+
+    private void randomGame(String gameTitle) {
+        this.gameTitle = gameTitle;
+        gameController.makeRandomGame(gameTitle);
         setGameDisplay(gameController.getGame());
     }
 
@@ -64,12 +69,15 @@ private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle(DEFAU
     }
 
     public void setGameMenuScreen (String gameLabel) { //TODO
-        this.gametitle = gameLabel;
-        Screen gameMenu;
+        this.gameTitle = gameLabel;
+        GameMenuScreen gameMenu;
         String gameClassName = GAME_LABELS.getString(gameLabel);
+        Consumer<String> launchGame = this::launchGame;
+        Consumer<String> randomGame = this::randomGame;
         try {
-            Constructor ruleCellTypeCons = Class.forName("ooga.view." + gameClassName + "MenuScreen").getDeclaredConstructor(Consumer.class);
-            gameMenu = (Screen) ruleCellTypeCons.newInstance((Consumer<String>) this::launchGame);
+            Constructor menuConstructor = Class.forName(String.format(PATH_TO_GAME_MENUS,gameClassName))
+                .getDeclaredConstructor(Consumer.class, Consumer.class);
+            gameMenu = (GameMenuScreen) menuConstructor.newInstance(launchGame,randomGame);
         } catch (Exception er) {
             er.printStackTrace();
             throw new RuntimeException ("Error in reflection");//TODO
@@ -83,16 +91,10 @@ private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle(DEFAU
     }
     
 
-
     public void test() {
         Group root = new Group();
         Scene scene = new Scene(root,500,500);
         gameController.setScene(scene);
-    }
-
-    public Screen getGameMenu(Consumer<String> e) {
-        Screen gameMenu = new SuperMarioBrosMenuScreen(e);
-        return gameMenu;
     }
 }
 
