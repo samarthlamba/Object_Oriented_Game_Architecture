@@ -53,6 +53,7 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
     private Map<String, ImagePattern> characterImages;
     private GameController gameController;
     private BorderPane primaryRoot;
+    private HeadsUpDisplay hud;
 
     public GamePlayScreen(GamePlay givenGame, GameController control) {
         background = new Group();
@@ -74,11 +75,11 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
         onScreen = background.getChildren();
         addEntities((Collection<MovableBounds>) game.getEntities());
         addObstacles((Collection<Node>) game.getBackground());
-        update();
+//        update();
         gamePane.getChildren().add(background);
 
         BorderPane root = new BorderPane();
-        HeadsUpDisplay hud = new HeadsUpDisplay(gameController);
+        hud = new HeadsUpDisplay(gameController,game.getPoints(),mainPlayer.getHealth());
 
         root.getStylesheets().add("mario.css");//TODO
         root.setCenter(gamePane);
@@ -89,6 +90,7 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
         scene = new Scene(root,SCREEN_WIDTH,SCREEN_HEIGHT);//todo
         hud.setUpHud(scene,goToMenu,restart,changeTheme);
         bindKeys();
+        update();
     }
 
 //    public void restartGame() {
@@ -171,6 +173,9 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
         double sceneShiftY = -(mainY - (SCREEN_HEIGHT/2 - mainHeight));
         background.setTranslateX(sceneShiftX);
         background.setTranslateY(sceneShiftY);
+//        hud.setPoints(game.getPoints());
+//        hud.setPoints(mainPlayer.getHealth());
+        hud.update(game.getPoints(),mainPlayer.getHealth());
     }
 
     @Override

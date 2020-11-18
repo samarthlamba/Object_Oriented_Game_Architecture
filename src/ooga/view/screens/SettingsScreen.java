@@ -1,20 +1,18 @@
 package ooga.view.screens;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import ooga.GameController;
+import ooga.view.KeyBindingScreen;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -32,6 +30,7 @@ public class SettingsScreen extends Screen{
     }
 
     private void setScene(Consumer changeTheme){
+        BorderPane root = new BorderPane();
         VBox buttons = new VBox();
         buttons.setAlignment(Pos.CENTER);
 
@@ -53,7 +52,25 @@ public class SettingsScreen extends Screen{
         background.getChildren().add(night);
         buttons.getChildren().add(background);
 
-        scene = new Scene(buttons,SCREEN_WIDTH,SCREEN_HEIGHT);
+        Button keyBindButton = new Button("change keys");
+        keyBindButton.setOnMouseClicked(e->accessKeyBindingScreen());
+        buttons.getChildren().add(keyBindButton);
+
+        Button backButton = new Button("back");
+        backButton.setOnMouseClicked(e->back());
+        backButton.setAlignment(Pos.TOP_RIGHT);
+        root.setTop(backButton);
+        root.setCenter(buttons);
+        scene = new Scene(root,SCREEN_WIDTH,SCREEN_HEIGHT);
+    }
+
+    private void accessKeyBindingScreen() {
+        KeyBindingScreen keyBindingScreen = new KeyBindingScreen(scene, gameController);
+        gameController.setScene(keyBindingScreen.getView());
+    }
+
+    private void back() {
+        gameController.setScene(oldScene);
     }
 
     @Override

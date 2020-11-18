@@ -51,8 +51,8 @@ public class PauseScreen extends Screen{
     }
 
     private void settingsFunction(Consumer changeTheme) {
-        SettingsScreen pauseScreen = new SettingsScreen(scene,gameController,changeTheme);
-        gameController.setScene(pauseScreen.getView());
+        SettingsScreen settingsScreen = new SettingsScreen(scene,gameController,changeTheme);
+        gameController.setScene(settingsScreen.getView());
     }
 
     private void play() {
