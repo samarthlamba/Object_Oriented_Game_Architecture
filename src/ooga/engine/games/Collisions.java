@@ -1,11 +1,7 @@
 package ooga.engine.games;
 
 import ooga.engine.entities.Entity;
-import ooga.engine.entities.Entity;
 import ooga.engine.entities.Movable;
-import ooga.engine.obstacles.Obstacle;
-import ooga.engine.obstacles.Obstacle;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;

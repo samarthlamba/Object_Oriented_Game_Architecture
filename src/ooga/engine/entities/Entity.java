@@ -14,7 +14,8 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     public static final int JUMP_INITIAL_OFFSET = 2;
     public static final int APPLY_Y_VELOCITY = -2600;
     public static final int SPINNING_VELOCITY = 700;
-    public static final int DELAY_BUFFER = 5;
+    public static final int DELAY_BUFFER = 4;
+    public static final int DEATH_BUFFER = 0;
     private final int entityWidth;
     private final int entityHeight;
     private int currentHitpoints = 3;
@@ -318,6 +319,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
         if (entity.getId().equals(object)) {
             entity.setHitpoints(entity.getHitpoints() + HEALTH_PENALTY);
         }
+
     }
 
     protected void topDeathMakeCoins(Entity entity, String object){

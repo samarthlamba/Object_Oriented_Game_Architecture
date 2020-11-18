@@ -1,7 +1,11 @@
 package ooga.engine.games;
 
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+import java.util.Stack;
 import ooga.engine.entities.object.PlayerObstacle;
 import ooga.engine.entities.player.Player;
 import ooga.engine.games.beans.VikingsBean;
@@ -11,6 +15,7 @@ import ooga.engine.obstacles.Unmovable;
 
 public class VikingsGame extends Game{
   private final static int PRECISION = 0;
+  private final static int MILLISECONDS = 1000;
   private final int arrowWidth;
   private final int arrowHeight;
   private double arrowVelocityX;
@@ -45,8 +50,6 @@ public class VikingsGame extends Game{
       }
     }
   }
-
-
 
   private void findPercolationBlockOrder(){
     for(Movable entity : entities){
@@ -132,6 +135,7 @@ public class VikingsGame extends Game{
   @Override
   protected void updateMovable(){
     obstacleCollision = false;
+    normalForce(entities, obstacles);
     for (Movable entity : entities) {
       setPoints(entity);
       moveMovable(entity);
@@ -141,9 +145,7 @@ public class VikingsGame extends Game{
       checkPercolationBlocked(entity);
     }
     repercolate();
-    for(Movable arrow : arrows){
-      entities.add(arrow);
-    }
+    entities.addAll(arrows);
     viewable.remove(entitiesToRemove);
     entities.removeAll(entitiesToRemove);
     entitiesToRemove.clear();
@@ -226,7 +228,7 @@ public class VikingsGame extends Game{
       startTime = (int) System.currentTimeMillis();
       firstStep = false;
     }
-    totalPoints = (int) System.currentTimeMillis() - startTime;
+    totalPoints = (int) (System.currentTimeMillis() - startTime) / MILLISECONDS;
   }
 
 }
