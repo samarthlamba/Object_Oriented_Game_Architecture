@@ -77,7 +77,7 @@ public abstract class Game implements GamePlay {
         }
     }
 
-    private void fallingDeath() {
+    protected void fallingDeath() {
         Movable player = getActivePlayer();
         if (player.getMaxY() > lowestPoint + fallDeathOffset) {
             player.setHitpoints(KILL_PLAYER);

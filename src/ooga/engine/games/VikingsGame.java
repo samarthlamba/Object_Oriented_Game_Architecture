@@ -139,6 +139,7 @@ public class VikingsGame extends Game{
       }
       checkPercolationBlocked(entity);
     }
+    fallingDeath();
     repercolate();
     entities.addAll(arrows);
     viewable.remove(entitiesToRemove);
