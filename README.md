@@ -18,6 +18,8 @@ Hours Spent:
 
 
 ### Resources Used
+https://netopyr.com/2012/03/09/creating-a-sprite-animation-with-javafx/
+
 
 
 ### Running the Program
