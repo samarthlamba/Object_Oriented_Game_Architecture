@@ -3,7 +3,7 @@ final
 
 This project implements a player for multiple related games.
 
-Names:
+Names: Sam Lamba, Matt Bownman, Roshni Penmatcha, Joe Heflin
 
 
 ### Timeline
@@ -22,7 +22,7 @@ Hours Spent:
 
 ### Running the Program
 
-Main class:
+Main class: Driver
 
 Data files needed: 
 
@@ -42,4 +42,17 @@ Extra credit:
 
 
 ### Impressions
+
+
+
+### URL Credit for Images
+
+Samus Sprite Sheet : https://www.google.com/url?sa=i&url=https%3A%2F%2Ftwitter.com%2Fomegachainoboy%2Fstatus%2F1003698364842762240&psig=AOvVaw2w3clZgGywJlNAg_s9F-qo&ust=1605744741840000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKie-rnniu0CFQAAAAAdAAAAABAU
+
+Lost Viking Sprite Sheet: https://www.spriters-resource.com/snes/lostvikings/sheet/8335/
+
+All music: https://downloads.khinsider.com/game-soundtracks
+
+
+
 
