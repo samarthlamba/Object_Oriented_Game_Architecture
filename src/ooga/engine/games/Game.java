@@ -19,6 +19,7 @@ public abstract class Game implements GamePlay {
     public static final double JUMP_VELOCITY_INCREMENT = 100;
     public static final double JUMP_INITIAL_OFFSET = 2;
     public static final double ZERO_FORCE = 0;
+    private final static int KILL_PLAYER = 0;
     public static final double POWER = 10;
     private final double gravity;
     private final double moveForce;
@@ -33,6 +34,8 @@ public abstract class Game implements GamePlay {
     protected Collection<MovableBounds> entitiesToAdd = new ArrayList<>();
     protected Collection<MovableBounds> entitiesToRemove = new ArrayList<>();
     protected int specialActionDelayFlag = 0;
+    private double lowestPoint = 0;
+    private final int fallDeathOffset;
 
 
     public Game(Player player,Collection<Unmovable> obstacles, Collection<Movable> entities, double timeElapsed, GameBean bean) {
@@ -41,10 +44,12 @@ public abstract class Game implements GamePlay {
         this.gravity = bean.getGravity();
         this.moveForce = bean.getMoveForce();
         this.jumpMax = bean.getJumpMax();
+        this.fallDeathOffset = bean.getFallDeathOffset();
         this.player = player;
         handleCollisions = new Collisions();
         this.dt = timeElapsed;
         normalForce(entities, obstacles);
+        findSceneLowestY();
     }
 
     public boolean isWon(){
@@ -61,6 +66,22 @@ public abstract class Game implements GamePlay {
             nodeObstacles.add(obstacle.getNode());
         }
         return nodeObstacles;
+    }
+
+    private void findSceneLowestY(){
+        for(Unmovable obstacle : obstacles){
+            double yPosition = obstacle.getNode().getBoundsInParent().getMaxY();
+            if(yPosition > lowestPoint){
+                lowestPoint = yPosition;
+            }
+        }
+    }
+
+    private void fallingDeath() {
+        Movable player = getActivePlayer();
+        if (player.getMaxY() > lowestPoint + fallDeathOffset) {
+            player.setHitpoints(KILL_PLAYER);
+        }
     }
 
     public void updateLevel() {
@@ -89,6 +110,7 @@ public abstract class Game implements GamePlay {
         for (Movable entity : entities) {
             moveMovable(entity);
         }
+        fallingDeath();
         viewable.remove(entitiesToRemove);
         entities.removeAll(entitiesToRemove);
         entitiesToRemove.clear();

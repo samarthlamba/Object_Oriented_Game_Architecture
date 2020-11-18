@@ -118,6 +118,7 @@ public class VikingsTest extends DukeApplicationTest {
         Game game = gameFactory.makeCorrectGame("testVikingsWaterfall");
         for(int i = 0; i < 1000; i++){
             game.updateLevel();
+
         }
         assertTrue(game.getPoints() != 0);
     }

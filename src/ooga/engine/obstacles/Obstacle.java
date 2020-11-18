@@ -18,7 +18,6 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
   private boolean reached;
   private boolean left = false;
   private boolean right = false;
-  private boolean hasShrunk = false;
 
   public Obstacle(int obstacleWidth,int obstacleHeight, double initialX, double initialY) {
     this.initialX = initialX;
@@ -136,10 +135,10 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
   //https://stackoverflow.com/questions/24393636/the-pain-with-the-pane-in-javafx-how-can-you-scale-nodes-with-fixed-top-left-co
   public void scalePlayer(Entity entity){
     if(entity.getId().equals("player")){
-      if(!hasShrunk) {
+      if(!entity.hasShrunk()) {
         entity.setHeight(entity.getWidth()*0.7);
         entity.setWidth(entity.getHeight()*0.7);
-        hasShrunk = true;
+        entity.setShrunk(true);
       }
     }
   }
