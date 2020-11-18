@@ -81,6 +81,8 @@ vikingwall -
 
 waterfal - 
 
+Add all spritesheets:
+
 
 ### Running the Program
 
