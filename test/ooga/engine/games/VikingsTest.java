@@ -78,12 +78,13 @@ public class VikingsTest extends DukeApplicationTest {
         Entity entity = entities.iterator().next();
         assertEquals(initialPosition, entity.getCenterX());
         for(int i = 0; i < 100; i++){
-            game.RIGHT(entity);
+            game.moveRight();
         }
         for(int i = 0; i < 1000; i++){
             game.updateLevel();
         }
-        assertTrue(game.areEqualDouble(181, entity.getCenterX(), 0));
+        System.out.println(entity.getCenterX());
+        assertTrue(game.areEqualDouble(175, entity.getCenterX(), 0));
     }
 
     @Test

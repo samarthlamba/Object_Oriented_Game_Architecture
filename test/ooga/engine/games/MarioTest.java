@@ -29,7 +29,7 @@ class MarioTest extends DukeApplicationTest {
        double initialPosition = 75;
        Entity entity = entities.iterator().next();
        assertEquals(initialPosition, entity.getCenterX());
-       game.RIGHT(entity);
+       game.moveRight();
        game.updateLevel();
        System.out.println(entity.getCenterX());
        assertTrue(game.areEqualDouble(88.88, entity.getCenterX(), 2));
@@ -43,7 +43,7 @@ class MarioTest extends DukeApplicationTest {
         double initialPosition = 75;
         Entity entity = entities.iterator().next();
         assertEquals(initialPosition, entity.getCenterX());
-        game.LEFT(entity);
+        game.moveLeft();
         game.updateLevel();
         System.out.println(entity.getCenterX());
         assertTrue(game.areEqualDouble(61.1, entity.getCenterX(), 1));
@@ -54,7 +54,7 @@ class MarioTest extends DukeApplicationTest {
         Game game = factory.makeCorrectGame("testMovement");
         Collection<Entity> entities = (Collection<Entity>) game.getEntities();
         Entity entity = entities.iterator().next();
-        game.UP(entity);
+        game.moveUp();
         double previous = 200;
         for(int i = 0; i < 15; i++) {
             game.updateLevel();
@@ -85,7 +85,7 @@ class MarioTest extends DukeApplicationTest {
         assertEquals(initialPosition, entity.getCenterX());
         System.out.println(entity.getCenterX());
         for(int i = 0; i < 1; i++){
-            game.LEFT(entity);
+            game.moveLeft();
         }
         for(int i = 0; i < 200; i++){
             game.updateLevel();
@@ -102,7 +102,7 @@ class MarioTest extends DukeApplicationTest {
         Entity entity = entities.iterator().next();
         assertEquals(initialPosition, entity.getCenterX());
         for(int i = 0; i < 1; i++){
-            game.RIGHT(entity);
+            game.moveRight();
         }
         for(int i = 0; i < 100; i++){
             game.updateLevel();
@@ -118,7 +118,7 @@ class MarioTest extends DukeApplicationTest {
         Entity entity = entities.iterator().next();
         assertEquals(initialPosition, entity.getCenterX());
         for(int i = 0; i < 1; i++){
-            game.RIGHT(entity);
+            game.moveRight();
         }
         for(int i = 0; i < 100; i++){
             game.updateLevel();
@@ -133,7 +133,7 @@ class MarioTest extends DukeApplicationTest {
         double initialPosition = 75;
         Entity entity = entities.iterator().next();
         assertEquals(initialPosition, entity.getCenterX());
-        game.UP(entity);
+        game.moveUp();
         for(int i = 0; i < 300; i++){
             game.updateLevel();
             System.out.println(entity.getMaxY());
@@ -205,7 +205,7 @@ class MarioTest extends DukeApplicationTest {
         assertTrue(questionBox);
         questionBox = false;
         for (int i = 0; i < 5; i++) {
-            game.RIGHT(player);
+            game.moveRight();
             game.updateLevel();
         }
         entities = (Collection<Entity>) game.getEntities();

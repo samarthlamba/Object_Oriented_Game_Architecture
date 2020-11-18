@@ -12,7 +12,10 @@ import ooga.view.UpdateObjectsOnScreen;
 import java.util.ArrayList;
 import java.util.Collection;
 
-
+/**
+ * Abstract class Game is part of our game inheritance hierarchy that allows concert implementations
+ * of specific games to be made through subclasses
+ */
 public abstract class Game implements GamePlay {
     public static final double NEGATIVE_DIRECTION = -1;
     public static final double NORMAL_FORCE_OFFSET = 100;
@@ -37,7 +40,14 @@ public abstract class Game implements GamePlay {
     private double lowestPoint = 0;
     private final int fallDeathOffset;
 
-
+    /**
+     * Game constructor initializes variables through parameter input and constant values retrieved from the beans
+     * @param player main player entity
+     * @param obstacles collection of Unmovable obstacles
+     * @param entities collection of Movable entities
+     * @param timeElapsed 1 / frame rate
+     * @param bean bean constants
+     */
     public Game(Player player,Collection<Unmovable> obstacles, Collection<Movable> entities, double timeElapsed, GameBean bean) {
         this.obstacles = obstacles;
         this.entities = entities;
@@ -52,14 +62,29 @@ public abstract class Game implements GamePlay {
         findSceneLowestY();
     }
 
+    /**
+     * Check if player flag hasWon is set to true
+     * Used in driver to check if game won/which splash screen to display
+     * @return boolean true or false
+     */
     public boolean isWon(){
         return player.hasWon();
     }
 
+    /**
+     * Check if player is not alive (alive status is false)
+     * Used in driver to check if game lost/which splash screen to display
+     * @return boolean true or false
+     */
     public boolean isLost() {
         return !player.getStatusAlive();
     }
 
+    /**
+     * Passes nodes of the (unmoving/unchanging) obstacles that should appear on the screen
+     * to the Display
+     * @return Collection of nodes
+     */
     public Collection<Node> getBackground() {
         Collection<Node> nodeObstacles = new ArrayList<>();
         for(Unmovable obstacle : obstacles){
@@ -84,14 +109,26 @@ public abstract class Game implements GamePlay {
         }
     }
 
+    /**
+     * Run every step to update all objects on screen
+     */
     public void updateLevel() {
         updateMovable();
     }
 
+    /**
+     * Return point values (game depended based on goal)
+     * @return integer total points
+     */
     public int getPoints(){
         return totalPoints;
     }
 
+    /**
+     * Pass collection of MovableBounds that are all objects whose states can be changed
+     * from what was initially loaded in. This is passed to display for initial loading in of values.
+     * @return Collection of MovableBounds
+     */
     public Collection<? extends MovableBounds> getEntities() {
         return entities;
     }
@@ -144,7 +181,7 @@ public abstract class Game implements GamePlay {
         }
     }
 
-    public abstract void setPoints(Movable entity);
+    protected abstract void setPoints(Movable entity);
 
     protected void autoEntityMovement(Movable entity) {
         if (entity.getHorizontalMovement()) {
@@ -216,7 +253,7 @@ public abstract class Game implements GamePlay {
     }
 
 
-    public void UP(Movable entity) {
+    private void UP(Movable entity) {
         if(!entity.isJump()) {
             entity.setJump(true);
             entity.setVelocityY(jumpMax);
@@ -225,20 +262,20 @@ public abstract class Game implements GamePlay {
     }
 
 
-    public void LEFT(Movable entity) {
+    private void LEFT(Movable entity) {
         entity.setPreviousX(entity.getCenterX());
         entity.setXForce(NEGATIVE_DIRECTION * moveForce);
         entity.setFacing(false);
     }
 
 
-    public void RIGHT(Movable entity) {
+    private void RIGHT(Movable entity) {
         entity.setPreviousX(entity.getCenterX());
         entity.setXForce(moveForce);
         entity.setFacing(true);
     }
 
-    public void playerAction(){}
+    protected void playerAction(){}
 
     //https://stackoverflow.com/questions/356807/java-double-comparison-epsilon
     protected boolean areEqualDouble(double a, double b, int precision) {
