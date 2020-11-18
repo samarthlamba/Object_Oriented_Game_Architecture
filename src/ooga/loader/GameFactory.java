@@ -18,6 +18,9 @@ import ooga.engine.games.beans.*;
 import ooga.engine.entities.Entity;
 import ooga.engine.obstacles.Obstacle;
 
+/**
+ * This class is ued to generate Games from either a file location or to generate a random game.
+ */
 public class GameFactory {
   private static final String BUNDLE_NAME = "GameConfig";
   private final ResourceBundle gameConfigBundle;
@@ -31,6 +34,11 @@ public class GameFactory {
     this.frameRate = Double.parseDouble(gameConfigBundle.getString("framerate"));
   }
 
+  /**
+   * Builds a level from a specified file location
+   * @param fileLocation the file to build a level from. CSV must exist, bean is optional
+   * @return the correct implementation of game specified in the .csv file location
+   */
   public Game makeCorrectGame(String fileLocation) {
     try {
       List<String[]> levelData = readLevelData(fileLocation);
@@ -44,10 +52,21 @@ public class GameFactory {
     }
   }
 
+  /**
+   * Generates a random game from the game name. Must have a Random%s.properties file to generate.
+   * @param gameName The name of the game to generate a random level for
+   * @return a large randomly generated implementation of the specified game
+   */
   public Game makeRandomGame(String gameName) {
     return makeRandomGame(gameName,new Random().nextLong());
   }
 
+  /**
+   * Used to generate a random game from a specific seed. Must have a Random%s.properties file to generate.
+   * @param gameName The name of the game to generate a random level for.
+   * @param seed The seed to use for random generation
+   * @return a large generated implementation of the specified game from specified seed
+   */
   public Game makeRandomGame(String gameName, long seed) {
     this.gameName = gameName;
     try{

@@ -154,6 +154,12 @@ public class GameControllerTest extends DukeApplicationTest{
     }
   }
 
+  @Test
+  public void testGetPathToCurrentLevelWhenRandomReturnsRandom() {
+    testController.makeRandomGame("Mario");
+    assertEquals("random",testController.getGameName());
+  }
+
 
   public void setMyGame(Game myGame) {
     this.myGame = myGame;

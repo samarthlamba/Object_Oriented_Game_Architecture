@@ -9,6 +9,10 @@ import ooga.engine.entities.Entity;
 import ooga.engine.entities.player.Player;
 import ooga.engine.obstacles.Obstacle;
 
+/**
+ * This class is used to generate the data for a random game.
+ * It is primarily intented for use by the GameFactory class.
+ */
 public class RandomGameGenerator {
   private final ResourceBundle randomBundle;
   private final ResourceBundle gameConfigBundle = ResourceBundle.getBundle("GameConfig");
@@ -17,7 +21,12 @@ public class RandomGameGenerator {
   private final String defaultBlock;
   private final String emptyBlock;
 
-
+  /**
+   * Each game requires a new instance of RandomGameGenerator.
+   * @param gameName The name of the game to be generated. Must have a corresponding Random%s.properties
+   * that specifies the type of objects that can be generated as well as the weights of various objects
+   * @param seed the seed for the game generator.
+   */
   public RandomGameGenerator(String gameName,long seed) {
     this.gameName = gameName;
     this.random = new Random(seed);
@@ -27,6 +36,11 @@ public class RandomGameGenerator {
     this.defaultBlock = randomBundle.getString("defaultBlock");
   }
 
+  /**
+   * This method builds a list of strings where every string array is a horizontal row of strings
+   * representing game objects for the specified gameName.
+   * @return A List<String[]> where each element can be converted into a Game object.
+   */
   public List<String[]> buildLevelData() {
     int numberPlayers = Integer.parseInt(randomBundle.getString("numberPlayers"));
     int chunkX = Integer.parseInt(gameConfigBundle.getString("chunkSizeX"));
