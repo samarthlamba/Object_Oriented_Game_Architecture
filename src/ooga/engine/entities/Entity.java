@@ -14,11 +14,11 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     public static final int JUMP_INITIAL_OFFSET = 2;
     public static final int APPLY_Y_VELOCITY = -2600;
     public static final int SPINNING_VELOCITY = 700;
-    public static final int PENALTY_BUFFER = 5;
+    public static final int DELAY_BUFFER = 4;
     private final int entityWidth;
     private final int entityHeight;
     private int currentHitpoints = 3;
-    private Node nodeObject;
+    private final Node nodeObject;
     private double speed = 0;
     private double previousX;
     private double previousY;
@@ -28,11 +28,9 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     boolean status_Alive = true;
     private boolean facing = true;
     private boolean jump = false;
-    private boolean finished = false;
     private double normalForce = 0;
     private boolean moving = false;
-    private boolean spinning = false;
-    private int healthPenaltyDelay = 0;
+    private int delay = 0;
     private boolean percolate = false;
     private boolean source = false;
     private boolean shoots = false;
@@ -66,7 +64,6 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     }
 
     public void setWon(boolean finished){
-        this.finished = finished;
     }
 
     public double getVelocityX(){
@@ -254,7 +251,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
             Iterator methods = reader.getMethods(collisionName).iterator();
             Iterator parameter = reader.getParameters(collisionName).iterator();
 
-            while (methods != null && methods.hasNext() && parameter.hasNext()) {
+            while (methods.hasNext() && parameter.hasNext()) {
 
                 Class current = this.getClass().getSuperclass();
                 while (current != Entity.class) {
@@ -291,16 +288,25 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     }
 
     protected void spinning(Entity entity, String object){
-        if(entity.getId().equals(object)){
-            setSpecialAction(true);
-            setHorizontalMovement(true, SPINNING_VELOCITY);
+        delay++;
+        if(entity.getId().equals(object) && delay > DELAY_BUFFER){
+            delay = 0;
+            if(getVelocityX() == 0) {
+                setSpecialAction(true);
+                setHorizontalMovement(true, SPINNING_VELOCITY);
+            }
+            else{
+                setSpecialAction(false);
+                setHorizontalMovement(false, 0);
+                entity.setVelocityX(0);
+            }
         }
     }
 
     protected void healthPenaltyWithDelay(Entity entity, String object) {
-        healthPenaltyDelay++;
-        if (entity.getId().equals(object) && healthPenaltyDelay > PENALTY_BUFFER) {
-            healthPenaltyDelay = 0;
+        delay++;
+        if (entity.getId().equals(object) && delay > DELAY_BUFFER) {
+            delay = 0;
             entity.setHitpoints(entity.getHitpoints() + HEALTH_PENALTY);
         }
     }

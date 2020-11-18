@@ -1,7 +1,6 @@
 package ooga.engine.games;
 
 import java.util.Collection;
-
 import ooga.engine.entities.player.Player;
 import ooga.engine.games.beans.MetroidBean;
 import ooga.engine.entities.Movable;
@@ -14,7 +13,6 @@ public class MetroidGame extends Game{
   private final int bulletWidth;
   private final int bulletHeight;
   private final double bulletVelocity;
-  private double dt;
 
   public MetroidGame(Player player,Collection<Unmovable> obstacles,
                      Collection<Movable> entities, double timeElapsed, MetroidBean bean) {
@@ -22,7 +20,6 @@ public class MetroidGame extends Game{
     this.bulletWidth = bean.getBulletWidth();
     this.bulletHeight = bean.getBulletHeight();
     this.bulletVelocity = bean.getBulletVelocityX();
-    dt = timeElapsed;
   }
 
 
@@ -38,22 +35,22 @@ public class MetroidGame extends Game{
 
 
   @Override
-    public void playerAction(){
-      Movable entity = super.getActivePlayer();
-      specialActionDelayFlag = 0;
-      entity.setSpecialAction(true);
-      double bulletStartX = entity.getCenterX() - entity.getEntityWidth()/2;
-      double bulletStartY = entity.getMaxY() - 3 * entity.getEntityHeight() / 4;
-      double bulletVelocity = this.bulletVelocity;
-      if(entity.getFacing()) {
-        bulletStartX = entity.getCenterX() + entity.getEntityWidth()/2;
-        bulletVelocity *= NEGATIVE_DIRECTION;
-      }
-      Bullet bullet = new Bullet(bulletWidth, bulletHeight, bulletStartX, bulletStartY);
-      bullet.setVelocityX(bulletVelocity);
-      entities.add(bullet);
-      entitiesToAdd.add(bullet);
+  public void playerAction(){
+    Movable entity = super.getActivePlayer();
+    specialActionDelayFlag = 0;
+    entity.setSpecialAction(true);
+    double bulletStartX = entity.getCenterX() - entity.getEntityWidth()/2;
+    double bulletStartY = entity.getMaxY() - 3 * entity.getEntityHeight() / 4;
+    double bulletVelocity = this.bulletVelocity;
+    if(entity.getFacing()) {
+      bulletStartX = entity.getCenterX() + entity.getEntityWidth()/2;
+      bulletVelocity *= NEGATIVE_DIRECTION;
     }
+    Bullet bullet = new Bullet(bulletWidth, bulletHeight, bulletStartX, bulletStartY);
+    bullet.setVelocityX(bulletVelocity);
+    entities.add(bullet);
+    entitiesToAdd.add(bullet);
+  }
 
   @Override
   public void setPoints(Movable entity){
@@ -61,5 +58,4 @@ public class MetroidGame extends Game{
       totalPoints++;
     }
   }
-
-  }
+}

@@ -1,7 +1,6 @@
 package ooga.engine.games;
 
 import java.util.Collection;
-
 import javafx.scene.Node;
 import ooga.engine.entities.MovableBounds;
 import ooga.view.UpdateObjectsOnScreen;

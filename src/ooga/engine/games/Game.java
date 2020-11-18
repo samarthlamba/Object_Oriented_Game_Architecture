@@ -1,23 +1,17 @@
-
 package ooga.engine.games;
 
-import java.util.stream.Collectors;
 import javafx.scene.Node;
-
 import ooga.engine.entities.player.Player;
 import ooga.engine.games.beans.GameBean;
-
 import ooga.engine.entities.Entity;
 import ooga.engine.entities.Movable;
 import ooga.engine.entities.MovableBounds;
 import ooga.engine.obstacles.Unmovable;
 import ooga.view.GamePlayScreen;
 import ooga.view.UpdateObjectsOnScreen;
+import java.util.ArrayList;
+import java.util.Collection;
 
-import java.util.*;
-
-import static java.lang.Math.abs;
-import static java.lang.Math.round;
 
 public abstract class Game implements GamePlay {
     public static final double NEGATIVE_DIRECTION = -1;
@@ -29,10 +23,10 @@ public abstract class Game implements GamePlay {
     private final double gravity;
     private final double moveForce;
     private final Player player;
-    private int jumpMax;
+    private final int jumpMax;
     protected Collection<Unmovable> obstacles;
     protected Collection<Movable> entities;
-    private double dt;
+    private final double dt;
     protected Collisions handleCollisions;
     protected int totalPoints = 0;
     protected UpdateObjectsOnScreen viewable = new GamePlayScreen();
@@ -69,15 +63,6 @@ public abstract class Game implements GamePlay {
         return nodeObstacles;
     }
 
-    private void normalForce(Collection<Movable> entities, Collection<Unmovable> obstacles){
-        for(Movable entity : entities){
-            entity.setNormalForce(gravity - NORMAL_FORCE_OFFSET);
-        }
-        for(Unmovable obstacle : obstacles){
-            obstacle.setNormalForce(gravity - NORMAL_FORCE_OFFSET);
-        }
-    }
-
     public void updateLevel() {
         updateMovable();
     }
@@ -90,7 +75,17 @@ public abstract class Game implements GamePlay {
         return entities;
     }
 
+    protected void normalForce(Collection<Movable> entities, Collection<Unmovable> obstacles){
+        for(Movable entity : entities){
+            entity.setNormalForce(gravity - NORMAL_FORCE_OFFSET);
+        }
+        for(Unmovable obstacle : obstacles){
+            obstacle.setNormalForce(gravity - NORMAL_FORCE_OFFSET);
+        }
+    }
+
     protected void updateMovable() {
+        normalForce(entities, obstacles);
         for (Movable entity : entities) {
             moveMovable(entity);
         }
@@ -106,14 +101,14 @@ public abstract class Game implements GamePlay {
             entity.setVelocityY(entity.getVelocityY() + JUMP_VELOCITY_INCREMENT);
         }
 
-        if(specialActionDelayFlag > 100){
+        if(specialActionDelayFlag > 100 && entity.getId().equals("player")){
             entity.setSpecialAction(false);
         }
         specialActionDelayFlag++;
         gravityForce(entity);
         obstacleCollision(entity);
         entityCollision(entity);
-        moveEnemy(entity);
+        autoEntityMovement(entity);
         updatePosition(entity);
         entity.setYForce(ZERO_FORCE);
         entity.setXForce(ZERO_FORCE);
@@ -129,15 +124,14 @@ public abstract class Game implements GamePlay {
 
     public abstract void setPoints(Movable entity);
 
-    protected void moveEnemy(Movable entity) {
-        if (entity.getId().equals("enemy")) {
+    protected void autoEntityMovement(Movable entity) {
+        if (entity.getHorizontalMovement()) {
             if (entity.getPreviousY() != entity.getMaxY()) {
                 entity.setMaxY(entity.getPreviousY());
                 entity.setCenterX(entity.getPreviousX());
                 entity.setVelocityX(entity.getVelocityX() * NEGATIVE_DIRECTION);
             }
         }
-
     }
 
     private void obstacleCollision(Movable entity) {
@@ -165,7 +159,6 @@ public abstract class Game implements GamePlay {
 
     private void updatePosition(Movable entity) {
         entity.setPreviousX(entity.getCenterX());
-        double c = entity.getMaxY();
         entity.setPreviousY(entity.getMaxY());
         entity.setMaxY(newYPosition(entity));
         entity.setCenterX(newXPosition(entity));

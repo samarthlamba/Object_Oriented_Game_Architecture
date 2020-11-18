@@ -92,10 +92,7 @@ public class HighScore{
     }
 
     private boolean deprecatedTimes(HighScoreObject current){
-        if(current.getTime() < (System.currentTimeMillis() - (TIME_WEEK_AGO))){
-            return true;
-        }
-        return false;
+        return current.getTime() < (System.currentTimeMillis() - (TIME_WEEK_AGO));
     }
 
     private HighScoreObject[] updateWeeklyTimes( HighScoreObject [] listOfScores){

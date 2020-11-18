@@ -3,8 +3,6 @@ package ooga.engine.games;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
-
-import java.util.stream.Collectors;
 import ooga.engine.entities.player.Player;
 import ooga.engine.games.beans.MarioBean;
 import javafx.scene.Node;
@@ -31,8 +29,7 @@ public class MarioGame extends Game {
   private final int randomCoinMax;
   private final int randomCoinMin;
   private final int marioFallDeathOffset;
-  private Collection<Movable> coins = new ArrayList<>();
-  private double dt;
+  private final Collection<Movable> coins = new ArrayList<>();
   private double lowestPoint = 0;
 
 
@@ -52,7 +49,6 @@ public class MarioGame extends Game {
     this.randCoinVelocityXMin = bean.getRandCoinVelocityXMin();
     this.randCoinVelocityYMax = bean.getRandCoinVelocityYMax();
     this.randCoinVelocityYMin = bean.getRandCoinVelocityYMin();
-    dt = timeElapsed;
     findSceneLowestY();
   }
 
@@ -71,13 +67,12 @@ public class MarioGame extends Game {
 
   @Override
   protected void updateMovable(){
+    normalForce(entities, obstacles);
     for (Movable entity : entities) {
       moveMovable(entity);
       generateCoins(entity);
     }
-    for(Movable coin : coins){
-      entities.add(coin);
-    }
+    entities.addAll(coins);
     fallingDeath();
     viewable.remove(entitiesToRemove);
     entities.removeAll(entitiesToRemove);
@@ -102,7 +97,6 @@ public class MarioGame extends Game {
       }
     }
   }
-
 
   private void generateCoins(Movable entity){
     if(entity.doesGenerateCoins() && !entity.getStatusAlive()) {
@@ -134,8 +128,6 @@ public class MarioGame extends Game {
     entitiesToAdd.add(coin);
   }
 
-
-
   @Override
   protected void collisions(Movable entity, Collideable object) {
     if (object.getNode().getBoundsInParent().intersects(entity.getNode().getBoundsInParent())) {
@@ -144,12 +136,11 @@ public class MarioGame extends Game {
       }
       handleCollisions.collisions((Entity) entity, object);
     }
-
   }
 
   @Override
-  public void moveEnemy(Movable entity) {
-    enemyDirection(entity);
+  public void autoEntityMovement(Movable entity) {
+    entityDirection(entity);
     if(entity.getHorizontalMovement()){
       if(entity.getPreviousY() != entity.getMaxY()){
         entity.setMaxY(entity.getPreviousY());
@@ -157,9 +148,9 @@ public class MarioGame extends Game {
         entity.setVelocityX(entity.getVelocityX() * NEGATIVE_DIRECTION);
       }
     }
-
   }
-  private void enemyDirection(Movable entity){
+
+  private void entityDirection(Movable entity){
     if(!leftOver && rightOver){
       entity.setVelocityX(Math.abs(entity.getVelocityX()));
     }
@@ -176,7 +167,5 @@ public class MarioGame extends Game {
       totalPoints++;
     }
   }
-
-
 }
 

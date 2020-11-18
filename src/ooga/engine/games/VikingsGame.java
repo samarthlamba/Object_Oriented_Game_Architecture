@@ -1,7 +1,10 @@
 package ooga.engine.games;
 
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Random;
+import java.util.Stack;
 import ooga.engine.entities.object.PlayerObstacle;
 import ooga.engine.entities.player.Player;
 import ooga.engine.games.beans.VikingsBean;
@@ -11,15 +14,15 @@ import ooga.engine.obstacles.Unmovable;
 
 public class VikingsGame extends Game{
   private final static int PRECISION = 0;
+  private final static int MILLISECONDS = 1000;
   private final int arrowWidth;
   private final int arrowHeight;
   private double arrowVelocityX;
-  private Collection<Movable> arrows = new ArrayList<>();
-  private List<Movable> playerOrder = new ArrayList<>();
-  private double dt;
-  private List<Stack<Movable>> percolations = new ArrayList<>();
-  private List<Stack<Movable>> removedPercolationBlock = new ArrayList<>();
-  private List<Movable> addPercolationBlock = new ArrayList<>();
+  private final Collection<Movable> arrows = new ArrayList<>();
+  private final List<Movable> playerOrder = new ArrayList<>();
+  private final List<Stack<Movable>> percolations = new ArrayList<>();
+  private final List<Stack<Movable>> removedPercolationBlock = new ArrayList<>();
+  private final List<Movable> addPercolationBlock = new ArrayList<>();
   private boolean obstacleCollision = false;
   private boolean firstStep = true;
   private int startTime = 0;
@@ -31,7 +34,6 @@ public class VikingsGame extends Game{
     this.arrowWidth = bean.getArrowWidth();
     this.arrowHeight = bean.getArrowHeight();
     this.arrowVelocityX = bean.getArrowVelocityX();
-    dt = timeElapsed;
     getPlayerObstacle();
     findPercolationBlockOrder();
   }
@@ -46,8 +48,6 @@ public class VikingsGame extends Game{
     }
   }
 
-
-
   private void findPercolationBlockOrder(){
     for(Movable entity : entities){
       if(entity.isSource()){
@@ -57,10 +57,8 @@ public class VikingsGame extends Game{
         percolations.add(percolation);
       }
     }
-    Iterator<Movable> entitiesCollection = entities.iterator();
-    while(entitiesCollection != null && entitiesCollection.hasNext()){
-      Movable currentEntity = entitiesCollection.next();
-      for(Stack<Movable> percolation : percolations){
+    for (Movable currentEntity : entities) {
+      for (Stack<Movable> percolation : percolations) {
         findPercolationBlocks(currentEntity, percolation);
       }
     }
@@ -80,8 +78,8 @@ public class VikingsGame extends Game{
     double leftXPosition = xPosition - currentEntity.getEntityWidth();
     double rightXPosition = nextXPosition + currentEntity.getEntityWidth();
     if(connected(yPosition, nextYPosition, percolation.peek().getCenterX(), currentEntity.getCenterX()) ||
-            (connected(xPosition, nextXPosition, percolation.peek().getMaxY(), currentEntity.getMaxY())) ||
-            (connected(leftXPosition, rightXPosition, percolation.peek().getMaxY(), currentEntity.getMaxY()))){
+            (connected(percolation.peek().getMaxY(), currentEntity.getMaxY(), xPosition, nextXPosition)) ||
+            (connected(percolation.peek().getMaxY(), currentEntity.getMaxY(), leftXPosition, rightXPosition))){
       addPercolationBlockToStack(currentEntity, percolation);
     }
   }
@@ -132,6 +130,7 @@ public class VikingsGame extends Game{
   @Override
   protected void updateMovable(){
     obstacleCollision = false;
+    normalForce(entities, obstacles);
     for (Movable entity : entities) {
       setPoints(entity);
       moveMovable(entity);
@@ -141,9 +140,7 @@ public class VikingsGame extends Game{
       checkPercolationBlocked(entity);
     }
     repercolate();
-    for(Movable arrow : arrows){
-      entities.add(arrow);
-    }
+    entities.addAll(arrows);
     viewable.remove(entitiesToRemove);
     entities.removeAll(entitiesToRemove);
     entitiesToRemove.clear();
@@ -173,9 +170,7 @@ public class VikingsGame extends Game{
         i++;
       }
     }
-    for(Movable water : addPercolationBlock){
-      entities.add(water);
-    }
+    entities.addAll(addPercolationBlock);
   }
 
   private void generateArrows(Movable entity){
@@ -226,7 +221,7 @@ public class VikingsGame extends Game{
       startTime = (int) System.currentTimeMillis();
       firstStep = false;
     }
-    totalPoints = (int) System.currentTimeMillis() - startTime;
+    totalPoints = (int) (System.currentTimeMillis() - startTime) / MILLISECONDS;
   }
 
 }
