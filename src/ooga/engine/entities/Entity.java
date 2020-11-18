@@ -36,6 +36,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     private boolean shoots = false;
     private boolean makesCoins = false;
     private boolean specialAction = false;
+    private boolean shrunk = false;
 
     public Entity(int objectWidth,int objectHeight,  double initialX, double initialY) {
         this.entityWidth = objectWidth;
@@ -227,6 +228,10 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     public void setGenerateCoins(boolean makesCoins){
         this.makesCoins = makesCoins;
     }
+
+    public boolean hasShrunk(){return shrunk; }
+
+    public void setShrunk(boolean shrunk){ this.shrunk = shrunk; }
 
     public void leftCollideable(Entity entity) {
         invokeMethod(entity, "left");

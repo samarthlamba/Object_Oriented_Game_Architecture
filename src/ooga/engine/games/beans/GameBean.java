@@ -7,6 +7,7 @@ public class GameBean implements Serializable {
   private double gravity;
   private double moveForce;
   private int jumpMax;
+  private int fallDeathOffset;
 
   public double getGravity() {
     return gravity;
@@ -18,6 +19,8 @@ public class GameBean implements Serializable {
 
   public int getJumpMax(){ return jumpMax; }
 
+  public int getFallDeathOffset(){return fallDeathOffset; }
+
   public void setGravity(String gravity) {
     this.gravity = Double.valueOf(gravity);
   }
@@ -27,6 +30,8 @@ public class GameBean implements Serializable {
   }
 
   public void setJumpMax(String jumpMax){ this.jumpMax = Integer.valueOf(jumpMax); }
+
+  public void setFallDeathOffset(String fallDeathOffset){this.fallDeathOffset = Integer.valueOf(fallDeathOffset);}
 
 
 }

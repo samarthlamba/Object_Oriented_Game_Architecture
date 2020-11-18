@@ -4,7 +4,6 @@ public class MarioBean extends GameBean{
     private int coinSize;
     private int randomCoinMax;
     private int randomCoinMin;
-    private int marioFallDeathOffset;
     private double simulateFallOffset;
     private int coinDirectionNumerator;
     private int coinDirectionDenominator;
@@ -24,8 +23,6 @@ public class MarioBean extends GameBean{
     public int getRandomCoinMin() {
         return randomCoinMin;
     }
-
-    public int getMarioFallDeathOffset(){return marioFallDeathOffset; }
 
     public double getSimulateFallOffset(){return simulateFallOffset; }
 
@@ -52,8 +49,6 @@ public class MarioBean extends GameBean{
     public void setCoinSize(String coinSize) {
         this.coinSize = Integer.valueOf(coinSize);
     }
-
-    public void setMarioFallDeathOffset(String marioFallDeathOffset){this.marioFallDeathOffset = Integer.valueOf(marioFallDeathOffset);}
 
     public void setSimulateFallOffset(String simulateFallOffset){this.simulateFallOffset = Double.valueOf(simulateFallOffset);}
 

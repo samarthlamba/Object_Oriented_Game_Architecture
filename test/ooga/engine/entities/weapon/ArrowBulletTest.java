@@ -45,7 +45,7 @@ class ArrowBulletTest {
         Weapon arrow = new Arrow(10, 10, 0, 0);
         int initialHitpoint = samus.getHitpoints();
         arrow.rightCollideable(samus);
-        arrow.topCollideable(samus);
+        arrow.rightCollideable(samus);
         assertEquals(initialHitpoint-2,samus.getHitpoints());
         assertEquals(true, samus.getStatusAlive());
     }
@@ -56,9 +56,10 @@ class ArrowBulletTest {
         Weapon arrow = new Arrow(10, 10, 0, 0);
         arrow.bottomCollideable(samus);
         arrow.bottomCollideable(samus);
+        arrow.bottomCollideable(samus);
         arrow.topCollideable(samus);
-        assertEquals(0,samus.getHitpoints());
-        assertEquals(false, samus.getStatusAlive());
+        assertEquals(3,samus.getHitpoints());
+        assertEquals(true, samus.getStatusAlive());
     }
 
     @Test
@@ -68,8 +69,8 @@ class ArrowBulletTest {
         arrow.topCollideable(samus);
         arrow.topCollideable(samus);
         arrow.topCollideable(samus);
-        assertEquals(0,samus.getHitpoints());
-        assertEquals(false, samus.getStatusAlive());
+        assertEquals(3,samus.getHitpoints());
+        assertEquals(true, samus.getStatusAlive());
     }
 
 }
