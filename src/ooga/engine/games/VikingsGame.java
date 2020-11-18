@@ -139,6 +139,7 @@ public class VikingsGame extends Game{
       }
       checkPercolationBlocked(entity);
     }
+    fallingDeath();
     repercolate();
     entities.addAll(arrows);
     viewable.remove(entitiesToRemove);
@@ -221,7 +222,7 @@ public class VikingsGame extends Game{
       startTime = (int) System.currentTimeMillis();
       firstStep = false;
     }
-    totalPoints = (int) (System.currentTimeMillis() - startTime) / MILLISECONDS;
+    totalPoints = (int) (System.currentTimeMillis() - startTime);
   }
 
 }

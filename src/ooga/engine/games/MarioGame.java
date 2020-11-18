@@ -13,7 +13,6 @@ import ooga.engine.entities.object.Coin;
 import ooga.engine.obstacles.Unmovable;
 
 public class MarioGame extends Game {
-  private final static int KILL_PLAYER = 0;
   private final static int COIN_APPEAR_OFFSET = 3;
   private final static String POINTS = "coin";
   private final double simulateFallOffset;
@@ -28,9 +27,7 @@ public class MarioGame extends Game {
   private final int coinSize;
   private final int randomCoinMax;
   private final int randomCoinMin;
-  private final int marioFallDeathOffset;
   private final Collection<Movable> coins = new ArrayList<>();
-  private double lowestPoint = 0;
 
 
   public MarioGame(Player player,Collection<Unmovable> obstacleCollection, Collection<Movable> entityCollection,
@@ -41,7 +38,6 @@ public class MarioGame extends Game {
     this.coinSize = bean.getCoinSize();
     this.randomCoinMax = bean.getRandomCoinMax();
     this.randomCoinMin = bean.getRandomCoinMin();
-    this.marioFallDeathOffset = bean.getMarioFallDeathOffset();
     this.simulateFallOffset = bean.getSimulateFallOffset();
     this.coinDirectionNumerator = bean.getCoinDirectionNumerator();
     this.coinDirectionDenominator = bean.getCoinDirectionDenominator();
@@ -49,7 +45,6 @@ public class MarioGame extends Game {
     this.randCoinVelocityXMin = bean.getRandCoinVelocityXMin();
     this.randCoinVelocityYMax = bean.getRandCoinVelocityYMax();
     this.randCoinVelocityYMin = bean.getRandCoinVelocityYMin();
-    findSceneLowestY();
   }
 
 
@@ -72,8 +67,8 @@ public class MarioGame extends Game {
       moveMovable(entity);
       generateCoins(entity);
     }
-    entities.addAll(coins);
     fallingDeath();
+    entities.addAll(coins);
     viewable.remove(entitiesToRemove);
     entities.removeAll(entitiesToRemove);
     entitiesToRemove.clear();
@@ -82,21 +77,6 @@ public class MarioGame extends Game {
     coins.clear();
   }
 
-  private void fallingDeath() {
-    Movable player = getActivePlayer();
-    if (player.getMaxY() > lowestPoint + marioFallDeathOffset) {
-      player.setHitpoints(KILL_PLAYER);
-    }
-  }
-
-  private void findSceneLowestY(){
-    for(Unmovable obstacle : obstacles){
-      double yPosition = obstacle.getNode().getBoundsInParent().getMaxY();
-      if(yPosition > lowestPoint){
-        lowestPoint = yPosition;
-      }
-    }
-  }
 
   private void generateCoins(Movable entity){
     if(entity.doesGenerateCoins() && !entity.getStatusAlive()) {
