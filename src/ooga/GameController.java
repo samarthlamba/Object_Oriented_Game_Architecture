@@ -5,6 +5,7 @@ import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ooga.engine.games.Game;
+import ooga.loader.FactoryException;
 import ooga.loader.GameFactory;
 
 /**
@@ -46,8 +47,9 @@ public class GameController {
   /**
    * Launches a game from a specific file. Starts timeline and sets the driver to update it.
    * @param fileName the name of the file to launch game from
+   * @throws FactoryException if game with this name cannot be launched
    */
-  public void launchGame(String fileName) {
+  public void launchGame(String fileName) throws FactoryException {
     pathToCurrentGame = fileName;
     currentGame = gameFactory.makeCorrectGame(pathToCurrentGame);
     gameSetter.accept(currentGame);
@@ -57,8 +59,9 @@ public class GameController {
   /**
    * Generates a random game for the given game and launches it
    * @param gameName the name of the game to launch
+   * @throws FactoryException if the GameFactory fails to make Random Game
    */
-  public void makeRandomGame(String gameName) {
+  public void makeRandomGame(String gameName) throws FactoryException {
     randomGameName = gameName;
     currentGame = gameFactory.makeRandomGame(gameName);
     gameSetter.accept(currentGame);
@@ -67,8 +70,9 @@ public class GameController {
 
   /**
    * Used to start a new instance of the current game or, if random, make a new random game.
+   * @throws FactoryException if the game cannot be restarted
    */
-  public void restartGame() {
+  public void restartGame() throws FactoryException {
     if(pathToCurrentGame == null) {
       makeRandomGame(randomGameName);
     }

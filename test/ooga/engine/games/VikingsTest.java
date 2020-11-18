@@ -2,6 +2,7 @@ package ooga.engine.games;
 
 import javafx.stage.Stage;
 import ooga.engine.entities.Entity;
+import ooga.loader.FactoryException;
 import ooga.loader.GameFactory;
 import ooga.util.DukeApplicationTest;
 import ooga.view.GamePlayScreen;
@@ -22,7 +23,7 @@ public class VikingsTest extends DukeApplicationTest {
     }
 
     @Test
-    public void testPlayerSpecialAction(){
+    public void testPlayerSpecialAction() throws FactoryException {
         Game game = gameFactory.makeCorrectGame("testVikingsPlayer");
         Collection<Entity> entities = (Collection<Entity>) game.getEntities();
         double originalPosition = 0;
@@ -50,7 +51,7 @@ public class VikingsTest extends DukeApplicationTest {
     }
 
     @Test
-    public void testArrowGeneration(){
+    public void testArrowGeneration() throws FactoryException {
         Game game = gameFactory.makeCorrectGame("testVikingsPlayer");
         Collection<Entity> entities = (Collection<Entity>) game.getEntities();
         boolean arrowGenerated = false;
@@ -71,7 +72,7 @@ public class VikingsTest extends DukeApplicationTest {
     }
 
     @Test
-    public void testWaterfallCollision() {
+    public void testWaterfallCollision() throws FactoryException {
         Game game = gameFactory.makeCorrectGame("testVikingsWaterfall");
         Collection<Entity> entities = (Collection<Entity>) game.getEntities();
         double initialPosition = 175;
@@ -87,7 +88,7 @@ public class VikingsTest extends DukeApplicationTest {
     }
 
     @Test
-    public void testWaterfallPercolate(){
+    public void testWaterfallPercolate() throws FactoryException {
         Game game = gameFactory.makeCorrectGame("testVikingsWaterfall");
         testScreen.setGameScreen(game);
         Collection<Entity> entities = (Collection<Entity>) game.getEntities();
@@ -114,7 +115,7 @@ public class VikingsTest extends DukeApplicationTest {
     }
 
     @Test
-    public void testTimeScore() {
+    public void testTimeScore() throws FactoryException {
         Game game = gameFactory.makeCorrectGame("testVikingsWaterfall");
         for(int i = 0; i < 1000; i++){
             game.updateLevel();

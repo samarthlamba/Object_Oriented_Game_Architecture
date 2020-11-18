@@ -25,7 +25,7 @@ public class AnimationBrain {
   private int widthActual;
   private Map<AnimationState,Integer> durationMap;
 
-  public AnimationBrain(String entityName) {
+  public AnimationBrain(String entityName) throws FactoryException {
     try {
       entityBundle = ResourceBundle.getBundle(String.format(BUNDLE_LOCATION, entityName));
       findImage();

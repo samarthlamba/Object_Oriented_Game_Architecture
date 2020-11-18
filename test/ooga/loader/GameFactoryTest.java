@@ -20,7 +20,7 @@ public class GameFactoryTest extends DukeApplicationTest {
   private static final GameFactory factory = new GameFactory();
 
   @Test
-  public void testFactoryConstructsProperGame() {
+  public void testFactoryConstructsProperGame() throws FactoryException {
     Game gameFromLoader = factory.makeCorrectGame("TestFile");
     assertTrue(gameFromLoader instanceof MarioGame);
     Collection<MovableBounds> entitiesFromGame = (Collection<MovableBounds>) gameFromLoader.getEntities();

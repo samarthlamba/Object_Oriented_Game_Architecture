@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import ooga.engine.games.Game;
+import ooga.loader.FactoryException;
 import ooga.loader.GameFactory;
 import ooga.util.DukeApplicationTest;
 import org.junit.jupiter.api.Test;
@@ -83,7 +84,7 @@ public class DriverTest extends DukeApplicationTest {
   }
 
   @Test
-  public void testVictoryWithDummyLevel() {
+  public void testVictoryWithDummyLevel() throws FactoryException {
     Scene mainMenuScene = myStage.getScene();
     Button game1 = (Button) mainMenuScene.lookup("#Mario");
     assertNotNull(game1);
@@ -115,7 +116,7 @@ public class DriverTest extends DukeApplicationTest {
   }
 
   @Test
-  public void testLossWithDummyLevel() {
+  public void testLossWithDummyLevel() throws FactoryException {
     Scene mainMenuScene = myStage.getScene();
     Button game1 = (Button) mainMenuScene.lookup("#Mario");
     assertNotNull(game1);

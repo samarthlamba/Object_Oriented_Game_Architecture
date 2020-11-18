@@ -1,8 +1,7 @@
 package ooga.engine.games;
 
-import com.sun.source.tree.AssertTree;
 import ooga.engine.entities.Entity;
-import ooga.engine.entities.Movable;
+import ooga.loader.FactoryException;
 import ooga.loader.GameFactory;
 import ooga.util.DukeApplicationTest;
 import org.junit.jupiter.api.Test;
@@ -15,19 +14,19 @@ public class MetroidTest extends DukeApplicationTest {
   private final GameFactory gameFactory = new GameFactory();
 
   @Test
-  public void testHasFinishedFalseIfEnemiesPresent() {
+  public void testHasFinishedFalseIfEnemiesPresent() throws FactoryException {
     Game metroid1 = gameFactory.makeCorrectGame("MetroidLevel1");
     assertFalse(metroid1.isWon());
   }
 
   @Test
-  public void testHasFinishedTrueIfNoEnemies() {
+  public void testHasFinishedTrueIfNoEnemies() throws FactoryException {
     Game noEnemies = gameFactory.makeCorrectGame("testNoEnemies");
     assertTrue(noEnemies.isWon());
   }
 
   @Test
-  public void testPlayerSpecialAction(){
+  public void testPlayerSpecialAction() throws FactoryException {
     Game game = gameFactory.makeCorrectGame("testMetroidPlayer");
     Collection<Entity> entities = (Collection<Entity>) game.getEntities();
     game.playerAction();
@@ -41,7 +40,7 @@ public class MetroidTest extends DukeApplicationTest {
   }
 
   @Test
-  public void testBulletDirection(){
+  public void testBulletDirection() throws FactoryException {
     Game game = gameFactory.makeCorrectGame("testMetroidPlayer");
     Collection<Entity> entities = (Collection<Entity>) game.getEntities();
     game.playerAction();

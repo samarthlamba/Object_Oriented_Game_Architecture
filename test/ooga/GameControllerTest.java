@@ -19,6 +19,7 @@ import ooga.engine.entities.Movable;
 import ooga.engine.entities.MovableBounds;
 import ooga.engine.entities.player.Mario;
 import ooga.engine.games.Game;
+import ooga.loader.FactoryException;
 import ooga.loader.GameFactory;
 import ooga.util.DukeApplicationTest;
 import javafx.animation.KeyFrame;
@@ -57,7 +58,7 @@ public class GameControllerTest extends DukeApplicationTest{
     });
     testTimeline.getKeyFrames().add(moveRectangle);
     testController.playTimeline();
-    sleep(550);
+    sleep(600);
     final double finalX = testRectangle.getX();
     final double finalY = testRectangle.getY();
     assertEquals(initialX+50, finalX);
@@ -82,7 +83,7 @@ public class GameControllerTest extends DukeApplicationTest{
   }
 
   @Test
-  public void testLaunchGameChangesMyGame() {
+  public void testLaunchGameChangesMyGame() throws FactoryException {
     assertNull(myGame);
     testController.launchGame("TestFile");
 
@@ -100,7 +101,7 @@ public class GameControllerTest extends DukeApplicationTest{
   }
 
   @Test
-  public void testLaunchGamePlaysTimeline() {
+  public void testLaunchGamePlaysTimeline() throws FactoryException {
     KeyFrame autoPass = new KeyFrame(Duration.millis(100),e -> {
       assertTrue(true);
     });
@@ -112,14 +113,14 @@ public class GameControllerTest extends DukeApplicationTest{
   }
 
   @Test
-  public void testGetGameReturnsMyGame() {
+  public void testGetGameReturnsMyGame() throws FactoryException {
     testController.launchGame("TestFile");
     assertEquals(myGame,testController.getGame());
     assertNotNull(myGame);
   }
 
   @Test
-  public void testRestartGameRestartsGame() {
+  public void testRestartGameRestartsGame() throws FactoryException {
     testController.launchGame("TestFile");
     Rectangle mario = (Rectangle) myGame.getActivePlayer().getNode();
     double initialYPosition = mario.getY();
@@ -139,7 +140,7 @@ public class GameControllerTest extends DukeApplicationTest{
   }
 
   @Test
-  public void testGetGameNameReturnsCorrectName() {
+  public void testGetGameNameReturnsCorrectName() throws FactoryException {
     testController.launchGame("TestFile");
     assertEquals("TestFile",testController.getGameName());
   }
@@ -155,7 +156,7 @@ public class GameControllerTest extends DukeApplicationTest{
   }
 
   @Test
-  public void testGetPathToCurrentLevelWhenRandomReturnsRandom() {
+  public void testGetPathToCurrentLevelWhenRandomReturnsRandom() throws FactoryException {
     testController.makeRandomGame("Mario");
     assertEquals("random",testController.getGameName());
   }

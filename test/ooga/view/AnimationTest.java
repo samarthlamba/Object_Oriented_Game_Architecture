@@ -2,6 +2,7 @@ package ooga.view;
 
 import javafx.geometry.Rectangle2D;
 import ooga.loader.AnimationBrain;
+import ooga.loader.FactoryException;
 import ooga.util.DukeApplicationTest;
 import ooga.view.Animation;
 import org.assertj.core.api.Assert;
@@ -25,7 +26,7 @@ class AnimationTest extends DukeApplicationTest {
   private Animation animation;
 
   @BeforeEach
-  public void setup() {
+  public void setup() throws FactoryException {
     animationBrain = new AnimationBrain("MarioGame");
 
     int length = animationBrain.getLengthMap().get(AnimationState.WALK);
