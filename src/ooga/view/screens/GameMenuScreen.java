@@ -10,10 +10,10 @@ import javafx.scene.layout.VBox;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
-public class GameMenuScreen extends Screen {
+public abstract class GameMenuScreen extends Screen {
 
-    private static final double IMAGE_WIDTH = 400.0;
-    private static final double IMAGE_HEIGHT = 400.0;
+    protected static final double IMAGE_WIDTH = 400.0;
+    protected static final double IMAGE_HEIGHT = 400.0;
     Pos MENU_POSITION = Pos.BOTTOM_CENTER;
 
     Scene scene;
@@ -26,10 +26,8 @@ public class GameMenuScreen extends Screen {
         VBox root = new VBox();
         Menu menu = getMenu();
         menu.setAlignment(MENU_POSITION);
-        Image gameTitle = new Image("/ooga/view/resources/images/marioTitle.png",IMAGE_WIDTH,IMAGE_HEIGHT,true,true);
+        Image gameTitle = setGameTitle();
         ImageView imageView = new ImageView(gameTitle);
-//        imageView.setX(0);
-//        imageView.setX();
         imageView.setY(100);
         root.setAlignment(Pos.TOP_CENTER);
         root.setPadding(new Insets(100,100,100,100));
@@ -44,6 +42,8 @@ public class GameMenuScreen extends Screen {
         Menu menu = new Menu(gameMenuButtonProperties, E);//TODO
         return menu;
     }
+
+    public abstract Image setGameTitle();
 
     @Override
     public Scene getView() {

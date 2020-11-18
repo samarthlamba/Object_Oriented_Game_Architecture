@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 
 public class Display {//implements Viewer{
 
-private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle("ooga.view.resources.mainmenubuttons_eng");//TODO
+    private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle("ooga.view.resources.mainmenubuttons_eng");//TODO
     private static final ResourceBundle LEVEL_FILE_LOCATIONS = ResourceBundle.getBundle("LevelFileLocations");
 
 
@@ -64,7 +64,7 @@ private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle("ooga
     }
 
     public void updateDisplay() {
-        gameScreen.update();//TODo
+        gameScreen.update();
     }
 
     private void setGameMenuScreenFromSettings () {
@@ -87,8 +87,6 @@ private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle("ooga
 
     public void setSplashScreen(String displayKey) {
         SplashScreen resultScreen = new SplashScreen(displayKey,this::setMainMenuScreen,this::restartGame);
-//        SplashScreen resultScreen = new SplashScreen(displayKey,this::setMainMenuScreen,gameScreen.restartGame());
-
         gameController.setScene(resultScreen.getView());
     }
 

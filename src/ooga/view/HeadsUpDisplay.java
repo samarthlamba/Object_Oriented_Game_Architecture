@@ -2,13 +2,11 @@ package ooga.view;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
@@ -75,7 +73,7 @@ public class HeadsUpDisplay extends HBox {
 
         this.getChildren().addAll(status,buttons);
         this.setHgrow(buttons, Priority.ALWAYS);
-        this.setPadding(new Insets(5,10,0,10));
+        this.setPadding(new Insets(5,10,0,10)); //TODO constants
         this.setFillHeight(true);
     }
 
@@ -86,7 +84,6 @@ public class HeadsUpDisplay extends HBox {
     }
 
     public void update(int p, int l) {
-        System.out.println(p + ", " + l);
         if (points != p) {
             points = p;
             pointsText.setText(Integer.toString(points));
