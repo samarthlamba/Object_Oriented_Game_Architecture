@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Creates high score file and maintains output and content for the file
+ */
 public class HighScore{
     private final String fileName;
     private static final int NUMBER_OF_RECORDS = 5;
@@ -14,6 +17,10 @@ public class HighScore{
     private static final int TOTAL_NUMBER_RECORDS = NUMBER_OF_RECORDS*2;
     private static final String PATH_TO_RESOURCES = "src/resources/";
 
+    /**
+     * Output file created based on name of game
+     * @param game
+     */
     public HighScore(String game){
         fileName = PATH_TO_RESOURCES + game + EXTENSION;
         checkFileExistence();
@@ -77,7 +84,10 @@ public class HighScore{
             return  getSubListGlobal(list, true);
     }
 
-
+    /**
+     * returns weekly best score that are present. Updated as more scores come in
+     * @return Returns array of HighScore object
+     */
     public HighScoreObject[] getWeeklyHighScores() {
         checkFileExistence();
 
@@ -85,6 +95,10 @@ public class HighScore{
         return  getSubListGlobal(list, false);
     }
 
+    /**
+     * returns all scores that are present in file.
+     * @return Returns array of HighScore object
+     */
     public HighScoreObject[] getAllScores() {
         checkFileExistence();
 
@@ -122,6 +136,10 @@ public class HighScore{
         return answerString;
     }
 
+    /**
+     * Adds the inputted score and updates the weekly and global scores
+     * @param score int value for the score to add
+     */
     public void checkAddHighScore(int score) {
         HighScoreObject current = new HighScoreObject(score);
         HighScoreObject [] listOfScores = getAllScores();
