@@ -10,6 +10,7 @@ import java.util.Iterator;
 
 public abstract class Obstacle extends Rectangle implements Collideable, Unmovable {
   private static final double NEGATIVE_DIRECTION = -1;
+  private static final double SHRINK_RATIO = .7;
   private double normalForce = 0;
   private double moveX = 0;
   private double moveY = 0;
@@ -136,8 +137,8 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
   public void scalePlayer(Entity entity){
     if(entity.getId().equals("player")){
       if(!entity.hasShrunk()) {
-        entity.setHeight(entity.getWidth()*0.7);
-        entity.setWidth(entity.getHeight()*0.7);
+        entity.setHeight(entity.getWidth() * SHRINK_RATIO);
+        entity.setWidth(entity.getHeight() * SHRINK_RATIO);
         entity.setShrunk(true);
       }
     }
