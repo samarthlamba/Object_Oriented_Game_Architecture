@@ -1,9 +1,10 @@
 package ooga.view;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
-import ooga.Driver;
-
 
 //import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -14,14 +15,13 @@ import java.util.function.Consumer;
 public class Menu extends VBox {
 
     ResourceBundle menuItems;
-//    String buttonFunctionPrefix = "";
-//    String buttonFunctionSuffix = "";
-//    String buttonFunctionClassName = this.toString();
-    Consumer<String> E;//TODO
+    Consumer<String> buttonAction;
 
-    public Menu(ResourceBundle menuButtonProperties, Consumer<String> e) {
-        E = e;
-        for(String property : menuButtonProperties.keySet()) {
+    public Menu(ResourceBundle menuButtonProperties, Consumer<String> buttonAction) {
+        this.buttonAction = buttonAction;
+        List<String> buttonKeySet = menuButtonProperties.keySet().stream()
+            .sorted(Comparator.naturalOrder()).collect(Collectors.toList());
+        for(String property : buttonKeySet) {
             Button button = makeNewButton(property, menuButtonProperties);
             this.getChildren().add(button);
         }
@@ -33,7 +33,7 @@ public class Menu extends VBox {
         String label = (String) menuButtonProperties.getObject(property); //TODO (String?)
         newButton.setText(label);
         newButton.setId(property);
-        newButton.setOnAction(e -> E.accept(property));//label
+        newButton.setOnAction(e -> buttonAction.accept(property));//label
         return newButton;
     }
 

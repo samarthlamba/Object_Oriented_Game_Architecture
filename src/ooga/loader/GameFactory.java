@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 import ooga.engine.entities.player.Player;
@@ -37,20 +38,42 @@ public class GameFactory {
         throw new FactoryException("Empty file");
       }
       gameName = levelData.get(0)[0];
-      gameBundle = ResourceBundle.getBundle(
-          String.format(gameConfigBundle.getString("gameBundleName"),gameName));
-      Player player = findPlayer(levelData);
-      Collection<Obstacle> obstacles = getObjectsForGameOfType(levelData, Obstacle.class);
-      Collection<Entity> entities = getObjectsForGameOfType(levelData, Entity.class);
-      entities.add(player);
-      GameBean gameBean = beanMaker.makeGameBean(gameName,fileLocation);
-      Class c = Class.forName(gameBundle.getString("Game"));
-      Constructor constr = c.getDeclaredConstructor(Player.class, Collection.class, Collection.class, double.class,gameBean.getClass());
-      return (Game) constr.newInstance(player,obstacles, entities,1/frameRate,gameBean);
+      return makeGameFromLevelData(levelData,gameName,fileLocation);
     } catch (Exception e) {
       throw new FactoryException(String.format("Unable to build game from %s: %s",fileLocation,e.getMessage()),e);
     }
   }
+
+  public Game makeRandomGame(String gameName) {
+    return makeRandomGame(gameName,new Random().nextLong());
+  }
+
+  public Game makeRandomGame(String gameName, long seed) {
+    this.gameName = gameName;
+    try{
+    RandomGameGenerator randomGameGenerator = new RandomGameGenerator(gameName,seed);
+    List<String[]> fullLevelData = randomGameGenerator.buildLevelData();
+      return makeGameFromLevelData(fullLevelData, gameName, "Default");
+    } catch (Exception e) {
+      throw new FactoryException(String.format("Error building random level for game %s",gameName),e);
+    }
+  }
+
+  private Game makeGameFromLevelData(List<String[]> levelData, String gameName,String beanFileLocation) throws Exception{
+      gameBundle = ResourceBundle.getBundle(
+          String.format(gameConfigBundle.getString("gameBundleName"), gameName));
+      Player player = findPlayer(levelData);
+      Collection<Obstacle> obstacles = getObjectsForGameOfType(levelData, Obstacle.class);
+      Collection<Entity> entities = getObjectsForGameOfType(levelData, Entity.class);
+      entities.add(player);
+      GameBean gameBean = beanMaker.makeGameBean(gameName, beanFileLocation);
+      Class c = Class.forName(gameBundle.getString("Game"));
+      Constructor constr = c
+          .getDeclaredConstructor(Player.class, Collection.class, Collection.class, double.class,
+              gameBean.getClass());
+      return (Game) constr.newInstance(player, obstacles, entities, 1 / frameRate, gameBean);
+  }
+
 
   private Player findPlayer(List<String[]> levelData) {
     Collection<Player> playerSet = getObjectsForGameOfType(levelData,Player.class);
