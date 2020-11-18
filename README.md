@@ -47,6 +47,8 @@ Extra credit:
 
 ### URL Credit for Images
 
+All sprite sheet modifications done on Adobe Photoshop
+
 Samus Sprite Sheet : https://www.google.com/url?sa=i&url=https%3A%2F%2Ftwitter.com%2Fomegachainoboy%2Fstatus%2F1003698364842762240&psig=AOvVaw2w3clZgGywJlNAg_s9F-qo&ust=1605744741840000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKie-rnniu0CFQAAAAAdAAAAABAU
 
 Lost Viking Sprite Sheet: https://www.spriters-resource.com/snes/lostvikings/sheet/8335/
