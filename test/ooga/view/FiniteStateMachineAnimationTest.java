@@ -4,6 +4,7 @@ import javafx.scene.image.ImageView;
 import ooga.engine.entities.Entity;
 import ooga.engine.entities.player.Mario;
 import ooga.loader.AnimationBrain;
+import ooga.loader.FactoryException;
 import ooga.util.DukeApplicationTest;
 import ooga.view.Animation;
 import ooga.view.AnimationState;
@@ -20,7 +21,7 @@ class FiniteStateMachineAnimationTest extends DukeApplicationTest {
   private Entity mario;
 
   @BeforeEach
-  public void setup() {
+  public void setup() throws FactoryException {
     animationBrain = new AnimationBrain("MarioGame");
 
     int length = animationBrain.getLengthMap().get(AnimationState.WALK);

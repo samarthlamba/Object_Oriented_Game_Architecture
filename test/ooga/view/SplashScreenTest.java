@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import ooga.GameController;
 import ooga.GameEndStatus;
 import ooga.engine.games.Game;
+import ooga.loader.FactoryException;
 import ooga.util.DukeApplicationTest;
 import org.junit.jupiter.api.Test;
 
@@ -75,7 +76,7 @@ public class SplashScreenTest extends DukeApplicationTest {
   }
 
   @Test
-  public void testRestartRestartsGame() {
+  public void testRestartRestartsGame() throws FactoryException {
     testController.launchGame("TestFile");
     Rectangle mario = (Rectangle) myGame.getActivePlayer().getNode();
     double initialYPosition = mario.getY();

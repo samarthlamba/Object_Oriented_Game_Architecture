@@ -2,6 +2,8 @@ package ooga.view;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import ooga.GameController;
 import ooga.GameEndStatus;
 import ooga.engine.games.GamePlay;
@@ -9,6 +11,7 @@ import ooga.engine.games.GamePlay;
 import java.lang.reflect.Constructor;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
+import ooga.loader.FactoryException;
 
 import static ooga.view.Screen.DEFAULT_RESOURCE_PACKAGE;
 
@@ -30,23 +33,6 @@ public class Display {//implements Viewer{
     public void setMainMenuScreen() {
         Screen screen = new MainMenuScreen(this::setGameMenuScreen);
         gameController.setScene(screen.getView());
-    }
-
-    private void launchGame(String levelChosen) {
-        String gameLevelComboChosen = String.format("%s%s", gameTitle,levelChosen);
-        gameController.launchGame(gameLevelComboChosen);
-        setGameDisplay(gameController.getGame());
-    }
-
-    private void restartGame() {
-        gameController.restartGame();
-        setGameDisplay(gameController.getGame());
-    }
-
-    private void randomGame(String gameTitle) {
-        this.gameTitle = gameTitle;
-        gameController.makeRandomGame(gameTitle);
-        setGameDisplay(gameController.getGame());
     }
 
     public void setGameDisplay(GamePlay newGame) {
@@ -88,6 +74,41 @@ public class Display {//implements Viewer{
     public void setSplashScreen(GameEndStatus displayKey) {
         SplashScreen resultScreen = new SplashScreen(displayKey,this::setMainMenuScreen,this::restartGame);
         gameController.setScene(resultScreen.getView());
+    }
+
+    private void launchGame(String levelChosen) {
+        String gameLevelComboChosen = String.format("%s%s", gameTitle,levelChosen);
+        try {
+            gameController.launchGame(gameLevelComboChosen);
+            setGameDisplay(gameController.getGame());
+        } catch (FactoryException e) {
+            handleFactoryException(e);
+        }
+    }
+
+    private void restartGame() {
+        try {
+            gameController.restartGame();
+            setGameDisplay(gameController.getGame());
+        }catch (FactoryException e) {
+            handleFactoryException(e);
+        }
+    }
+
+    private void randomGame(String gameTitle) {
+        this.gameTitle = gameTitle;
+        try {
+            gameController.makeRandomGame(gameTitle);
+            setGameDisplay(gameController.getGame());
+        }catch (FactoryException e) {
+            handleFactoryException(e);
+        }
+    }
+
+    private void handleFactoryException( FactoryException e) {
+        Alert factoryAlert = new Alert(AlertType.ERROR,e.getMessage());
+        factoryAlert.show();
+        factoryAlert.setOnCloseRequest(d -> setMainMenuScreen());
     }
     
 

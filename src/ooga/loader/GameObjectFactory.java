@@ -28,7 +28,8 @@ public class GameObjectFactory<T> {
    * @param columnNumber the column that the object should be generated in
    * @return the correct imlementation of that symbol as specified in the gameBundle.
    */
-  public T makeGameObject(String symbolToConvert, int rowNumber, int columnNumber) {
+  public T makeGameObject(String symbolToConvert, int rowNumber, int columnNumber)
+      throws FactoryException {
     return makeGameObject(symbolToConvert,(double)columnNumber*width, (double)rowNumber*height);
   }
 
@@ -39,7 +40,7 @@ public class GameObjectFactory<T> {
    * @param y the y position that the object should be generated in
    * @return the correct imlementation of that symbol as specified in the gameBundle.
    */
-  public T makeGameObject(String symbolToConvert, double x, double y) {
+  public T makeGameObject(String symbolToConvert, double x, double y) throws FactoryException {
     try{
       Class c = Class.forName(gameBundle.getString(symbolToConvert));
       Constructor constr = c.getDeclaredConstructor(int.class, int.class, double.class, double.class);

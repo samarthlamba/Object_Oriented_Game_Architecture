@@ -23,7 +23,7 @@ class MarioTest extends DukeApplicationTest {
     }
 
    @Test
-   public void rightMovementTest() {
+   public void rightMovementTest() throws FactoryException {
        Game game = factory.makeCorrectGame("testMovement");
        Collection<Entity> entities = (Collection<Entity>) game.getEntities();
        double initialPosition = 75;
@@ -36,7 +36,7 @@ class MarioTest extends DukeApplicationTest {
    }
 
     @Test
-    public void leftMovementTest() {
+    public void leftMovementTest() throws FactoryException {
 
         Game game = factory.makeCorrectGame("testMovement");
         Collection<Entity> entities = (Collection<Entity>) game.getEntities();
@@ -50,7 +50,7 @@ class MarioTest extends DukeApplicationTest {
     }
 
     @Test
-    public void jumpTest(){
+    public void jumpTest() throws FactoryException {
         Game game = factory.makeCorrectGame("testMovement");
         Collection<Entity> entities = (Collection<Entity>) game.getEntities();
         Entity entity = entities.iterator().next();
@@ -77,7 +77,7 @@ class MarioTest extends DukeApplicationTest {
     }
 
     @Test
-    public void leftCollisionTest() {
+    public void leftCollisionTest() throws FactoryException {
         Game game = factory.makeCorrectGame("testNoMovement");
         Collection<Entity> entities = (Collection<Entity>) game.getEntities();
         double initialPosition = 75;
@@ -95,7 +95,7 @@ class MarioTest extends DukeApplicationTest {
     }
 
     @Test
-    public void rightCollisionTest() {
+    public void rightCollisionTest() throws FactoryException {
         Game game = factory.makeCorrectGame("testNoMovement");
         Collection<Entity> entities = (Collection<Entity>) game.getEntities();
         double initialPosition = 75;
@@ -111,7 +111,7 @@ class MarioTest extends DukeApplicationTest {
     }
 
     @Test
-    public void rightWallCollisionTest() {
+    public void rightWallCollisionTest() throws FactoryException {
         Game game = factory.makeCorrectGame("noRightMovement");
         Collection<Entity> entities = (Collection<Entity>) game.getEntities();
         double initialPosition = 75;
@@ -127,7 +127,7 @@ class MarioTest extends DukeApplicationTest {
     }
 
     @Test
-    public void bottomCollisionTest(){
+    public void bottomCollisionTest() throws FactoryException {
         Game game = factory.makeCorrectGame("testCeilingMovement");
         Collection<Entity> entities = (Collection<Entity>) game.getEntities();
         double initialPosition = 75;
@@ -158,7 +158,7 @@ class MarioTest extends DukeApplicationTest {
     }
 
     @Test
-    public void testEnemyDies(){
+    public void testEnemyDies() throws FactoryException {
         Game game = factory.makeCorrectGame("testEnemyTopCollision");
         testScreen.setGameScreen(game);
         Collection<Entity> entities = (Collection<Entity>) game.getEntities();
@@ -175,7 +175,7 @@ class MarioTest extends DukeApplicationTest {
     }
 
     @Test
-    public void testTurtleMarioCollision(){
+    public void testTurtleMarioCollision() throws FactoryException {
         Game game = factory.makeCorrectGame("testTurtleMarioCollision");
         Collection<Entity> entities = (Collection<Entity>) game.getEntities();
         Entity player = (Entity) game.getActivePlayer();
@@ -191,7 +191,7 @@ class MarioTest extends DukeApplicationTest {
     }
 
     @Test
-    public void testQuestionBoxCollision(){
+    public void testQuestionBoxCollision() throws FactoryException {
         Game game = factory.makeCorrectGame("testMarioQuestionBox");
         testScreen.setGameScreen(game);
         Collection<Entity> entities = (Collection<Entity>) game.getEntities();
@@ -218,7 +218,7 @@ class MarioTest extends DukeApplicationTest {
     }
 
     @Test
-    public void testCoinGeneration(){
+    public void testCoinGeneration() throws FactoryException {
         Game game = factory.makeCorrectGame("testMarioQuestionBox");
         testScreen.setGameScreen(game);
         Collection<Entity> entities = (Collection<Entity>) game.getEntities();

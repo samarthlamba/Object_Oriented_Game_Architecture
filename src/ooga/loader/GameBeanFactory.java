@@ -22,7 +22,8 @@ public class GameBeanFactory {
    * @return a GameBean from the specified FileLocation and for the specfied GameType. Will use default
    * bean if not present
    */
-  public <T extends GameBean>  T makeGameBean(String gameType, String fileLocation) {
+  public <T extends GameBean>  T makeGameBean(String gameType, String fileLocation)
+      throws FactoryException {
     ResourceBundle bundle = getBundle(gameType,fileLocation);
     String classPath = String.format(BEAN_LOCATION,gameType);
     try {

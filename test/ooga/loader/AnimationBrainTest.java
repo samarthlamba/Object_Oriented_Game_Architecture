@@ -15,7 +15,7 @@ public class AnimationBrainTest extends DukeApplicationTest {
   private AnimationBrain mario;
 
   @BeforeEach
-  public void setup() {
+  public void setup() throws FactoryException {
     mario = new AnimationBrain("MarioGame");
   }
 
@@ -52,13 +52,13 @@ public class AnimationBrainTest extends DukeApplicationTest {
   @Test
   public void testGetyWhiteSpaceConstant() {
     int framesPerColumn = mario.getyWhiteSpaceConstant();
-    assertEquals(15,framesPerColumn);
+    assertEquals(12,framesPerColumn);
   }
 
   @Test
   public void testGetxWhiteSpaceConstant() {
     int framesPerColumn = mario.getxWhiteSpaceConstant();
-    assertEquals(17,framesPerColumn);
+    assertEquals(14,framesPerColumn);
   }
 
   @Test
