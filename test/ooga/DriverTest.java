@@ -69,6 +69,20 @@ public class DriverTest extends DukeApplicationTest {
   }
 
   @Test
+  public void testPressingRandomButtonMovesToGame() {
+    Scene mainMenuScene = myStage.getScene();
+    Button game1 = (Button) mainMenuScene.lookup("#Mario");
+    assertNotNull(game1);
+    javafxRun(() -> game1.fire());
+    Scene gameMenuScene = myStage.getScene();
+    Button random = (Button) gameMenuScene.lookup("#random");
+    assertNotNull(random);
+    javafxRun(() -> random.fire());
+    Scene gameScene = myStage.getScene();
+    assertNotEquals(gameScene,gameMenuScene);
+  }
+
+  @Test
   public void testVictoryWithDummyLevel() {
     Scene mainMenuScene = myStage.getScene();
     Button game1 = (Button) mainMenuScene.lookup("#Mario");

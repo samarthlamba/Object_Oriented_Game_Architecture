@@ -144,6 +144,16 @@ public class GameControllerTest extends DukeApplicationTest{
     assertEquals("TestFile",testController.getGameName());
   }
 
+  @Test
+  public void testRestartGameAfterRandomDoesNotThrowException() {
+    try {
+      testController.makeRandomGame("Mario");
+      testController.restartGame();
+    } catch (Exception e) {
+      fail();
+    }
+  }
+
 
   public void setMyGame(Game myGame) {
     this.myGame = myGame;
