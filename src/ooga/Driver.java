@@ -10,6 +10,10 @@ import ooga.engine.games.HighScore;
 import ooga.view.Display;
 
 
+/**
+ * This class serves as the controller for the game. it  contains the stage and timeline and tells game when
+ * to update. Monitors game status and uses it to determine correct display
+ */
 public class Driver extends Application {
 
   private static final int STEP_SPEED = 100;
@@ -19,6 +23,11 @@ public class Driver extends Application {
   private Display display;
   private GameController gameController;
 
+  /**
+   * Required override for JavaFX. called when program launches and sets up display, timeline
+   * @param initialStage the stage that the game will run in
+   * @throws Exception Not thrown but required for override
+   */
   @Override
   public void start(Stage initialStage) throws Exception {
     initializeTimeline();

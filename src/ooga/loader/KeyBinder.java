@@ -10,6 +10,9 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 import javafx.scene.input.KeyCode;
 
+/**
+ * This class can be used to rebind keys at runtime.
+ */
 public class KeyBinder {
   private static final String DEFAULT_BUNDLE_LOCATION = "DefaultKeys";
   private static final String PATH_TO_KEYBINDINGS = "src/resources/KeyBindings.properties";
@@ -26,6 +29,11 @@ public class KeyBinder {
     initializeMaps();
   }
 
+  /**
+   * Binds a specific button to a string corresponding to a specific action.
+   * @param button The Button to press to invoke the action
+   * @param actionToBindTo a string corresponding to the method that should be invoked when button is pressed
+   */
   public void setBinding(KeyCode button, String actionToBindTo) {
     if(keyMethodMap.keySet().contains(button)) {
       String otherAction = keyMethodMap.get(button);
@@ -39,10 +47,44 @@ public class KeyBinder {
     methodKeyMap.put(actionToBindTo,button);
   }
 
+  /**
+   * Sets the internally tracked keybinings map to the default values.
+   */
   public void setToDefault(){
     keyBundle = ResourceBundle.getBundle(DEFAULT_BUNDLE_LOCATION);
     initializeMaps();
     keyBundle = ResourceBundle.getBundle(BINDABLE_BUNDLE_LOCATION);
+  }
+
+  /**
+   * Used to get the map from method names to key codes
+   * @return a map whose keys are strings representing method names and whose value are KeyCode buttons
+   */
+  public Map<String,KeyCode> getMethodKeyMap() {
+    return methodKeyMap;
+  }
+
+  /**
+   * Used to get the map from keycodes to method names
+   * @return a map whose keys are KeyCode buttons and whose value are strings representing method names
+   */
+  public Map<KeyCode, String> getKeyMethodMap() {
+    return keyMethodMap;
+  }
+
+  /**
+   * Saves the internally tracked keybindings map to a properties file
+   * @throws IOException if there is any issue writing to the properties file
+   */
+  public void saveMap() throws IOException {
+    File file = new File(PATH_TO_KEYBINDINGS);
+    FileOutputStream stream = new FileOutputStream(file);
+    Properties table = new Properties();
+    for (KeyCode key : keyMethodMap.keySet()) {
+      String keyString = key.toString();
+      table.setProperty(keyString, keyMethodMap.get(key));
+    }
+    table.store(stream, null);
   }
 
   private void initializeMaps() {
@@ -60,26 +102,6 @@ public class KeyBinder {
     KeyCode previousKey = methodKeyMap.get(actionToBindTo);
     methodKeyMap.remove(actionToBindTo);
     keyMethodMap.remove(previousKey);
-  }
-
-
-  public Map<String,KeyCode> getMethodKeyMap() {
-    return methodKeyMap;
-  }
-
-  public Map<KeyCode, String> getKeyMethodMap() {
-    return keyMethodMap;
-  }
-
-  public void saveMap() throws IOException {
-    File file = new File(PATH_TO_KEYBINDINGS);
-    FileOutputStream stream = new FileOutputStream(file);
-    Properties table = new Properties();
-    for (KeyCode key : keyMethodMap.keySet()) {
-      String keyString = key.toString();
-      table.setProperty(keyString, keyMethodMap.get(key));
-    }
-    table.store(stream, null);
   }
 
 }

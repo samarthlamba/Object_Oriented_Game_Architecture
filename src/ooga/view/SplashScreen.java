@@ -11,6 +11,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
 import ooga.GameEndStatus;
 
+/**
+ * A screen that displays a GIF based on the way the game ended, with buttons to set main menu and
+ * restart the game
+ */
 public class SplashScreen extends Screen{
   private final String displayKey;
   private final Runnable restart;
@@ -44,6 +48,10 @@ public class SplashScreen extends Screen{
     restart.run();
   }
 
+  /**
+   * Called from Display to give the scene from splash screen to the stage.
+   * @return the scene for this splash screen, with a gif and restart/main menu buttons on it.
+   */
   @Override
   public Scene getView() {
     BorderPane root = new BorderPane();

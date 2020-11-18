@@ -7,6 +7,9 @@ import javafx.stage.Stage;
 import ooga.engine.games.Game;
 import ooga.loader.GameFactory;
 
+/**
+ * Object created by the Driver and passed to display to control specific actions of the Driver.
+ */
 public class GameController {
 
   private final Stage stage;
@@ -24,14 +27,26 @@ public class GameController {
     this.gameFactory = new GameFactory();
   }
 
+  /**
+   * Used to set the display to the current game being run by driver
+   * @return the Game being run by the driver
+   */
   public Game getGame() {
     return currentGame;
   }
 
+  /**
+   * Used to set the scene of the primary stage
+   * @param scene the scene from Display class to show on screen
+   */
   public void setScene(Scene scene) {
     this.stage.setScene(scene);
   }
 
+  /**
+   * Launches a game from a specific file. Starts timeline and sets the driver to update it.
+   * @param fileName the name of the file to launch game from
+   */
   public void launchGame(String fileName) {
     pathToCurrentGame = fileName;
     currentGame = gameFactory.makeCorrectGame(pathToCurrentGame);
@@ -39,6 +54,10 @@ public class GameController {
     timeline.play();
   }
 
+  /**
+   * Generates a random game for the given game and launches it
+   * @param gameName the name of the game to launch
+   */
   public void makeRandomGame(String gameName) {
     randomGameName = gameName;
     currentGame = gameFactory.makeRandomGame(gameName);
@@ -46,6 +65,9 @@ public class GameController {
     timeline.play();
   }
 
+  /**
+   * Used to start a new instance of the current game or, if random, make a new random game.
+   */
   public void restartGame() {
     if(pathToCurrentGame == null) {
       makeRandomGame(randomGameName);
@@ -55,15 +77,28 @@ public class GameController {
     }
   }
 
+  /**
+   * Stops the Driver from updating the level
+   */
   public void pauseTimeline() {
     timeline.pause();
   }
 
+  /**
+   * Resumes the driver from updating level
+   */
   public void playTimeline() {
     timeline.play();
   }
 
+  /**
+   * Used to find the name of file that generated this game or, if random, return random
+   * @return string associated with this game level, or random
+   */
   public String getGameName() {
+    if(pathToCurrentGame == null) {
+      return "random";
+    }
     return pathToCurrentGame;
   }
 }
