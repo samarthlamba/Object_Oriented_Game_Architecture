@@ -6,7 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import ooga.view.Menu;
 
 import java.util.ResourceBundle;
 import java.util.function.Consumer;

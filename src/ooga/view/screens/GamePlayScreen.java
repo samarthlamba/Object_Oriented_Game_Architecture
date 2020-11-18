@@ -1,14 +1,25 @@
 package ooga.view.screens;
 
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import ooga.GameController;
 import ooga.engine.entities.MovableBounds;
 import ooga.engine.games.GamePlay;
@@ -17,6 +28,8 @@ import ooga.view.UpdateObjectsOnScreen;
 
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
 
@@ -39,27 +52,20 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
     private Collection onScreen;
     private Map<String, ImagePattern> characterImages;
     private GameController gameController;
-    //          private Consumer pauseConsumer;
-//          private Consumer playConsumer;
-//          private Consumer restartConsumer;
+    private BorderPane primaryRoot;
 
     public GamePlayScreen(GamePlay givenGame, GameController control) {
-//        public GamePlayScreen(GamePlay givenGame, Consumer pause, Consumer play, Consumer restart) {
-//          pauseConsumer = pause;
-//          playConsumer = play;
-//          restartConsumer = restart;
         background = new Group();
         game = givenGame;
         keys = new ArrayList<>();
         gameController = control;
-
     }
     public GamePlayScreen() {
         background = new Group();
         keys = new ArrayList<>();
     }
 
-    public void setGameScreen(GamePlay givenGame) {
+    public void setGameScreen(GamePlay givenGame, Runnable goToMenu, Runnable restart, Consumer changeTheme) {
         game = givenGame;//TODO remove
         game.setDisplay(this);
         Pane gamePane = new Pane(); //Todo justify
@@ -71,15 +77,17 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
         update();
         gamePane.getChildren().add(background);
 
-        HeadsUpDisplay hud = new HeadsUpDisplay();
-//        HeadsUpDisplay hud = new HeadsUpDisplay(pauseConsumer, playConsumer, restartConsumer);
         BorderPane root = new BorderPane();
+        HeadsUpDisplay hud = new HeadsUpDisplay(gameController);
+
         root.getStylesheets().add("mario.css");//TODO
         root.setCenter(gamePane);
 
         setKeys();
         root.setTop(hud);
+        primaryRoot = root;
         scene = new Scene(root,SCREEN_WIDTH,SCREEN_HEIGHT);//todo
+        hud.setUpHud(scene,goToMenu,restart,changeTheme);
         bindKeys();
     }
 
@@ -151,7 +159,7 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
                 Method method = game.getClass().getMethod(methodName);
                 method.invoke(game);
             } catch (Exception e) {
-                System.out.println("No player here boss");
+                System.out.println("No player here boss"); //TODO
             }
         }
     }

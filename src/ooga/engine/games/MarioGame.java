@@ -1,17 +1,17 @@
 package ooga.engine.games;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Random;
-
-import ooga.engine.entities.player.Player;
-import ooga.engine.games.beans.MarioBean;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import ooga.engine.entities.Entity;
 import ooga.engine.entities.Movable;
 import ooga.engine.entities.object.Coin;
+import ooga.engine.entities.player.*;
+import ooga.engine.games.beans.MarioBean;
 import ooga.engine.obstacles.Unmovable;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Random;
 
 public class MarioGame extends Game {
   private final static int KILL_PLAYER = 0;

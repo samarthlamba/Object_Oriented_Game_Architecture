@@ -9,8 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
-import ooga.view.Menu;
-import ooga.view.screens.Screen;
 
 public class SplashScreen extends Screen {
   private final String displayKey;

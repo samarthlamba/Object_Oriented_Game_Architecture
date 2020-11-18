@@ -3,8 +3,8 @@ package ooga.engine.games;
 
 import javafx.scene.Node;
 
-import ooga.engine.entities.player.Player;
-import ooga.engine.games.beans.GameBean;
+import ooga.engine.entities.player.*;
+import ooga.engine.games.beans.*;
 
 import ooga.engine.entities.Entity;
 import ooga.engine.entities.Movable;

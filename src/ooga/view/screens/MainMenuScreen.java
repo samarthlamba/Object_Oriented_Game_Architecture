@@ -4,7 +4,6 @@ import java.util.function.Consumer;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import ooga.view.Menu;
 
 import java.util.ResourceBundle;
 

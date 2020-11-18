@@ -49,7 +49,7 @@ private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle("ooga
 
 //        gameScreen = new GamePlayScreen(pause, play, restart);
         if (newGame !=null) {
-            gameScreen.setGameScreen(newGame);
+            gameScreen.setGameScreen(newGame, this::setGameMenuScreenFromSettings, this::restartGame, this::changeTheme);
         } else {
             throw new RuntimeException("Game never defined"); //TODO maybe remove
         }
@@ -57,16 +57,26 @@ private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle("ooga
         gameController.setScene(gameScreen.getView());
     }
 
+    private void changeTheme(Object themeObject) {
+        String theme = (String) themeObject;
+
+        //TODO change theme using properties files
+    }
+
     public void updateDisplay() {
         gameScreen.update();//TODo
     }
 
-    public void setGameMenuScreen (String gameLabel) { //TODO
+    private void setGameMenuScreenFromSettings () {
+        setGameMenuScreen(gameTitle);
+    }
+
+    private void setGameMenuScreen (String gameLabel) { //TODO
         this.gameTitle = gameLabel;
         Screen gameMenu;
         String gameClassName = GAME_LABELS.getString(gameLabel);
         try {
-            Constructor ruleCellTypeCons = Class.forName("ooga.view." + gameClassName + "MenuScreen").getDeclaredConstructor(Consumer.class);
+            Constructor ruleCellTypeCons = Class.forName("ooga.view.screens." + gameClassName + "MenuScreen").getDeclaredConstructor(Consumer.class);
             gameMenu = (Screen) ruleCellTypeCons.newInstance((Consumer<String>) this::launchGame);
         } catch (Exception er) {
             er.printStackTrace();
