@@ -13,27 +13,31 @@ import java.util.function.Consumer;
 
 public class Display {//implements Viewer{
 
-    private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle("ooga.view.resources.mainmenubuttons_eng");//TODO
+    private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle("ooga.view.resources.mainmenubuttons");//_en");//TODO
     private static final ResourceBundle LEVEL_FILE_LOCATIONS = ResourceBundle.getBundle("LevelFileLocations");
 
 
     private GameController gameController;
     private GamePlayScreen gameScreen;
     private String gameTitle;
+    private Screen settingsScreen;
+    private Screen mainMenu;
 
     public Display(GameController gameController) {
         this.gameController = gameController;
+        settingsScreen = new SettingsScreen(new Scene(new Group()), gameController,this::changeTheme);
     }
 
     public void setMainMenuScreen() {
-        Screen screen = new MainMenuScreen(this::setGameMenuScreen);
-        gameController.setScene(screen.getView());
+        mainMenu = new MainMenuScreen(this::setGameMenuScreen, settingsScreen, gameController);
+        gameController.setScene(mainMenu.getView());
     }
 
     private void launchGame(String levelChosen) {
         String gameLevelComboChosen = String.format("%s,%s", gameTitle,levelChosen);
         String filePath = LEVEL_FILE_LOCATIONS.getString(gameLevelComboChosen);
         gameController.launchGame(filePath);
+        gameController.setId(gameLevelComboChosen);
         setGameDisplay(gameController.getGame());
     }
 
@@ -49,7 +53,7 @@ public class Display {//implements Viewer{
 
 //        gameScreen = new GamePlayScreen(pause, play, restart);
         if (newGame !=null) {
-            gameScreen.setGameScreen(newGame, this::setGameMenuScreenFromSettings, this::restartGame, this::changeTheme);
+            gameScreen.setGameScreen(newGame, settingsScreen, this::setGameMenuScreenFromSettings, this::restartGame, this::changeTheme);
         } else {
             throw new RuntimeException("Game never defined"); //TODO maybe remove
         }
@@ -76,12 +80,13 @@ public class Display {//implements Viewer{
         Screen gameMenu;
         String gameClassName = GAME_LABELS.getString(gameLabel);
         try {
-            Constructor ruleCellTypeCons = Class.forName("ooga.view.screens." + gameClassName + "MenuScreen").getDeclaredConstructor(Consumer.class);
-            gameMenu = (Screen) ruleCellTypeCons.newInstance((Consumer<String>) this::launchGame);
+            Constructor ruleCellTypeCons = Class.forName("ooga.view.screens." + gameClassName + "MenuScreen").getDeclaredConstructor(Consumer.class,GameController.class);
+            gameMenu = (Screen) ruleCellTypeCons.newInstance((Consumer<String>) this::launchGame, gameController);
         } catch (Exception er) {
             er.printStackTrace();
             throw new RuntimeException ("Error in reflection");//TODO
         }
+        gameMenu.setOldScene(mainMenu.getView());
         gameController.setScene(gameMenu.getView());
     }
 
@@ -96,10 +101,10 @@ public class Display {//implements Viewer{
         gameController.setScene(scene);
     }
 
-    public Screen getGameMenu(Consumer<String> e) {
-        Screen gameMenu = new SuperMarioBrosMenuScreen(e);
-        return gameMenu;
-    }
+//    public Screen getGameMenu(Consumer<String> e) {
+//        Screen gameMenu = new SuperMarioBrosMenuScreen(e);
+//        return gameMenu;
+//    }
 }
 
 

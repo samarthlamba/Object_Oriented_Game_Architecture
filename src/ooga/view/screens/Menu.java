@@ -20,6 +20,7 @@ public class Menu extends VBox {
             this.getChildren().add(button);
         }
         menuItems = menuButtonProperties;
+        this.getStyleClass().add("menu");
     }
 
     private Button makeNewButton(String property, ResourceBundle menuButtonProperties) {

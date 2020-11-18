@@ -38,7 +38,7 @@ public class HeadsUpDisplay extends HBox {
         gameController = controller;
     }
 
-    public void setUpHud(Scene oldScene,Runnable goToMenu, Runnable restart, Consumer changeTheme) {
+    public void setUpHud(Scene oldScene,Screen settings,Runnable goToMenu, Runnable restart, Consumer changeTheme) {
         ImagePattern livesImage = new ImagePattern(new Image(hudResources.getString("heart")));
         Shape livesLabel = new Rectangle(HUD_ICON_WIDTH,HUD_ICON_HEIGHT);
         livesLabel.setFill(livesImage);
@@ -68,7 +68,7 @@ public class HeadsUpDisplay extends HBox {
 
         this.getStylesheets().add(styles);
         pauseButton.getStyleClass().add(hudResources.getString("pause"));
-        pauseButton.setOnMouseClicked(e->{pauseFunction(oldScene,goToMenu,restart,changeTheme);});
+        pauseButton.setOnMouseClicked(e->{pauseFunction(oldScene,settings,goToMenu,restart,changeTheme);});
         settingsButton.getStyleClass().add(hudResources.getString("settings"));
 
         this.getChildren().addAll(status,buttons);
@@ -77,8 +77,8 @@ public class HeadsUpDisplay extends HBox {
         this.setFillHeight(true);
     }
 
-    private void pauseFunction(Scene oldScene, Runnable goToMenu, Runnable restart, Consumer changeTheme) {
-        PauseScreen pauseScreen = new PauseScreen(oldScene,gameController,goToMenu,restart,changeTheme);
+    private void pauseFunction(Scene oldScene, Screen settingsScreen, Runnable goToMenu, Runnable restart, Consumer changeTheme) {
+        PauseScreen pauseScreen = new PauseScreen(oldScene,settingsScreen,gameController,goToMenu,restart,changeTheme);
         gameController.setScene(pauseScreen.getView());
         gameController.pauseTimeline();
     }

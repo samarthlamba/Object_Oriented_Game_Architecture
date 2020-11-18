@@ -15,11 +15,13 @@ public class PauseScreen extends Screen{
     private Scene scene;
     private Scene oldScene;
     private GameController gameController;
+    private Screen settingsScreen;
 
-    public PauseScreen(Scene scene, GameController controller, Runnable goToMenu, Runnable restart, Consumer changeTheme){
+    public PauseScreen(Scene scene, Screen settings, GameController controller, Runnable goToMenu, Runnable restart, Consumer changeTheme){
         setScene(goToMenu, restart, changeTheme);
         oldScene = scene;
         gameController = controller;
+        settingsScreen = settings;
     }
 
     private void setScene(Runnable goToMenu, Runnable restart, Consumer changeTheme) {
@@ -51,7 +53,8 @@ public class PauseScreen extends Screen{
     }
 
     private void settingsFunction(Consumer changeTheme) {
-        SettingsScreen settingsScreen = new SettingsScreen(scene,gameController,changeTheme);
+//        SettingsScreen settingsScreen = new SettingsScreen(scene,gameController,changeTheme);
+        settingsScreen.setOldScene(this.getView());
         gameController.setScene(settingsScreen.getView());
     }
 

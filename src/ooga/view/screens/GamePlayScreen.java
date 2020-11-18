@@ -36,6 +36,7 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
     private static final String MAIN_PLAYER_ID = "player"; //TODO resource file
     private static final String OBSTACLE_NAME = "wall";
     private static final String CHARACTER_IMAGES = "CharacterImages";
+    private static final ResourceBundle GAME_STYLESHEETS = ResourceBundle.getBundle("GameStylesheets");
     private static final String DEFAULT = "Default";
     private static final ImagePattern DEFAULT_IMAGE = new ImagePattern(new Image("/images/defaultObject.png"));
     private Scene scene;
@@ -66,7 +67,7 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
         keys = new ArrayList<>();
     }
 
-    public void setGameScreen(GamePlay givenGame, Runnable goToMenu, Runnable restart, Consumer changeTheme) {
+    public void setGameScreen(GamePlay givenGame, Screen settings, Runnable goToMenu, Runnable restart, Consumer changeTheme) {
         game = givenGame;//TODO remove
         game.setDisplay(this);
         Pane gamePane = new Pane(); //Todo justify
@@ -80,15 +81,17 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
 
         BorderPane root = new BorderPane();
         hud = new HeadsUpDisplay(gameController,game.getPoints(),mainPlayer.getHealth());
-
-        root.getStylesheets().add("mario.css");//TODO
+        String[] gamePlayStylesheets =
+                GAME_STYLESHEETS.getString(gameController.getId().split(",")[0]).split(",");
+        root.getStylesheets().addAll(gamePlayStylesheets);//TODO GAME_STYLESHEETS
+//        root.getStylesheets();
         root.setCenter(gamePane);
 
         setKeys();
         root.setTop(hud);
         primaryRoot = root;
         scene = new Scene(root,SCREEN_WIDTH,SCREEN_HEIGHT);//todo
-        hud.setUpHud(scene,goToMenu,restart,changeTheme);
+        hud.setUpHud(scene,settings,goToMenu,restart,changeTheme);
         bindKeys();
         update();
     }
@@ -102,7 +105,9 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
         for (Node obstacle : obstacles) {
             if(!onScreen.contains(obstacle)) {
                 Shape view = (Shape) obstacle;
-                view.setFill(characterImages.getOrDefault(obstacle.getId(),DEFAULT_IMAGE));
+                String levelSpecifier = gameController.getId().split(",")[1];
+                String imageKey = String.format("%s,%s",obstacle.getId(),levelSpecifier);
+                view.setFill(characterImages.getOrDefault(imageKey,DEFAULT_IMAGE));
                 background.getChildren().add(view);
             }
         }
@@ -173,8 +178,6 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
         double sceneShiftY = -(mainY - (SCREEN_HEIGHT/2 - mainHeight));
         background.setTranslateX(sceneShiftX);
         background.setTranslateY(sceneShiftY);
-//        hud.setPoints(game.getPoints());
-//        hud.setPoints(mainPlayer.getHealth());
         hud.update(game.getPoints(),mainPlayer.getHealth());
     }
 

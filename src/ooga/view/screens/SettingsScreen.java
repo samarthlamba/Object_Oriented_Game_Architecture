@@ -20,12 +20,12 @@ import java.util.function.Consumer;
 public class SettingsScreen extends Screen{
 
     private Scene scene;
-    private Scene oldScene;
+//    private Scene oldScene;
     private GameController gameController;
 
     public SettingsScreen(Scene pauseScreen, GameController controller, Consumer changeTheme) {
         setScene(changeTheme);
-        oldScene = pauseScreen;
+//        oldScene = pauseScreen;
         gameController = controller;
     }
 
@@ -63,6 +63,10 @@ public class SettingsScreen extends Screen{
         root.setCenter(buttons);
         scene = new Scene(root,SCREEN_WIDTH,SCREEN_HEIGHT);
     }
+
+//    public void setOldScene(Scene scene) {
+//        oldScene = scene;
+//    }
 
     private void accessKeyBindingScreen() {
         KeyBindingScreen keyBindingScreen = new KeyBindingScreen(scene, gameController);

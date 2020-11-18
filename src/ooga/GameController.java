@@ -15,6 +15,7 @@ public class GameController {
   private Consumer<Game> gameSetter;
   private String pathToCurrentGame;
   private Game currentGame;
+  private String id;
 
   public GameController(Stage stage, Timeline timeline, Consumer<Game> gameSetter) {
     this.stage = stage;
@@ -52,5 +53,13 @@ public class GameController {
 
   public String getGameName() {
     return pathToCurrentGame;
+  }
+
+  public void setId(String gameLevelComboChosen) {
+    id = gameLevelComboChosen;
+  }
+
+  public String getId() {
+    return id;
   }
 }

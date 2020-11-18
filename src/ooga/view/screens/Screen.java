@@ -9,5 +9,11 @@ public abstract class Screen {//} implements Viewer{
     protected static final int SCREEN_HEIGHT = 500; //TODO
     public static final String DEFAULT_RESOURCE_PACKAGE = "ooga.view.resources.";
 
+    public Scene oldScene;
+
     public abstract Scene getView();
+
+    public void setOldScene(Scene scene) {
+        oldScene = scene;
+    }
 }
