@@ -47,8 +47,8 @@ public class RandomGameGenerator {
     int chunkY = Integer.parseInt(gameConfigBundle.getString("chunkSizeY"));
     String[] title = new String[1];
     title[0] = String.format("%s,,",gameName);
-    List<String[]> firstChunk = generateFirstChunk(numberPlayers,chunkX, chunkY);
-    List<String[]> lastChunk = generateLastChunk(chunkX,chunkY);
+    List<String[]> firstChunk = generateSpecialChunk("firstChunkBlocks",chunkX, chunkY);
+    List<String[]> lastChunk = generateSpecialChunk("lastChunkBlocks",chunkX,chunkY);
     List<String[]> randomChunks = generateRandomChunks(chunkX,chunkY);
     List<String[]> fullLevelData = addFirstAndLastChunks(firstChunk,lastChunk,randomChunks);
     return fullLevelData;
@@ -147,7 +147,8 @@ public class RandomGameGenerator {
     return emptyBlock;
   }
 
-  private List<String[]> generateFirstChunk(int numberPlayers, int chunkX, int chunkY) {
+  private List<String[]> generateSpecialChunk(String blocksToGenerate, int chunkX, int chunkY) {
+    List<String> specialBlocks = Arrays.asList(randomBundle.getString(blocksToGenerate).split(","));
     List<String[]> chunkData = new ArrayList<>();
     for(int i = 0; i < chunkY-2; i++) {
       String[] rowData = new String[chunkX];
@@ -156,18 +157,20 @@ public class RandomGameGenerator {
       }
       chunkData.add(rowData);
     }
-    chunkData.add(generateCorrectNumPlayers(numberPlayers,chunkX));
+    chunkData.add(generateOneOfEach(specialBlocks,chunkX));
     chunkData.add(generateFloor(chunkX));
     return chunkData;
   }
 
-  private String[] generateCorrectNumPlayers(int numberPlayers, int chunkX) {
-    String[] playerRow = new String[chunkX];
-    String playerString = randomBundle.getString(Player.class.getName());
-    for(int p = 0; p < numberPlayers; p++) {
-      playerRow[p] = playerString;
+  private String[] generateOneOfEach(List<String> blocksToGenerate, int chunkX) {
+    String[] row = new String[chunkX];
+    for(int i = 0; i < blocksToGenerate.size(); i++) {
+      row[i] = blocksToGenerate.get(i);
     }
-    return playerRow;
+    for(int j = blocksToGenerate.size(); j < chunkX; j++) {
+      row[j] = emptyBlock;
+    }
+    return row;
   }
 
   private String[] generateFloor(int chunkX) {
@@ -176,25 +179,6 @@ public class RandomGameGenerator {
       floor[i] = defaultBlock;
     }
     return floor;
-  }
-
-  private List<String[]> generateLastChunk(int chunkX, int chunkY) {
-    List<String[]> chunkData = new ArrayList<>();
-    String lastChunkBlock = randomBundle.getString("lastChunkBlock");
-    for(int i = 0; i < chunkY-1; i++) {
-      String[] rowData = new String[chunkX];
-      for(int j = 0; j < chunkX; j++) {
-        if(i == chunkY-2 && j == chunkX -2) {
-          rowData[j] = lastChunkBlock;
-        }
-        else{
-          rowData[j] = emptyBlock;
-        }
-      }
-      chunkData.add(rowData);
-    }
-    chunkData.add(generateFloor(chunkX));
-    return chunkData;
   }
 
 }
