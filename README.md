@@ -55,7 +55,15 @@ Samus Sprite Sheet : https://www.google.com/url?sa=i&url=https%3A%2F%2Ftwitter.c
 
 Lost Viking Sprite Sheet: https://www.spriters-resource.com/snes/lostvikings/sheet/8335/
 
+Mario Sprite Sheet: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQ7BZJqqRoQLEqdlporChLCeuNXcTe4OtF9w&usqp=CAU
+
 All music: https://downloads.khinsider.com/game-soundtracks
+
+Victory Screen Gif: https://art.pixilart.com/1f2a40229452e24.gif
+
+Loss Screen Gif: https://media1.tenor.com/images/6d46c278bc8bea36adbced41f730981d/tenor.gif?itemid=12235828
+
+Mario Goal Star Image: https://www.clipartmax.com/png/middle/263-2634359_minecraft-super-mario-bros-super-mario-world-star-sprite.png
 
 
 
