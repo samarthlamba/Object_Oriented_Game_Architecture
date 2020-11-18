@@ -15,6 +15,7 @@ public class GameController {
   private Consumer<Game> gameSetter;
   private String pathToCurrentGame;
   private Game currentGame;
+  private String randomGameName;
 
   public GameController(Stage stage, Timeline timeline, Consumer<Game> gameSetter) {
     this.stage = stage;
@@ -38,8 +39,20 @@ public class GameController {
     timeline.play();
   }
 
+  public void makeRandomGame(String gameName) {
+    randomGameName = gameName;
+    currentGame = gameFactory.makeRandomGame(gameName);
+    gameSetter.accept(currentGame);
+    timeline.play();
+  }
+
   public void restartGame() {
-    launchGame(pathToCurrentGame);
+    if(pathToCurrentGame == null) {
+      makeRandomGame(randomGameName);
+    }
+    else{
+      launchGame(pathToCurrentGame);
+    }
   }
 
   public void pauseTimeline() {

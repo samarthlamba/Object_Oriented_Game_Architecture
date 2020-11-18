@@ -39,16 +39,6 @@ public class GameFactoryTest extends DukeApplicationTest {
   }
 
   @Test
-  public void testFactoryThrowsExceptionWithBadSymbol() {
-    try{
-      factory.makeCorrectGame("testFileBadSymbols");
-    } catch (Exception e) {
-      assertTrue(e instanceof FactoryException);
-      assertEquals("Unable to build game from testFileBadSymbols: Symbol 2 not present in this game",e.getMessage());
-    }
-  }
-
-  @Test
   public void testFactoryThrowsExceptionIfFileNotFound() {
     try {
       factory.makeCorrectGame("notAFile");
@@ -105,6 +95,7 @@ public class GameFactoryTest extends DukeApplicationTest {
       factory.makeCorrectGame("MarioLevel2");
       factory.makeCorrectGame("MarioLevel3");
     } catch (Exception e) {
+      e.printStackTrace();
       fail();
     }
 
@@ -117,6 +108,7 @@ public class GameFactoryTest extends DukeApplicationTest {
       factory.makeCorrectGame("MetroidLevel2");
       factory.makeCorrectGame("MetroidLevel3");
     } catch (Exception e) {
+      e.printStackTrace();
       fail();
     }
   }
@@ -132,5 +124,46 @@ public class GameFactoryTest extends DukeApplicationTest {
       fail();
     }
   }
+
+  @Test
+  public void testMakeRandomMarioGameDoesNotThrowException() {
+    try {
+      factory.makeRandomGame("Mario");
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail();
+    }
+  }
+
+  @Test
+  public void testMakeRandomMetroidGameDoesNotThrowException() {
+    try {
+      factory.makeRandomGame("Metroid");
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail();
+    }
+  }
+
+  @Test
+  public void testMakeRandomVikingsGameDoesNotThrowException() {
+    try {
+      factory.makeRandomGame("Vikings");
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail();
+    }
+  }
+
+  @Test
+  public void testMakeRandomGameWithoutDefinitionThrowsException() {
+    try{
+      factory.makeRandomGame("BadGame");
+    } catch (Exception e) {
+      assertTrue(e instanceof FactoryException);
+      assertEquals("Error building random level for game BadGame", e.getMessage());
+    }
+  }
+
 
 }
