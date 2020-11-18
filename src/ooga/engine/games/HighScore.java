@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class HighScore{
-    private String fileName;
+    private final String fileName;
     private static final int NUMBER_OF_RECORDS = 5;
     private static final long TIME_WEEK_AGO = 1000*60*60*24*7;
     private static final String EXTENSION = ".txt";
@@ -38,7 +38,9 @@ public class HighScore{
             bw.write(String.join("\n", initializedHighScore));
             bw.close();
         }
-        catch (Exception e) {e.printStackTrace();}
+        catch (Exception e) {
+            throw new CouldNotWriteToFileException("Could not write to file and add new high score");
+        }
     }
 
     private HighScoreObject[] getSubListGlobal(HighScoreObject[] list, boolean global){
@@ -80,7 +82,7 @@ public class HighScore{
         checkFileExistence();
 
         HighScoreObject[] list= getFileContent();
-        return  getSubListGlobal(list, true);
+        return  getSubListGlobal(list, false);
     }
 
     public HighScoreObject[] getAllScores() {
@@ -125,7 +127,7 @@ public class HighScore{
         HighScoreObject [] listOfScores = getAllScores();
         listOfScores = updateWeeklyTimes(listOfScores);
         listOfScores = shiftAndAddScore(current, listOfScores, 0, NUMBER_OF_RECORDS-1);
-        listOfScores = shiftAndAddScore(current, listOfScores, NUMBER_OF_RECORDS, listOfScores.length-1);
+        listOfScores = shiftAndAddScore(current, listOfScores, NUMBER_OF_RECORDS, listOfScores.length-1);  //ignord error as doing changes to same variable
         try
         {
             FileWriter writer = new FileWriter(fileName);
@@ -134,7 +136,7 @@ public class HighScore{
             bw.write(String.join("\n", stringListOfScores));
             bw.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new CouldNotWriteToFileException("Could not write to file and add new high score");
         }
 
     }
