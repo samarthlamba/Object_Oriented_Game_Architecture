@@ -3,7 +3,7 @@ package ooga.engine.games;
 import java.io.Serializable;
 
 /**
- * Object to record high scoree
+ * Object to record high score
  */
 public class HighScoreObject implements Serializable{
 
@@ -51,7 +51,7 @@ public class HighScoreObject implements Serializable{
 
     /**
      * Converts score and time to string
-     * @return String fot the score and time seprated by a comma
+     * @return String fot the score and time separated by a comma
      */
     @Override
     public String toString(){
