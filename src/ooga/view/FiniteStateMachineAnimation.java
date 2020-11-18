@@ -126,7 +126,7 @@ public class FiniteStateMachineAnimation {
   }
 
   private Boolean isSpecial(){
-    System.out.println(entity.getSpecialAction());
+   // System.out.println(entity.getSpecialAction());
     return entity.getSpecialAction();
   }
 

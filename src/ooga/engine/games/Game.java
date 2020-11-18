@@ -106,7 +106,7 @@ public abstract class Game implements GamePlay {
             entity.setVelocityY(entity.getVelocityY() + JUMP_VELOCITY_INCREMENT);
         }
 
-        if(specialActionDelayFlag > 100){
+        if(specialActionDelayFlag > 100 && entity.getId().equals("player")){
             entity.setSpecialAction(false);
         }
         specialActionDelayFlag++;

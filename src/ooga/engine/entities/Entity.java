@@ -14,7 +14,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     public static final int JUMP_INITIAL_OFFSET = 2;
     public static final int APPLY_Y_VELOCITY = -2600;
     public static final int SPINNING_VELOCITY = 700;
-    public static final int PENALTY_BUFFER = 5;
+    public static final int DELAY_BUFFER = 5;
     private final int entityWidth;
     private final int entityHeight;
     private int currentHitpoints = 3;
@@ -32,7 +32,7 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     private double normalForce = 0;
     private boolean moving = false;
     private boolean spinning = false;
-    private int healthPenaltyDelay = 0;
+    private int delay = 0;
     private boolean percolate = false;
     private boolean source = false;
     private boolean shoots = false;
@@ -291,16 +291,25 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
     }
 
     protected void spinning(Entity entity, String object){
-        if(entity.getId().equals(object)){
-            setSpecialAction(true);
-            setHorizontalMovement(true, SPINNING_VELOCITY);
+        delay++;
+        if(entity.getId().equals(object) && delay > DELAY_BUFFER){
+            delay = 0;
+            if(getVelocityX() == 0) {
+                setSpecialAction(true);
+                setHorizontalMovement(true, SPINNING_VELOCITY);
+            }
+            else{
+                setSpecialAction(false);
+                setHorizontalMovement(false, 0);
+                entity.setVelocityX(0);
+            }
         }
     }
 
     protected void healthPenaltyWithDelay(Entity entity, String object) {
-        healthPenaltyDelay++;
-        if (entity.getId().equals(object) && healthPenaltyDelay > PENALTY_BUFFER) {
-            healthPenaltyDelay = 0;
+        delay++;
+        if (entity.getId().equals(object) && delay > DELAY_BUFFER) {
+            delay = 0;
             entity.setHitpoints(entity.getHitpoints() + HEALTH_PENALTY);
         }
     }
