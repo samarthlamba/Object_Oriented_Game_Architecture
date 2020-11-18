@@ -3,28 +3,41 @@ final
 
 This project implements a player for multiple related games.
 
-Names: Sam Lamba, Matt Bownman, Roshni Penmatcha, Joe Heflin
+Names:
 
 
 ### Timeline
 
-Start Date: October 24th
+Start Date: 
 
-Finish Date: November 24th
+Finish Date: 
 
-Hours Spent: 
+Hours Spent:
 
 ### Primary Roles
 
 
 ### Resources Used
-https://netopyr.com/2012/03/09/creating-a-sprite-animation-with-javafx/
 
+Image Citations:
+arrow - http://www.minecraftguides.org/arrows/
+brick/floor/question box - http://pixelartmaker.com/art/31bbfa89464bc5c
+bullet - https://pgideas.fandom.com/wiki/Just_A_Bullet
+coin - 
+coin2 - https://www.pngkey.com/maxpic/u2r5u2q8w7w7w7q8/
+defaultObject - 
+goal - 
+goblin - http://www.game-art-hq.com/84801/tomator-from-the-lost-vikings-series-game-art-and-an-overview/
+goomba -
+goomba2-
+heart-
+heart2-
+ladder-https://www.pinterest.com/pin/659566307911245653/
 
 
 ### Running the Program
 
-Main class: Driver
+Main class:
 
 Data files needed: 
 
@@ -40,31 +53,8 @@ Interesting data files:
 
 Known Bugs:
 
-Extra credit: We have animation for the main player and capability to add animations for all player with minimal code changes. We just need to define the sprite sheet properties and create the animation creator for the entity we care about in Game Play Screen. 
+Extra credit:
 
 
 ### Impressions
-
-
-
-### URL Credit for Images
-
-All sprite sheet modifications done on Adobe Photoshop
-
-Samus Sprite Sheet : https://www.google.com/url?sa=i&url=https%3A%2F%2Ftwitter.com%2Fomegachainoboy%2Fstatus%2F1003698364842762240&psig=AOvVaw2w3clZgGywJlNAg_s9F-qo&ust=1605744741840000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKie-rnniu0CFQAAAAAdAAAAABAU
-
-Lost Viking Sprite Sheet: https://www.spriters-resource.com/snes/lostvikings/sheet/8335/
-
-Mario Sprite Sheet: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQ7BZJqqRoQLEqdlporChLCeuNXcTe4OtF9w&usqp=CAU
-
-All music: https://downloads.khinsider.com/game-soundtracks
-
-Victory Screen Gif: https://art.pixilart.com/1f2a40229452e24.gif
-
-Loss Screen Gif: https://media1.tenor.com/images/6d46c278bc8bea36adbced41f730981d/tenor.gif?itemid=12235828
-
-Mario Goal Star Image: https://www.clipartmax.com/png/middle/263-2634359_minecraft-super-mario-bros-super-mario-world-star-sprite.png
-
-
-
 
