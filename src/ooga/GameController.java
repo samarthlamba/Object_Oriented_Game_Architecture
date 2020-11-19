@@ -13,6 +13,7 @@ import ooga.loader.GameFactory;
  */
 public class GameController {
 
+  private static final String DEFAULT_ID = "g1,l1";
   private final Stage stage;
   private final Timeline timeline;
   private final GameFactory gameFactory;
@@ -20,6 +21,9 @@ public class GameController {
   private String pathToCurrentGame;
   private Game currentGame;
   private String randomGameName;
+  private String id;
+  private String theme = "default";
+  private boolean active = false;
 
   public GameController(Stage stage, Timeline timeline, Consumer<Game> gameSetter) {
     this.stage = stage;
@@ -54,6 +58,7 @@ public class GameController {
     currentGame = gameFactory.makeCorrectGame(pathToCurrentGame);
     gameSetter.accept(currentGame);
     timeline.play();
+    active = true;
   }
 
   /**
@@ -104,5 +109,33 @@ public class GameController {
       return "random";
     }
     return pathToCurrentGame;
+  }
+
+  public void setId(String gameLevelComboChosen) {
+    id = gameLevelComboChosen;
+  }
+
+  public String getId() {
+    if(id == null) {
+      return DEFAULT_ID;
+    }
+    return id;
+  }
+
+  public Stage getStage() {
+    return stage;
+  }
+
+  public void setTheme(String givenTheme) {
+    theme = givenTheme;
+  }
+
+  public String getTheme() {
+    String ret = theme;
+    return ret;
+  }
+
+  public boolean isActive() {
+    return active;
   }
 }

@@ -1,21 +1,28 @@
-package ooga.view;
+package ooga.view.screens;
 
 import java.lang.reflect.Method;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+//<<<<<<< HEAD:src/ooga/view/SplashScreen.java
 import javafx.geometry.Pos;
+//=======
+//>>>>>>> jnh24:src/ooga/view/screens/SplashScreen.java
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
 import ooga.GameEndStatus;
 
+//<<<<<<< HEAD:src/ooga/view/SplashScreen.java
 /**
  * A screen that displays a GIF based on the way the game ended, with buttons to set main menu and
  * restart the game
  */
 public class SplashScreen extends Screen{
+//=======
+//public class SplashScreen extends Screen {
+//>>>>>>> jnh24:src/ooga/view/screens/SplashScreen.java
   private final String displayKey;
   private final Runnable restart;
   private final Runnable setMainMenu;

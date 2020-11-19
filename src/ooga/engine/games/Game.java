@@ -9,7 +9,7 @@ import ooga.engine.entities.MovableBounds;
 import ooga.engine.entities.player.Player;
 import ooga.engine.games.beans.GameBean;
 import ooga.engine.obstacles.Unmovable;
-import ooga.view.GamePlayScreen;
+import ooga.view.screens.GamePlayScreen;
 import ooga.view.UpdateObjectsOnScreen;
 
 /**
