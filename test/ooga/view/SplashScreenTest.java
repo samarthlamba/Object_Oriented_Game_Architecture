@@ -67,11 +67,11 @@ public class SplashScreenTest extends DukeApplicationTest {
 
     Scene mainMenuScene = myStage.getScene();
     assertNotEquals(mainMenuScene,splashScene);
-    Button game1 = (Button) mainMenuScene.lookup("#Mario");
+    Button game1 = (Button) mainMenuScene.lookup("#g1");
     assertNotNull(game1);
-    Button game2 = (Button) mainMenuScene.lookup("#Metroid");
+    Button game2 = (Button) mainMenuScene.lookup("#g2");
     assertNotNull(game2);
-    Button game3 = (Button) mainMenuScene.lookup("#Vikings");
+    Button game3 = (Button) mainMenuScene.lookup("#g3");
     assertNotNull(game3);
   }
 

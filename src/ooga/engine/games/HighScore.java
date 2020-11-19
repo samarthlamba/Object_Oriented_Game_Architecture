@@ -115,9 +115,18 @@ public class HighScore {
 
   }
 
-  private boolean deprecatedTimes(HighScoreObject current) {
-    return current.getTime() < (System.currentTimeMillis() - (TIME_WEEK_AGO));
-  }
+    @Deprecated
+    public HighScoreObject[] getAllHighScores() {
+        checkFileExistence();
+
+        return getFileContent();
+
+
+    }
+
+    private boolean deprecatedTimes(HighScoreObject current){
+        return current.getTime() < (System.currentTimeMillis() - (TIME_WEEK_AGO));
+    }
 
   private HighScoreObject[] updateWeeklyTimes(HighScoreObject[] listOfScores) {
     List<HighScoreObject> newListOfWeeklyScores = new ArrayList<>();
