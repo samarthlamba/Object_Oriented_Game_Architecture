@@ -4,20 +4,12 @@ import javafx.geometry.Rectangle2D;
 import ooga.loader.AnimationBrain;
 import ooga.loader.FactoryException;
 import ooga.util.DukeApplicationTest;
-import ooga.view.Animation;
-import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static ooga.view.AnimationState.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.Map;
-import ooga.util.DukeApplicationTest;
-import ooga.view.AnimationState;
-
-import java.util.ResourceBundle;
 
 import static org.junit.jupiter.api.Assertions.*;
 

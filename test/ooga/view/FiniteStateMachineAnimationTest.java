@@ -6,9 +6,6 @@ import ooga.engine.entities.player.Mario;
 import ooga.loader.AnimationBrain;
 import ooga.loader.FactoryException;
 import ooga.util.DukeApplicationTest;
-import ooga.view.Animation;
-import ooga.view.AnimationState;
-import ooga.view.FiniteStateMachineAnimation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

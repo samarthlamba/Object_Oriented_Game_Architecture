@@ -18,8 +18,8 @@ public class KeyBinder {
   private static final String PATH_TO_KEYBINDINGS = "src/resources/KeyBindings.properties";
   private static final String BINDABLE_BUNDLE_LOCATION = "KeyBindings";
   private final Map<String, KeyCode> methodKeyMap;
-
   private final Map<KeyCode, String> keyMethodMap;
+
   private ResourceBundle keyBundle;
 
   public KeyBinder(){
@@ -62,7 +62,7 @@ public class KeyBinder {
    */
   public Map<String,KeyCode> getMethodKeyMap() {
     return methodKeyMap;
-  }
+  } //TODO
 
   /**
    * Used to get the map from keycodes to method names
@@ -85,7 +85,9 @@ public class KeyBinder {
       table.setProperty(keyString, keyMethodMap.get(key));
     }
     table.store(stream, null);
+    stream.close();
   }
+//<<<<<<< HEAD
 
   private void initializeMaps() {
     keyMethodMap.clear();
@@ -104,4 +106,6 @@ public class KeyBinder {
     keyMethodMap.remove(previousKey);
   }
 
+//=======
+//>>>>>>> jnh24
 }

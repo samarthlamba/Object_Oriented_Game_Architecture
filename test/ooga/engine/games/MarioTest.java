@@ -5,7 +5,7 @@ import ooga.engine.entities.Entity;
 import ooga.loader.FactoryException;
 import ooga.loader.GameFactory;
 import ooga.util.DukeApplicationTest;
-import ooga.view.GamePlayScreen;
+import ooga.view.screens.GamePlayScreen;
 import org.junit.jupiter.api.Test;
 
 

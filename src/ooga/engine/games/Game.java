@@ -1,13 +1,20 @@
 package ooga.engine.games;
 
 import javafx.scene.Node;
+//<<<<<<< HEAD
 import ooga.engine.entities.player.Player;
 import ooga.engine.games.beans.GameBean;
+//=======
+
+import ooga.engine.entities.player.*;
+import ooga.engine.games.beans.*;
+
+//>>>>>>> jnh24
 import ooga.engine.entities.Entity;
 import ooga.engine.entities.Movable;
 import ooga.engine.entities.MovableBounds;
 import ooga.engine.obstacles.Unmovable;
-import ooga.view.GamePlayScreen;
+import ooga.view.screens.GamePlayScreen;
 import ooga.view.UpdateObjectsOnScreen;
 import java.util.ArrayList;
 import java.util.Collection;

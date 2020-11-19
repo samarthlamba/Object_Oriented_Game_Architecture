@@ -1,36 +1,69 @@
-package ooga.view;
+package ooga.view.screens;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.stream.Collectors;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+//<<<<<<< HEAD:src/ooga/view/GamePlayScreen.java
 import ooga.engine.entities.Entity;
 import ooga.engine.entities.MovableBounds;
 import ooga.engine.games.GamePlay;
 import ooga.engine.obstacles.Unmovable;
 import ooga.loader.AnimationBrain;
+//=======
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import ooga.GameController;
+import ooga.engine.entities.MovableBounds;
+import ooga.engine.games.GamePlay;
+import ooga.view.FiniteStateMachineAnimation;
+import ooga.view.HeadsUpDisplay;
+import ooga.view.UpdateObjectsOnScreen;
+//>>>>>>> jnh24:src/ooga/view/screens/GamePlayScreen.java
 
 import java.awt.*;
 import java.lang.reflect.Method;
 import java.util.*;
+//<<<<<<< HEAD:src/ooga/view/GamePlayScreen.java
 import java.util.List;
 import ooga.loader.FactoryException;
+//=======
+import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
+//>>>>>>> jnh24:src/ooga/view/screens/GamePlayScreen.java
 
 public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
 
     private static final String MAIN_PLAYER_ID = "player"; //TODO resource file
     private static final String OBSTACLE_NAME = "wall";
     private static final String CHARACTER_IMAGES = "CharacterImages";
+    private static final ResourceBundle GAME_STYLESHEETS = ResourceBundle.getBundle("GameStylesheets");
     private static final String DEFAULT = "Default";
     private static final ImagePattern DEFAULT_IMAGE = new ImagePattern(new Image("/images/defaultObject.png"));
+    private final Runnable goToMenu;
+    private final Runnable restart;
+    private final Consumer changeTheme;
     private Scene scene;
     private double mainY;
     private double mainX;
@@ -39,32 +72,44 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
     private Rectangle rec;
     private Map<FiniteStateMachineAnimation, ImageView> animations = new HashMap<>();
     private final ResourceBundle defaultKeyResources = ResourceBundle.getBundle("KeyBindings");
-    private List<Object> keys;
+    private Map<KeyCode,String> keys;
     private GamePlay game;
     private Group background;
     private MovableBounds mainPlayer;
     private Collection onScreen;
     private Map<String, ImagePattern> characterImages;
-    //          private Consumer pauseConsumer;
-//          private Consumer playConsumer;
-//          private Consumer restartConsumer;
+    private GameController gameController;
+    private BorderPane primaryRoot;
+    private HeadsUpDisplay hud;
+    private Screen settings;
 
-    public GamePlayScreen(GamePlay givenGame) {
-//        public GamePlayScreen(GamePlay givenGame, Consumer pause, Consumer play, Consumer restart) {
-//          pauseConsumer = pause;
-//          playConsumer = play;
-//          restartConsumer = restart;
-        background = new Group();
-        game = givenGame;
-        keys = new ArrayList<>();
-
-    }
+//    public GamePlayScreen(GamePlay givenGame, GameController control) {
+//        background = new Group();
+//        game = givenGame;
+//        keys = new HashMap<>();
+//        gameController = control;
+//    }
     public GamePlayScreen() {
         background = new Group();
-        keys = new ArrayList<>();
+        keys = new HashMap<>();
+        goToMenu = null;
+        restart = null;
+        changeTheme = null;
+    }
+//,settings,goToMenu,restart,changeTheme
+    public GamePlayScreen(GamePlay newGame, GameController controller, Screen settingsScreen, Runnable setGameMenuScreenFromSettings, Runnable restartGame, Consumer theme) {
+        background = new Group();
+        game = newGame;
+        keys = new HashMap<>();
+        gameController = controller;
+        settings = settingsScreen;
+        goToMenu = setGameMenuScreenFromSettings;
+        restart = restartGame;
+        changeTheme = theme;
     }
 
-    public void setGameScreen(GamePlay givenGame) {
+
+    public void setGameScreen(GamePlay givenGame){//}, Screen settings, Runnable goToMenu, Runnable restart, Consumer changeTheme) {
         game = givenGame;//TODO remove
         game.setDisplay(this);
         Pane gamePane = new Pane(); //Todo justify
@@ -73,26 +118,40 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
         onScreen = background.getChildren();
         addEntities((Collection<MovableBounds>) game.getEntities());
         addObstacles((Collection<Node>) game.getBackground());
-        update();
+//        addObstacles((Collection<Node>) game.getBackground());
+//        gamePane.getChildren().add(background);
         gamePane.getChildren().add(background);
 
-        HeadsUpDisplay hud = new HeadsUpDisplay();
-//        HeadsUpDisplay hud = new HeadsUpDisplay(pauseConsumer, playConsumer, restartConsumer);
+//        BorderPane root = new BorderPane();
         BorderPane root = new BorderPane();
-        root.getStylesheets().add("mario.css");//TODO
+        hud = new HeadsUpDisplay(gameController,game.getPoints(),mainPlayer.getHealth());
+        String[] gamePlayStylesheets =
+                GAME_STYLESHEETS.getString(gameController.getId().split(",")[0]).split(",");
+        root.getStylesheets().addAll(gamePlayStylesheets);//TODO GAME_STYLESHEETS
+//        root.getStylesheets();
         root.setCenter(gamePane);
 
         setKeys();
         root.setTop(hud);
+        primaryRoot = root;
         scene = new Scene(root,SCREEN_WIDTH,SCREEN_HEIGHT);//todo
+        hud.setUpHud(scene,settings,goToMenu,restart,changeTheme);
         bindKeys();
+        update();
     }
+
+//    public void restartGame() {
+//        gameController.restartGame();
+////        setGameDisplay(gameController.getGame());
+//    }
 
     private void addObstacles(Collection<Node> obstacles) {
         for (Node obstacle : obstacles) {
             if(!onScreen.contains(obstacle)) {
                 Shape view = (Shape) obstacle;
-                view.setFill(characterImages.getOrDefault(obstacle.getId(),DEFAULT_IMAGE));
+                String levelSpecifier = gameController.getId().split(",")[1];
+                String imageKey = String.format("%s,%s",obstacle.getId(),levelSpecifier);
+                view.setFill(characterImages.getOrDefault(imageKey,DEFAULT_IMAGE));
                 background.getChildren().add(view);
             }
         }
@@ -147,8 +206,21 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
     }
 
     private void setKeys() {
-        for (String key : defaultKeyResources.keySet()) {
-            keys.add(KeyCode.valueOf(key));
+        try{
+            Properties prop = new Properties();
+            InputStream stream = new FileInputStream("src/resources/KeyBindings.properties");
+            prop.load(stream);
+            stream.close();
+            Set<Object> objets = prop.keySet();
+            Set<String> keySet = objets.stream().map(object -> (String) object).collect(Collectors.toSet());
+            for (String key : keySet) {
+                keys.put(KeyCode.valueOf(key),prop.getProperty(key));
+            }
+        } catch (IOException e) {
+            Set<String> keySet = defaultKeyResources.keySet();
+            for(String key : keySet) {
+                keys.put(KeyCode.valueOf(key),defaultKeyResources.getString(key.toString()));
+            }
         }
     }
 
@@ -157,14 +229,17 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
     }
 
     private void handleKey(KeyCode code) {
-        if (keys.contains(code)) {
-            String methodName = defaultKeyResources.getString(code.toString());
+        if (keys.containsKey(code)) {
+            String methodName = keys.get(code);
             try {
                 Method method = game.getClass().getMethod(methodName);
                 method.invoke(game);
             } catch (Exception e) {
+//<<<<<<< HEAD:src/ooga/view/GamePlayScreen.java
                 //VISUALIZE AN ERROR HERE?
-                System.out.println("No player here boss");
+//=======
+                System.out.println("No player here boss"); //TODO
+//>>>>>>> jnh24:src/ooga/view/screens/GamePlayScreen.java
             }
         }
     }
@@ -176,7 +251,11 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
         double sceneShiftY = -(mainY - (SCREEN_HEIGHT/2 - mainHeight));
         background.setTranslateX(sceneShiftX);
         background.setTranslateY(sceneShiftY);
+//<<<<<<< HEAD:src/ooga/view/GamePlayScreen.java
         updateAnimations();
+//=======
+        hud.update(game.getPoints(),mainPlayer.getHealth());
+//>>>>>>> jnh24:src/ooga/view/screens/GamePlayScreen.java
     }
 
     private void updateAnimations(){

@@ -7,38 +7,57 @@ import javafx.scene.control.Alert.AlertType;
 import ooga.GameController;
 import ooga.GameEndStatus;
 import ooga.engine.games.GamePlay;
+import ooga.view.screens.*;
 
 import java.lang.reflect.Constructor;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import ooga.loader.FactoryException;
 
-import static ooga.view.Screen.DEFAULT_RESOURCE_PACKAGE;
-
 
 public class Display {//implements Viewer{
 
-    private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "mainmenubuttons_eng");
-    private static final String PATH_TO_GAME_MENUS = "ooga.view.%sMenuScreen";
-
+    private static final String PATH_TO_GAME_MENUS = "ooga.view.screens.%sMenuScreen";
+    private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle("ooga.view.resources.mainmenubuttons");//_en");//TODO
+    private static final ResourceBundle LEVEL_FILE_LOCATIONS = ResourceBundle.getBundle("LevelFileLocations");
 
     private GameController gameController;
     private GamePlayScreen gameScreen;
     private String gameTitle;
+    private Screen settingsScreen;
+    private Screen mainMenu;
+//>>>>>>> jnh24
 
     public Display(GameController gameController) {
         this.gameController = gameController;
+        settingsScreen = new SettingsScreen(new Scene(new Group()), gameController,this::changeTheme);
     }
 
     public void setMainMenuScreen() {
-        Screen screen = new MainMenuScreen(this::setGameMenuScreen);
-        gameController.setScene(screen.getView());
+        mainMenu = new MainMenuScreen(this::setGameMenuScreen, settingsScreen, gameController);
+        gameController.setScene(mainMenu.getView());
     }
 
+//<<<<<<< HEAD
+//=======
+//    private void launchGame(String levelChosen) {
+//        String gameLevelComboChosen = String.format("%s,%s", gameTitle,levelChosen);
+//        String filePath = LEVEL_FILE_LOCATIONS.getString(gameLevelComboChosen);
+//        gameController.launchGame(filePath);
+//        gameController.setId(gameLevelComboChosen);
+//        setGameDisplay(gameController.getGame());
+//    }
+//
+//    private void restartGame() {
+//        gameController.restartGame();
+//        setGameDisplay(gameController.getGame());
+//    }
+
+//>>>>>>> jnh24
     public void setGameDisplay(GamePlay newGame) {
 //        public void setGameDisplay(GamePlay newGame, Consumer pause, Consumer play, Consumer restart) {
-//        gameScreen = new GamePlayScreen();
-        gameScreen = new GamePlayScreen(newGame);
+//        gameScreen = new GamePlayScreen(newGame);
+        gameScreen = new GamePlayScreen(newGame, gameController, settingsScreen, this::setGameMenuScreenFromSettings, this::restartGame, this::changeTheme);
 
 //        gameScreen = new GamePlayScreen(pause, play, restart);
         if (newGame !=null) {
@@ -46,28 +65,50 @@ public class Display {//implements Viewer{
         } else {
             throw new RuntimeException("Game never defined"); //TODO maybe remove
         }
-
         gameController.setScene(gameScreen.getView());
     }
 
-    public void updateDisplay() {
-        gameScreen.update();//TODo
+    private void changeTheme(Object themeObject) {
+        String theme = (String) themeObject;
+
+        //TODO change theme using properties files
     }
 
+    public void updateDisplay() {
+        gameScreen.update();
+    }
+
+    private void setGameMenuScreenFromSettings() {
+        setGameMenuScreen(gameTitle);
+    }
+//<<<<<<< HEAD
     public void setGameMenuScreen (String gameLabel) { //TODO
         this.gameTitle = gameLabel;
-        GameMenuScreen gameMenu;
+        Screen gameMenu;
+
+//=======
+
+//
+//    private void setGameMenuScreen (String gameLabel) { //TODO
+//        this.gameTitle = gameLabel;
+//>>>>>>> jnh24
         String gameClassName = GAME_LABELS.getString(gameLabel);
         Consumer<String> launchGame = this::launchGame;
         Consumer<String> randomGame = this::randomGame;
         try {
+//<<<<<<< HEAD
             Constructor menuConstructor = Class.forName(String.format(PATH_TO_GAME_MENUS,gameClassName))
-                .getDeclaredConstructor(Consumer.class, Consumer.class);
-            gameMenu = (GameMenuScreen) menuConstructor.newInstance(launchGame,randomGame);
+                .getDeclaredConstructor(Consumer.class, Consumer.class, GameController.class);
+            gameMenu = (Screen) menuConstructor.newInstance(launchGame,randomGame,gameController);
+//=======
+//            Constructor ruleCellTypeCons = Class.forName("ooga.view.screens." + gameClassName + "MenuScreen").getDeclaredConstructor(Consumer.class,GameController.class);
+//            gameMenu = (Screen) ruleCellTypeCons.newInstance((Consumer<String>) this::launchGame, gameController);
+//>>>>>>> jnh24
         } catch (Exception er) {
-            er.printStackTrace();
+            er.printStackTrace();//TODO
             throw new RuntimeException ("Error in reflection");//TODO
         }
+        gameMenu.setOldScene(mainMenu.getView());
         gameController.setScene(gameMenu.getView());
     }
 
@@ -75,11 +116,13 @@ public class Display {//implements Viewer{
         SplashScreen resultScreen = new SplashScreen(displayKey,this::setMainMenuScreen,this::restartGame);
         gameController.setScene(resultScreen.getView());
     }
+//<<<<<<< HEAD
 
     private void launchGame(String levelChosen) {
-        String gameLevelComboChosen = String.format("%s%s", gameTitle,levelChosen);
+        String gameLevelComboChosen = String.format("%s,%s", gameTitle,levelChosen);
+        gameController.setId(gameLevelComboChosen);
         try {
-            gameController.launchGame(gameLevelComboChosen);
+            gameController.launchGame(LEVEL_FILE_LOCATIONS.getString(gameLevelComboChosen));
             setGameDisplay(gameController.getGame());
         } catch (FactoryException e) {
             handleFactoryException(e);
@@ -111,6 +154,8 @@ public class Display {//implements Viewer{
         factoryAlert.setOnCloseRequest(d -> setMainMenuScreen());
     }
     
+//=======
+//>>>>>>> jnh24
 
     public void test() {
         Group root = new Group();
