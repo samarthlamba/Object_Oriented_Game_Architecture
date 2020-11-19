@@ -89,7 +89,7 @@ All Music - https://downloads.khinsider.com/game-soundtracks
 
 Main class: Driver. To run everything correctly, please ensure the project structure looks as below:
 
-![Project Structure](doc/projectStructure.png "Project Structur")
+![Project Structure](doc/projectStructure.png "Project Structure")
 
 Data files needed: 
 
@@ -104,7 +104,9 @@ Interesting data files:
 
 Known Bugs: In some instances mario can get stuck in objects, but that is very rare and uncommon and can be attributed usually to extremely high values like gravity or jump capacity. The game physics tries to simulate real life and thus similar to real life if these values were to be very high, we might expect a similar reaction. 
 
-Extra credit: Animation, high score being recorded, random level generation, all actions being read in from property file such that any non-programmer could edit how an object interacts after collision. 
+Extra credit: Animation, high score being recorded, random level generation, all actions being read in from property file such that any non-programmer could edit how an object interacts after collision. An example of such property file can be seen below:
+
+![Property File](doc/propertyFileBasedCollision.png)
 
 
 ### Impressions
