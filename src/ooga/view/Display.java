@@ -17,6 +17,7 @@ import java.lang.reflect.Constructor;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import ooga.loader.FactoryException;
+import ooga.view.screens.*;
 
 public class Display {
 
@@ -45,19 +46,12 @@ public class Display {
         gameScreen = new GamePlayScreen(newGame, gameController, settingsScreen, this::setGameMenuScreenFromSettings, this::restartGame, this::changeTheme);
 
 //        gameScreen = new GamePlayScreen(pause, play, restart);
-    if (newGame != null) {
-      gameScreen.setGameScreen(newGame);
-    } else {
-      throw new RuntimeException("Game never defined"); //TODO maybe remove
-    }
-
-    gameController.setScene(gameScreen.getView());
-  }
-        if (newGame !=null) {
+        if (newGame != null) {
             gameScreen.setGameScreen(newGame);
         } else {
             throw new RuntimeException("Game never defined"); //TODO maybe remove
         }
+
         gameController.setScene(gameScreen.getView());
     }
 
