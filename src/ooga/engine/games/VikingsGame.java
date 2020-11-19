@@ -140,6 +140,7 @@ public class VikingsGame extends Game{
       checkPercolationBlocked(entity);
     }
     fallingDeath();
+    outOfBoundsDeath();
     repercolate();
     entities.addAll(arrows);
     viewable.remove(entitiesToRemove);
@@ -190,7 +191,7 @@ public class VikingsGame extends Game{
     Arrow arrow = new Arrow(arrowWidth, arrowHeight, arrowStartX, arrowStartY);
     arrow.setVelocityX(arrowVelocityX);
     Random rand = new Random();
-    double arrowFrequency = rand.nextInt(15);
+    double arrowFrequency = rand.nextInt(10);
     if(arrowFrequency == 1) {
       arrows.add(arrow);
       entitiesToAdd.add(arrow);

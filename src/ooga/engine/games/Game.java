@@ -38,7 +38,9 @@ public abstract class Game implements GamePlay {
     protected Collection<MovableBounds> entitiesToRemove = new ArrayList<>();
     protected int specialActionDelayFlag = 0;
     private double lowestPoint = 0;
-    private final int fallDeathOffset;
+    private final int outOfBoundsOffset;
+    private double mostRight = 0;
+    private double mostLeft = 0;
 
     /**
      * Game constructor initializes variables through parameter input and constant values retrieved from the beans
@@ -54,12 +56,13 @@ public abstract class Game implements GamePlay {
         this.gravity = bean.getGravity();
         this.moveForce = bean.getMoveForce();
         this.jumpMax = bean.getJumpMax();
-        this.fallDeathOffset = bean.getFallDeathOffset();
+        this.outOfBoundsOffset = bean.getOutOfBoundsOffset();
         this.player = player;
         handleCollisions = new Collisions();
         this.dt = timeElapsed;
         normalForce(entities, obstacles);
         findSceneLowestY();
+        findSceneXBounds();
     }
 
     /**
@@ -102,9 +105,35 @@ public abstract class Game implements GamePlay {
         }
     }
 
+    private void findSceneXBounds(){
+        for(Unmovable obstacle : obstacles){
+            double xPosition = obstacle.getNode().getBoundsInParent().getCenterX();
+            if(xPosition > mostRight){
+                mostRight = xPosition;
+            }
+        }
+        mostLeft = mostRight;
+        for(Unmovable obstacle : obstacles){
+            double xPosition = obstacle.getNode().getBoundsInParent().getCenterX();
+            if(xPosition < mostLeft){
+                mostLeft = xPosition;
+            }
+        }
+    }
+
+    protected void outOfBoundsDeath(){
+        int numberArrows = 0;
+        for(Movable entity : entities){
+            if(entity.getCenterX() > mostRight + outOfBoundsOffset ||
+                    entity.getCenterX() < mostLeft - outOfBoundsOffset){
+                entity.setHitpoints(0);
+            }
+        }
+    }
+
     protected void fallingDeath() {
         Movable player = getActivePlayer();
-        if (player.getMaxY() > lowestPoint + fallDeathOffset) {
+        if (player.getMaxY() > lowestPoint + outOfBoundsOffset) {
             player.setHitpoints(KILL_PLAYER);
         }
     }
@@ -148,6 +177,7 @@ public abstract class Game implements GamePlay {
             moveMovable(entity);
         }
         fallingDeath();
+        outOfBoundsDeath();
         viewable.remove(entitiesToRemove);
         entities.removeAll(entitiesToRemove);
         entitiesToRemove.clear();

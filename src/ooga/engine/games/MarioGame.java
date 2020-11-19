@@ -68,6 +68,7 @@ public class MarioGame extends Game {
       generateCoins(entity);
     }
     fallingDeath();
+    outOfBoundsDeath();
     entities.addAll(coins);
     viewable.remove(entitiesToRemove);
     entities.removeAll(entitiesToRemove);
