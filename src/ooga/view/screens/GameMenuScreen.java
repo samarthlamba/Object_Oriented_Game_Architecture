@@ -1,6 +1,5 @@
 package ooga.view.screens;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -8,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import ooga.GameController;
+import ooga.view.HighScoreScreen;
 
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
@@ -23,7 +23,6 @@ public abstract class GameMenuScreen extends Screen {
     private final String gameTitle;
     private GameController gameController;
     Scene scene;
-//    String language = "en";
     ResourceBundle gameMenuButtonProperties = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "gamemenubuttons");//_" + language);;
     private final Consumer<String> randomLevel;
     private final Consumer<String> launchGame;
@@ -33,7 +32,6 @@ public abstract class GameMenuScreen extends Screen {
         this.launchGame = launchGame;
         this.randomLevel = randomLevel;
         gameController = controller;
-//        E = e; //TODO
         BorderPane root = new BorderPane();
         VBox center = new VBox();
         Menu menu = getMenu();
@@ -42,8 +40,7 @@ public abstract class GameMenuScreen extends Screen {
         ImageView imageView = new ImageView(titleImage);
         imageView.setY(100);
         center.setAlignment(Pos.CENTER);
-//        center.setPadding(new Insets(100,100,100,100));
-//        center.setSpacing(70.0);
+
         center.getChildren().addAll(imageView,menu);
 
         Button backButton = new Button("back");//TODO
@@ -64,7 +61,9 @@ public abstract class GameMenuScreen extends Screen {
     }
 
     private void showHighScores(){
-
+        HighScoreScreen screen = new HighScoreScreen(gameController);
+        screen.setOldScene(this.getView());
+        gameController.setScene(screen.getView());
     }
 
     private void back() {

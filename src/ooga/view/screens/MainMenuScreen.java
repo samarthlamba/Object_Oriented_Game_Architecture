@@ -21,8 +21,7 @@ public class MainMenuScreen extends Screen {
     Screen settingsScreen;
     GameController gameController;
     Scene scene;
-//    String language = "en";
-    ResourceBundle mainMenuButtonProperties = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "mainmenubuttons");// + language);;
+    ResourceBundle mainMenuButtonProperties = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "mainmenubuttons");
 
     public MainMenuScreen(Consumer<String> gameSelector, Screen settings, GameController controller){//TODO
         gameController = controller;

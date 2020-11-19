@@ -14,19 +14,18 @@ import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import ooga.loader.FactoryException;
 
-
-public class Display {//implements Viewer{
+public class Display {
 
     private static final String PATH_TO_GAME_MENUS = "ooga.view.screens.%sMenuScreen";
     private static final ResourceBundle GAME_LABELS = ResourceBundle.getBundle("ooga.view.resources.mainmenubuttons");//_en");//TODO
     private static final ResourceBundle LEVEL_FILE_LOCATIONS = ResourceBundle.getBundle("LevelFileLocations");
+    private static final ResourceBundle THEMES = ResourceBundle.getBundle("ooga.view.resources.themes");
 
     private GameController gameController;
     private GamePlayScreen gameScreen;
     private String gameTitle;
     private Screen settingsScreen;
     private Screen mainMenu;
-//>>>>>>> jnh24
 
     public Display(GameController gameController) {
         this.gameController = gameController;
@@ -38,28 +37,9 @@ public class Display {//implements Viewer{
         gameController.setScene(mainMenu.getView());
     }
 
-//<<<<<<< HEAD
-//=======
-//    private void launchGame(String levelChosen) {
-//        String gameLevelComboChosen = String.format("%s,%s", gameTitle,levelChosen);
-//        String filePath = LEVEL_FILE_LOCATIONS.getString(gameLevelComboChosen);
-//        gameController.launchGame(filePath);
-//        gameController.setId(gameLevelComboChosen);
-//        setGameDisplay(gameController.getGame());
-//    }
-//
-//    private void restartGame() {
-//        gameController.restartGame();
-//        setGameDisplay(gameController.getGame());
-//    }
-
-//>>>>>>> jnh24
     public void setGameDisplay(GamePlay newGame) {
-//        public void setGameDisplay(GamePlay newGame, Consumer pause, Consumer play, Consumer restart) {
-//        gameScreen = new GamePlayScreen(newGame);
         gameScreen = new GamePlayScreen(newGame, gameController, settingsScreen, this::setGameMenuScreenFromSettings, this::restartGame, this::changeTheme);
 
-//        gameScreen = new GamePlayScreen(pause, play, restart);
         if (newGame !=null) {
             gameScreen.setGameScreen(newGame);
         } else {
@@ -70,7 +50,7 @@ public class Display {//implements Viewer{
 
     private void changeTheme(Object themeObject) {
         String theme = (String) themeObject;
-
+        THEMES.getObject(theme);
         //TODO change theme using properties files
     }
 
@@ -81,29 +61,16 @@ public class Display {//implements Viewer{
     private void setGameMenuScreenFromSettings() {
         setGameMenuScreen(gameTitle);
     }
-//<<<<<<< HEAD
     public void setGameMenuScreen (String gameLabel) { //TODO
         this.gameTitle = gameLabel;
         Screen gameMenu;
-
-//=======
-
-//
-//    private void setGameMenuScreen (String gameLabel) { //TODO
-//        this.gameTitle = gameLabel;
-//>>>>>>> jnh24
         String gameClassName = GAME_LABELS.getString(gameLabel);
         Consumer<String> launchGame = this::launchGame;
         Consumer<String> randomGame = this::randomGame;
         try {
-//<<<<<<< HEAD
             Constructor menuConstructor = Class.forName(String.format(PATH_TO_GAME_MENUS,gameClassName))
                 .getDeclaredConstructor(Consumer.class, Consumer.class, GameController.class);
             gameMenu = (Screen) menuConstructor.newInstance(launchGame,randomGame,gameController);
-//=======
-//            Constructor ruleCellTypeCons = Class.forName("ooga.view.screens." + gameClassName + "MenuScreen").getDeclaredConstructor(Consumer.class,GameController.class);
-//            gameMenu = (Screen) ruleCellTypeCons.newInstance((Consumer<String>) this::launchGame, gameController);
-//>>>>>>> jnh24
         } catch (Exception er) {
             er.printStackTrace();//TODO
             throw new RuntimeException ("Error in reflection");//TODO
@@ -116,7 +83,6 @@ public class Display {//implements Viewer{
         SplashScreen resultScreen = new SplashScreen(displayKey,this::setMainMenuScreen,this::restartGame);
         gameController.setScene(resultScreen.getView());
     }
-//<<<<<<< HEAD
 
     private void launchGame(String levelChosen) {
         String gameLevelComboChosen = String.format("%s,%s", gameTitle,levelChosen);
@@ -153,9 +119,6 @@ public class Display {//implements Viewer{
         factoryAlert.show();
         factoryAlert.setOnCloseRequest(d -> setMainMenuScreen());
     }
-    
-//=======
-//>>>>>>> jnh24
 
     public void test() {
         Group root = new Group();

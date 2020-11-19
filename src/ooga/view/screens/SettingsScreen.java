@@ -38,7 +38,7 @@ public class SettingsScreen extends Screen{
         Set themes = ResourceBundle.getBundle("themes").keySet();
         comboBox.setItems(FXCollections.observableArrayList(themes));
         comboBox.setValue(themes.toArray()[0]);
-        comboBox.setOnAction(e->changeTheme.accept(comboBox.getValue())); //Display.changeTheme
+        comboBox.setOnAction(e->changeTheme.accept(comboBox.getValue()));
         buttons.getChildren().add(comboBox);
 
         ToggleButton day = new ToggleButton("day");
@@ -63,10 +63,6 @@ public class SettingsScreen extends Screen{
         root.setCenter(buttons);
         scene = new Scene(root,SCREEN_WIDTH,SCREEN_HEIGHT);
     }
-
-//    public void setOldScene(Scene scene) {
-//        oldScene = scene;
-//    }
 
     private void accessKeyBindingScreen() {
         KeyBindingScreen keyBindingScreen = new KeyBindingScreen(scene, gameController);

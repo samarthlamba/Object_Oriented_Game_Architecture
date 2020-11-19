@@ -107,6 +107,15 @@ public class HighScore{
 
     }
 
+    @Deprecated
+    public HighScoreObject[] getAllHighScores() {
+        checkFileExistence();
+
+        return getFileContent();
+
+
+    }
+
     private boolean deprecatedTimes(HighScoreObject current){
         return current.getTime() < (System.currentTimeMillis() - (TIME_WEEK_AGO));
     }

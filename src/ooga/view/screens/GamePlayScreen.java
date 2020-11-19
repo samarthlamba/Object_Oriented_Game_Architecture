@@ -118,11 +118,8 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
         onScreen = background.getChildren();
         addEntities((Collection<MovableBounds>) game.getEntities());
         addObstacles((Collection<Node>) game.getBackground());
-//        addObstacles((Collection<Node>) game.getBackground());
-//        gamePane.getChildren().add(background);
         gamePane.getChildren().add(background);
 
-//        BorderPane root = new BorderPane();
         BorderPane root = new BorderPane();
         hud = new HeadsUpDisplay(gameController,game.getPoints(),mainPlayer.getHealth());
         String[] gamePlayStylesheets =
