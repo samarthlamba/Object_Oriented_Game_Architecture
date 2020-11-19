@@ -6,8 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import ooga.GameController;
 
 import java.util.ResourceBundle;
@@ -42,12 +41,23 @@ public abstract class GameMenuScreen extends Screen {
 
         Button backButton = new Button("back");//TODO
         backButton.setOnMouseClicked(f->back());
+        Pane spacer = new Pane();
 
-        root.setTop(backButton);
+        Button highScoreButton = new Button("high scores"); //TODO image in css
+        highScoreButton.setOnMouseClicked(ev->showHighScores());
+
+        HBox topBar = new HBox(backButton,spacer,highScoreButton);
+        topBar.setHgrow(spacer, Priority.ALWAYS);
+
+        root.setTop(topBar);
         root.setCenter(center);
-        scene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
 
+        scene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
         scene.getStylesheets().addAll("gamebase.css");//TODO
+    }
+
+    private void showHighScores(){
+
     }
 
     private void back() {

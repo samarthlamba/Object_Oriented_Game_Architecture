@@ -62,7 +62,7 @@ public class HeadsUpDisplay extends HBox {
         HBox status = new HBox(lifeStatus, pointsStatus);
         status.setSpacing(STATUS_SPACING);
 
-        HBox buttons = new HBox(pauseButton);
+        HBox buttons = new HBox(pauseButton);//settings button
         buttons.setSpacing(15);
         buttons.setAlignment(Pos.CENTER_RIGHT);
 
@@ -75,6 +75,7 @@ public class HeadsUpDisplay extends HBox {
         this.setHgrow(buttons, Priority.ALWAYS);
         this.setPadding(new Insets(5,10,0,10)); //TODO constants
         this.setFillHeight(true);
+
     }
 
     private void pauseFunction(Scene oldScene, Screen settingsScreen, Runnable goToMenu, Runnable restart, Consumer changeTheme) {
