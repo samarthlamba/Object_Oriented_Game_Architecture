@@ -52,13 +52,13 @@ public class AnimationBrainTest extends DukeApplicationTest {
   @Test
   public void testGetyWhiteSpaceConstant() {
     int framesPerColumn = mario.getyWhiteSpaceConstant();
-    assertEquals(12,framesPerColumn);
+    assertEquals(15,framesPerColumn);
   }
 
   @Test
   public void testGetxWhiteSpaceConstant() {
     int framesPerColumn = mario.getxWhiteSpaceConstant();
-    assertEquals(14,framesPerColumn);
+    assertEquals(17,framesPerColumn);
   }
 
   @Test
