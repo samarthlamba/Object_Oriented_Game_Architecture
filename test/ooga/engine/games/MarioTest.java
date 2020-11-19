@@ -1,11 +1,15 @@
 package ooga.engine.games;
 
+import javafx.animation.Timeline;
 import javafx.stage.Stage;
+import ooga.GameController;
 import ooga.engine.entities.Entity;
 import ooga.loader.FactoryException;
 import ooga.loader.GameFactory;
 import ooga.util.DukeApplicationTest;
+import ooga.view.Display;
 import ooga.view.screens.GamePlayScreen;
+import ooga.view.screens.Screen;
 import org.junit.jupiter.api.Test;
 
 
@@ -14,15 +18,18 @@ import java.util.Collection;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MarioTest extends DukeApplicationTest {
+    private Game myGame;
+    private Display myDisplay;
     private static final GameFactory factory = new GameFactory();
-    private GamePlayScreen testScreen;
 
     @Override
     public void start(Stage stage) {
-        testScreen = new GamePlayScreen();
+        Timeline testTimeline = new Timeline();
+        GameController testController = new GameController(stage,testTimeline,this::setMyGame);
+        myDisplay = new Display(testController);
     }
 
-   @Test
+    @Test
    public void rightMovementTest() throws FactoryException {
        Game game = factory.makeCorrectGame("testMovement");
        Collection<Entity> entities = (Collection<Entity>) game.getEntities();
@@ -160,7 +167,7 @@ class MarioTest extends DukeApplicationTest {
     @Test
     public void testEnemyDies() throws FactoryException {
         Game game = factory.makeCorrectGame("testEnemyTopCollision");
-        testScreen.setGameScreen(game);
+        javafxRun(() -> myDisplay.setGameDisplay(game));
         Collection<Entity> entities = (Collection<Entity>) game.getEntities();
         Entity player = (Entity) game.getActivePlayer();
         Entity enemy = player;
@@ -193,7 +200,7 @@ class MarioTest extends DukeApplicationTest {
     @Test
     public void testQuestionBoxCollision() throws FactoryException {
         Game game = factory.makeCorrectGame("testMarioQuestionBox");
-        testScreen.setGameScreen(game);
+        javafxRun(() -> myDisplay.setGameDisplay(game));
         Collection<Entity> entities = (Collection<Entity>) game.getEntities();
         boolean questionBox = false;
         Entity player = (Entity) game.getActivePlayer();
@@ -220,7 +227,7 @@ class MarioTest extends DukeApplicationTest {
     @Test
     public void testCoinGeneration() throws FactoryException {
         Game game = factory.makeCorrectGame("testMarioQuestionBox");
-        testScreen.setGameScreen(game);
+        javafxRun(() -> myDisplay.setGameDisplay(game));
         Collection<Entity> entities = (Collection<Entity>) game.getEntities();
         boolean coinGenerated = false;
         for(Entity entity : entities){
@@ -236,6 +243,11 @@ class MarioTest extends DukeApplicationTest {
             }
         }
         assertTrue(coinGenerated);
+    }
+
+
+    private void setMyGame(Game game) {
+        myGame = game;
     }
 
 }
