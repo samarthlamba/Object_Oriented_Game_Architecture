@@ -24,9 +24,9 @@ public class SettingsScreen extends Screen{
     private GameController gameController;
 
     public SettingsScreen(Scene pauseScreen, GameController controller, Consumer changeTheme) {
+        gameController = controller;
         setScene(changeTheme);
 //        oldScene = pauseScreen;
-        gameController = controller;
     }
 
     private void setScene(Consumer changeTheme){
@@ -35,10 +35,12 @@ public class SettingsScreen extends Screen{
         buttons.setAlignment(Pos.CENTER);
 
         ComboBox comboBox = new ComboBox();
+        comboBox.setVisible(!gameController.isActive());
         Set themes = ResourceBundle.getBundle("themes").keySet();
         comboBox.setItems(FXCollections.observableArrayList(themes));
         comboBox.setValue(themes.toArray()[0]);
-        comboBox.setOnAction(e->changeTheme.accept(comboBox.getValue()));
+//        comboBox.setOnAction(e->changeTheme.accept(comboBox.getValue()));
+        comboBox.setOnAction(e->gameController.setTheme((String)comboBox.getValue()));
         buttons.getChildren().add(comboBox);
 
         ToggleButton day = new ToggleButton("day");

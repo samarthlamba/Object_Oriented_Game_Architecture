@@ -83,6 +83,8 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
     private HeadsUpDisplay hud;
     private Screen settings;
 
+    private String imageBundle = CHARACTER_IMAGES;
+
 //    public GamePlayScreen(GamePlay givenGame, GameController control) {
 //        background = new Group();
 //        game = givenGame;
@@ -106,6 +108,7 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
         goToMenu = setGameMenuScreenFromSettings;
         restart = restartGame;
         changeTheme = theme;
+        imageBundle = CHARACTER_IMAGES+gameController.getTheme();
     }
 
 
@@ -196,9 +199,9 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
     private ResourceBundle getImageResources(GamePlay givenGame) {
         try {
             String gameId = givenGame.getClass().getSimpleName();
-            return ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE +gameId + CHARACTER_IMAGES);
+            return ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE +gameId + imageBundle);
         } catch (MissingResourceException e) {
-            return ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+DEFAULT+CHARACTER_IMAGES);
+            return ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+DEFAULT+imageBundle);
         }
     }
 

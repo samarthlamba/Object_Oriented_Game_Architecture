@@ -20,11 +20,10 @@ public class GameController {
   private Consumer<Game> gameSetter;
   private String pathToCurrentGame;
   private Game currentGame;
-//<<<<<<< HEAD
   private String randomGameName;
-//=======
   private String id;
-//>>>>>>> jnh24
+  private String theme = "default";
+  private boolean active = false;
 
   public GameController(Stage stage, Timeline timeline, Consumer<Game> gameSetter) {
     this.stage = stage;
@@ -59,6 +58,7 @@ public class GameController {
     currentGame = gameFactory.makeCorrectGame(pathToCurrentGame);
     gameSetter.accept(currentGame);
     timeline.play();
+    active = true;
   }
 
   /**
@@ -124,5 +124,18 @@ public class GameController {
 
   public Stage getStage() {
     return stage;
+  }
+
+  public void setTheme(String givenTheme) {
+    theme = givenTheme;
+  }
+
+  public String getTheme() {
+    String ret = theme;
+    return ret;
+  }
+
+  public boolean isActive() {
+    return active;
   }
 }
