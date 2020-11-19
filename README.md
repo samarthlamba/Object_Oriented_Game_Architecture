@@ -101,14 +101,14 @@ Main class: Driver. To run everything correctly, please ensure the project struc
 ![Project Structure](doc/projectStructure.png "Project Structur")
 
 Data files needed: 
-Everything in any directory marked as a source directory.
+Everything in any directory marked as a source directory. Especially need all the property files (for the game to function as it does right now with the same interaction), as well as images. We also need the csv files representing the levels. We don't need any txt files (for example the highscore file and they have been as such added to gitignore)
 
 Features implemented: Animation, high score being recorded, random level generation, character movement, automated enemy movement, property file based games and parameters input, sound tracks, collisions defined in data files, splash screens, display themes, rebindable keys
 
 
 ### Notes/Assumptions
 
-Assumptions or Simplifications: We assume that some of the fundamental attributes of the game such as defaultPicture are present at the minimum. 
+Assumptions or Simplifications: We assume that some of the fundamental attributes of the game such as defaultPicture are present at the minimum. In addition we need the basic property files for the game to function. 
 
 Interesting data files:
 The data files that control the levels are all GameNameLevelNumber.csv; each of them may have an associated properties file that is used to define constants for that level. The data files that control level generation are GameNameClasses.properties; they list width and height of block and what obstacles and entities can be in the game. The data files that control random level generation are RandomGameName.properties; they specify special first and last chunk blocks, the number of chunks horizontally and vertically to generate, and what blocks to generate at what weights in the rest of the random level.
