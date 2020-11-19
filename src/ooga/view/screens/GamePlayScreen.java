@@ -1,5 +1,9 @@
 package ooga.view.screens;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.stream.Collectors;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -46,7 +50,7 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
     private double mainHeight;
 //    private ResourceBundle characterImages; //tODO
     private final ResourceBundle defaultKeyResources = ResourceBundle.getBundle("KeyBindings");
-    private List<Object> keys;
+    private Map<KeyCode,String> keys;
     private GamePlay game;
     private Group background;
     private MovableBounds mainPlayer;
@@ -59,12 +63,12 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
     public GamePlayScreen(GamePlay givenGame, GameController control) {
         background = new Group();
         game = givenGame;
-        keys = new ArrayList<>();
+        keys = new HashMap<>();
         gameController = control;
     }
     public GamePlayScreen() {
         background = new Group();
-        keys = new ArrayList<>();
+        keys = new HashMap<>();
     }
 
     public void setGameScreen(GamePlay givenGame, Screen settings, Runnable goToMenu, Runnable restart, Consumer changeTheme) {
@@ -150,8 +154,21 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
     }
 
     private void setKeys() {
-        for (String key : defaultKeyResources.keySet()) {
-            keys.add(KeyCode.valueOf(key));
+        try{
+            Properties prop = new Properties();
+            InputStream stream = new FileInputStream("src/resources/KeyBindings.properties");
+            prop.load(stream);
+            stream.close();
+            Set<Object> objets = prop.keySet();
+            Set<String> keySet = objets.stream().map(object -> (String) object).collect(Collectors.toSet());
+            for (String key : keySet) {
+                keys.put(KeyCode.valueOf(key),prop.getProperty(key));
+            }
+        } catch (IOException e) {
+            Set<String> keySet = defaultKeyResources.keySet();
+            for(String key : keySet) {
+                keys.put(KeyCode.valueOf(key),defaultKeyResources.getString(key.toString()));
+            }
         }
     }
 
@@ -160,8 +177,8 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
     }
 
     private void handleKey(KeyCode code) {
-        if (keys.contains(code)) {
-            String methodName = defaultKeyResources.getString(code.toString());
+        if (keys.containsKey(code)) {
+            String methodName = keys.get(code);
             try {
                 Method method = game.getClass().getMethod(methodName);
                 method.invoke(game);
