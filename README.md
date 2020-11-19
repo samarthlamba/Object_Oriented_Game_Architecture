@@ -96,7 +96,7 @@ Features implemented: Animation, high score being recorded, random level generat
 
 ### Notes/Assumptions
 
-Assumptions or Simplifications:
+Assumptions or Simplifications: We assume that some of the fundamental attributes of the game such as defaultPicture are present at the minimum. 
 
 Interesting data files:
 
