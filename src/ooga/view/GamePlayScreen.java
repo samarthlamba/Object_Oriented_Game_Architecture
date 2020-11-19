@@ -36,10 +36,8 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
     private double mainX;
     private double mainWidth;
     private double mainHeight;
-    private FiniteStateMachineAnimation fsm;
-    private ImageView fsmImage;
     private Rectangle rec;
-    //    private ResourceBundle characterImages; //tODO
+    private Map<FiniteStateMachineAnimation, ImageView> animations = new HashMap<>();
     private final ResourceBundle defaultKeyResources = ResourceBundle.getBundle("KeyBindings");
     private List<Object> keys;
     private GamePlay game;
@@ -111,25 +109,26 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
                     mainWidth = width;
                     mainHeight = height;
                 }
-                if(entity.getId().equals(MAIN_PLAYER_ID)){
                     try {
-                        AnimationBrain x = new AnimationBrain(game.getClass().getSimpleName());
-                        fsm = new FiniteStateMachineAnimation((Entity) entity, x);
-                        fsmImage = fsm.getCurrentAnimation().getImage();
-                        background.getChildren().add(fsmImage);
+                        AnimationBrain x = new AnimationBrain(game.getClass().getSimpleName()+entity.getId());
+                        FiniteStateMachineAnimation currentFSM = new FiniteStateMachineAnimation((Entity) entity, x);
+                        animations.put(currentFSM, currentFSM.getCurrentAnimation().getImage());
+                        background.getChildren().add(currentFSM.getCurrentAnimation().getImage());
                         continue;
                         //SAM: How can we properly handle this?
                     } catch (FactoryException e) {
-                        fsm = null;
+                        System.out.println(entity.getId());
+                        view = (Shape) entity.getNode();
+
+                        view.setFill(characterImages.getOrDefault(entity.getId(),DEFAULT_IMAGE));
+                        background.getChildren().add(view);
                     }
                 }
-                view = (Shape) entity.getNode();
 
-                view.setFill(characterImages.getOrDefault(entity.getId(),DEFAULT_IMAGE));
-                background.getChildren().add(view);
             }
         }
-    }
+
+
 
     private Map<String, ImagePattern> getImages(ResourceBundle characterImageResources) {
         Map<String,ImagePattern> map = new HashMap<>();
@@ -179,12 +178,17 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
         double sceneShiftY = -(mainY - (SCREEN_HEIGHT/2 - mainHeight));
         background.setTranslateX(sceneShiftX);
         background.setTranslateY(sceneShiftY);
-        fsm.update();
-        background.getChildren().remove(fsmImage);
-        fsmImage = fsm.getCurrentAnimation().getImage();
-        background.getChildren().add(fsmImage);
+        updateAnimations();
     }
 
+    private void updateAnimations(){
+        for (FiniteStateMachineAnimation fsm : animations.keySet()){
+            fsm.update();
+            background.getChildren().remove(animations.get(fsm));
+            animations.put(fsm, fsm.getCurrentAnimation().getImage());
+            background.getChildren().add(fsm.getCurrentAnimation().getImage());
+        }
+    }
     @Override
     public Scene getView() {
         return scene;
