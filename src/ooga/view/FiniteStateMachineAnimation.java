@@ -1,6 +1,9 @@
 package ooga.view;
 
-import static ooga.view.AnimationState.*;
+import static ooga.view.AnimationState.JUMP;
+import static ooga.view.AnimationState.SPECIAL;
+import static ooga.view.AnimationState.STAND;
+import static ooga.view.AnimationState.WALK;
 
 import java.util.Map;
 import javafx.scene.image.Image;
@@ -9,6 +12,7 @@ import ooga.loader.AnimationBrain;
 
 
 public class FiniteStateMachineAnimation {
+
   private final Entity entity;
   //you may not actually need this field
   private final AnimationBrain animationBrain;
@@ -18,21 +22,21 @@ public class FiniteStateMachineAnimation {
   private final Map<AnimationState, Integer> durationMap;
   private final int framesPerRow;
   private final int framesPerColumn;
+  private final double initialHeight;
+  private final double initialWidth;
   private Animation jump;
   private Animation walk;
   private Animation special;
   private Animation stand;
   private Boolean currentFacing;
   private Animation currentAnimation;
-  private final double initialHeight;
-  private final double initialWidth;
 
-  public FiniteStateMachineAnimation(Entity entity, AnimationBrain animationBrain){
+  public FiniteStateMachineAnimation(Entity entity, AnimationBrain animationBrain) {
     this.entity = entity;
     initialHeight = entity.getHeight();
     initialWidth = entity.getWidth();
     this.animationBrain = animationBrain;
-    this.spriteSheet=  animationBrain.getImage();
+    this.spriteSheet = animationBrain.getImage();
     this.lengthMap = animationBrain.getLengthMap();
     this.positionOfFirstAnimationMap = animationBrain.getPositionOfFirstAnimationMap();
     this.framesPerRow = animationBrain.getFramesPerRow();
@@ -43,7 +47,7 @@ public class FiniteStateMachineAnimation {
   }
 
   //property file
-  private void initialize(){
+  private void initialize() {
     this.jump = getAnimationForState(JUMP);
     this.walk = getAnimationForState(WALK);
     this.special = getAnimationForState(SPECIAL);
@@ -56,28 +60,29 @@ public class FiniteStateMachineAnimation {
     int length = lengthMap.get(state);
     int pos = positionOfFirstAnimationMap.get(state);
     int duration = durationMap.get(state);
-    return new Animation(spriteSheet,entity.getWidth(),entity.getHeight(),animationBrain.getxWhiteSpaceConstant(),animationBrain.getyWhiteSpaceConstant(),length,pos, animationBrain.getFramesPerRow(), animationBrain.getWidthActual(), animationBrain.getHeightActual(),duration);
+    return new Animation(spriteSheet, entity.getWidth(), entity.getHeight(),
+        animationBrain.getxWhiteSpaceConstant(), animationBrain.getyWhiteSpaceConstant(), length,
+        pos, animationBrain.getFramesPerRow(), animationBrain.getWidthActual(),
+        animationBrain.getHeightActual(), duration);
   }
-  private void changeAnimationDirection(){
+
+  private void changeAnimationDirection() {
     this.jump.swapDirection();
     this.walk.swapDirection();
     this.special.swapDirection();
     this.stand.swapDirection();
   }
-  public void update(){
+
+  public void update() {
     moveAndScale();
     getFacing();
-    if (isSpecial()){
+    if (isSpecial()) {
       setAnimation(this.special);
-    }
-    else if(isJumping()){
+    } else if (isJumping()) {
       setAnimation(this.jump);
-    }
-    else if (isMoving()){
+    } else if (isMoving()) {
       setAnimation(this.walk);
-    }
-
-    else{
+    } else {
       jump.stop();
       setAnimation(this.stand);
     }
@@ -89,18 +94,18 @@ public class FiniteStateMachineAnimation {
     currentAnimation.play();
   }
 
-  private void getFacing(){
-    if (entity.getFacing() != currentFacing){
+  private void getFacing() {
+    if (entity.getFacing() != currentFacing) {
       currentFacing = entity.getFacing();
       changeAnimationDirection();
     }
   }
 
-  private void moveAndScale(){
+  private void moveAndScale() {
 
-    currentAnimation.getImage().setX(entity.getCenterX()-entity.getWidth()/2);
-    currentAnimation.getImage().setY(entity.getMaxY()-entity.getHeight());
-    currentAnimation.scale(entity.getWidth(),entity.getHeight());
+    currentAnimation.getImage().setX(entity.getCenterX() - entity.getWidth() / 2);
+    currentAnimation.getImage().setY(entity.getMaxY() - entity.getHeight());
+    currentAnimation.scale(entity.getWidth(), entity.getHeight());
 
 
     /*
@@ -109,30 +114,28 @@ public class FiniteStateMachineAnimation {
 
      */
   }
-  private Boolean isJumping(){
+
+  private Boolean isJumping() {
     return entity.isJump();
   }
 
-  public Animation getCurrentAnimation(){
+  public Animation getCurrentAnimation() {
     moveAndScale();
     return this.currentAnimation;
   }
 
-  private Boolean isMoving(){
-    if((int)entity.getPreviousY() == (int)entity.getMaxY() && (int)entity.getPreviousX() != (int)entity.getCenterX()){
+  private Boolean isMoving() {
+    if ((int) entity.getPreviousY() == (int) entity.getMaxY()
+        && (int) entity.getPreviousX() != (int) entity.getCenterX()) {
       return true;
     }
     return false;
   }
 
-  private Boolean isSpecial(){
-   // System.out.println(entity.getSpecialAction());
+  private Boolean isSpecial() {
+    // System.out.println(entity.getSpecialAction());
     return entity.getSpecialAction();
   }
-
-
-
-
 
 
 }

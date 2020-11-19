@@ -1,14 +1,15 @@
 package ooga.engine.obstacles;
 
+import java.lang.reflect.Method;
+import java.util.Iterator;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import ooga.engine.entities.Entity;
 import ooga.engine.games.Collideable;
 import ooga.engine.games.GamePropertyFileReader;
-import java.lang.reflect.Method;
-import java.util.Iterator;
 
 public abstract class Obstacle extends Rectangle implements Collideable, Unmovable {
+
   private static final double NEGATIVE_DIRECTION = -1;
   private static final double SHRINK_RATIO = .7;
   private double normalForce = 0;
@@ -20,9 +21,9 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
   private boolean left = false;
   private boolean right = false;
 
-  public Obstacle(int obstacleWidth,int obstacleHeight, double initialX, double initialY) {
+  public Obstacle(int obstacleWidth, int obstacleHeight, double initialX, double initialY) {
     this.initialX = initialX;
-    this.initialY= initialY;
+    this.initialY = initialY;
     reached = false;
     setX(initialX);
     setY(initialY);
@@ -30,32 +31,32 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
     setHeight(obstacleHeight);
   }
 
-  public Node getNode(){
+  public Node getNode() {
     return (Node) this;
   }
 
-  public Collideable getCollideable(){
+  public Collideable getCollideable() {
     return (Collideable) this;
   }
 
-  public void moveXBy(double x){
-    relocate(getBoundsInParent().getMinX()+x,getBoundsInParent().getMinY());
+  public void moveXBy(double x) {
+    relocate(getBoundsInParent().getMinX() + x, getBoundsInParent().getMinY());
   }
 
 
-  public void moveYBy(double y){
-    relocate(getBoundsInParent().getMinX(), getBoundsInParent().getMinY()+y);
+  public void moveYBy(double y) {
+    relocate(getBoundsInParent().getMinX(), getBoundsInParent().getMinY() + y);
   }
 
-  public void moveContinouslyXBy(double X){
+  public void moveContinouslyXBy(double X) {
     moveX = X;
   }
 
-  public void moveContinouslyYBy(double Y){
+  public void moveContinouslyYBy(double Y) {
     moveY = Y;
   }
 
-  public void setNormalForce(double gravity){
+  public void setNormalForce(double gravity) {
     this.normalForce = gravity;
   }
 
@@ -78,20 +79,19 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
   }
 
 
-  protected void invokeMethod(Entity entity, String collisionName){
+  protected void invokeMethod(Entity entity, String collisionName) {
 
-      GamePropertyFileReader reader = new GamePropertyFileReader(this.getClass().getSimpleName());
-      Iterator methods = reader.getMethods(collisionName).iterator();
-      while (methods != null && methods.hasNext()) {
-        Class current = this.getClass().getSuperclass();
-        try {
+    GamePropertyFileReader reader = new GamePropertyFileReader(this.getClass().getSimpleName());
+    Iterator methods = reader.getMethods(collisionName).iterator();
+    while (methods != null && methods.hasNext()) {
+      Class current = this.getClass().getSuperclass();
+      try {
         Method x = current.getDeclaredMethod((String) methods.next(), Entity.class);
         x.setAccessible(true);
         x.invoke(this, entity);
+      } catch (Exception e) {
+        return;
       }
-        catch (Exception e) {
-          return;
-        }
     }
   }
 
@@ -103,9 +103,9 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
 
   }
 
-  protected void removeWeapon(Entity entity){
+  protected void removeWeapon(Entity entity) {
     if (entity.getId().equals("bullet") || entity.getId().equals("arrow")) {
-       entity.setHitpoints(0);
+      entity.setHitpoints(0);
     }
   }
 
@@ -134,9 +134,9 @@ public abstract class Obstacle extends Rectangle implements Collideable, Unmovab
   }
 
   //https://stackoverflow.com/questions/24393636/the-pain-with-the-pane-in-javafx-how-can-you-scale-nodes-with-fixed-top-left-co
-  public void scalePlayer(Entity entity){
-    if(entity.getId().equals("player")){
-      if(!entity.hasShrunk()) {
+  public void scalePlayer(Entity entity) {
+    if (entity.getId().equals("player")) {
+      if (!entity.hasShrunk()) {
         entity.setHeight(entity.getWidth() * SHRINK_RATIO);
         entity.setWidth(entity.getHeight() * SHRINK_RATIO);
         entity.setShrunk(true);

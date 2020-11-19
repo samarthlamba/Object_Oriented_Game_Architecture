@@ -11,8 +11,8 @@ import ooga.view.Display;
 
 
 /**
- * This class serves as the controller for the game. it  contains the stage and timeline and tells game when
- * to update. Monitors game status and uses it to determine correct display
+ * This class serves as the controller for the game. it  contains the stage and timeline and tells
+ * game when to update. Monitors game status and uses it to determine correct display
  */
 public class Driver extends Application {
 
@@ -25,13 +25,14 @@ public class Driver extends Application {
 
   /**
    * Required override for JavaFX. called when program launches and sets up display, timeline
+   *
    * @param initialStage the stage that the game will run in
    * @throws Exception Not thrown but required for override
    */
   @Override
   public void start(Stage initialStage) throws Exception {
     initializeTimeline();
-    gameController = new GameController(initialStage,timeline,this::setGame);
+    gameController = new GameController(initialStage, timeline, this::setGame);
     display = new Display(gameController);
     initialStage.show();
     display.setMainMenuScreen();
@@ -43,22 +44,21 @@ public class Driver extends Application {
 
 
   private void initializeTimeline() {
-      displayFrame = new KeyFrame(Duration.millis(STEP_SPEED), e -> step());
-      timeline = new Timeline();
-      timeline.setCycleCount(Timeline.INDEFINITE);
-      timeline.getKeyFrames().add(displayFrame);
+    displayFrame = new KeyFrame(Duration.millis(STEP_SPEED), e -> step());
+    timeline = new Timeline();
+    timeline.setCycleCount(Timeline.INDEFINITE);
+    timeline.getKeyFrames().add(displayFrame);
   }
 
   private void step() {
-    if(game.isLost()){
+    if (game.isLost()) {
       splashScreen(GameEndStatus.LOSS);
       HighScore highScore = new HighScore(gameController.getGameName());
       highScore.checkAddHighScore(game.getPoints());
     }
-    if(game.isWon()) {
+    if (game.isWon()) {
       splashScreen(GameEndStatus.VICTORY);
-    }
-    else{
+    } else {
       game.updateLevel();
       display.updateDisplay();
     }
