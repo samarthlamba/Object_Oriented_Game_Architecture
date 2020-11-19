@@ -92,7 +92,6 @@ Data files needed:
 Features implemented: Animation, high score being recorded, random level generation, character movement, automated enemy movement, property file based games and parameters input. 
 
 
-
 ### Notes/Assumptions
 
 Assumptions or Simplifications:
@@ -106,3 +105,4 @@ Extra credit: Animation, high score being recorded, random level generation, all
 
 ### Impressions
 
+This project was extremely fun to work on since we had complete design control over our project. We learned a lot about design and planning. Working on a larger project allowed us to implemented new techniques to maximize our design flexibility. It was also exciting to challenge ourselves by including extra features like animation and random level generation.
