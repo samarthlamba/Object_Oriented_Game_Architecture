@@ -16,6 +16,15 @@ Hours Spent: Many many hours (1 million?)
 
 ### Primary Roles
 
+Sam Lamba: Worked primarily with backend and with simulation. Worked on backend components like Entity, Enemy, game etc (with Roshni) and animation components like Animation.
+
+Roshni: Worked primarily with backend components and lead the incorporation of backend with each other and with front end's needs. Worked extensively on different objects and games. 
+
+Matt: Assisted overall and worked extensively with data and data reading. Created multiple Beans and data readers/factories and worked on driver.
+
+Joe: Worked extensively on front end and the different screens on the front end. 
+
+
 ### Resources Used
 
 In assisting with animation we used: https://netopyr.com/2012/03/09/creating-a-sprite-animation-with-javafx/
