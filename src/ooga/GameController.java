@@ -62,4 +62,8 @@ public class GameController {
   public String getId() {
     return id;
   }
+
+  public Stage getStage() {
+    return stage;
+  }
 }

@@ -1,13 +1,8 @@
 package ooga.view;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -18,8 +13,6 @@ import ooga.loader.KeyBinder;
 import ooga.view.screens.Screen;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,28 +22,36 @@ public class KeyBindingScreen extends Screen {
     private Scene scene;
     private Scene oldScene;
     private GameController gameController;
+    private KeyBinder keyBinder;
 
     public KeyBindingScreen(Scene settingsScene, GameController controller) {
         gameController = controller;
         oldScene = settingsScene;
+        keyBinder = new KeyBinder();
         setUpScene();
     }
 
     private void setUpScene() {//TODO long method
         BorderPane root = new BorderPane();
-        KeyBinder keyBinder = new KeyBinder();
+        VBox options = new VBox();
         Map<KeyCode,KeyCode> inputs = new HashMap<>();
-
+        placeButtons(inputs,options);
         Button backButton = new Button("back");
         backButton.setOnMouseClicked(e->back());
+        Button submitButton = new Button("save");
+        submitButton.setOnMouseClicked(e -> submit(inputs));
+        options.getChildren().add(submitButton);
+        Button resetButton = new Button("reset to default");
+        resetButton.setOnMouseClicked(e->reset());
+        options.getChildren().add(resetButton);
+        options.setAlignment(Pos.CENTER);
+        root.setTop(backButton);
+        root.setCenter(options);
 
+        scene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
+    }
 
-        VBox options = new VBox();
-//        Label currLabel = getCurrentBindings();
-//        options.getChildren().add(currLabel);
-//        options.setFillWidth(true);
-
-
+    private void placeButtons(Map<KeyCode, KeyCode> inputs, VBox options) {
         for(KeyCode key : keyBinder.getKeyMethodMap().keySet()) {
             HBox entry = new HBox();
             Label label = new Label(keyBinder.getKeyMethodMap().get(key));
@@ -65,26 +66,14 @@ public class KeyBindingScreen extends Screen {
             });
             input.setPrefColumnCount(1);
             input.setAlignment(Pos.CENTER_RIGHT);
-//            inputs.put(key,input);
             entry.getChildren().add(input);
             entry.getChildren().add(new Label(key.toString()));
             entry.setAlignment(Pos.CENTER);
             options.getChildren().add(entry);
         }
-        Button submitButton = new Button("save");
-        submitButton.setOnMouseClicked(e -> submit(keyBinder,inputs));
-        options.getChildren().add(submitButton);
-        Button resetButton = new Button("reset to default");
-        resetButton.setOnMouseClicked(e->reset(keyBinder));
-        options.getChildren().add(resetButton);
-        options.setAlignment(Pos.CENTER);
-        root.setTop(backButton);
-        root.setCenter(options);
-
-        scene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
 
-    private void reset(KeyBinder keyBinder) {
+    private void reset() {
         keyBinder.setToDefault();
         try {
             keyBinder.saveMap();
@@ -92,18 +81,8 @@ public class KeyBindingScreen extends Screen {
             throw (new RuntimeException("BREEKEKEKEKEKEKEK"));
         }
         setUpScene();
+        gameController.setScene(scene);
     }
-
-//    private Label getCurrentBindings() {
-//        Label currentBindings = new Label();
-//        String ;
-//        String ;
-//        String ;
-//        String ;
-//
-//        String text = String.format("LEFT = %s, RIGHT = %s, JUMP = %s, ACTION = %s", left, right, jump, action);
-//        return currentBindings;
-//    }
 
     private void logThisKey(Map<KeyCode, KeyCode> inputs, TextField input, KeyCode key, KeyEvent e) {
         inputs.put(key,e.getCode());
@@ -115,23 +94,34 @@ public class KeyBindingScreen extends Screen {
         gameController.setScene(oldScene);
     }
 
-    private void submit(KeyBinder keyBinder,Map<KeyCode,KeyCode> inputs) {
-        for (KeyCode key: inputs.keySet()) {
-//            String x = inputs.get(key).getText();
-            KeyCode code = inputs.get(key);
-            String method = keyBinder.getKeyMethodMap().get(key);
-            keyBinder.setBinding(code,method);
+    private void submit(Map<KeyCode,KeyCode> inputs) {
+        try {
+            for (KeyCode key: inputs.keySet()) {
+                KeyCode code = inputs.get(key);
+                String method = keyBinder.getKeyMethodMap().get(key);
+                keyBinder.setBinding(code, method);
+            }
+        } catch (Exception e) {
+            makeAlert("invalid keys","certain keys are used multiple times");
         }
         try {
            keyBinder.saveMap();
         } catch (IOException e){
-            System.out.println("AIDFLASFDIALSDFIALSDIASD"); //TODO display alert
-            keyBinder.setToDefault();
-            return;
+            throw new RuntimeException("corrupted key propperties file");
         }
         setUpScene();
+        gameController.setScene(scene);
     }
 
+    public void makeAlert (String header, String message) {
+        Alert a = new Alert(Alert.AlertType.NONE);
+        ButtonType close = new ButtonType("Ok", ButtonBar.ButtonData.CANCEL_CLOSE);
+        a.getButtonTypes().addAll(close);
+        a.setHeaderText(header);
+        a.setContentText(message);
+        a.initOwner(gameController.getStage());
+        a.show();
+    }
 
     @Override
     public Scene getView() {
