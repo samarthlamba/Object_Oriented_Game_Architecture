@@ -117,9 +117,7 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
                         continue;
                         //SAM: How can we properly handle this?
                     } catch (FactoryException e) {
-                        System.out.println(entity.getId());
                         view = (Shape) entity.getNode();
-
                         view.setFill(characterImages.getOrDefault(entity.getId(),DEFAULT_IMAGE));
                         background.getChildren().add(view);
                     }
