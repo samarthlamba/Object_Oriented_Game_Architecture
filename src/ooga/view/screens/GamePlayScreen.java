@@ -87,7 +87,7 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
 //        root.getStylesheets();
         root.setCenter(gamePane);
 
-        setKeys();
+//        setKeys();
         root.setTop(hud);
         primaryRoot = root;
         scene = new Scene(root,SCREEN_WIDTH,SCREEN_HEIGHT);//todo
@@ -149,13 +149,16 @@ public class GamePlayScreen extends Screen implements UpdateObjectsOnScreen {
         }
     }
 
-    private void setKeys() {
+//    private void setKeys() {
+//        for (String key : defaultKeyResources.keySet()) {
+//            keys.add(KeyCode.valueOf(key));
+//        }
+//    }
+
+    private void bindKeys() { //TODO
         for (String key : defaultKeyResources.keySet()) {
             keys.add(KeyCode.valueOf(key));
         }
-    }
-
-    private void bindKeys() { //TODO
         scene.setOnKeyPressed(e -> handleKey(e.getCode()));
     }
 

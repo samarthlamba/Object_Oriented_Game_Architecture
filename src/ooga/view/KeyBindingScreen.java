@@ -41,8 +41,9 @@ public class KeyBindingScreen extends Screen {
         KeyBinder keyBinder = new KeyBinder();
         Map<KeyCode,KeyCode> inputs = new HashMap<>();
 
-        Button backButton = new Button("submit");
-        backButton.setOnMouseClicked(e -> submit(keyBinder,inputs));
+        Button backButton = new Button("back");
+        backButton.setOnMouseClicked(e->back());
+
 
         VBox options = new VBox();
 //        Label currLabel = getCurrentBindings();
@@ -70,12 +71,27 @@ public class KeyBindingScreen extends Screen {
             entry.setAlignment(Pos.CENTER);
             options.getChildren().add(entry);
         }
-
+        Button submitButton = new Button("save");
+        submitButton.setOnMouseClicked(e -> submit(keyBinder,inputs));
+        options.getChildren().add(submitButton);
+        Button resetButton = new Button("reset to default");
+        resetButton.setOnMouseClicked(e->reset(keyBinder));
+        options.getChildren().add(resetButton);
         options.setAlignment(Pos.CENTER);
         root.setTop(backButton);
         root.setCenter(options);
 
         scene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
+    }
+
+    private void reset(KeyBinder keyBinder) {
+        keyBinder.setToDefault();
+        try {
+            keyBinder.saveMap();
+        } catch (IOException e) {
+            throw (new RuntimeException("BREEKEKEKEKEKEKEK"));
+        }
+        setUpScene();
     }
 
 //    private Label getCurrentBindings() {
@@ -95,12 +111,16 @@ public class KeyBindingScreen extends Screen {
         input.setText(e.getText());
     }
 
+    private void back() {
+        gameController.setScene(oldScene);
+    }
 
     private void submit(KeyBinder keyBinder,Map<KeyCode,KeyCode> inputs) {
         for (KeyCode key: inputs.keySet()) {
 //            String x = inputs.get(key).getText();
             KeyCode code = inputs.get(key);
-            keyBinder.setBinding(code,keyBinder.getKeyMethodMap().get(key));
+            String method = keyBinder.getKeyMethodMap().get(key);
+            keyBinder.setBinding(code,method);
         }
         try {
            keyBinder.saveMap();
@@ -109,7 +129,7 @@ public class KeyBindingScreen extends Screen {
             keyBinder.setToDefault();
             return;
         }
-        gameController.setScene(oldScene);
+        setUpScene();
     }
 
 
