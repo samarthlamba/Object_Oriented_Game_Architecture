@@ -108,6 +108,8 @@ Extra credit: capanility of animation as well as already incorporated animations
 
 ![Property File](doc/propertyFileBasedCollision.png)
 
+Implementation of above is simply editing the property file associated with an object and changing what each side of collision does (left, right, top, bottom) with any of the prewritten method to call and ID of object it will affect. Multiple methods can be called by having a ":" between calls. 
+
 
 ### Impressions
 
