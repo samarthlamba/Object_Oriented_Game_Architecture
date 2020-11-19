@@ -31,40 +31,40 @@ public class DriverTest extends DukeApplicationTest {
   @Test
   public void testInitialSceneIsMainMenu() {
     Scene mainMenuScene = myStage.getScene();
-    Button game1 = (Button) mainMenuScene.lookup("#Mario");
+    Button game1 = (Button) mainMenuScene.lookup("#g1");
     assertNotNull(game1);
-    Button game2 = (Button) mainMenuScene.lookup("#Metroid");
+    Button game2 = (Button) mainMenuScene.lookup("#g2");
     assertNotNull(game2);
-    Button game3 = (Button) mainMenuScene.lookup("#Vikings");
+    Button game3 = (Button) mainMenuScene.lookup("#g3");
     assertNotNull(game3);
   }
 
   @Test
   public void testPressingButtonMovesToGameMenu() {
     Scene mainMenuScene = myStage.getScene();
-    Button game1 = (Button) mainMenuScene.lookup("#Mario");
+    Button game1 = (Button) mainMenuScene.lookup("#g1");
     assertNotNull(game1);
     javafxRun(() -> game1.fire());
     Scene gameMenuScene = myStage.getScene();
     assertNotEquals(mainMenuScene,gameMenuScene);
-    Button level1 = (Button) gameMenuScene.lookup("#Level1");
-    assertNotNull(level1);
-    Button level2 = (Button) gameMenuScene.lookup("#Level2");
-    assertNotNull(level2);
-    Button level3 = (Button) gameMenuScene.lookup("#Level3");
-    assertNotNull(level3);
+    Button l1 = (Button) gameMenuScene.lookup("#l1");
+    assertNotNull(l1);
+    Button l2 = (Button) gameMenuScene.lookup("#l2");
+    assertNotNull(l2);
+    Button l3 = (Button) gameMenuScene.lookup("#l3");
+    assertNotNull(l3);
   }
 
   @Test
   public void testPressingButtonMovesToGame() {
     Scene mainMenuScene = myStage.getScene();
-    Button game1 = (Button) mainMenuScene.lookup("#Mario");
+    Button game1 = (Button) mainMenuScene.lookup("#g1");
     assertNotNull(game1);
     javafxRun(() -> game1.fire());
     Scene gameMenuScene = myStage.getScene();
-    Button level1 = (Button) gameMenuScene.lookup("#Level1");
-    assertNotNull(level1);
-    javafxRun(() -> level1.fire());
+    Button l1 = (Button) gameMenuScene.lookup("#l1");
+    assertNotNull(l1);
+    javafxRun(() -> l1.fire());
     Scene gameScene = myStage.getScene();
     assertNotEquals(gameScene,gameMenuScene);
   }
@@ -72,7 +72,7 @@ public class DriverTest extends DukeApplicationTest {
   @Test
   public void testPressingRandomButtonMovesToGame() {
     Scene mainMenuScene = myStage.getScene();
-    Button game1 = (Button) mainMenuScene.lookup("#Mario");
+    Button game1 = (Button) mainMenuScene.lookup("#g1");
     assertNotNull(game1);
     javafxRun(() -> game1.fire());
     Scene gameMenuScene = myStage.getScene();
@@ -86,22 +86,22 @@ public class DriverTest extends DukeApplicationTest {
   @Test
   public void testVictoryWithDummyLevel() throws FactoryException {
     Scene mainMenuScene = myStage.getScene();
-    Button game1 = (Button) mainMenuScene.lookup("#Mario");
+    Button game1 = (Button) mainMenuScene.lookup("#g1");
     assertNotNull(game1);
     javafxRun(() -> game1.fire());
     Scene gameMenuScene = myStage.getScene();
     assertNotEquals(mainMenuScene,gameMenuScene);
-    Button level1 = (Button) gameMenuScene.lookup("#Level1");
-    assertNotNull(level1);
+    Button l1 = (Button) gameMenuScene.lookup("#l1");
+    assertNotNull(l1);
     Game easyVictoryGame = factory.makeCorrectGame("testVictory");
-    EventHandler<ActionEvent> previousAction = level1.getOnAction();
-    level1.setOnAction(e -> {
+    EventHandler<ActionEvent> previousAction = l1.getOnAction();
+    l1.setOnAction(e -> {
       previousAction.handle(e);
       myDriver.setGame(easyVictoryGame);
     });
     Scene gameScene = myStage.getScene();
 
-    javafxRun(() -> level1.fire());
+    javafxRun(() -> l1.fire());
     sleep(200);
 
     Scene victoryScene = myStage.getScene();
@@ -118,22 +118,22 @@ public class DriverTest extends DukeApplicationTest {
   @Test
   public void testLossWithDummyLevel() throws FactoryException {
     Scene mainMenuScene = myStage.getScene();
-    Button game1 = (Button) mainMenuScene.lookup("#Mario");
+    Button game1 = (Button) mainMenuScene.lookup("#g1");
     assertNotNull(game1);
     javafxRun(() -> game1.fire());
     Scene gameMenuScene = myStage.getScene();
     assertNotEquals(mainMenuScene,gameMenuScene);
-    Button level1 = (Button) gameMenuScene.lookup("#Level1");
-    assertNotNull(level1);
+    Button l1 = (Button) gameMenuScene.lookup("#l1");
+    assertNotNull(l1);
     Game instantLossGame = factory.makeCorrectGame("testDefeat");
-    EventHandler<ActionEvent> previousAction = level1.getOnAction();
-    level1.setOnAction(e -> {
+    EventHandler<ActionEvent> previousAction = l1.getOnAction();
+    l1.setOnAction(e -> {
       previousAction.handle(e);
       myDriver.setGame(instantLossGame);
     });
     Scene gameScene = myStage.getScene();
 
-    javafxRun(() -> level1.fire());
+    javafxRun(() -> l1.fire());
     sleep(500);
 
     Scene defeatScene = myStage.getScene();

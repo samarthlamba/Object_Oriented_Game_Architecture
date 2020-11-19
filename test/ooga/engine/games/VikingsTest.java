@@ -1,10 +1,13 @@
 package ooga.engine.games;
 
+import javafx.animation.Timeline;
 import javafx.stage.Stage;
+import ooga.GameController;
 import ooga.engine.entities.Entity;
 import ooga.loader.FactoryException;
 import ooga.loader.GameFactory;
 import ooga.util.DukeApplicationTest;
+import ooga.view.Display;
 import ooga.view.screens.GamePlayScreen;
 import org.junit.jupiter.api.Test;
 
@@ -13,13 +16,15 @@ import java.util.Collection;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class VikingsTest extends DukeApplicationTest {
-    private GamePlayScreen testScreen;
-
-    private final GameFactory gameFactory = new GameFactory();
+    private Game myGame;
+    private Display myDisplay;
+    private static final GameFactory gameFactory = new GameFactory();
 
     @Override
     public void start(Stage stage) {
-        testScreen = new GamePlayScreen();
+        Timeline testTimeline = new Timeline();
+        GameController testController = new GameController(stage,testTimeline,this::setMyGame);
+        myDisplay = new Display(testController);
     }
 
     @Test
@@ -91,7 +96,7 @@ public class VikingsTest extends DukeApplicationTest {
     @Test
     public void testWaterfallPercolate() throws FactoryException {
         Game game = gameFactory.makeCorrectGame("testVikingsWaterfall");
-        testScreen.setGameScreen(game);
+        javafxRun(() -> myDisplay.setGameDisplay(game));
         Collection<Entity> entities = (Collection<Entity>) game.getEntities();
         Entity player = (Entity) game.getActivePlayer();
         boolean intersection = false;
@@ -123,6 +128,11 @@ public class VikingsTest extends DukeApplicationTest {
 
         }
         assertTrue(game.getPoints() != 0);
+    }
+
+
+    private void setMyGame(Game game) {
+        myGame = game;
     }
 
 }

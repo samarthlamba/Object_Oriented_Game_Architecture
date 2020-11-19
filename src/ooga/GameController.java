@@ -13,6 +13,7 @@ import ooga.loader.GameFactory;
  */
 public class GameController {
 
+  private static final String DEFAULT_ID = "g1,l1";
   private final Stage stage;
   private final Timeline timeline;
   private final GameFactory gameFactory;
@@ -115,6 +116,9 @@ public class GameController {
   }
 
   public String getId() {
+    if(id == null) {
+      return DEFAULT_ID;
+    }
     return id;
   }
 
