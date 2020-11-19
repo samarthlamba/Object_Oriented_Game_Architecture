@@ -12,17 +12,10 @@ Start Date: October 24th 2020
 
 Finish Date: November 18th 2020
 
-Hours Spent: Many many hours
+Hours Spent: Many many hours (1 million?)
 
 ### Primary Roles
 
-Sam Lamba: Worked primarily with backend and with simulation. Worked on backend components like Entity, Enemy, game etc (with Roshni) and animation components like Animation.
-
-Roshni: Worked primarily with backend components and lead the incorporation of backend with each other and with front end's needs. Worked extensively on different objects and games. 
-
-Matt: Assisted overall and worked extensively with data and data reading. Created multiple Beans and data readers/factories and worked on driver.
-
-Joe: Worked extensively on front end and the different screens on the front end. 
 ### Resources Used
 
 In assisting with animation we used: https://netopyr.com/2012/03/09/creating-a-sprite-animation-with-javafx/
@@ -96,11 +89,12 @@ All Music - https://downloads.khinsider.com/game-soundtracks
 
 Main class: Driver. To run everything correctly, please ensure the project structure looks as below:
 
-![Project Structure](doc/projectStructure.png "Project Structure")
+![Project Structure](doc/projectStructure.png "Project Structur")
 
 Data files needed: 
+Everything in any directory marked as a source directory.
 
-Features implemented: Animation, high score being recorded, random level generation, character movement, automated enemy movement, property file based games and parameters input. 
+Features implemented: Animation, high score being recorded, random level generation, character movement, automated enemy movement, property file based games and parameters input, sound tracks, collisions defined in data files, splash screens, display themes, rebindable keys
 
 
 ### Notes/Assumptions
@@ -108,14 +102,11 @@ Features implemented: Animation, high score being recorded, random level generat
 Assumptions or Simplifications: We assume that some of the fundamental attributes of the game such as defaultPicture are present at the minimum. 
 
 Interesting data files:
+The data files that control the levels are all GameNameLevelNumber.csv; each of them may have an associated properties file that is used to define constants for that level. The data files that control level generation are GameNameClasses.properties; they list width and height of block and what obstacles and entities can be in the game. The data files that control random level generation are RandomGameName.properties; they specify special first and last chunk blocks, the number of chunks horizontally and vertically to generate, and what blocks to generate at what weights in the rest of the random level.
 
 Known Bugs: In some instances mario can get stuck in objects, but that is very rare and uncommon and can be attributed usually to extremely high values like gravity or jump capacity. The game physics tries to simulate real life and thus similar to real life if these values were to be very high, we might expect a similar reaction. 
 
-Extra credit: capanility of animation as well as already incorporated animations and ease of animating entities (simply add property file and image), high score being recorded for each part of game automatically and weekly high scores being updated as weeks go on, random and automatic level generation, all actions being read in from property file such that any non-programmer could edit how an object interacts after collision. An example of such property file can be seen below:
-
-![Property File](doc/propertyFileBasedCollision.png)
-
-Implementation of above is simply editing the property file associated with an object and changing what each side of collision does (left, right, top, bottom) with any of the prewritten method to call and ID of object it will affect. Multiple methods can be called by having a ":" between calls. 
+Extra credit: Animation, high score being recorded, random level generation, all actions being read in from property file such that any non-programmer could edit how an object interacts after collision, splash screens, music.
 
 
 ### Impressions
