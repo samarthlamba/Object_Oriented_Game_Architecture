@@ -80,5 +80,6 @@ public class KeyBinder {
       table.setProperty(keyString, keyMethodMap.get(key));
     }
     table.store(stream, null);
+    stream.close();
   }
 }
