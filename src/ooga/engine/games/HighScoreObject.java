@@ -3,12 +3,14 @@ package ooga.engine.games;
 import java.io.Serializable;
 
 /**
- * Object to record high scoree
+ * Object to record high score
  */
 public class HighScoreObject implements Serializable{
 
-    private int score;
-    private long time;
+    private final int score;
+    private final long time;
+    private static final int ZERO = 0;
+    private static final String COMMA = ",";
     public HighScoreObject(int score){
         time = System.currentTimeMillis();
         this.score = score;
@@ -49,11 +51,11 @@ public class HighScoreObject implements Serializable{
 
     /**
      * Converts score and time to string
-     * @return String fot the score and time seprated by a comma
+     * @return String fot the score and time separated by a comma
      */
     @Override
     public String toString(){
-        return this.getScore() + "," + this.getTime();
+        return this.getScore() + COMMA+ this.getTime();
     }
 
     /**
@@ -62,11 +64,16 @@ public class HighScoreObject implements Serializable{
      * @return score object
      */
     public static HighScoreObject toHighScoreObject(String s) {
-        String[] split = s.split(",");
+        String[] split = s.split(COMMA);
         if (split.length > 1) {
-            return new HighScoreObject(Integer.parseInt(split[0]), Long.parseLong(split[1]));
+            try{
+                return new HighScoreObject(Integer.parseInt(split[ZERO]), Long.parseLong(split[1]));
+            }
+            catch (Exception e){
+                return new HighScoreObject(ZERO,ZERO);
+            }
         }
-        return new HighScoreObject(Integer.parseInt(split[0]), 0);
+        return new HighScoreObject(Integer.parseInt(split[ZERO]), ZERO);
     }
 
 }
