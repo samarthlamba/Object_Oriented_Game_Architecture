@@ -85,7 +85,9 @@ All Music - https://downloads.khinsider.com/game-soundtracks
 
 ### Running the Program
 
-Main class: Driver
+Main class: Driver. To run everything correctly, please ensure the porject structure looks as below:
+
+![Project Structure](doc/projectStructure.png "Project Structur")
 
 Data files needed: 
 
