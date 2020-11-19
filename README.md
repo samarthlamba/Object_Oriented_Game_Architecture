@@ -1,21 +1,20 @@
-final
+Final- CS307
 ====
 
 This project implements a player for multiple related games.
 
-Names:
+Names: Sam Lamba, Roshni Penmatcha, Matt Bowman, Joe Heflin
 
 
 ### Timeline
 
-Start Date: 
+Start Date: October 24th 2020
 
-Finish Date: 
+Finish Date: November 18th 2020
 
-Hours Spent:
+Hours Spent: Many many hours
 
 ### Primary Roles
-
 
 ### Resources Used
 
@@ -86,11 +85,11 @@ All Music - https://downloads.khinsider.com/game-soundtracks
 
 ### Running the Program
 
-Main class:
+Main class: Driver
 
 Data files needed: 
 
-Features implemented:
+Features implemented: Animation, high score being recorded, random level generation, character movement, automated enemy movement, property file based games and parameters input. 
 
 
 
@@ -100,9 +99,9 @@ Assumptions or Simplifications:
 
 Interesting data files:
 
-Known Bugs:
+Known Bugs: In some instances mario can get stuck in objects, but that is very rare and uncommon and can be attributed usually to extremely high values like gravity or jump capacity. The game physics tries to simulate real life and thus similar to real life if these values were to be very high, we might expect a similar reaction. 
 
-Extra credit:
+Extra credit: Animation, high score being recorded, random level generation, all actions being read in from property file such that any non-programmer could edit how an object interacts after collision. 
 
 
 ### Impressions
