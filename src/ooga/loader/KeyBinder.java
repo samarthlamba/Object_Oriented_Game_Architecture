@@ -15,8 +15,8 @@ public class KeyBinder {
   private static final String PATH_TO_KEYBINDINGS = "src/resources/KeyBindings.properties";
   private static final String BINDABLE_BUNDLE_LOCATION = "KeyBindings";
   private final Map<String, KeyCode> methodKeyMap;
-
   private final Map<KeyCode, String> keyMethodMap;
+
   private ResourceBundle keyBundle;
 
   public KeyBinder(){
@@ -65,7 +65,7 @@ public class KeyBinder {
 
   public Map<String,KeyCode> getMethodKeyMap() {
     return methodKeyMap;
-  }
+  } //TODO
 
   public Map<KeyCode, String> getKeyMethodMap() {
     return keyMethodMap;
@@ -81,5 +81,4 @@ public class KeyBinder {
     }
     table.store(stream, null);
   }
-
 }
