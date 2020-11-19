@@ -18,6 +18,8 @@ Hours Spent: Many many hours
 
 ### Resources Used
 
+In assisting with animation we used: https://netopyr.com/2012/03/09/creating-a-sprite-animation-with-javafx/
+
 Image Citations:
 
 arrow - http://www.minecraftguides.org/arrows/
