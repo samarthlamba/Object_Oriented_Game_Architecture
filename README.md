@@ -12,7 +12,7 @@ Start Date: October 24th 2020
 
 Finish Date: November 18th 2020
 
-Hours Spent: Many many hours (1 million?)
+Hours Spent: Many many hours (1 million?): 500 hours
 
 ### Primary Roles
 
