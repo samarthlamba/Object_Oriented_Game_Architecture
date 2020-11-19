@@ -115,7 +115,11 @@ The data files that control the levels are all GameNameLevelNumber.csv; each of 
 
 Known Bugs: In some instances mario can get stuck in objects, but that is very rare and uncommon and can be attributed usually to extremely high values like gravity or jump capacity. The game physics tries to simulate real life and thus similar to real life if these values were to be very high, we might expect a similar reaction. 
 
-Extra credit: Animation, high score being recorded, random level generation, all actions being read in from property file such that any non-programmer could edit how an object interacts after collision, splash screens, music.
+Extra credit: cabability of animation as well as already incorporated animations and ease of animating entities (simply add property file and image), high score being recorded for each part of game automatically and weekly high scores being updated as weeks go on, random level generation, all actions being read in from property file such that any non-programmer could edit how an object interacts after collision (an example of such property file can be seen below), splash screens, music.
+
+![Property File](doc/propertyFileBasedCollision.png)
+
+Implementation of above is simply editing the property file associated with an object and changing what each side of collision does (left, right, top, bottom) with any of the prewritten method to call and ID of object it will affect. Multiple methods can be called by having a ":" between calls. 
 
 
 ### Impressions
