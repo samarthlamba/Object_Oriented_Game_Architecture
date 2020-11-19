@@ -6,23 +6,24 @@ import ooga.engine.entities.MovableBounds;
 import ooga.view.UpdateObjectsOnScreen;
 
 public interface GamePlay {
-    void updateLevel();
 
-    Collection<? extends Node> getBackground();
+  void updateLevel();
 
-    Collection<? extends MovableBounds> getEntities();
+  Collection<? extends Node> getBackground();
 
-    void moveRight();
+  Collection<? extends MovableBounds> getEntities();
 
-    void moveLeft();
+  void moveRight();
 
-    void moveUp();
+  void moveLeft();
 
-    void setDisplay(UpdateObjectsOnScreen updateObjectsOnScreen);
+  void moveUp();
 
-    int getPoints();
+  void setDisplay(UpdateObjectsOnScreen updateObjectsOnScreen);
 
-    boolean isWon();
+  int getPoints();
 
-    boolean isLost();
+  boolean isWon();
+
+  boolean isLost();
 }
