@@ -1,4 +1,8 @@
 .root {
+    -fx-background-image: url(/images/mariosky.png);
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-background-size: cover;
     -fx-background-color: #30cdf5;
 }
 
