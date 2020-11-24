@@ -8,11 +8,24 @@ import java.util.Set;
 import ooga.engine.entities.Entity;
 import ooga.engine.entities.Movable;
 
+/**
+ * Collision manager class that determines if a collision has taken place, which side a collision
+ * occurs on, and what action to take as a result.
+ */
 public class Collisions {
 
   private static final int PRECISION = 0;
   private final Set<String> collisionTypes = Set.of("right", "left", "top", "bottom");
 
+  /**
+   * collisions takes in a Entity and Collideable (which is implemented by both Entity and Obstacle)
+   * this means that this single method can handle both entity, entity collisions and entity, obstacle collisions.
+   * First reflection finds all of the sides a collision takes place
+   * Second reflection loops through these sides and calls method that will preform correct action
+   * on entity as a result of collision
+   * @param entity Entity involved in the collision
+   * @param object Collideable which is implemented by Enitity and Obstacle. It is involved in the collision
+   */
   public void collisions(Entity entity, Collideable object) {
     List<String> collisionSide = new ArrayList<>();
     for (String side : collisionTypes) {
@@ -86,6 +99,13 @@ public class Collisions {
             entity.getNode().getBoundsInParent().getMaxX(), PRECISION);
   }
 
+  /**
+   * Checks if two doubles are equal according to how precise one wants to be
+   * @param a first double to be compared
+   * @param b second double to be compared
+   * @param precision precision to what decimal point do they need to be equal
+   * @return returns true if equal upto precision, otherwise false
+   */
   //https://stackoverflow.com/questions/356807/java-double-comparison-epsilon
   public boolean areEqualDouble(double a, double b, int precision) {
     return Math.abs(a - b) <= Math.pow(10, -precision);

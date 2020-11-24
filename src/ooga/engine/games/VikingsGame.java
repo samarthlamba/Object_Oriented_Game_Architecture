@@ -12,6 +12,10 @@ import ooga.engine.entities.weapon.Arrow;
 import ooga.engine.games.beans.VikingsBean;
 import ooga.engine.obstacles.Unmovable;
 
+/**
+ * Concrete VikingsGame class that extends Game is part of our game inheritance hierarchy
+ * contains vikings game specific code
+ */
 public class VikingsGame extends Game {
 
   private final static int PRECISION = 0;
@@ -28,7 +32,16 @@ public class VikingsGame extends Game {
   private boolean firstStep = true;
   private int startTime = 0;
 
-
+  /**
+   * Vikings game constructor initializes variables through parameter input and constant values retrieved
+   * from the beans
+   *
+   * @param player      main player entity
+   * @param obstacles  collection of Unmovable obstacles
+   * @param entities   collection of Movable entities
+   * @param timeElapsed 1 / frame rate
+   * @param bean        bean constants
+   */
   public VikingsGame(Player player, Collection<Unmovable> obstacles,
       Collection<Movable> entities, double timeElapsed, VikingsBean bean) {
     super(player, obstacles, entities, timeElapsed, bean);
@@ -207,6 +220,12 @@ public class VikingsGame extends Game {
     }
   }
 
+  /**
+   * When key pressed to trigger playerAction, current player is transferred to least recently
+   * active player obstacle location (in the list of obstacles will be first in list).
+   * That player obstacle is removed from list and collection and a new player obstacle is made in
+   * place of where player is. This obstacle is added to end of list.
+   */
   @Override
   public void playerAction() {
     Movable entity = super.getActivePlayer();
@@ -227,6 +246,10 @@ public class VikingsGame extends Game {
     entities.remove(nextPlayer);
   }
 
+  /**
+   * Sets points to current time in milliseconds from when viking game started
+   * @param entity Movable entity not used 
+   */
   @Override
   public void setPoints(Movable entity) {
     if (firstStep) {

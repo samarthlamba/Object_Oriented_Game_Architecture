@@ -3,7 +3,7 @@ package ooga.engine.entities.object;
 import ooga.engine.entities.Entity;
 
 /**
- * Gives mario coin when hit
+ * Gives mario coin point when hit
  */
 public class Coin extends Entity {
 

@@ -2,6 +2,7 @@ package ooga.engine.entities.enemy;
 
 /**
  * Lost Vikings Basic Enemy
+ * has shooting ability (shoots arrows at random intervals)
  */
 public class Goblin extends Enemy {
 

@@ -1,5 +1,8 @@
 package ooga.engine.obstacles;
 
+/**
+ * Goal obstacle causes player to win if collided with  (defined by property file)
+ */
 public class Goal extends Obstacle {
 
   private static final String ID = "goal";

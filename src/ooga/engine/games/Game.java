@@ -275,18 +275,31 @@ public abstract class Game implements GamePlay {
   }
 
 
+  /**
+   * Returns the player which is Movable controlled by User
+   * @return Movable player
+   */
   public Movable getActivePlayer() {
     return player;
   }
 
+  /**
+   * Methods used to control player moving right on key press called in view
+   */
   public void moveRight() {
     RIGHT(player);
   }
 
+  /**
+   * Methods used to control player moving left on key press called in view
+   */
   public void moveLeft() {
     LEFT(player);
   }
 
+  /**
+   * Methods used to control player moving up on key press called in view
+   */
   public void moveUp() {
     UP(player);
   }
@@ -322,6 +335,10 @@ public abstract class Game implements GamePlay {
     return Math.abs(a - b) <= Math.pow(POWER, -precision);
   }
 
+  /**
+   * setDisplay by initializing viewable
+   * @param gamePlayScreen interface interaction between display and game
+   */
   public void setDisplay(UpdateObjectsOnScreen gamePlayScreen) {
     viewable = gamePlayScreen;
   }
