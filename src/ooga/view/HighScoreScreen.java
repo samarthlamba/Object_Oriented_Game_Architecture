@@ -81,9 +81,7 @@ public class HighScoreScreen extends Screen {
         vbox.getChildren().clear();
         scope = (String) scopeValue;
         String levelRaw = (String) levelValue;
-//        level = levelRaw.replaceAll(" ","");
-//        System.out.println(gameController.getGameName());
-        String game = gameController.getGameName();
+        level = levelRaw.replaceAll(" ","");
 
 
         HighScore highScoreInst = new HighScore(game+level);
