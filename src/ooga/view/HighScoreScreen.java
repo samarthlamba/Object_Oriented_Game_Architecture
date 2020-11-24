@@ -30,9 +30,13 @@ public class HighScoreScreen extends Screen {
     private Scene scene;
     private GameController gameController;
     private HighScore highScores;
+    private String game;
+    private String level;
+    private String scope;
 
-    public HighScoreScreen(GameController controller) {
+    public HighScoreScreen(GameController controller, String gameName) {
         gameController = controller;
+        game = gameName;
 //        String gameId = gameController.getId();
 //        highScores = new HighScore(LEVEL_FILE_LOCATIONS.getString(gameId));
         setUpScene();
@@ -47,11 +51,12 @@ public class HighScoreScreen extends Screen {
 
         ComboBox scopeComboBox = new ComboBox();
         ComboBox levelComboBox = new ComboBox();
-        ArrayList scopeOptions = new ArrayList<>(Arrays.asList("Weekly","Global","All")); //TODO
-        ArrayList levelOptions = new ArrayList<>(Arrays.asList("Level 1","Level 2","Level 3"));//TODO shit
+        ArrayList scopeOptions = new ArrayList<>(Arrays.asList("Weekly","Global","All"));
+        ArrayList levelOptions = new ArrayList<>(Arrays.asList("Level 1","Level 2","Level 3"));
         scopeComboBox.setItems(FXCollections.observableArrayList(scopeOptions));
         levelComboBox.setItems(FXCollections.observableArrayList(levelOptions));
-        scopeComboBox.setValue("Weekly"); //TODO
+        scopeComboBox.setValue("Weekly");
+        scopeComboBox.setId("scope");
         levelComboBox.setValue("Level 1");
         VBox highScores = new VBox();
         highScores.setAlignment(Pos.CENTER);
@@ -74,19 +79,20 @@ public class HighScoreScreen extends Screen {
 
     private void changeHighScores(Object scopeValue, Object levelValue, VBox vbox) {
         vbox.getChildren().clear();
-        String scope = (String) scopeValue;
-        String level = (String) levelValue;
+        scope = (String) scopeValue;
+        String levelRaw = (String) levelValue;
+//        level = levelRaw.replaceAll(" ","");
+//        System.out.println(gameController.getGameName());
         String game = gameController.getGameName();
+
 
         HighScore highScoreInst = new HighScore(game+level);
 
         Object obj;
         try {
             Method myObjMethod = highScoreInst.getClass().getMethod("get" + scope + "HighScores");
-//            System.out.println(myObjMethod);
             obj = myObjMethod.invoke(highScoreInst);
         } catch (Exception e) {
-            e.printStackTrace();
             throw new RuntimeException("Invalid combo box option");
         }
         HighScoreObject[] highScores = (HighScoreObject[]) obj;
@@ -105,5 +111,9 @@ public class HighScoreScreen extends Screen {
     @Override
     public Scene getView() {
         return scene;
+    }
+
+    public String getInfo() {
+        return game+level+scope;
     }
 }

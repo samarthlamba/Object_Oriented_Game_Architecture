@@ -29,6 +29,7 @@ public class HighScore {
    */
   public HighScore(String game) {
     fileName = PATH_TO_RESOURCES + game + EXTENSION;
+    System.out.println(fileName);
     checkFileExistence();
   }
 

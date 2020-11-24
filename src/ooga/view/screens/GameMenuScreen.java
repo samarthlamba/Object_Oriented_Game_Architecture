@@ -61,7 +61,7 @@ public abstract class GameMenuScreen extends Screen {
     }
 
     private void showHighScores(){
-        HighScoreScreen screen = new HighScoreScreen(gameController);
+        HighScoreScreen screen = new HighScoreScreen(gameController,gameTitle);
         screen.setOldScene(this.getView());
         gameController.setScene(screen.getView());
     }

@@ -33,8 +33,6 @@ class HighScoreTest {
             assertEquals(initializedHighScore[i].getScore(), results[i].getScore());
             assertEquals(initializedHighScore[i].getTime(), results[i].getTime());
         }
-
-
     }
 
     @Test
