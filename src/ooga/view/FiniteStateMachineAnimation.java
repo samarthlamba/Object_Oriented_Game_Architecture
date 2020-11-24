@@ -10,7 +10,9 @@ import javafx.scene.image.Image;
 import ooga.engine.entities.Entity;
 import ooga.loader.AnimationBrain;
 
-
+/**
+ * Finite state machine to determine what animation to show
+ */
 public class FiniteStateMachineAnimation {
 
   private final Entity entity;
@@ -31,6 +33,13 @@ public class FiniteStateMachineAnimation {
   private Boolean currentFacing;
   private Animation currentAnimation;
 
+  /**
+   * Constructor for FiniteStateMachineAnimation
+   *
+   * @param entity:         entity to create the animation for
+   * @param animationBrain: contains all crucial parameters such as framesPerRow and basically where
+   *                        to look in the image for animation
+   */
   public FiniteStateMachineAnimation(Entity entity, AnimationBrain animationBrain) {
     this.entity = entity;
     initialHeight = entity.getHeight();
@@ -73,6 +82,10 @@ public class FiniteStateMachineAnimation {
     this.stand.swapDirection();
   }
 
+  /**
+   * Updates the action and moves the image and scales it as the entity changes. Determines what the
+   * entity is doing to change the animation based on the enums
+   */
   public void update() {
     moveAndScale();
     getFacing();
@@ -125,11 +138,8 @@ public class FiniteStateMachineAnimation {
   }
 
   private Boolean isMoving() {
-    if ((int) entity.getPreviousY() == (int) entity.getMaxY()
-        && (int) entity.getPreviousX() != (int) entity.getCenterX()) {
-      return true;
-    }
-    return false;
+    return (int) entity.getPreviousY() == (int) entity.getMaxY()
+        && (int) entity.getPreviousX() != (int) entity.getCenterX();
   }
 
   private Boolean isSpecial() {
