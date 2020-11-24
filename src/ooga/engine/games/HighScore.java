@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Creates high score file and maintains output and content for the file
+ * Creates high score file and maintains output and content for the file. Updates weekly and global scores
  */
 public class HighScore {
 
@@ -92,7 +92,7 @@ public class HighScore {
   }
 
   /**
-   * returns weekly best score that are present. Updated as more scores come in
+   * returns weekly best score that are present. Updated as more scores come in and weeks pass by since the last game
    *
    * @return Returns array of HighScore object
    */
@@ -104,7 +104,7 @@ public class HighScore {
   }
 
   /**
-   * returns all scores that are present in file.
+   * returns all scores that are present in file and game of interest
    *
    * @return Returns array of HighScore object
    */
@@ -115,7 +115,7 @@ public class HighScore {
 
 
   }
-
+    // merge conflict below lead to repetition.
     @Deprecated
     public HighScoreObject[] getAllHighScores() {
         checkFileExistence();
@@ -156,7 +156,7 @@ public class HighScore {
   }
 
   /**
-   * Adds the inputted score and updates the weekly and global scores
+   * Adds the inputted score and updates the weekly and global scores and write to file
    *
    * @param score int value for the score to add
    */
@@ -166,7 +166,7 @@ public class HighScore {
     listOfScores = updateWeeklyTimes(listOfScores);
     listOfScores = shiftAndAddScore(current, listOfScores, 0, NUMBER_OF_RECORDS - 1);
     listOfScores = shiftAndAddScore(current, listOfScores, NUMBER_OF_RECORDS,
-        listOfScores.length - 1);  //ignord error as doing changes to same variable
+        listOfScores.length - 1);  //ignored error as doing changes to same variable
     try {
       FileWriter writer = new FileWriter(fileName);
       BufferedWriter bw = new BufferedWriter(writer);
