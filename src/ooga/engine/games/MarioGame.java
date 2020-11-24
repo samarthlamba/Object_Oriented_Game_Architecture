@@ -21,6 +21,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
+/**
+ * Concrete MarioGame class that extends Game is part of our game inheritance hierarchy
+ * contains mario game specific code
+ */
 public class MarioGame extends Game {
   private final static int COIN_APPEAR_OFFSET = 3;
   private final static String POINTS = "coin";
@@ -38,7 +42,16 @@ public class MarioGame extends Game {
   private final int randomCoinMin;
   private final Collection<Movable> coins = new ArrayList<>();
 
-
+  /**
+   * Mario game constructor initializes variables through parameter input and constant values retrieved
+   * from the beans
+   *
+   * @param player      main player entity
+   * @param obstacleCollection   collection of Unmovable obstacles
+   * @param entityCollection    collection of Movable entities
+   * @param timeElapsed 1 / frame rate
+   * @param bean        bean constants
+   */
   public MarioGame(Player player,Collection<Unmovable> obstacleCollection, Collection<Movable> entityCollection,
                    double timeElapsed, MarioBean bean) {
     super(player,obstacleCollection, entityCollection, timeElapsed, bean);
@@ -127,6 +140,12 @@ public class MarioGame extends Game {
     }
   }
 
+  /**
+   * method that properly sets velocity to make entities
+   * move independently back and forth across the screen
+   * @param entity Movable entity will have correct movement if
+   *               it has true horizontal movement state
+   */
   @Override
   public void autoEntityMovement(Movable entity) {
     entityDirection(entity);
@@ -150,6 +169,10 @@ public class MarioGame extends Game {
     rightOver = false;
   }
 
+  /**
+   * sets point value as number of coins collection
+   * @param entity if coin then is added to point value
+   */
   @Override
   public void setPoints(Movable entity){
     if(entity.getId().equals(POINTS)){
