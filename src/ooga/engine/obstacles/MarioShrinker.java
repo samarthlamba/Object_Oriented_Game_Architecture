@@ -1,7 +1,8 @@
 package ooga.engine.obstacles;
 
 /**
- * Powerup in mario that shrinks mario to half size when hit
+ * Powerup in mario that shrinks mario to smaller size when hit
+ *  (defined by property file)
  */
 public class MarioShrinker extends Obstacle {
 

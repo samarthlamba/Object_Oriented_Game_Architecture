@@ -3,8 +3,8 @@ package ooga.engine.entities.object;
 import ooga.engine.entities.Entity;
 
 /**
- * Vikings obstacle that is collideable from top only and whose "flow" is blocked by non-active
- * viking
+ * Viking obstacle
+ * has percolation state true
  */
 public class Waterfall extends Entity {
 
@@ -16,6 +16,10 @@ public class Waterfall extends Entity {
     setPercolate(true);
   }
 
+  /**
+   * Does not have gravity force acting on entity
+   * @return boolean false no gravity force experienced
+   */
   @Override
   public boolean hasGravity() {
     return false;

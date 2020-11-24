@@ -4,6 +4,9 @@ import ooga.engine.entities.Entity;
 
 public class Question extends Entity {
 
+  /**
+   * Used in mario has random coin generation property
+   */
   private static final String ID = "question";
 
   public Question(int objectWidth, int objectHeight, double initialX, double initialY) {
@@ -13,6 +16,10 @@ public class Question extends Entity {
     setId(ID);
   }
 
+  /**
+   * Does not have gravity force acting on entity
+   * @return boolean false no gravity force experienced
+   */
   @Override
   public boolean hasGravity() {
     return false;
