@@ -7,6 +7,9 @@ import ooga.engine.games.GamePropertyFileReader;
 import java.lang.reflect.Method;
 import java.util.Iterator;
 
+/**
+ * Abstract class handles states of entity, position, and collisions
+ */
 public abstract class Entity extends Rectangle implements Collideable, Movable {
     private static final double NEGATIVE_DIRECTION = -1;
     public static final int HEALTH_PENALTY = -1;
@@ -52,51 +55,99 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
         this.setMaxY(initialY + objectHeight);
     }
 
+    /**
+     * Returns node object of Entity
+     * @return Node
+     */
     public Node getNode() {
         return this;
     }
 
+    /**
+     * Gets status if alive
+     * @return returns true if alive, false if not alive
+     */
     public boolean getStatusAlive(){
         return this.status_Alive;
     }
 
+    /**
+     * hasWon is default false since only player should be able to set to true
+     * @return false (can be overridden)
+     */
     public boolean hasWon(){
         return false;
     }
 
+    /**
+     * setWon to boolean value finished
+     * @param finished boolean
+     */
     public void setWon(boolean finished){
     }
 
+    /**
+     * returns the x velocity of entity
+     * @return speed double
+     */
     public double getVelocityX(){
         return speed;
     }
 
+    /**
+     * Returns the y velocity of entity
+     * @return jumpCapacity double
+     */
     public double getVelocityY(){
         return jumpCapacity;
     }
 
+    /**
+     * Returns number of hitpoints left
+     * @return hitpoints
+     */
     public int getHealth(){
         return getHitpoints();
     }
 
+    /**
+     * Set x velocity of entity
+     * @param x speed
+     */
     public void setVelocityX(double x){
         this.speed = x;
     }
 
+    /**
+     * set y velocity of entity
+     * @param y speed
+     */
     public void setVelocityY(double y){
         this.jumpCapacity = y;
     }
 
+    /**
+     * Set center value x value of the node
+     * @param inputX center value
+     */
     public void setCenterX(double inputX){
         nodeObject.setLayoutX(inputX - nodeObject.getLayoutBounds().getCenterX());
         setX(inputX - entityWidth /2);
     }
 
+    /**
+     * Set max y value (furthest down value on screen)
+     * @param inputY max y value
+     */
     public void setMaxY(double inputY){
         nodeObject.setLayoutY(inputY - nodeObject.getLayoutBounds().getMaxY());
         this.setY(inputY - this.getHeight());
     }
 
+    /**
+     * set hitpoints and sets Alive status accordingly
+     * @param hitpoints int amount of health left
+     */
     public void setHitpoints(int hitpoints){
         currentHitpoints=hitpoints;
         if (currentHitpoints <= 0){
@@ -104,152 +155,309 @@ public abstract class Entity extends Rectangle implements Collideable, Movable {
         }
     }
 
+    /**
+     * Return how much health remaining
+     * @return current hitpoints
+     */
     public int getHitpoints(){
         return currentHitpoints;
     }
 
+    /**
+     * Previous x value
+     * @param previous x
+     */
     public void setPreviousX(double previous){
         previousX = previous;
     }
 
+    /**
+     * get previous x value of entity
+     * @return previous x
+     */
     public double getPreviousX(){
         return previousX;
     }
 
+    /**
+     * set previous y value of entity
+     * @param previous previous y
+     */
     public void setPreviousY(double previous){
         previousY = previous;
     }
 
+    /**
+     * get previous y value of entity
+     * @return previous y value
+     */
     public double getPreviousY(){
         return previousY;
     }
 
+    /**
+     * get the center value in parent of entity
+     * @return center value of node object
+     */
     public double getCenterX(){
         return nodeObject.getBoundsInParent().getCenterX();
     }
 
+    /**
+     * get width of entity
+     * @return double width of entity
+     */
     public double getEntityWidth(){
         return entityWidth;
     }
 
+    /**
+     * get height of entity
+     * @return double height of entity
+     */
     public double getEntityHeight(){
         return entityHeight;
     }
 
+    /**
+     * ge max y
+     * @return max y value in parent
+     */
     public double getMaxY(){
         return nodeObject.getBoundsInParent().getMaxY();
     }
 
+    /**
+     * set the force on entity in x direction
+     * @param force x force
+     */
     public void setXForce(double force){
         xForce = force;
     }
 
+    /**
+     * set the force on entity in y direction
+     * @param force y force
+     */
     public void setYForce(double force){
         yForce = force;
     }
 
+    /**
+     * get the force on entity in x direction
+     * @return xForce
+     */
     public double getXForce(){
         return xForce;
     }
 
+    /**
+     * get the force on entity in y direction
+     * @return yForce
+     */
     public double getYForce(){
         return yForce;
     }
 
+    /**
+     * entity by default has gravity
+     * @return true boolean has gravity
+     */
     public boolean hasGravity(){
         return true;
     }
 
+    /**
+     * Returns facing right for true and left for false
+     * @return boolean
+     */
     public boolean getFacing(){
         return facing;
     }
 
+    /**
+     * If it is jumping state
+     * @return boolean
+     */
     public boolean isJump(){
         return jump;
     }
 
+    /**
+     * Set if state is jumping
+     * @param isJump jumping
+     */
     public void setJump(boolean isJump){
         jump = isJump;
     }
 
+    /**
+     * get if special action is active
+     * @return boolean
+     */
     public boolean getSpecialAction(){
         return specialAction;
     }
 
+    /**
+     * set special action to active (true) or not active (false)
+     * @param specialAction boolean
+     */
     public void setSpecialAction(boolean specialAction){
         this.specialAction = specialAction;
     }
 
+    /**
+     * Set normal force so gravity and normal cancel
+     * @param gravity double value
+     */
     public void setNormalForce(double gravity){
         this.normalForce = gravity;
     }
 
+    /**
+     * set direction entity facing
+     * @param direction direction right true and left is false
+     */
     public void setFacing(boolean direction){
         facing = direction;
     }
 
+    /**
+     * set horizontal movement set velocity
+     * and set state to true
+     * @param moving boolean
+     * @param velocity double
+     */
     public void setHorizontalMovement(boolean moving, double velocity){
         this.moving = moving;
         setVelocityX(velocity);
     }
 
+    /**
+     * get Horizonal movement
+     * @return moving
+     */
     public boolean getHorizontalMovement(){
         return moving;
     }
 
+    /**
+     * set if entity should be shooting
+     * @param shoots boolean
+     */
     public void setShoots(boolean shoots){
         this.shoots = shoots;
     }
 
+    /**
+     * check if entity state is shooting
+     * @return boolean
+     */
     public boolean doesShoot(){
         return shoots;
     }
 
+    /**
+     * does entity percolate (water fall attributes)
+     * @return boolean
+     */
     public boolean isPercolate(){
         return percolate;
     }
 
+    /**
+     * set entity to percolate
+     * @param percolate boolean
+     */
     public void setPercolate(boolean percolate){
         this.percolate = percolate;
     }
 
+    /**
+     * set source of percolation (top)
+     * @param source boolean
+     */
     public void setSource(boolean source){
         this.source = source;
     }
 
+    /**
+     * get if source of percolation
+     * @return boolean
+     */
     public boolean isSource(){
         return source;
     }
 
+    /**
+     * generate coins attribute
+     * @return boolean
+     */
     public boolean doesGenerateCoins(){
         return makesCoins;
     }
 
+    /**
+     * set to generate coins
+     * @param makesCoins boolean
+     */
     public void setGenerateCoins(boolean makesCoins){
         this.makesCoins = makesCoins;
     }
 
+    /**
+     * entity has shrunk (prevents infinitly small)
+     * @return boolean
+     */
     public boolean hasShrunk(){return shrunk; }
 
+    /**
+     * set entity to has shrunk
+     * @param shrunk boolean
+     */
     public void setShrunk(boolean shrunk){ this.shrunk = shrunk; }
 
+    /**
+     * left collision occurs, so invoke proper action for that collision interaction
+     * @param entity
+     */
     public void leftCollideable(Entity entity) {
         invokeMethod(entity, "left");
     }
 
+    /**
+     * right collision occurs, so invoke proper action for that collision interaction
+     * @param entity
+     */
     public void rightCollideable(Entity entity) {
         invokeMethod(entity, "right");
     }
 
+    /**
+     * bottom collision occurs, so invoke proper action for that collision interaction
+     * @param entity
+     */
     public void bottomCollideable(Entity entity) {
         invokeMethod(entity, "bottom");
     }
 
+    /**
+     * top collision occurs, so invoke proper action for that collision interaction
+     * @param entity
+     */
     public void topCollideable(Entity entity) {
         invokeMethod(entity, "top");
     }
 
 
+    /**
+     * invokeMethod reads in collision action from property file to call appropriate method
+     * on entity based on side of collision, and type of entity collided with
+     * Default is no collision if no input/improper input in property file found
+     * @param entity entity collided with this entity
+     * @param collisionName collision side
+     */
     protected void invokeMethod(Entity entity, String collisionName){
         try {
             GamePropertyFileReader reader = new GamePropertyFileReader(this.getClass().getSimpleName());
