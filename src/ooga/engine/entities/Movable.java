@@ -1,5 +1,11 @@
 package ooga.engine.entities;
 
+/**
+ * Interface that is passed to game engine that only includes methods it needs extends
+ * MovableBounds (interface being passed to view) since overlaps
+ * Only gives game access to methods necessary
+ * Implemented by Entity
+ */
  public interface Movable extends MovableBounds {
 
      double getVelocityX();
