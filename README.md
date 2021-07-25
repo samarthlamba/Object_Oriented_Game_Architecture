@@ -1,4 +1,4 @@
-Final- CS307
+Final Project- CS307
 ====
 
 This project implements a player for multiple related games.
