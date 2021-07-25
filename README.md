@@ -96,17 +96,6 @@ Start Date: October 24th 2020
 Finish Date: November 18th 2020
 
 
-### Primary Roles
-
-Sam Lamba: Worked primarily with backend and with simulation. Worked on backend components like Entity, Enemy, game etc (with Roshni) and animation components like Animation.
-
-Roshni: Worked primarily with backend components and lead the incorporation of backend with each other and with front end's needs. Worked extensively on different objects and games. 
-
-Matt: Assisted overall and worked extensively with data and data reading. Created multiple Beans and data readers/factories and worked on driver.
-
-Joe: Worked extensively on front end and the different screens on the front end. 
-
-
 ### Running the Program
 
 Main class: Driver. To run everything correctly, please ensure the project structure looks as below:
