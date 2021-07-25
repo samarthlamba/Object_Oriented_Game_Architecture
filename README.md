@@ -21,13 +21,13 @@ https://user-images.githubusercontent.com/48296928/126908586-5231a174-3eff-44c7-
 
 ### Adding new game variation
 
-There are a number of things that can be changed to add new variation to the game. In order to change what collision does for already existing entities/obstacles, one can simply edit the entities/obstacles property file and change what the left, right, top, bottom interactions do. In the resources folder for the entity/object one can simply edit the appropriate properties file and edit what the interaction does. They can choose the already coded list of options (such an entity death, penalty, makeCoins etc) and determine what type of objects collision counts to trigger that interaction. In addition, multiple different things can be coded in such a fashion. 
+There are a number of things that can be changed to add new variation to the game. In order to change what collision does for already existing `entities/obstacles`, one can simply edit the `entities/obstacles` property file and change what the left, right, top, bottom interactions do. In the resources folder for the entity/object one can simply edit the appropriate properties file and edit what the interaction does. They can choose the already coded list of options (such an entity death, penalty, makeCoins etc) and determine what type of objects collision counts to trigger that interaction. In addition, multiple different things can be coded in such a fashion. 
 
 As can be seen, multiple different functions can be triggered (in the above case two were triggered) by separating the functions by a colon. In addition, if a user wants to create a completely new interaction that hasn't been created or coded already or create a new object, they can extend entities or one of the entities subclasses (player/enemy) or can extend obstacle as appropriate and override the collision methods. In such a way they can code their own command. 
 
 To change specific attributes of the game such as gravity or jump velocity, one can edit the `GameLevelX` property file in the very top resources folder. Changing this will change the attributes for that level. They can also change things like key binding (in the KeyBindings.properties), and objects that are allowed to be showed in the game with the `GameClasses.properties` file. 
 
-To add new levels for an existing game, create a new CSV with appropriate blocks from the GAMENAMEClasses.properties file (or add new ones, if desired). Optionally, create a FILENAME.properties for the level by copying the default values for that game and modifying as desired.
+To add new levels for an existing game, create a new CSV with appropriate blocks from the `GAMENAMEClasses.properties` file (or add new ones, if desired). Optionally, create a `FILENAME.properties` for the level by copying the default values for that game and modifying as desired.
 
 
 To add new level buttons, add a new l4 = some label for new level to `gamemenubuttons_en.properties` in `src/view/resources`, then add GAME,l4 = FILENAME to  `LevelFileLocations.properties`  in resources.
