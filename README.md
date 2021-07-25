@@ -1,18 +1,54 @@
-Final Project- CS307
+Object Oriented Game Architecture
 ====
 
-This project implements a player for multiple related games.
+This project implements a general architecture that can be used to create many different types of platformer type games. 3 games were created using the architecture: Mario, Lost Viking, Metroid. The architecture uses a low-code solution and a new game can be created entirely of data files.
 
-Names: Sam Lamba, Roshni Penmatcha, Matt Bowman, Joe Heflin
+### Basic Demo of Games Created
+
+Mario:
+
+https://user-images.githubusercontent.com/48296928/126908575-9fb70438-bf4c-421b-8ad6-569be76bdc00.mp4
+
+Lost Vikings:
+
+https://user-images.githubusercontent.com/48296928/126908583-482927d1-2722-4240-9fa9-4bfda5fa07cc.mp4
+
+
+Metroid:
+
+https://user-images.githubusercontent.com/48296928/126908586-5231a174-3eff-44c7-804e-c13b5ac25940.mp4
+
 
 
 ### Timeline
+
+Discussion of Data Driven components:
+
+https://user-images.githubusercontent.com/48296928/126907176-8abd7abf-8c3c-4c4b-b510-72f01208bbdd.mp4
+
+Mario Game In-Depth Discussion:
+
+https://user-images.githubusercontent.com/48296928/126907181-dc17b789-54f7-467b-85f9-0892a87b87bc.mp4
+
+
+Metroid Game In_Depth Discussion:
+
+https://user-images.githubusercontent.com/48296928/126907183-e2f70dee-753b-415d-b750-6115a1cae76b.mp4
+
+
+Viking Game In-Depth Discussion:
+
+https://user-images.githubusercontent.com/48296928/126907187-35af016f-ed2e-446b-8921-cf6a9040eba0.mp4
+
+
+Level Creation Demo:
+https://user-images.githubusercontent.com/48296928/126907190-32af3dd2-331e-466e-acb3-7d2543957327.mp4
+
 
 Start Date: October 24th 2020
 
 Finish Date: November 18th 2020
 
-Hours Spent: Many many hours (1 million?): 500 hours
 
 ### Primary Roles
 
@@ -37,29 +73,15 @@ brick/floor/question - http://pixelartmaker.com/art/31bbfa89464bc5c
 
 bullet - https://pgideas.fandom.com/wiki/Just_A_Bullet
 
-coin - 
-
 coin2 - https://www.pngkey.com/maxpic/u2r5u2q8w7w7w7q8/
-
-defaultObject - 
 
 goal - https://www.clipartmax.com/png/middle/263-2634359_minecraft-super-mario-bros-super-mario-world-star-sprite.png
 
 goblin - http://www.game-art-hq.com/84801/tomator-from-the-lost-vikings-series-game-art-and-an-overview/
 
-goomba -
-
-goomba2 -
-
-heart -
-
-heart2 -
-
 ladder - https://www.pinterest.com/pin/659566307911245653/
 
 LossScreen - https://media1.tenor.com/images/6d46c278bc8bea36adbced41f730981d/tenor.gif?itemid=12235828
-
-marioTitle -
 
 Metroid Title - https://i.pinimg.com/originals/a7/40/c3/a740c3ba061b8762be32c15c2ee40438.jpg
 
@@ -67,13 +89,7 @@ Vikings Title - https://ih1.redbubble.net/image.440353023.4832/fposter,small,wal
 
 metroidWall - https://www.pixilart.com/art/metroid-ground-tile-c-d629464c7d33d1b
 
-pauseButton -
-
-pirate - 
-
 playerobstacle - https://classicreload.com/lost-vikings.html
-
-shrinker - 
 
 spikes - https://www.pixilart.com/art/mini-spikes-c6478d0244c463f
 
