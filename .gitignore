@@ -3,6 +3,7 @@
 *.ipr
 *.iws
 *.iml
+*.mp4
 .idea/
 out/
 local.properties
