@@ -1,7 +1,7 @@
 Object Oriented Game Architecture
 ====
 
-This project implements a general architecture that can be used to create many different types of platformer type games. 3 games were created using the architecture: Mario, Lost Viking, Metroid. The architecture uses a low-code solution and a new game can be created entirely of data files.
+This project implements a general architecture that can be used to create many different types of platformer type games. 3 games were created using the architecture: Mario, Lost Viking, Metroid. The architecture uses a low-code solution and a new game can be created entirely of data files. For a full review of goals and objective, please read https://courses.cs.duke.edu//compsci307d/fall20/assign/04_final/
 
 ### Basic Demo of Games Created
 
